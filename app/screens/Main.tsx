@@ -110,12 +110,13 @@ const Main: React.FC<MainProps> = ({}) => {
             paddingBottom="lxl"
             paddingHorizontal="ml">
             <Box>
-                <AppText fontSize={normalize(80)}>Spy Hunt!</AppText>
+                <AppText fontSize={normalize(70)}>Spy Hunt!</AppText>
             </Box>
             <Box position="absolute" top="65%">
                 <Button
                     title=""
                     variant="icon"
+                    scaleTo={0.95}
                     icon={<Play />}
                     alignSelf="center"
                 />

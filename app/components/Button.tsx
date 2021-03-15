@@ -6,6 +6,15 @@ import {
 } from "@shopify/restyle";
 import React, {useCallback} from "react";
 import {Dimensions, ViewStyle, TouchableOpacity} from "react-native";
+import Animated, {
+    Easing,
+    interpolate,
+    useAnimatedStyle,
+    useDerivedValue,
+    useSharedValue,
+    withSequence,
+    withTiming,
+} from "react-native-reanimated";
 
 import theme, {ThemeType} from "../theme/Theme";
 import normalize from "../utils/normalizer";
@@ -32,6 +41,7 @@ export interface ButtonProps extends Props {
     icon?: JSX.Element;
     onPress?: () => void;
     fontSize?: number;
+    scaleTo?: number;
 }
 
 const {height: SCREEN_HEIGHT, width: SCREEN_WIDTH} = Dimensions.get("window");
@@ -50,8 +60,27 @@ const Button: React.FC<ButtonProps> = ({
     variant = "simple",
     children,
     onPress,
+    scaleTo = 0.9,
     ...props
 }) => {
+    const pressed = useSharedValue(false);
+    const pressing = useDerivedValue(() => {
+        return pressed.value
+            ? withTiming(scaleTo, {
+                  duration: 200,
+                  easing: Easing.bezier(0.85, 0, 0.15, 1),
+              })
+            : withSequence(
+                  withTiming(1.01, {
+                      duration: 500,
+                      easing: Easing.bezier(0.85, 0, 0.15, 1),
+                  }),
+                  withTiming(1, {
+                      duration: 100,
+                      easing: Easing.bezier(0.85, 0, 0.15, 1),
+                  }),
+              );
+    });
     const renderSimpleButton = useCallback(() => {
         const inside = (
             <>
@@ -112,13 +141,21 @@ const Button: React.FC<ButtonProps> = ({
             </Box>
         );
     }, [backgroundColor, borderRadius, height, icon, props, style, width]);
+    const animatedStyle = useAnimatedStyle(() => {
+        const scale = interpolate(pressing.value, [scaleTo, 1], [scaleTo, 1]);
+        return {transform: [{scale}]};
+    });
     return (
         <TouchableOpacity
-            activeOpacity={0.6}
+            onPressIn={() => (pressed.value = true)}
+            onPressOut={() => (pressed.value = false)}
+            activeOpacity={0.9}
             onPress={() => onPress && onPress()}
             disabled={disabled}>
-            {variant === "simple" && renderSimpleButton()}
-            {variant === "icon" && renderIconButton()}
+            <Animated.View style={animatedStyle}>
+                {variant === "simple" && renderSimpleButton()}
+                {variant === "icon" && renderIconButton()}
+            </Animated.View>
         </TouchableOpacity>
     );
 };
