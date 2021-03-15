@@ -9,7 +9,7 @@ import {Dimensions, ViewStyle, TouchableOpacity} from "react-native";
 
 import theme, {ThemeType} from "../theme/Theme";
 import normalize from "../utils/normalizer";
-import {Strumber} from "../types";
+import {Strumber} from "../type";
 import Box from "../theme/Box";
 
 import AppText from "./Text";
@@ -101,7 +101,7 @@ const Button: React.FC<ButtonProps> = ({
                 alignItems="center"
                 justifyContent="center"
                 flex={1}>
-                <AppText>asdasdads</AppText>
+                {icon}
             </Box>
         );
         return (

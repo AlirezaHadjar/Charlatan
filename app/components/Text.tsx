@@ -2,9 +2,9 @@ import {TextProps} from "@shopify/restyle";
 import React from "react";
 
 import Text from "../theme/StyledText";
-import {Theme} from "../theme/Theme";
+import {ThemeType} from "../theme/Theme";
 
-export interface Props extends TextProps<Theme> {
+export interface Props extends TextProps<ThemeType> {
     numberOfLines?: number;
 }
 

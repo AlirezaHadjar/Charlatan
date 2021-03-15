@@ -13,6 +13,7 @@ const palette = {
     darkGrey: "#383838",
     red: "#C10F0F",
     milky: "#F2F5E0",
+    brown: "#43372D",
 };
 
 const theme = createTheme({
@@ -24,6 +25,7 @@ const theme = createTheme({
         light: palette.milky,
         lightGrey: palette.lightGrey,
         darkGrey: palette.darkGrey,
+        buttonSecondary: palette.brown,
     },
     spacing: {
         ss: 4,

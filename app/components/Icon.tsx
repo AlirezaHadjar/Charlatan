@@ -1,7 +1,11 @@
 import React from "react";
-import {StyleSheet, Dimensions} from "react-native";
+import {StyleSheet, Dimensions, ViewProps} from "react-native";
+import Animated, {
+    useAnimatedProps,
+    useDerivedValue,
+    useSharedValue,
+} from "react-native-reanimated";
 
-import Box from "../theme/Box";
 import Theme from "../theme/Theme";
 
 import Button from "./Button";
@@ -9,17 +13,25 @@ import Button from "./Button";
 export interface IconProps {
     backgroundColor?: keyof typeof Theme.colors;
     onPress?: () => void;
+    icon: JSX.Element;
     size?: number;
+    visible?: Animated.SharedValue<number>;
 }
 
 const {width} = Dimensions.get("window");
 
 const Icon: React.FC<IconProps> = ({
-    children,
-    backgroundColor = "mainBackground",
+    icon,
     size = (width * 13.9) / 100,
     onPress,
+    backgroundColor = "darkGrey",
+    visible,
 }) => {
+    const isVisible = useSharedValue(1);
+    useDerivedValue(() => {
+        if (!visible) return;
+        isVisible.value = visible.value;
+    }, [visible]);
     const styles = StyleSheet.create({
         container: {
             width: size,
@@ -29,17 +41,21 @@ const Icon: React.FC<IconProps> = ({
             height: size,
         },
     });
-
+    const props = useAnimatedProps<ViewProps>(
+        () => ({pointerEvents: isVisible.value > 0 ? "auto" : "none"}),
+        [isVisible],
+    );
     return (
-        <Button
-            title=""
-            variant="icon"
-            style={styles.container}
-            onPress={() => onPress && onPress()}>
-            <Box {...{backgroundColor}} style={styles.container}>
-                {children}
-            </Box>
-        </Button>
+        <Animated.View animatedProps={props}>
+            <Button
+                title=""
+                variant="icon"
+                backgroundColor={backgroundColor}
+                style={styles.container}
+                onPress={() => onPress && onPress()}
+                icon={icon}
+            />
+        </Animated.View>
     );
 };
 
