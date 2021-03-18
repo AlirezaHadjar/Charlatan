@@ -9,6 +9,7 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
+import {StackScreenProps} from "@react-navigation/stack";
 
 import Container from "../components/Container";
 import Box from "../theme/Box";
@@ -23,9 +24,9 @@ import Pin from "../assets/SVGs/Pin";
 import Question from "../assets/SVGs/Question";
 import Icon from "../components/Icon";
 import {ThemeType} from "../theme/Theme";
+import {AppRoute} from "../navigations/AppNavigator";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface MainProps {}
+export type MainProps = StackScreenProps<AppRoute, "Main">;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {height, width} = Dimensions.get("window");
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const Main: React.FC<MainProps> = ({}) => {
+const Main: React.FC<MainProps> = ({navigation}) => {
     const theme = useTheme<ThemeType>();
     const isOpen = useSharedValue(0);
     const animatedCogStyles = useAnimatedStyle(() => {
@@ -119,6 +120,7 @@ const Main: React.FC<MainProps> = ({}) => {
                     scaleTo={0.95}
                     icon={<Play />}
                     alignSelf="center"
+                    onPress={() => navigation.navigate("Test")}
                 />
             </Box>
             <Box
