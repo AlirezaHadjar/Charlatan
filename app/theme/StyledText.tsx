@@ -1,7 +1,7 @@
 import {createText} from "@shopify/restyle";
 
-import {Theme} from "./theme";
+import {ThemeType} from "./Theme";
 
-const Text = createText<Theme>();
+const Text = createText<ThemeType>();
 
 export default Text;

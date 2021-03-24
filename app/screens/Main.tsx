@@ -107,20 +107,21 @@ const Main: React.FC<MainProps> = ({navigation}) => {
     };
     return (
         <Container
+            hasIcon
             alignItems="center"
             paddingBottom="lxl"
             paddingHorizontal="ml">
-            <Box>
-                <AppText fontSize={normalize(70)}>Spy Hunt!</AppText>
+            <Box top="5%">
+                <AppText fontSize={normalize(70)}>Spy Hunt</AppText>
             </Box>
-            <Box position="absolute" top="65%">
+            <Box position="absolute" top="29%">
                 <Button
                     title=""
                     variant="icon"
                     scaleTo={0.95}
                     icon={<Play />}
                     alignSelf="center"
-                    onPress={() => navigation.navigate("Test")}
+                    onPress={() => navigation.navigate("Game")}
                 />
             </Box>
             <Box
@@ -129,7 +130,10 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                 width="100%"
                 flexDirection="row-reverse"
                 justifyContent="space-between">
-                <Icon icon={<Question />} />
+                <Icon
+                    icon={<Question />}
+                    onPress={() => navigation.navigate("Guide")}
+                />
                 <Box flexDirection="row" flex={1}>
                     <Animated.View style={animatedCogStyles}>
                         <Icon icon={<Cog />} onPress={handleAnimation} />
@@ -137,22 +141,25 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                     <Animated.View style={[styles.buttonContainer]}>
                         <Animated.View style={animatedSettingStyles1}>
                             <Icon
+                                onPress={() => navigation.navigate("Players")}
                                 icon={<Players />}
-                                backgroundColor="buttonSecondary"
+                                backgroundColor="buttonTertiary"
                                 visible={isOpen}
                             />
                         </Animated.View>
                         <Animated.View style={animatedSettingStyles2}>
                             <Icon
+                                onPress={() => navigation.navigate("Locations")}
                                 icon={<Pin />}
-                                backgroundColor="buttonSecondary"
+                                backgroundColor="buttonTertiary"
                                 visible={isOpen}
                             />
                         </Animated.View>
                         <Animated.View style={animatedSettingStyles3}>
                             <Icon
+                                onPress={() => navigation.navigate("Time")}
                                 icon={<Clock />}
-                                backgroundColor="buttonSecondary"
+                                backgroundColor="buttonTertiary"
                                 visible={isOpen}
                             />
                         </Animated.View>

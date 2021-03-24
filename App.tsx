@@ -1,21 +1,54 @@
 import "react-native-gesture-handler";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {ThemeProvider} from "@shopify/restyle";
 import {SafeAreaProvider} from "react-native-safe-area-context";
-import {NavigationContainer} from "@react-navigation/native";
+import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
+import {I18nManager, StatusBar} from "react-native";
+import {Provider} from "react-redux";
 
 import theme from "./app/theme/Theme";
+import {store} from "./app/store/getStore";
 import AppNavigator from "./app/navigations/AppNavigator";
+import {fetchData} from "./app/utils/fetchData";
 
 const App: React.FC<{}> = ({}) => {
+    const MyTheme = {
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            primary: theme.colors.mainTextColor,
+            background: theme.colors.mainBackground,
+        },
+    };
+    const [loading, setLoading] = useState(true);
+    const [myStore] = useState(store);
+
+    try {
+        // I18nManager.forceRTL(true);
+        // I18nManager.allowRTL(true);
+    } catch (e) {
+        console.log(e);
+    }
+
+    const fetch = async () => {
+        await fetchData();
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        fetch();
+    }, []);
     return (
-        <ThemeProvider theme={theme}>
-            <SafeAreaProvider>
-                <NavigationContainer>
-                    <AppNavigator />
-                </NavigationContainer>
-            </SafeAreaProvider>
-        </ThemeProvider>
+        <Provider store={myStore}>
+            <ThemeProvider theme={theme}>
+                <StatusBar backgroundColor={theme.colors.mainBackground} />
+                <SafeAreaProvider>
+                    <NavigationContainer theme={MyTheme}>
+                        <AppNavigator />
+                    </NavigationContainer>
+                </SafeAreaProvider>
+            </ThemeProvider>
+        </Provider>
     );
 };
 

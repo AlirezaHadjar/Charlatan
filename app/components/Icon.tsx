@@ -24,7 +24,7 @@ const Icon: React.FC<IconProps> = ({
     icon,
     size = (width * 13.9) / 100,
     onPress,
-    backgroundColor = "darkGrey",
+    backgroundColor = "buttonSecondary",
     visible,
 }) => {
     const isVisible = useSharedValue(1);

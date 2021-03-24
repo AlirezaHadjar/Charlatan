@@ -3,65 +3,112 @@ import Animated, {
     Extrapolate,
     interpolate,
     useAnimatedStyle,
+    useDerivedValue,
 } from "react-native-reanimated";
 
 import {ITEM_HEIGHT} from "../screens/Test";
+import {PickerItem} from "../types";
 import normalize from "../utils/normalizer";
 
 import AppText from "./Text";
 
-export interface ItemProps {
-    item: {content: string; id: number};
-    index: number;
-    offset: Animated.SharedValue<number>;
-}
+const ROTATION = 90;
 
-const ROTATION = 50;
-
-const Item: React.FC<ItemProps> = ({item, index, offset}) => {
+const Item: React.FC<PickerItem> = ({item, index, offset}) => {
+    const udv = useDerivedValue(() => {
+        if (
+            offset.value >= (index - 3) * ITEM_HEIGHT &&
+            offset.value <= (index + 3) * ITEM_HEIGHT
+        ) {
+            return offset.value;
+        } else if (offset.value < (index - 3) * ITEM_HEIGHT) {
+            return null;
+        } else if (offset.value > (index + 3) * ITEM_HEIGHT) {
+            return null;
+        }
+    });
     const style = useAnimatedStyle(() => {
-        const inputRange = [
-            (index - 1) * ITEM_HEIGHT,
-            index * ITEM_HEIGHT,
-            (index + 1) * ITEM_HEIGHT,
-        ];
-        const scale = interpolate(
-            offset.value,
-            inputRange,
-            [0.7, 1, 0.7],
-            Extrapolate.CLAMP,
-        );
-        const opacity = interpolate(
-            offset.value,
-            inputRange,
-            [0.7, 1, 0.7],
-            Extrapolate.CLAMP,
-        );
-        const rotateX = interpolate(offset.value, inputRange, [
-            -ROTATION,
-            0,
-            ROTATION,
-        ]);
+        const scale =
+            udv.value === null
+                ? 0
+                : interpolate(
+                      udv.value,
+                      [
+                          (index - 2) * ITEM_HEIGHT,
+                          (index - 1) * ITEM_HEIGHT,
+                          index * ITEM_HEIGHT,
+                          (index + 1) * ITEM_HEIGHT,
+                          (index + 2) * ITEM_HEIGHT,
+                      ],
+                      [0.5, 0.65, 1, 0.65, 0.5],
+                      Extrapolate.CLAMP,
+                  );
+        const opacity =
+            udv.value === null
+                ? 0
+                : interpolate(
+                      udv.value,
+                      [
+                          (index - 3) * ITEM_HEIGHT,
+                          (index - 2) * ITEM_HEIGHT,
+                          (index - 1) * ITEM_HEIGHT,
+                          index * ITEM_HEIGHT,
+                          (index + 1) * ITEM_HEIGHT,
+                          (index + 2) * ITEM_HEIGHT,
+                          (index + 3) * ITEM_HEIGHT,
+                      ],
+                      [0, 0.35, 0.4, 1, 0.4, 0.35, 0],
+                      Extrapolate.CLAMP,
+                  );
+        const rotation =
+            udv.value === null
+                ? 0
+                : interpolate(
+                      udv.value,
+                      [
+                          (index - 3) * ITEM_HEIGHT,
+                          (index - 2) * ITEM_HEIGHT,
+                          (index - 2) * ITEM_HEIGHT * 0.6,
+                          (index - 1) * ITEM_HEIGHT,
+                          index * ITEM_HEIGHT,
+                          (index + 1) * ITEM_HEIGHT,
+                          (index + 2) * ITEM_HEIGHT * 0.6,
+                          (index + 2) * ITEM_HEIGHT,
+                          (index + 3) * ITEM_HEIGHT,
+                      ],
+                      [
+                          -ROTATION * 1.5,
+                          -ROTATION * 0.7,
+                          -ROTATION * 0.6,
+                          -ROTATION * 0.5,
+                          0,
+                          ROTATION * 0.5,
+                          ROTATION * 0.6,
+                          ROTATION * 0.7,
+                          ROTATION * 1.5,
+                      ],
+                      Extrapolate.CLAMP,
+                  );
         return {
-            // width: ITEM_HEIGHT,
             height: ITEM_HEIGHT,
-            // backgroundColor: "blue",
             opacity,
+            maxWidth: 100,
             alignItems: "center",
             justifyContent: "center",
             transform: [
                 {scale},
-                {rotateX: `${rotateX}deg`},
+                {rotateX: `${rotation}deg`},
                 {perspective: 600},
             ],
         };
-    }, []);
+    }, [udv, index, offset, item, index]);
     return (
         <Animated.View style={style}>
             <AppText textAlign="center" color="light" fontSize={normalize(50)}>
-                {item.content}
+                {item.title}
             </AppText>
         </Animated.View>
     );
 };
+
 export default Item;

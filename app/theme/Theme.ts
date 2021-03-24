@@ -1,4 +1,6 @@
 import {createTheme} from "@shopify/restyle";
+
+import normalize from "../utils/normalizer";
 // import {Dimensions} from "react-native";
 
 // import normalize from "../utils/normalizer";
@@ -8,29 +10,39 @@ import {createTheme} from "@shopify/restyle";
 const palette = {
     transparent: "transparent",
     contrast: "#000",
-    white: "#999999",
-    lightGrey: "#707070",
-    darkGrey: "#383838",
-    red: "#C10F0F",
+    white: "#504364",
+    lightGrey: "#BFBECB",
+    mediumGrey: "#9D99AC",
+    darkGrey: "#333333",
+    red: "#931831",
+    lightRed: "#883143",
     milky: "#F2F5E0",
     brown: "#43372D",
+    black: "#040D14",
+    light: "#EEF2F7",
+    lightPurple: "#615673",
 };
 
 const theme = createTheme({
     colors: {
         transparent: palette.transparent,
         mainBackground: palette.white,
+        secondBackground: palette.lightPurple,
+        buttonPrimary: palette.light,
+        buttonSecondary: palette.black,
+        buttonTertiary: palette.lightRed,
+        mainTextColor: palette.lightGrey,
         contrast: palette.contrast,
         danger: palette.red,
         light: palette.milky,
         lightGrey: palette.lightGrey,
-        darkGrey: palette.darkGrey,
-        buttonSecondary: palette.brown,
+        secondText: palette.darkGrey,
+        thirdText: palette.mediumGrey,
     },
     spacing: {
         ss: 4,
         s: 8,
-        m: 16,
+        m: 20,
         ml: 20,
         l: 32,
         lxl: 44,
@@ -57,6 +69,7 @@ const theme = createTheme({
         regular: {
             color: "contrast",
             fontFamily: "IRANYekanMobileMedium",
+            fontSize: normalize(18),
         },
     },
     breakpoints: {},

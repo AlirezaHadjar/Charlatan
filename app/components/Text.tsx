@@ -11,10 +11,11 @@ export interface Props extends TextProps<ThemeType> {
 const AppText: React.FC<Props> = ({
     children,
     variant = "regular",
+    color = "mainTextColor",
     ...otherProps
 }) => {
     return (
-        <Text variant={variant} {...otherProps}>
+        <Text variant={variant} color={color} {...otherProps}>
             {children}
         </Text>
     );

@@ -18,7 +18,7 @@ import Animated, {
 
 import theme, {ThemeType} from "../theme/Theme";
 import normalize from "../utils/normalizer";
-import {Strumber} from "../type";
+import {Strumber} from "../types";
 import Box from "../theme/Box";
 
 import AppText from "./Text";
@@ -40,6 +40,8 @@ export interface ButtonProps extends Props {
     disabled?: boolean;
     icon?: JSX.Element;
     onPress?: () => void;
+    onPressIn?: () => void;
+    onPressOut?: () => void;
     fontSize?: number;
     scaleTo?: number;
 }
@@ -53,12 +55,14 @@ const Button: React.FC<ButtonProps> = ({
     borderRadius = "hero3",
     style = {},
     icon,
-    backgroundColor = "darkGrey",
+    backgroundColor = "buttonSecondary",
     textColor = "light",
     fontSize = normalize(13),
     disabled = false,
     variant = "simple",
     children,
+    onPressIn,
+    onPressOut,
     onPress,
     scaleTo = 0.9,
     ...props
@@ -105,6 +109,8 @@ const Button: React.FC<ButtonProps> = ({
         );
         return (
             <Box
+                flexDirection="row"
+                alignItems="center"
                 {...{backgroundColor, width, height, style, borderRadius}}
                 {...props}>
                 {inside}
@@ -147,8 +153,14 @@ const Button: React.FC<ButtonProps> = ({
     });
     return (
         <TouchableOpacity
-            onPressIn={() => (pressed.value = true)}
-            onPressOut={() => (pressed.value = false)}
+            onPressIn={() => {
+                pressed.value = true;
+                onPressIn && onPressIn();
+            }}
+            onPressOut={() => {
+                pressed.value = false;
+                onPressOut && onPressOut();
+            }}
             activeOpacity={0.9}
             onPress={() => onPress && onPress()}
             disabled={disabled}>
