@@ -1,30 +1,33 @@
 import {useTheme} from "@shopify/restyle";
 import React from "react";
-import {Dimensions, TextInput} from "react-native";
+import {TextInput} from "react-native";
 import {TouchableOpacity} from "react-native-gesture-handler";
 
 import {LISTITEM_HEIGHT} from "../../../../SpyHunt";
 import Box from "../../../theme/Box";
-import {ThemeType} from "../../../theme/Theme";
+import theme, {ThemeType} from "../../../theme/Theme";
 import normalize from "../../../utils/normalizer";
-import AppText from "../../Text";
 
 export interface ListItemProps {
     id: string;
     end: JSX.Element;
     name: string;
     onEndPress?: (id: string) => void;
-    onChangeText: (text: string, id: string) => void;
+    onChangeText?: (text: string, id: string) => void;
+    backgroundColor: keyof typeof theme["colors"];
+    textColor: keyof typeof theme["colors"];
+    endDisabled: boolean;
 }
-
-const {height} = Dimensions.get("window");
 
 const ListItem: React.FC<ListItemProps> = ({
     id,
     end,
+    endDisabled,
     name,
     onEndPress,
     onChangeText,
+    backgroundColor,
+    textColor,
 }) => {
     const theme = useTheme<ThemeType>();
     return (
@@ -34,21 +37,25 @@ const ListItem: React.FC<ListItemProps> = ({
                 height={LISTITEM_HEIGHT}
                 marginVertical="ss"
                 paddingHorizontal="m"
-                backgroundColor="light"
+                backgroundColor={backgroundColor}
                 flexDirection="row"
                 alignItems="center"
                 borderRadius="l">
                 <Box justifyContent="center" flex={1} height="100%">
                     <TextInput
                         value={name}
+                        editable={onChangeText ? true : false}
                         style={{
                             fontSize: normalize(18),
-                            color: theme.colors.secondText,
+                            color: theme.colors[textColor],
                         }}
-                        onChangeText={(text) => onChangeText(text, id)}
+                        onChangeText={(text) =>
+                            onChangeText && onChangeText(text, id)
+                        }
                     />
                 </Box>
                 <TouchableOpacity
+                    disabled={endDisabled}
                     onPress={() => {
                         if (onEndPress) onEndPress(id);
                     }}>

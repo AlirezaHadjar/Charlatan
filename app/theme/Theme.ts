@@ -41,7 +41,7 @@ const theme = createTheme({
     },
     spacing: {
         ss: 4,
-        s: 8,
+        s: 10,
         m: 20,
         ml: 20,
         l: 32,

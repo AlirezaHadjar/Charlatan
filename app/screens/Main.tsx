@@ -9,7 +9,8 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
-import {StackScreenProps} from "@react-navigation/stack";
+import {StackNavigationProp} from "@react-navigation/stack";
+import {CompositeNavigationProp, RouteProp} from "@react-navigation/native";
 
 import Container from "../components/Container";
 import Box from "../theme/Box";
@@ -25,8 +26,17 @@ import Question from "../assets/SVGs/Question";
 import Icon from "../components/Icon";
 import {ThemeType} from "../theme/Theme";
 import {AppRoute} from "../navigations/AppNavigator";
+import {GameRoutes} from "../navigations/GameNavigator";
 
-export type MainProps = StackScreenProps<AppRoute, "Main">;
+type NavigationProps = CompositeNavigationProp<
+    StackNavigationProp<AppRoute, "Main">,
+    StackNavigationProp<GameRoutes>
+>;
+
+export type MainProps = {
+    navigation: NavigationProps;
+    route: RouteProp<AppRoute, "Main">;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {height, width} = Dimensions.get("window");
@@ -121,7 +131,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                     scaleTo={0.95}
                     icon={<Play />}
                     alignSelf="center"
-                    onPress={() => navigation.navigate("Game")}
+                    onPress={() => navigation.navigate("GameNavigator")}
                 />
             </Box>
             <Box

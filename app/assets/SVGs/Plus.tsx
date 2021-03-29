@@ -1,13 +1,20 @@
 import * as React from "react";
 import Svg, {G, Path} from "react-native-svg";
 
-function SvgComponent() {
+import theme from "../../theme/Theme";
+
+interface Props {
+    scale?: number;
+    color?: keyof typeof theme["colors"];
+}
+
+function SvgComponent({scale = 1, color = "light"}: Props) {
     return (
-        <Svg width={29} height={29} viewBox="0 0 29 29">
+        <Svg width={scale * 29} height={scale * 29} viewBox="0 0 29 29">
             <G
                 data-name="Group 18"
                 fill="none"
-                stroke="#eef2f7"
+                stroke={theme.colors[color]}
                 strokeLinecap="round"
                 strokeWidth={5}>
                 <Path data-name="Line 2" d="M14.5 2.5v24" />

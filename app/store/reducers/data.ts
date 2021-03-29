@@ -1,15 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createSelector} from "reselect";
 
-import {Data, Player} from "../../types";
+import {Data, GameResult, Player} from "../../types";
 import {AppState} from "../reducer";
 
 const initialState: Data = {
     players: [],
     locations: [],
-    time: 500, // In Second
+    time: 300, // In Second
     spiesLength: 1,
     spiesIds: [],
+    selectedLocation: undefined,
+    gameResult: undefined,
 };
 
 const slice = createSlice({
@@ -38,7 +40,8 @@ const slice = createSlice({
                     payload[property as keyof typeof payload];
             }
         },
-        assignSpyRole: (data, _action: PayloadAction<undefined>) => {
+        startGame: (data, _action: PayloadAction<undefined>) => {
+            // Assign Spy Role to Players
             const ids: string[] = [];
             const clonedPlayers = [...data.players];
             new Array(data.spiesLength).fill(0).forEach((_) => {
@@ -47,9 +50,20 @@ const slice = createSlice({
                 clonedPlayers.splice(index, 1);
             });
             data.spiesIds = ids;
+            // Select Location
+            data.selectedLocation =
+                data.locations[
+                    Math.floor(Math.random() * data.locations.length)
+                ];
         },
         setTime: (data, {payload}: PayloadAction<number>) => {
             data.time = payload;
+        },
+        setGameResult: (data, {payload}: PayloadAction<GameResult>) => {
+            data.gameResult = payload;
+        },
+        setSpiesLength: (data, {payload}: PayloadAction<number>) => {
+            data.spiesLength = payload;
         },
         addLocation: (data, {payload}: PayloadAction<string>) => {
             data.locations.push({
@@ -79,13 +93,15 @@ const slice = createSlice({
 
 export const {
     setTime,
+    setGameResult,
+    setSpiesLength,
     addLocation,
     addPlayer,
     editLocation,
     editPlayer,
     removeLocation,
     removePlayer,
-    assignSpyRole,
+    startGame,
 } = slice.actions;
 export type ActionTypes = typeof slice.actions;
 export default slice.reducer;
@@ -98,16 +114,23 @@ export const getTime = createSelector(
     (state: AppState) => state.entities.data,
     (data: Data) => data.time,
 );
+export const getGameResult = createSelector(
+    (state: AppState) => state.entities.data,
+    (data: Data) => data.gameResult,
+);
 export const getLocations = createSelector(
     (state: AppState) => state.entities.data,
     (data: Data) => data.locations,
 );
-export const getRandomLocation = createSelector(
+export const getSelectedLocation = createSelector(
     (state: AppState) => state.entities.data,
-    (data: Data) =>
-        data.locations[Math.floor(Math.random() * data.locations.length)],
+    (data: Data) => data.selectedLocation,
 );
 export const getSpiesIds = createSelector(
     (state: AppState) => state.entities.data,
     (data: Data) => data.spiesIds,
+);
+export const getSpiesLength = createSelector(
+    (state: AppState) => state.entities.data,
+    (data: Data) => data.spiesLength,
 );

@@ -30,6 +30,7 @@ const Locations: React.FC<{}> = ({}) => {
     const dispatch = useAppDispatch();
     const [query, setQuery] = useState("");
     const addLocationSheet = useRef<BottomSheet>(null);
+    const textInputRef = useRef<TextInput>(null);
     const handleEditLocation = useCallback(
         (text: string, id: string) => {
             dispatch(editLocation({id, name: text}));
@@ -62,10 +63,14 @@ const Locations: React.FC<{}> = ({}) => {
         ),
         [],
     );
+    const handlePlusPress = useCallback(() => {
+        textInputRef.current?.focus();
+        setTimeout(() => addLocationSheet.current?.snapTo(1), 500);
+    }, []);
     return (
         <Container style={styles.container}>
             <Header screenName="Locations" />
-            <Box paddingHorizontal="m" flex={1} paddingBottom="m">
+            <Box paddingHorizontal="s" flex={1} paddingBottom="m">
                 <Box flex={1}>
                     <List
                         items={locations}
@@ -78,7 +83,7 @@ const Locations: React.FC<{}> = ({}) => {
                     <Icon
                         icon={<Plus />}
                         backgroundColor="danger"
-                        onPress={() => addLocationSheet.current?.snapTo(1)}
+                        onPress={handlePlusPress}
                     />
                 </Box>
             </Box>
@@ -88,6 +93,7 @@ const Locations: React.FC<{}> = ({}) => {
                         backdropComponent={(props) => (
                             <CustomBackdrop
                                 onPress={() => {
+                                    textInputRef.current?.blur();
                                     setTimeout(
                                         () =>
                                             addLocationSheet.current?.collapse(),
@@ -115,6 +121,7 @@ const Locations: React.FC<{}> = ({}) => {
                                     <Box flex={1}>
                                         <TextInput
                                             placeholder="Enter a Player Name"
+                                            ref={textInputRef}
                                             value={query}
                                             onChangeText={(text) =>
                                                 setQuery(text)

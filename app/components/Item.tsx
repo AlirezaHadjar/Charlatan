@@ -6,9 +6,9 @@ import Animated, {
     useDerivedValue,
 } from "react-native-reanimated";
 
-import {ITEM_HEIGHT} from "../screens/Test";
 import {PickerItem} from "../types";
 import normalize from "../utils/normalizer";
+import {ITEM_HEIGHT} from "../../SpyHunt";
 
 import AppText from "./Text";
 

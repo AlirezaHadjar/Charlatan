@@ -8,14 +8,16 @@ import ListItem from "./ListItem";
 
 export interface ListProps {
     items: Location[];
+    selectedIds?: string[];
     end?: JSX.Element;
     onEndPress?: (id: string) => void;
-    onChangeText: (text: string, id: string) => void;
+    onChangeText?: (text: string, id: string) => void;
 }
 
 const List: React.FC<ListProps> = ({
     items,
     end = null,
+    selectedIds,
     onEndPress,
     onChangeText,
 }) => {
@@ -28,7 +30,6 @@ const List: React.FC<ListProps> = ({
                 numColumns={3}
                 columnWrapperStyle={{
                     alignItems: "center",
-                    justifyContent: "space-between",
                 }}
                 keyExtractor={(item, index) => item.id.toString() + index}
                 renderItem={({item}) => (
@@ -38,6 +39,11 @@ const List: React.FC<ListProps> = ({
                         end={end}
                         onEndPress={onEndPress}
                         onChangeText={onChangeText}
+                        backgroundColor={
+                            selectedIds.includes(item.id)
+                                ? "buttonSecondary"
+                                : "secondBackground"
+                        }
                     />
                 )}
             />

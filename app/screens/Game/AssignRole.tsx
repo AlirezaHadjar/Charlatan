@@ -1,24 +1,29 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {StyleSheet, Dimensions} from "react-native";
+import {StackNavigationProp} from "@react-navigation/stack";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {CompositeNavigationProp, RouteProp} from "@react-navigation/core";
 
-import Button from "../components/Button";
-import Play from "../assets/SVGs/Play";
-import Eye from "../assets/SVGs/Eye";
-import Container from "../components/Container";
-import Header from "../components/Header";
-import Box from "../theme/Box";
-import normalize from "../utils/normalizer";
-import {useSelector} from "../store/useSelector";
+import Button from "../../components/Button";
+import Play from "../../assets/SVGs/Play";
+import Eye from "../../assets/SVGs/Eye";
+import Container from "../../components/Container";
+import Header from "../../components/Header";
+import Box from "../../theme/Box";
+import normalize from "../../utils/normalizer";
+import {useSelector} from "../../store/useSelector";
 import {
-    assignSpyRole,
+    startGame,
     getPlayers,
-    getRandomLocation,
+    getSelectedLocation,
     getSpiesIds,
-} from "../store/reducers/data";
-import AppText from "../components/Text";
-import {Location, Player} from "../types";
-import Pin from "../assets/SVGs/Pin";
-import {useAppDispatch} from "../store/configureStore";
+} from "../../store/reducers/data";
+import AppText from "../../components/Text";
+import {Location, Player} from "../../types";
+import Pin from "../../assets/SVGs/Pin";
+import {useAppDispatch} from "../../store/configureStore";
+import {AppRoute} from "../../navigations/AppNavigator";
+import {GameRoutes} from "../../navigations/GameNavigator";
 
 const {width, height} = Dimensions.get("window");
 
@@ -26,9 +31,19 @@ const styles = StyleSheet.create({
     container: {},
 });
 
-const Game: React.FC<{}> = ({}) => {
+type NavigationProps = CompositeNavigationProp<
+    StackNavigationProp<GameRoutes, "AssignRole">,
+    StackNavigationProp<AppRoute>
+>;
+
+export type AssignRoleProps = {
+    navigation: NavigationProps;
+    route: RouteProp<AppRoute, "Main">;
+};
+
+const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const players = useSelector(getPlayers);
-    const location = useSelector(getRandomLocation);
+    const location = useSelector(getSelectedLocation);
     const dispatch = useAppDispatch();
     const spiesIds = useSelector(getSpiesIds);
     const [roleIsHidden, setRoleIsHidden] = useState(true);
@@ -40,7 +55,7 @@ const Game: React.FC<{}> = ({}) => {
         })),
     );
     useEffect(() => {
-        dispatch(assignSpyRole());
+        dispatch(startGame());
     }, [dispatch]);
     const selectedPlayer = useMemo(() => {
         return modifiedPlayers.find((pl) => pl.selected);
@@ -104,12 +119,12 @@ const Game: React.FC<{}> = ({}) => {
         const clonedPlayers = [...modifiedPlayers];
         const index = clonedPlayers.indexOf(selectedPlayer);
         const isLast = index === clonedPlayers.length - 1;
-        if (isLast) return console.log("finished");
+        if (isLast) return navigation.navigate("Timer");
         clonedPlayers.map((pl) => (pl.selected = false));
         clonedPlayers[index + 1].selected = true;
         setRoleDisplayed(false);
         setModifiedPlayers(clonedPlayers);
-    }, [modifiedPlayers, selectedPlayer]);
+    }, [modifiedPlayers, navigation, selectedPlayer]);
 
     const renderButton = useCallback(() => {
         const index = modifiedPlayers.indexOf(selectedPlayer);
@@ -118,7 +133,7 @@ const Game: React.FC<{}> = ({}) => {
             <Button
                 fontSize={normalize(18)}
                 variant="simple"
-                title={isLast ? "Play" : "Next"}
+                title={isLast ? "Start" : "Next"}
                 onPressOut={handleNext}
                 backgroundColor="buttonTertiary"
                 height={(width * 15) / 100}
@@ -134,7 +149,7 @@ const Game: React.FC<{}> = ({}) => {
             <Header screenName="Assign Role" />
             <Box padding="m" flex={1}>
                 <Box flex={1}>
-                    <Box alignItems="center" top={(height * 15) / 100}>
+                    <Box alignItems="center" top="20%">
                         <AppText fontSize={normalize(30)}>
                             {selectedPlayer.name}
                         </AppText>
@@ -156,21 +171,28 @@ const Game: React.FC<{}> = ({}) => {
                         {!roleIsHidden ? (
                             renderRole(selectedPlayer)
                         ) : (
-                            <AppText fontSize={normalize(17)} color="thirdText">
-                                Hold to See Your Role.
+                            <AppText
+                                fontSize={normalize(17)}
+                                color="thirdText"
+                                textAlign="center">
+                                {`Hold the Eye to See Your Role${
+                                    roleDisplayed ? " Again" : ""
+                                }.`}
                             </AppText>
                         )}
                     </Box>
                 </Box>
-                {roleDisplayed && (
-                    <Box
-                        flexDirection="row-reverse"
-                        alignItems="center"
-                        justifyContent="space-between">
-                        {renderButton()}
-                        {renderGuideText()}
-                    </Box>
-                )}
+                <Box height={(height * 15) / 100} justifyContent="flex-end">
+                    {roleDisplayed && (
+                        <Box
+                            flexDirection="row-reverse"
+                            alignItems="center"
+                            justifyContent="space-between">
+                            {renderButton()}
+                            {renderGuideText()}
+                        </Box>
+                    )}
+                </Box>
             </Box>
         </Container>
     );
