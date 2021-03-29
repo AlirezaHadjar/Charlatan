@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {Dimensions, StyleSheet} from "react-native";
 import {useTheme} from "@shopify/restyle";
 import Animated, {
@@ -27,6 +27,11 @@ import Icon from "../components/Icon";
 import {ThemeType} from "../theme/Theme";
 import {AppRoute} from "../navigations/AppNavigator";
 import {GameRoutes} from "../navigations/GameNavigator";
+import {useTranslation} from "../hooks/translation";
+import {useSelector} from "../store/useSelector";
+import {getLanguageName, setLanguage} from "../store/reducers/language";
+import {LanguageName} from "../types";
+import {useAppDispatch} from "../store/configureStore";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<AppRoute, "Main">,
@@ -52,6 +57,9 @@ const styles = StyleSheet.create({
 const Main: React.FC<MainProps> = ({navigation}) => {
     const theme = useTheme<ThemeType>();
     const isOpen = useSharedValue(0);
+    const translation = useTranslation();
+    const language = useSelector(getLanguageName);
+    const dispatch = useAppDispatch();
     const animatedCogStyles = useAnimatedStyle(() => {
         const rotation = interpolate(isOpen.value, [0, 1], [0, 90]);
         return {
@@ -115,6 +123,10 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             easing: Easing.ease,
         });
     };
+    const handleLanguage = useCallback(() => {
+        const des: LanguageName = language === "en" ? "fa" : "en";
+        dispatch(setLanguage(des));
+    }, [dispatch, language]);
     return (
         <Container
             hasIcon
@@ -122,7 +134,9 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             paddingBottom="lxl"
             paddingHorizontal="ml">
             <Box top="5%">
-                <AppText fontSize={normalize(70)}>Spy Hunt</AppText>
+                <AppText fontSize={normalize(70)}>
+                    {translation.Main.title}
+                </AppText>
             </Box>
             <Box position="absolute" top="29%">
                 <Button
@@ -134,6 +148,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                     onPress={() => navigation.navigate("GameNavigator")}
                 />
             </Box>
+            <Icon icon={<Cog />} onPress={handleLanguage} />
             <Box
                 position="absolute"
                 bottom={theme.spacing.m + theme.spacing.s}

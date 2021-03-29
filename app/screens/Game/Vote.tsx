@@ -10,6 +10,7 @@ import List from "../../components/list/player/List";
 import {
     getPlayers,
     getSpiesIds,
+    resetGame,
     setGameResult,
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
@@ -23,6 +24,7 @@ import {AppRoute} from "../../navigations/AppNavigator";
 import Button from "../../components/Button";
 import Play from "../../assets/SVGs/Play";
 import {useAppDispatch} from "../../store/configureStore";
+import {useTranslation} from "../../hooks/translation";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -41,6 +43,7 @@ const styles = StyleSheet.create({
 });
 
 const Vote: React.FC<VoteProps> = ({navigation}) => {
+    const translation = useTranslation();
     const players = useSelector(getPlayers);
     const spiesIds = useSelector(getSpiesIds);
     const dispatch = useAppDispatch();
@@ -105,8 +108,8 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         [selectedPlayer.id, spiesIds.length, votes],
     );
     const renderSpiesText = (spiesLength: number) => {
-        const SpyText = "Select the Spy";
-        const spiesText = `Select ${spiesLength} Spies`;
+        const SpyText = translation.Vote.selectTheSpy;
+        const spiesText = translation.Vote.selectTheSpies(spiesLength);
         return (
             <AppText fontSize={normalize(20)}>
                 {spiesLength > 1 ? spiesText : SpyText}
@@ -175,7 +178,11 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
                 disabled={isDisabled}
                 fontSize={normalize(18)}
                 variant="simple"
-                title={isLast ? "Start" : "Next"}
+                title={
+                    isLast
+                        ? translation.Vote.finishButtonTitle
+                        : translation.Vote.nextButtonTitle
+                }
                 onPressOut={handleNext}
                 backgroundColor="buttonTertiary"
                 opacity={isDisabled ? 0.5 : 1}
@@ -186,10 +193,25 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
                 </Box>
             </Button>
         );
-    }, [handleNext, modifiedPlayers, selectedPlayer, spiesIds.length, votes]);
+    }, [
+        handleNext,
+        modifiedPlayers,
+        selectedPlayer,
+        spiesIds.length,
+        translation.Vote.finishButtonTitle,
+        translation.Vote.nextButtonTitle,
+        votes,
+    ]);
+    const handleBackButtonPress = useCallback(() => {
+        dispatch(resetGame());
+        navigation.navigate("Main");
+    }, [dispatch, navigation]);
     return (
         <Container style={styles.container}>
-            <Header screenName="Vote" />
+            <Header
+                screenName={translation.Vote.header}
+                onBackPress={handleBackButtonPress}
+            />
             <Box paddingHorizontal="m" flex={1} paddingVertical="m">
                 <Box flex={1} alignItems="center">
                     <AppText fontSize={normalize(30)} color="buttonPrimary">

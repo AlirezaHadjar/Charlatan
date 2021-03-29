@@ -17,7 +17,7 @@ export interface ListProps {
 const List: React.FC<ListProps> = ({
     items,
     end = null,
-    selectedIds,
+    selectedIds = [],
     onEndPress,
     onChangeText,
 }) => {

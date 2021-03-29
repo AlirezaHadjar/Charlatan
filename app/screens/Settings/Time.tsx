@@ -1,13 +1,14 @@
 import React, {useCallback, useMemo} from "react";
 import {useDispatch} from "react-redux";
 
-import Container from "../components/Container";
-import Header from "../components/Header";
-import Picker from "../components/Picker";
-import AppText from "../components/Text";
-import {getTime, setTime} from "../store/reducers/data";
-import {useSelector} from "../store/useSelector";
-import Box from "../theme/Box";
+import Container from "../../components/Container";
+import Header from "../../components/Header";
+import Picker from "../../components/Picker";
+import AppText from "../../components/Text";
+import {getTime, setTime} from "../../store/reducers/data";
+import {useSelector} from "../../store/useSelector";
+import {useTranslation} from "../../hooks/translation";
+import Box from "../../theme/Box";
 
 const renderMinutes = () => {
     const minutes = [];
@@ -17,6 +18,7 @@ const renderMinutes = () => {
 
 const Time: React.FC<{}> = ({}) => {
     const time = useSelector(getTime);
+    const translation = useTranslation();
     const dispatch = useDispatch();
     const minutes = useMemo(() => {
         const res = Math.floor(time / 60);
@@ -35,7 +37,7 @@ const Time: React.FC<{}> = ({}) => {
     );
     return (
         <Container>
-            <Header screenName="Time" />
+            <Header screenName={translation.Time.header} />
             <Box paddingHorizontal="m" flex={1}>
                 <Box flexDirection="row" top="50%">
                     <Box flex={1} alignItems="center">

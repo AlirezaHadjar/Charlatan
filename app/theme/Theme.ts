@@ -68,7 +68,7 @@ const theme = createTheme({
     textVariants: {
         regular: {
             color: "contrast",
-            fontFamily: "IRANYekanMobileMedium",
+            // fontFamily: "IRANYekanMobileMedium",
             fontSize: normalize(18),
         },
     },

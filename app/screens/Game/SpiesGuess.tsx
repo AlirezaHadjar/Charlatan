@@ -14,6 +14,7 @@ import {
     getPlayers,
     getSelectedLocation,
     getSpiesIds,
+    resetGame,
     setGameResult,
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
@@ -26,6 +27,7 @@ import {GameRoutes} from "../../navigations/GameNavigator";
 import {AppRoute} from "../../navigations/AppNavigator";
 import Button from "../../components/Button";
 import {useAppDispatch} from "../../store/configureStore";
+import {useTranslation} from "../../hooks/translation";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -44,6 +46,7 @@ const styles = StyleSheet.create({
 });
 
 const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
+    const translation = useTranslation();
     const players = useSelector(getPlayers);
     const spiesIds = useSelector(getSpiesIds);
     const locations = useSelector(getLocations);
@@ -146,7 +149,11 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                 disabled={isDisabled}
                 fontSize={normalize(18)}
                 variant="simple"
-                title={isLast ? "Start" : "Next"}
+                title={
+                    isLast
+                        ? translation.SpiesGuess.finishButtonTitle
+                        : translation.SpiesGuess.nextButtonTitle
+                }
                 onPressOut={handleNext}
                 backgroundColor="buttonTertiary"
                 opacity={isDisabled ? 0.5 : 1}
@@ -157,10 +164,24 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                 </Box>
             </Button>
         );
-    }, [guesses, handleNext, modifiedSpies, selectedSpy]);
+    }, [
+        guesses,
+        handleNext,
+        modifiedSpies,
+        selectedSpy,
+        translation.SpiesGuess.finishButtonTitle,
+        translation.SpiesGuess.nextButtonTitle,
+    ]);
+    const handleBackButtonPress = useCallback(() => {
+        dispatch(resetGame());
+        navigation.navigate("Main");
+    }, [dispatch, navigation]);
     return (
         <Container style={styles.container}>
-            <Header screenName="Spies Last Chance" />
+            <Header
+                screenName={translation.SpiesGuess.header}
+                onBackPress={handleBackButtonPress}
+            />
             <Box paddingHorizontal="s" flex={1} paddingVertical="m">
                 <Box flex={1} alignItems="center">
                     <AppText fontSize={normalize(30)} color="buttonPrimary">
@@ -168,7 +189,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                     </AppText>
                     <Box marginTop="lxl" marginBottom="m">
                         <AppText fontSize={normalize(15)} textAlign="center">
-                            Guess the Location and Win the Game
+                            {translation.SpiesGuess.guide}
                         </AppText>
                     </Box>
                     <Box flex={1} width="100%">

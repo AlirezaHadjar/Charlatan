@@ -88,6 +88,11 @@ const slice = createSlice({
                     payload[property as keyof typeof payload];
             }
         },
+        resetGame: (data, _action: PayloadAction<undefined>) => {
+            data.gameResult = undefined;
+            data.selectedLocation = undefined;
+            data.spiesIds = [];
+        },
     },
 });
 
@@ -102,6 +107,7 @@ export const {
     removeLocation,
     removePlayer,
     startGame,
+    resetGame,
 } = slice.actions;
 export type ActionTypes = typeof slice.actions;
 export default slice.reducer;

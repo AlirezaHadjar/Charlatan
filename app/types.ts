@@ -1,5 +1,7 @@
 import Animated from "react-native-reanimated";
 
+import {languageDatas} from "./language/index";
+
 export type Strumber = string | number;
 
 export interface Data {
@@ -54,4 +56,13 @@ export interface GameResult {
     winner: Winner;
     votingResult: VotingResult[];
     spiesWhoGuessedCorrectlyIds: string[];
+}
+
+export type LanguageName = keyof typeof languageDatas;
+
+export type LanguageData = typeof languageDatas[keyof typeof languageDatas];
+
+export interface Language {
+    name: LanguageName;
+    data: LanguageData | undefined;
 }

@@ -13,9 +13,10 @@ import Play from "../../assets/SVGs/Play";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {useSelector} from "../../store/useSelector";
-import {getTime} from "../../store/reducers/data";
+import {getTime, resetGame} from "../../store/reducers/data";
 import {AppRoute} from "../../navigations/AppNavigator";
 import {GameRoutes} from "../../navigations/GameNavigator";
+import {useAppDispatch} from "../../store/configureStore";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
 const Timer: React.FC<TimerProps> = ({navigation}) => {
     const setupTime = useSelector(getTime);
     const [time, setTime] = useState(setupTime * 1000);
+    const dispatch = useAppDispatch();
     const [isPlaying, setIsPlaying] = useState(false);
     const minutes = useMemo(() => {
         const res = Math.floor(time / 60000);
@@ -69,10 +71,14 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
         setIsPlaying(false);
         navigation.navigate("Vote");
     }, [isPlaying, navigation, time]);
+    const handleBackButtonPress = useCallback(() => {
+        dispatch(resetGame());
+        navigation.navigate("Main");
+    }, [dispatch, navigation]);
 
     return (
         <Container style={styles.container}>
-            <Header screenName="Timer" />
+            <Header screenName="Timer" onBackPress={handleBackButtonPress} />
             <Box paddingHorizontal="m" alignItems="center" flex={1} top="15%">
                 <Box marginBottom="xl">
                     <AppText

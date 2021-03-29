@@ -1,6 +1,7 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {useNavigation} from "@react-navigation/core";
-import React from "react";
-import {Dimensions, TouchableOpacity} from "react-native";
+import React, {useCallback} from "react";
+import {Dimensions, Pressable} from "react-native";
 
 import ArrowLeft from "../assets/SVGs/ArrowLeft";
 import Box from "../theme/Box";
@@ -11,12 +12,17 @@ import AppText from "./Text";
 export interface HeaderProps {
     end?: JSX.Element;
     screenName: string;
+    onBackPress?: () => void;
 }
 
 const {height} = Dimensions.get("window");
 
-const Header: React.FC<HeaderProps> = ({end, screenName}) => {
+const Header: React.FC<HeaderProps> = ({end, screenName, onBackPress}) => {
     const navigation = useNavigation();
+    const handlePress = useCallback(() => {
+        if (onBackPress) return onBackPress();
+        return navigation.goBack();
+    }, [navigation, onBackPress]);
     return (
         <Box
             flexDirection="row"
@@ -24,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({end, screenName}) => {
             paddingHorizontal="m"
             height={(height * 10) / 100}>
             <Box flex={1}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Pressable onPress={handlePress} hitSlop={40}>
                     <Box flexDirection="row" alignItems="center">
                         <Box marginEnd="m">
                             <ArrowLeft />
@@ -33,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({end, screenName}) => {
                             {screenName}
                         </AppText>
                     </Box>
-                </TouchableOpacity>
+                </Pressable>
             </Box>
             <Box>{end}</Box>
         </Box>

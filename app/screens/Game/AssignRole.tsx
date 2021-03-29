@@ -17,6 +17,7 @@ import {
     getPlayers,
     getSelectedLocation,
     getSpiesIds,
+    resetGame,
 } from "../../store/reducers/data";
 import AppText from "../../components/Text";
 import {Location, Player} from "../../types";
@@ -24,6 +25,7 @@ import Pin from "../../assets/SVGs/Pin";
 import {useAppDispatch} from "../../store/configureStore";
 import {AppRoute} from "../../navigations/AppNavigator";
 import {GameRoutes} from "../../navigations/GameNavigator";
+import {useTranslation} from "../../hooks/translation";
 
 const {width, height} = Dimensions.get("window");
 
@@ -43,6 +45,7 @@ export type AssignRoleProps = {
 
 const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const players = useSelector(getPlayers);
+    const traslation = useTranslation();
     const location = useSelector(getSelectedLocation);
     const dispatch = useAppDispatch();
     const spiesIds = useSelector(getSpiesIds);
@@ -64,23 +67,23 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         () => (
             <Box alignItems="center">
                 <AppText fontSize={normalize(17)} color="thirdText">
-                    You Are
+                    {traslation.AssignRole.preRole}
                 </AppText>
                 <AppText fontSize={normalize(90)} color="thirdText">
-                    Spy
+                    {traslation.AssignRole.spy}
                 </AppText>
             </Box>
         ),
-        [],
+        [traslation.AssignRole.preRole, traslation.AssignRole.spy],
     );
     const renderCitizen = useCallback(
         (location: Location) => (
             <Box alignItems="center">
                 <AppText fontSize={normalize(17)} color="thirdText">
-                    You Are
+                    {traslation.AssignRole.preRole}
                 </AppText>
                 <AppText fontSize={normalize(70)} color="thirdText">
-                    Citizen
+                    {traslation.AssignRole.citizen}
                 </AppText>
                 <Box flexDirection="row">
                     <Box marginEnd="s">
@@ -92,14 +95,12 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 </Box>
             </Box>
         ),
-        [],
+        [traslation.AssignRole.citizen, traslation.AssignRole.preRole],
     );
     const renderGuideText = useCallback(() => {
         const index = modifiedPlayers.indexOf(selectedPlayer);
         const isLast = index === modifiedPlayers.length - 1;
-        const text = isLast
-            ? ""
-            : "Tap Next and Pass the Phone to Next Player.";
+        const text = isLast ? "" : traslation.AssignRole.nextButtonGuide;
         return (
             <Box maxWidth="50%">
                 <AppText fontSize={normalize(12)} color="thirdText">
@@ -107,7 +108,11 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 </AppText>
             </Box>
         );
-    }, [modifiedPlayers, selectedPlayer]);
+    }, [
+        modifiedPlayers,
+        selectedPlayer,
+        traslation.AssignRole.nextButtonGuide,
+    ]);
     const renderRole = useCallback(
         (player: Player) => {
             if (spiesIds.includes(player.id)) return renderSpy();
@@ -133,7 +138,11 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             <Button
                 fontSize={normalize(18)}
                 variant="simple"
-                title={isLast ? "Start" : "Next"}
+                title={
+                    isLast
+                        ? traslation.AssignRole.startButtonTitle
+                        : traslation.AssignRole.nextButtonTitle
+                }
                 onPressOut={handleNext}
                 backgroundColor="buttonTertiary"
                 height={(width * 15) / 100}
@@ -143,10 +152,23 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 </Box>
             </Button>
         );
-    }, [handleNext, modifiedPlayers, selectedPlayer]);
+    }, [
+        handleNext,
+        modifiedPlayers,
+        selectedPlayer,
+        traslation.AssignRole.nextButtonTitle,
+        traslation.AssignRole.startButtonTitle,
+    ]);
+    const handleBackButtonPress = useCallback(() => {
+        dispatch(resetGame());
+        navigation.navigate("Main");
+    }, [dispatch, navigation]);
     return (
         <Container style={styles.container}>
-            <Header screenName="Assign Role" />
+            <Header
+                screenName={traslation.AssignRole.header}
+                onBackPress={handleBackButtonPress}
+            />
             <Box padding="m" flex={1}>
                 <Box flex={1}>
                     <Box alignItems="center" top="20%">
@@ -175,9 +197,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 fontSize={normalize(17)}
                                 color="thirdText"
                                 textAlign="center">
-                                {`Hold the Eye to See Your Role${
-                                    roleDisplayed ? " Again" : ""
-                                }.`}
+                                {roleDisplayed
+                                    ? traslation.AssignRole.seeRoleGuideAgain
+                                    : traslation.AssignRole.seeRoleGuide}
                             </AppText>
                         )}
                     </Box>

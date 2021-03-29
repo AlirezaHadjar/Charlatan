@@ -1,18 +1,17 @@
 import React from "react";
-import {StyleSheet, Dimensions, ScrollView} from "react-native";
+import {ScrollView} from "react-native";
+
 import Container from "../components/Container";
 import Header from "../components/Header";
 import AppText from "../components/Text";
 import Box from "../theme/Box";
+import {useTranslation} from "../hooks/translation";
 
-export interface GuideProps {}
-
-const {height, width} = Dimensions.get("window");
-
-const Guide: React.FC<GuideProps> = ({}) => {
+const Guide: React.FC<{}> = ({}) => {
+    const translation = useTranslation();
     return (
-        <Container style={styles.container}>
-            <Header screenName="Guide" />
+        <Container>
+            <Header screenName={translation.Guide.header} />
             <Box paddingHorizontal="m" flex={1}>
                 <Box
                     backgroundColor="secondBackground"
@@ -23,25 +22,7 @@ const Guide: React.FC<GuideProps> = ({}) => {
                     flex={1}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <AppText lineHeight={30}>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. In reprehenderit voluptatibus, facilis nobis
-                            repellendus commodi necessitatibus rem soluta ullam
-                            optio id voluptatum hic dolore iure nisi aliquid
-                            laudantium excepturi quia? Lorem ipsum dolor sit
-                            amet consectetur adipisicing elit. In reprehenderit
-                            voluptatibus, facilis nobis repellendus commodi
-                            necessitatibus rem soluta ullam optio id voluptatum
-                            hic dolore iure nisi aliquid laudantium excepturi
-                            quia? Lorem ipsum dolor sit amet consectetur
-                            adipisicing elit. In reprehenderit voluptatibus,
-                            facilis nobis repellendus commodi necessitatibus rem
-                            soluta ullam optio id voluptatum hic dolore iure
-                            nisi aliquid laudantium excepturi quia? Lorem ipsum
-                            dolor sit amet consectetur adipisicing elit. In
-                            reprehenderit voluptatibus, facilis nobis
-                            repellendus commodi necessitatibus rem soluta ullam
-                            optio id voluptatum hic dolore iure nisi aliquid
-                            laudantium excepturi quia?
+                            {translation.Guide.text}
                         </AppText>
                     </ScrollView>
                 </Box>
@@ -49,9 +30,5 @@ const Guide: React.FC<GuideProps> = ({}) => {
         </Container>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {},
-});
 
 export default Guide;

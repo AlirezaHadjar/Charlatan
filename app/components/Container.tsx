@@ -34,6 +34,7 @@ const Container: React.FC<ContainerProps> = ({
         container: {
             flex: 1,
             backgroundColor: theme.colors.mainBackground,
+            // justifyContent: 'flex-end'
             width: "100%",
         },
         // imageBackground: {
@@ -57,8 +58,9 @@ const Container: React.FC<ContainerProps> = ({
             <Box
                 width="100%"
                 height="100%"
-                zIndex={2}
-                position="absolute"
+                // backgroundColor='danger'
+                // zIndex={2}
+                // position="absolute"
                 {...props}>
                 {children}
             </Box>

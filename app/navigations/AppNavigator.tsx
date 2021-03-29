@@ -4,9 +4,9 @@ import {createStackNavigator} from "@react-navigation/stack";
 import Main from "../screens/Main";
 import Test from "../screens/Test";
 import Guide from "../screens/Guide";
-import Time from "../screens/Time";
-import Players from "../screens/Players";
-import Locations from "../screens/Locations";
+import Time from "../screens/Settings/Time";
+import Players from "../screens/Settings/Players";
+import Locations from "../screens/Settings/Locations";
 
 import GameNavigator from "./GameNavigator";
 

@@ -90,7 +90,7 @@ const AppTextInput: React.FC<Props> = ({
             fontSize,
             textAlign,
             alignItems: "flex-end",
-            fontFamily: "IRANYekanMobileMedium",
+            // fontFamily: "IRANYekanMobileMedium",
             paddingVertical: multiline ? 10 : 0,
             width: "100%",
             textAlignVertical: "top",
