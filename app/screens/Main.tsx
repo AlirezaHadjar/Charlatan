@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Dimensions, StyleSheet} from "react-native";
 import {useTheme} from "@shopify/restyle";
 import Animated, {
@@ -33,6 +33,7 @@ import {useSelector} from "../store/useSelector";
 import {getLanguageName, setLanguage} from "../store/reducers/language";
 import {LanguageName} from "../types";
 import {useAppDispatch} from "../store/configureStore";
+import {resetGame} from "../store/reducers/data";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<AppRoute, "Main">,
@@ -61,6 +62,11 @@ const Main: React.FC<MainProps> = ({navigation}) => {
     const translation = useTranslation();
     const language = useSelector(getLanguageName);
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(resetGame());
+    }, [dispatch]);
+
     const animatedCogStyles = useAnimatedStyle(() => {
         const rotation = interpolate(isOpen.value, [0, 1], [0, 90]);
         return {
@@ -135,7 +141,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             paddingBottom="lxl"
             paddingHorizontal="ml">
             <Box top="5%">
-                <AppText fontSize={normalize(70)}>
+                <AppText fontSize={normalize(55)} variant="bold">
                     {translation.Main.title}
                 </AppText>
             </Box>

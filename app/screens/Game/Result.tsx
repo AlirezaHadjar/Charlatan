@@ -10,14 +10,13 @@ import Citizen from "../../assets/SVGs/Citizen";
 import Spy from "../../assets/SVGs/Spy";
 import Box from "../../theme/Box";
 import {useSelector} from "../../store/useSelector";
-import {getGameResult, resetGame} from "../../store/reducers/data";
+import {getGameResult} from "../../store/reducers/data";
 import {Winners} from "../../types";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {useTranslation} from "../../hooks/translation";
 import {GameRoutes} from "../../navigations/GameNavigator";
 import {AppRoute} from "../../navigations/AppNavigator";
-import {useAppDispatch} from "../../store/configureStore";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -36,7 +35,6 @@ const styles = StyleSheet.create({
 const Result: React.FC<ResultProps> = ({navigation}) => {
     const translation = useTranslation();
     const gameResult = useSelector(getGameResult);
-    const dispatch = useAppDispatch();
     const renderWinnerText = () => {
         const text =
             gameResult.winner === Winners.Spies
@@ -56,9 +54,8 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
         );
     };
     const handleBackButtonPress = useCallback(() => {
-        dispatch(resetGame());
         navigation.navigate("Main");
-    }, [dispatch, navigation]);
+    }, [navigation]);
     return (
         <Container style={styles.container}>
             <Header

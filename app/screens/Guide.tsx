@@ -21,7 +21,7 @@ const Guide: React.FC<{}> = ({}) => {
                     padding="m"
                     flex={1}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <AppText lineHeight={30}>
+                        <AppText lineHeight={30} variant="regular">
                             {translation.Guide.text}
                         </AppText>
                     </ScrollView>

@@ -28,6 +28,7 @@ import {AppRoute} from "../../navigations/AppNavigator";
 import Button from "../../components/Button";
 import {useAppDispatch} from "../../store/configureStore";
 import {useTranslation} from "../../hooks/translation";
+import {getLanguageName} from "../../store/reducers/language";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
 
 const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
     const translation = useTranslation();
+    const language = useSelector(getLanguageName);
     const players = useSelector(getPlayers);
     const spiesIds = useSelector(getSpiesIds);
     const locations = useSelector(getLocations);
@@ -185,10 +187,13 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
             <Box paddingHorizontal="s" flex={1} paddingVertical="m">
                 <Box flex={1} alignItems="center">
                     <AppText fontSize={normalize(30)} color="buttonPrimary">
-                        {selectedSpy.name}
+                        {selectedSpy.name[language]}
                     </AppText>
                     <Box marginTop="lxl" marginBottom="m">
-                        <AppText fontSize={normalize(15)} textAlign="center">
+                        <AppText
+                            fontSize={normalize(15)}
+                            textAlign="center"
+                            variant="medium">
                             {translation.SpiesGuess.guide}
                         </AppText>
                     </Box>

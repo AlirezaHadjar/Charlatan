@@ -25,6 +25,7 @@ import Button from "../../components/Button";
 import Play from "../../assets/SVGs/Play";
 import {useAppDispatch} from "../../store/configureStore";
 import {useTranslation} from "../../hooks/translation";
+import {getLanguageName} from "../../store/reducers/language";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
 
 const Vote: React.FC<VoteProps> = ({navigation}) => {
     const translation = useTranslation();
+    const language = useSelector(getLanguageName);
     const players = useSelector(getPlayers);
     const spiesIds = useSelector(getSpiesIds);
     const dispatch = useAppDispatch();
@@ -111,7 +113,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         const SpyText = translation.Vote.selectTheSpy;
         const spiesText = translation.Vote.selectTheSpies(spiesLength);
         return (
-            <AppText fontSize={normalize(20)}>
+            <AppText fontSize={normalize(20)} variant="medium">
                 {spiesLength > 1 ? spiesText : SpyText}
             </AppText>
         );
@@ -133,7 +135,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
             return {
                 playerId: player.id,
                 numberOfVotes: length,
-                playerName: player.name,
+                playerName: player.name[language],
             };
         });
         let mostVoted: VotingResult[] = [
@@ -155,7 +157,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
             }),
         );
         navigation.navigate("SpiesGuess");
-    }, [dispatch, getWinner, navigation, players, spiesIds, votes]);
+    }, [dispatch, getWinner, language, navigation, players, spiesIds, votes]);
     const handleNext = useCallback(() => {
         const clonedPlayers = [...modifiedPlayers];
         const index = clonedPlayers.indexOf(selectedPlayer);
@@ -215,7 +217,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
             <Box paddingHorizontal="m" flex={1} paddingVertical="m">
                 <Box flex={1} alignItems="center">
                     <AppText fontSize={normalize(30)} color="buttonPrimary">
-                        {selectedPlayer.name}
+                        {selectedPlayer.name[language]}
                     </AppText>
                     <Box marginTop="lxl" marginBottom="m">
                         {renderSpiesText(spiesIds.length)}

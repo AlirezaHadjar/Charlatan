@@ -98,7 +98,7 @@ const Button: React.FC<ButtonProps> = ({
                         <AppText
                             {...{fontSize}}
                             color={textColor}
-                            variant="regular"
+                            variant="medium"
                             numberOfLines={1}>
                             {title}
                         </AppText>

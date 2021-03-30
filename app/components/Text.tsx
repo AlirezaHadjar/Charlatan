@@ -12,7 +12,7 @@ export interface Props extends TextProps<ThemeType> {
 
 const AppText: React.FC<Props> = ({
     children,
-    variant = "regular",
+    variant = "semiBold",
     color = "mainTextColor",
     textAlign,
     ...otherProps

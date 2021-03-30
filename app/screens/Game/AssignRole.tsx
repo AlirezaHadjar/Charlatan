@@ -26,6 +26,7 @@ import {useAppDispatch} from "../../store/configureStore";
 import {AppRoute} from "../../navigations/AppNavigator";
 import {GameRoutes} from "../../navigations/GameNavigator";
 import {useTranslation} from "../../hooks/translation";
+import {getLanguageName} from "../../store/reducers/language";
 
 const {width, height} = Dimensions.get("window");
 
@@ -46,6 +47,7 @@ export type AssignRoleProps = {
 const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const players = useSelector(getPlayers);
     const traslation = useTranslation();
+    const language = useSelector(getLanguageName);
     const location = useSelector(getSelectedLocation);
     const dispatch = useAppDispatch();
     const spiesIds = useSelector(getSpiesIds);
@@ -66,10 +68,16 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const renderSpy = useCallback(
         () => (
             <Box alignItems="center">
-                <AppText fontSize={normalize(17)} color="thirdText">
+                <AppText
+                    fontSize={normalize(17)}
+                    color="thirdText"
+                    variant="semiBold">
                     {traslation.AssignRole.preRole}
                 </AppText>
-                <AppText fontSize={normalize(90)} color="thirdText">
+                <AppText
+                    fontSize={normalize(90)}
+                    color="thirdText"
+                    variant="bold">
                     {traslation.AssignRole.spy}
                 </AppText>
             </Box>
@@ -79,23 +87,36 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const renderCitizen = useCallback(
         (location: Location) => (
             <Box alignItems="center">
-                <AppText fontSize={normalize(17)} color="thirdText">
+                <AppText
+                    fontSize={normalize(17)}
+                    color="thirdText"
+                    variant="semiBold">
                     {traslation.AssignRole.preRole}
                 </AppText>
-                <AppText fontSize={normalize(70)} color="thirdText">
+                <AppText
+                    fontSize={normalize(70)}
+                    color="thirdText"
+                    variant="bold">
                     {traslation.AssignRole.citizen}
                 </AppText>
-                <Box flexDirection="row">
+                <Box flexDirection="row" marginTop="m">
                     <Box marginEnd="s">
                         <Pin color="thirdText" />
                     </Box>
-                    <AppText fontSize={normalize(17)} color="thirdText">
-                        {location.name}
+                    <AppText
+                        fontSize={normalize(17)}
+                        color="thirdText"
+                        variant="semiBold">
+                        {location.name[language]}
                     </AppText>
                 </Box>
             </Box>
         ),
-        [traslation.AssignRole.citizen, traslation.AssignRole.preRole],
+        [
+            language,
+            traslation.AssignRole.citizen,
+            traslation.AssignRole.preRole,
+        ],
     );
     const renderGuideText = useCallback(() => {
         const index = modifiedPlayers.indexOf(selectedPlayer);
@@ -103,7 +124,10 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         const text = isLast ? "" : traslation.AssignRole.nextButtonGuide;
         return (
             <Box maxWidth="50%">
-                <AppText fontSize={normalize(12)} color="thirdText">
+                <AppText
+                    fontSize={normalize(12)}
+                    color="thirdText"
+                    variant="semiBold">
                     {text}
                 </AppText>
             </Box>
@@ -172,8 +196,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             <Box padding="m" flex={1}>
                 <Box flex={1}>
                     <Box alignItems="center" top="20%">
-                        <AppText fontSize={normalize(30)}>
-                            {selectedPlayer.name}
+                        <AppText fontSize={normalize(30)} variant="semiBold">
+                            {selectedPlayer.name[language]}
                         </AppText>
                         <Button
                             height={(width * 31) / 100}
@@ -196,6 +220,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                             <AppText
                                 fontSize={normalize(17)}
                                 color="thirdText"
+                                variant="medium"
                                 textAlign="center">
                                 {roleDisplayed
                                     ? traslation.AssignRole.seeRoleGuideAgain

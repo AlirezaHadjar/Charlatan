@@ -151,7 +151,7 @@ const Players: React.FC<{}> = ({}) => {
                         paddingHorizontal="s">
                         <AppText>{spiesLength}</AppText>
                     </Box>
-                    <AppText fontSize={normalize(15)}>
+                    <AppText fontSize={normalize(15)} variant="semiBold">
                         {spiesLength > 1
                             ? translation.Players.Spies
                             : translation.Players.Spy}

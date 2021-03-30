@@ -35,7 +35,10 @@ const Header: React.FC<HeaderProps> = ({end, screenName, onBackPress}) => {
                         <Box marginEnd="m">
                             <ArrowLeft />
                         </Box>
-                        <AppText color="mainTextColor" fontSize={normalize(20)}>
+                        <AppText
+                            variant="semiBold"
+                            color="mainTextColor"
+                            fontSize={normalize(20)}>
                             {screenName}
                         </AppText>
                     </Box>

@@ -104,7 +104,7 @@ const Item: React.FC<PickerItem> = ({item, index, offset}) => {
     }, [udv, index, offset, item, index]);
     return (
         <Animated.View style={style}>
-            <AppText textAlign="center" color="light" fontSize={normalize(50)}>
+            <AppText textAlign="center" color="light" fontSize={normalize(40)}>
                 {item.title}
             </AppText>
         </Animated.View>
