@@ -36,6 +36,8 @@ import {useTranslation} from "../../hooks/translation";
 import CustomBackdrop from "../../components/CustomBackdrop";
 import {LISTITEM_HEIGHT} from "../../../SpyHunt";
 import {ThemeType} from "../../theme/Theme";
+import {usePlayer} from "../../hooks/usePlayer";
+import {useSpy} from "../../hooks/useSpy";
 
 const {width, height} = Dimensions.get("window");
 
@@ -64,6 +66,9 @@ const Players: React.FC<{}> = ({}) => {
             backgroundColor: theme.colors.lightGrey,
         },
     });
+
+    usePlayer(players);
+    useSpy(spiesLength);
 
     const renderEmptyPlayers = useCallback(
         () => (
@@ -107,7 +112,7 @@ const Players: React.FC<{}> = ({}) => {
 
     const handleEditPlayer = useCallback(
         (text: string, id: string) => {
-            dispatch(editPlayer({id, name: text}));
+            dispatch(editPlayer({id, name: {fa: text, en: text}}));
         },
         [dispatch],
     );
@@ -122,7 +127,7 @@ const Players: React.FC<{}> = ({}) => {
         [dispatch, players.length, spiesLength],
     );
     const handleAddPlayer = useCallback(() => {
-        dispatch(addPlayer(query));
+        dispatch(addPlayer({en: query, fa: query}));
         setQuery("");
         Keyboard.dismiss();
         setTimeout(() => addPlayerSheet.current?.snapTo(0), 1000);
@@ -192,178 +197,164 @@ const Players: React.FC<{}> = ({}) => {
                         />
                     </Box>
                 </Box>
-                {useMemo(
-                    () => (
-                        <BottomSheet
-                            backdropComponent={(props) => (
-                                <CustomBackdrop
-                                    onPress={() => {
-                                        setTimeout(
-                                            () =>
-                                                addPlayerSheet.current?.collapse(),
-                                            200,
-                                        );
-                                    }}
-                                    animatedIndex={props.animatedIndex}
-                                    animatedPosition={props.animatedPosition}
-                                    style={props.style}
-                                />
-                            )}
-                            ref={addPlayerSheet}
-                            snapPoints={snapPoints}>
-                            <BottomSheetView>
-                                <Box padding="m" width="100%" flex={1}>
-                                    <Box
-                                        width="100%"
-                                        height={LISTITEM_HEIGHT}
-                                        borderRadius="l"
-                                        justifyContent="center"
-                                        flexDirection="row"
-                                        paddingHorizontal="m"
-                                        alignItems="center"
-                                        borderWidth={1}>
-                                        <Box flex={1}>
-                                            <TextInput
-                                                placeholder={
-                                                    translation.Players
-                                                        .addPlayerTextInputPlaceholder
-                                                }
-                                                value={query}
-                                                ref={textInputRef}
-                                                onChangeText={(text) =>
-                                                    setQuery(text)
-                                                }
-                                            />
-                                        </Box>
-                                        <TouchableOpacity
-                                            onPress={handleAddPlayer}>
-                                            <Box
-                                                width={30}
-                                                height={30}
-                                                alignItems="center"
-                                                justifyContent="center"
-                                                borderRadius="m"
-                                                backgroundColor="mainTextColor">
-                                                <Check />
-                                            </Box>
-                                        </TouchableOpacity>
-                                    </Box>
-                                </Box>
-                            </BottomSheetView>
-                        </BottomSheet>
-                    ),
-                    [
-                        handleAddPlayer,
-                        query,
-                        snapPoints,
-                        translation.Players.addPlayerTextInputPlaceholder,
-                    ],
-                )}
-                {useMemo(
-                    () => (
-                        <BottomSheet
-                            backdropComponent={(props) => (
-                                <CustomBackdrop
-                                    onPress={() => {
-                                        setTimeout(
-                                            () =>
-                                                spiesLengthSheet.current?.collapse(),
-                                            200,
-                                        );
-                                    }}
-                                    animatedIndex={props.animatedIndex}
-                                    animatedPosition={props.animatedPosition}
-                                    style={props.style}
-                                />
-                            )}
-                            ref={spiesLengthSheet}
-                            snapPoints={[0, "30%"]}
-                            backgroundComponent={() => <Box />}
-                            style={{backgroundColor: theme.colors.danger}}>
-                            <BottomSheetView style={{flex: 1}}>
-                                <Box
-                                    padding="m"
-                                    width="100%"
-                                    flex={1}
-                                    alignItems="center">
-                                    <AppText color="light">
-                                        {
-                                            translation.Players
-                                                .spiesBottomSheetTitle
-                                        }
-                                    </AppText>
-                                    <BottomSheetView
-                                        style={{
-                                            flexDirection: "row",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            flex: 1,
-                                        }}>
-                                        <TouchableOpacity
-                                            disabled={spiesLength < 2}
-                                            onPress={() => {
-                                                dispatch(
-                                                    setSpiesLength(
-                                                        spiesLength - 1,
-                                                    ),
-                                                );
-                                            }}
-                                            style={[
-                                                styles.boxContainer,
-                                                spiesLength < 2
-                                                    ? styles.disabled
-                                                    : {},
-                                            ]}>
-                                            <Minus
-                                                color="secondText"
-                                                scale={0.9}
-                                            />
-                                        </TouchableOpacity>
-                                        <AppText
-                                            color="light"
-                                            fontSize={normalize(70)}>
-                                            {spiesLength}
-                                        </AppText>
-                                        <TouchableOpacity
-                                            disabled={
-                                                spiesLength >=
-                                                Math.floor(players.length / 3)
-                                            }
-                                            onPress={() => {
-                                                dispatch(
-                                                    setSpiesLength(
-                                                        spiesLength + 1,
-                                                    ),
-                                                );
-                                            }}
-                                            style={[
-                                                styles.boxContainer,
-                                                spiesLength >=
-                                                Math.floor(players.length / 3)
-                                                    ? styles.disabled
-                                                    : {},
-                                            ]}>
-                                            <Plus
-                                                color="secondText"
-                                                scale={0.9}
-                                            />
-                                        </TouchableOpacity>
-                                    </BottomSheetView>
-                                </Box>
-                            </BottomSheetView>
-                        </BottomSheet>
-                    ),
-                    [
-                        dispatch,
-                        players.length,
-                        spiesLength,
-                        styles.boxContainer,
-                        styles.disabled,
-                        theme.colors.danger,
-                        translation.Players.spiesBottomSheetTitle,
-                    ],
-                )}
             </KeyboardAvoidingView>
+            {useMemo(
+                () => (
+                    <BottomSheet
+                        backdropComponent={(props) => (
+                            <CustomBackdrop
+                                onPress={() => {
+                                    setTimeout(
+                                        () =>
+                                            addPlayerSheet.current?.collapse(),
+                                        200,
+                                    );
+                                }}
+                                animatedIndex={props.animatedIndex}
+                                animatedPosition={props.animatedPosition}
+                                style={props.style}
+                            />
+                        )}
+                        ref={addPlayerSheet}
+                        snapPoints={snapPoints}>
+                        <BottomSheetView>
+                            <Box padding="m" width="100%" flex={1}>
+                                <Box
+                                    width="100%"
+                                    height={LISTITEM_HEIGHT}
+                                    borderRadius="l"
+                                    justifyContent="center"
+                                    flexDirection="row"
+                                    paddingHorizontal="m"
+                                    alignItems="center"
+                                    borderWidth={1}>
+                                    <Box flex={1}>
+                                        <TextInput
+                                            placeholder={
+                                                translation.Players
+                                                    .addPlayerTextInputPlaceholder
+                                            }
+                                            value={query}
+                                            ref={textInputRef}
+                                            onChangeText={(text) =>
+                                                setQuery(text)
+                                            }
+                                        />
+                                    </Box>
+                                    <TouchableOpacity onPress={handleAddPlayer}>
+                                        <Box
+                                            width={30}
+                                            height={30}
+                                            alignItems="center"
+                                            justifyContent="center"
+                                            borderRadius="m"
+                                            backgroundColor="mainTextColor">
+                                            <Check />
+                                        </Box>
+                                    </TouchableOpacity>
+                                </Box>
+                            </Box>
+                        </BottomSheetView>
+                    </BottomSheet>
+                ),
+                [
+                    handleAddPlayer,
+                    query,
+                    snapPoints,
+                    translation.Players.addPlayerTextInputPlaceholder,
+                ],
+            )}
+            {useMemo(
+                () => (
+                    <BottomSheet
+                        backdropComponent={(props) => (
+                            <CustomBackdrop
+                                onPress={() => {
+                                    setTimeout(
+                                        () =>
+                                            spiesLengthSheet.current?.collapse(),
+                                        200,
+                                    );
+                                }}
+                                animatedIndex={props.animatedIndex}
+                                animatedPosition={props.animatedPosition}
+                                style={props.style}
+                            />
+                        )}
+                        ref={spiesLengthSheet}
+                        snapPoints={[0, "30%"]}
+                        backgroundComponent={() => <Box />}
+                        style={{backgroundColor: theme.colors.danger}}>
+                        <BottomSheetView style={{flex: 1}}>
+                            <Box
+                                padding="m"
+                                width="100%"
+                                flex={1}
+                                alignItems="center">
+                                <AppText color="light">
+                                    {translation.Players.spiesBottomSheetTitle}
+                                </AppText>
+                                <BottomSheetView
+                                    style={{
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        flex: 1,
+                                    }}>
+                                    <TouchableOpacity
+                                        disabled={spiesLength < 2}
+                                        onPress={() => {
+                                            dispatch(
+                                                setSpiesLength(spiesLength - 1),
+                                            );
+                                        }}
+                                        style={[
+                                            styles.boxContainer,
+                                            spiesLength < 2
+                                                ? styles.disabled
+                                                : {},
+                                        ]}>
+                                        <Minus color="secondText" scale={0.9} />
+                                    </TouchableOpacity>
+                                    <AppText
+                                        color="light"
+                                        fontSize={normalize(70)}>
+                                        {spiesLength}
+                                    </AppText>
+                                    <TouchableOpacity
+                                        disabled={
+                                            spiesLength >=
+                                            Math.floor(players.length / 3)
+                                        }
+                                        onPress={() => {
+                                            dispatch(
+                                                setSpiesLength(spiesLength + 1),
+                                            );
+                                        }}
+                                        style={[
+                                            styles.boxContainer,
+                                            spiesLength >=
+                                            Math.floor(players.length / 3)
+                                                ? styles.disabled
+                                                : {},
+                                        ]}>
+                                        <Plus color="secondText" scale={0.9} />
+                                    </TouchableOpacity>
+                                </BottomSheetView>
+                            </Box>
+                        </BottomSheetView>
+                    </BottomSheet>
+                ),
+                [
+                    dispatch,
+                    players.length,
+                    spiesLength,
+                    styles.boxContainer,
+                    styles.disabled,
+                    theme.colors.danger,
+                    translation.Players.spiesBottomSheetTitle,
+                ],
+            )}
         </Container>
     );
 };

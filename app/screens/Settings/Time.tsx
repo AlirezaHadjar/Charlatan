@@ -8,6 +8,7 @@ import AppText from "../../components/Text";
 import {getTime, setTime} from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
 import {useTranslation} from "../../hooks/translation";
+import {useTime} from "../../hooks/useTime";
 import Box from "../../theme/Box";
 
 const renderMinutes = () => {
@@ -35,6 +36,7 @@ const Time: React.FC<{}> = ({}) => {
         },
         [dispatch],
     );
+    useTime(time);
     return (
         <Container>
             <Header screenName={translation.Time.header} />

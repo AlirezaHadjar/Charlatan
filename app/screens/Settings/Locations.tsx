@@ -6,6 +6,7 @@ import {
     TextInput,
     KeyboardAvoidingView,
     Platform,
+    Dimensions,
 } from "react-native";
 import BottomSheet, {BottomSheetView} from "@gorhom/bottom-sheet";
 
@@ -18,6 +19,7 @@ import {
     editLocation,
     getLocations,
     removeLocation,
+    setLocations,
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
 import Cross from "../../assets/SVGs/Cross";
@@ -28,6 +30,12 @@ import Icon from "../../components/Icon";
 import {LISTITEM_HEIGHT} from "../../../SpyHunt";
 import CustomBackdrop from "../../components/CustomBackdrop";
 import {useTranslation} from "../../hooks/translation";
+import {useLocation} from "../../hooks/useLocation";
+import {defaultData} from "../../storage/default";
+import AppText from "../../components/Text";
+import normalize from "../../utils/normalizer";
+
+const {height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     container: {},
@@ -42,7 +50,7 @@ const Locations: React.FC<{}> = ({}) => {
     const textInputRef = useRef<TextInput>(null);
     const handleEditLocation = useCallback(
         (text: string, id: string) => {
-            dispatch(editLocation({id, name: text}));
+            dispatch(editLocation({id, name: {fa: text, en: text}}));
         },
         [dispatch],
     );
@@ -53,7 +61,7 @@ const Locations: React.FC<{}> = ({}) => {
         [dispatch],
     );
     const handleAddLocation = useCallback(() => {
-        dispatch(addLocation(query));
+        dispatch(addLocation({fa: query, en: query}));
         setQuery("");
         Keyboard.dismiss();
         setTimeout(() => addLocationSheet.current?.snapTo(0), 1000);
@@ -64,13 +72,14 @@ const Locations: React.FC<{}> = ({}) => {
                 width={30}
                 height={30}
                 backgroundColor="mainTextColor"
+                opacity={locations.length < 5 ? 0.3 : 1}
                 alignItems="center"
                 justifyContent="center"
                 borderRadius="m">
                 <Cross />
             </Box>
         ),
-        [],
+        [locations.length],
     );
     const handlePlusPress = useCallback(() => {
         textInputRef.current?.focus();
@@ -80,9 +89,35 @@ const Locations: React.FC<{}> = ({}) => {
         const second = Platform.OS === "ios" ? "55%" : "25%";
         return [0, second];
     }, []);
+    const renderResetButton = useCallback(
+        () => (
+            <TouchableOpacity
+                onPress={() => dispatch(setLocations(defaultData.locations))}>
+                <Box
+                    borderRadius="hero1"
+                    height={(height * 4) / 100}
+                    alignItems="center"
+                    justifyContent="space-between"
+                    flexDirection="row"
+                    paddingHorizontal="s"
+                    backgroundColor="buttonSecondary">
+                    <AppText fontSize={normalize(14)}>
+                        {translation.Locations.reset}
+                    </AppText>
+                </Box>
+            </TouchableOpacity>
+        ),
+        [dispatch, translation.Locations.reset],
+    );
+
+    useLocation(locations);
+
     return (
         <Container style={styles.container}>
-            <Header screenName={translation.Locations.header} />
+            <Header
+                screenName={translation.Locations.header}
+                end={renderResetButton()}
+            />
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 style={{flex: 1}}>
@@ -91,6 +126,7 @@ const Locations: React.FC<{}> = ({}) => {
                         <List
                             items={locations}
                             end={itemCross}
+                            endDisabled={locations.length < 5}
                             onChangeText={handleEditLocation}
                             onEndPress={handleRemoveLocation}
                         />

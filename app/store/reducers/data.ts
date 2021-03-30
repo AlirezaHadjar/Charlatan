@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createSelector} from "reselect";
 
-import {Data, GameResult, Player} from "../../types";
+import {Data, GameResult, Location, Player} from "../../types";
 import {AppState} from "../reducer";
 
 const initialState: Data = {
@@ -18,12 +18,21 @@ const slice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        addPlayer: (data, {payload}: PayloadAction<string>) => {
+        addPlayer: (
+            data,
+            {payload}: PayloadAction<{fa: string; en: string}>,
+        ) => {
             data.players.push({
                 id: `${Math.random()}`,
-                name: payload,
+                name: {
+                    fa: payload.fa,
+                    en: payload.en,
+                },
                 role: "",
             });
+        },
+        setPlayers: (data, {payload}: PayloadAction<Player[]>) => {
+            data.players = payload;
         },
         removePlayer: (data, {payload: id}: PayloadAction<string>) => {
             const index = data.players.findIndex((player) => player.id === id);
@@ -65,11 +74,20 @@ const slice = createSlice({
         setSpiesLength: (data, {payload}: PayloadAction<number>) => {
             data.spiesLength = payload;
         },
-        addLocation: (data, {payload}: PayloadAction<string>) => {
+        addLocation: (
+            data,
+            {payload}: PayloadAction<{fa: string; en: string}>,
+        ) => {
             data.locations.push({
                 id: `${Math.random()}`,
-                name: payload,
+                name: {
+                    fa: payload.fa,
+                    en: payload.en,
+                },
             });
+        },
+        setLocations: (data, {payload}: PayloadAction<Location[]>) => {
+            data.locations = payload;
         },
         removeLocation: (data, {payload: id}: PayloadAction<string>) => {
             const index = data.locations.findIndex(
@@ -108,6 +126,8 @@ export const {
     removePlayer,
     startGame,
     resetGame,
+    setPlayers,
+    setLocations,
 } = slice.actions;
 export type ActionTypes = typeof slice.actions;
 export default slice.reducer;

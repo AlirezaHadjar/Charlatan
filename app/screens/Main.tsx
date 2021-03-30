@@ -22,6 +22,7 @@ import Cog from "../assets/SVGs/Cog";
 import Players from "../assets/SVGs/Players";
 import Clock from "../assets/SVGs/Clock";
 import Pin from "../assets/SVGs/Pin";
+import Language from "../assets/SVGs/Language";
 import Question from "../assets/SVGs/Question";
 import Icon from "../components/Icon";
 import {ThemeType} from "../theme/Theme";
@@ -148,47 +149,56 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                     onPress={() => navigation.navigate("GameNavigator")}
                 />
             </Box>
-            <Icon icon={<Cog />} onPress={handleLanguage} />
             <Box
                 position="absolute"
                 bottom={theme.spacing.m + theme.spacing.s}
-                width="100%"
-                flexDirection="row-reverse"
-                justifyContent="space-between">
-                <Icon
-                    icon={<Question />}
-                    onPress={() => navigation.navigate("Guide")}
-                />
-                <Box flexDirection="row" flex={1}>
-                    <Animated.View style={animatedCogStyles}>
-                        <Icon icon={<Cog />} onPress={handleAnimation} />
-                    </Animated.View>
-                    <Animated.View style={[styles.buttonContainer]}>
-                        <Animated.View style={animatedSettingStyles1}>
-                            <Icon
-                                onPress={() => navigation.navigate("Players")}
-                                icon={<Players />}
-                                backgroundColor="buttonTertiary"
-                                visible={isOpen}
-                            />
+                width="100%">
+                <Box marginBottom="s">
+                    <Icon icon={<Language />} onPress={handleLanguage} />
+                </Box>
+                <Box
+                    width="100%"
+                    flexDirection="row-reverse"
+                    justifyContent="space-between">
+                    <Icon
+                        icon={<Question />}
+                        onPress={() => navigation.navigate("Guide")}
+                    />
+                    <Box flexDirection="row" flex={1}>
+                        <Animated.View style={animatedCogStyles}>
+                            <Icon icon={<Cog />} onPress={handleAnimation} />
                         </Animated.View>
-                        <Animated.View style={animatedSettingStyles2}>
-                            <Icon
-                                onPress={() => navigation.navigate("Locations")}
-                                icon={<Pin />}
-                                backgroundColor="buttonTertiary"
-                                visible={isOpen}
-                            />
+                        <Animated.View style={[styles.buttonContainer]}>
+                            <Animated.View style={animatedSettingStyles1}>
+                                <Icon
+                                    onPress={() =>
+                                        navigation.navigate("Players")
+                                    }
+                                    icon={<Players />}
+                                    backgroundColor="buttonTertiary"
+                                    visible={isOpen}
+                                />
+                            </Animated.View>
+                            <Animated.View style={animatedSettingStyles2}>
+                                <Icon
+                                    onPress={() =>
+                                        navigation.navigate("Locations")
+                                    }
+                                    icon={<Pin />}
+                                    backgroundColor="buttonTertiary"
+                                    visible={isOpen}
+                                />
+                            </Animated.View>
+                            <Animated.View style={animatedSettingStyles3}>
+                                <Icon
+                                    onPress={() => navigation.navigate("Time")}
+                                    icon={<Clock />}
+                                    backgroundColor="buttonTertiary"
+                                    visible={isOpen}
+                                />
+                            </Animated.View>
                         </Animated.View>
-                        <Animated.View style={animatedSettingStyles3}>
-                            <Icon
-                                onPress={() => navigation.navigate("Time")}
-                                icon={<Clock />}
-                                backgroundColor="buttonTertiary"
-                                visible={isOpen}
-                            />
-                        </Animated.View>
-                    </Animated.View>
+                    </Box>
                 </Box>
             </Box>
         </Container>

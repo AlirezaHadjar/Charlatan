@@ -1,4 +1,4 @@
-import {backgroundColor, useTheme} from "@shopify/restyle";
+import {useTheme} from "@shopify/restyle";
 import React from "react";
 import {
     Dimensions,
@@ -18,6 +18,7 @@ export interface ListItemProps {
     onEndPress?: (id: string) => void;
     onChangeText?: (text: string, id: string) => void;
     backgroundColor: keyof typeof theme["colors"];
+    endDisabled: boolean;
 }
 
 const {width} = Dimensions.get("window");
@@ -39,6 +40,7 @@ const ListItem: React.FC<ListItemProps> = ({
     onEndPress,
     onChangeText,
     backgroundColor,
+    endDisabled,
 }) => {
     const theme = useTheme<ThemeType>();
     return (
@@ -66,6 +68,7 @@ const ListItem: React.FC<ListItemProps> = ({
                     />
                 </Box>
                 <TouchableOpacity
+                    disabled={endDisabled}
                     style={styles.cross}
                     onPress={() => {
                         if (onEndPress) onEndPress(id);

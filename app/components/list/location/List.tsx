@@ -1,6 +1,8 @@
 import React from "react";
 import {FlatList} from "react-native";
 
+import {getLanguageName} from "../../../store/reducers/language";
+import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
 import {Location} from "../../../types";
 
@@ -12,6 +14,7 @@ export interface ListProps {
     end?: JSX.Element;
     onEndPress?: (id: string) => void;
     onChangeText?: (text: string, id: string) => void;
+    endDisabled?: boolean;
 }
 
 const List: React.FC<ListProps> = ({
@@ -20,7 +23,9 @@ const List: React.FC<ListProps> = ({
     selectedIds = [],
     onEndPress,
     onChangeText,
+    endDisabled,
 }) => {
+    const language = useSelector(getLanguageName);
     return (
         <Box width="100%" marginBottom="m">
             <FlatList
@@ -35,9 +40,10 @@ const List: React.FC<ListProps> = ({
                 renderItem={({item}) => (
                     <ListItem
                         id={item.id}
-                        name={item.name}
+                        name={item.name[language]}
                         end={end}
                         onEndPress={onEndPress}
+                        endDisabled={endDisabled}
                         onChangeText={onChangeText}
                         backgroundColor={
                             selectedIds.includes(item.id)

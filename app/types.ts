@@ -16,12 +16,18 @@ export interface Data {
 
 export interface Player {
     id: string;
-    name: string;
+    name: {
+        en: string;
+        fa: string;
+    };
     role: string;
 }
 
 export interface Location {
-    name: string;
+    name: {
+        en: string;
+        fa: string;
+    };
     id: string;
 }
 

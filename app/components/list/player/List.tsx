@@ -1,6 +1,8 @@
 import React from "react";
 import {FlatList} from "react-native";
 
+import {getLanguageName} from "../../../store/reducers/language";
+import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
 import {Player} from "../../../types";
 
@@ -27,6 +29,7 @@ const List: React.FC<ListProps> = ({
     onChangeText,
     endDisabled = false,
 }) => {
+    const language = useSelector(getLanguageName);
     return (
         <Box width="100%" marginBottom="m">
             <FlatList
@@ -37,7 +40,7 @@ const List: React.FC<ListProps> = ({
                 renderItem={({item}) => (
                     <ListItem
                         id={item.id}
-                        name={item.name}
+                        name={item.name[language]}
                         end={end}
                         endDisabled={endDisabled}
                         onEndPress={onEndPress}
