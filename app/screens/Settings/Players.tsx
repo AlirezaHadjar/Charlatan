@@ -39,7 +39,7 @@ import {ThemeType} from "../../theme/Theme";
 import {usePlayer} from "../../hooks/usePlayer";
 import {useSpy} from "../../hooks/useSpy";
 
-const {width, height} = Dimensions.get("window");
+const {width} = Dimensions.get("window");
 
 const Players: React.FC<{}> = ({}) => {
     const players = useSelector(getPlayers);
@@ -138,11 +138,11 @@ const Players: React.FC<{}> = ({}) => {
                 onPress={() => spiesLengthSheet.current?.snapTo(1)}>
                 <Box
                     borderRadius="hero1"
-                    height={(height * 4) / 100}
                     alignItems="center"
                     justifyContent="space-between"
                     flexDirection="row"
                     paddingHorizontal="s"
+                    paddingVertical="ss"
                     backgroundColor="buttonSecondary">
                     <Box
                         borderRadius="hero1"

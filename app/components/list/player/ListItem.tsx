@@ -4,6 +4,8 @@ import {TextInput} from "react-native";
 import {TouchableOpacity} from "react-native-gesture-handler";
 
 import {LISTITEM_HEIGHT} from "../../../../SpyHunt";
+import {getLanguageName} from "../../../store/reducers/language";
+import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
 import theme, {ThemeType} from "../../../theme/Theme";
 import normalize from "../../../utils/normalizer";
@@ -30,6 +32,7 @@ const ListItem: React.FC<ListItemProps> = ({
     textColor,
 }) => {
     const theme = useTheme<ThemeType>();
+    const language = useSelector(getLanguageName);
     return (
         <Box>
             <Box
@@ -38,7 +41,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 marginVertical="ss"
                 paddingHorizontal="m"
                 backgroundColor={backgroundColor}
-                flexDirection="row"
+                flexDirection={language === "en" ? "row" : "row-reverse"}
                 alignItems="center"
                 borderRadius="l">
                 <Box justifyContent="center" flex={1} height="100%">

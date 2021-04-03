@@ -1,11 +1,7 @@
 import {createTheme} from "@shopify/restyle";
 
+import spacingNormalizer from "../utils/spacingNormalizer";
 import normalize from "../utils/normalizer";
-// import {Dimensions} from "react-native";
-
-// import normalize from "../utils/normalizer";
-
-// const {width, height} = Dimensions.get("window");
 
 const palette = {
     transparent: "transparent",
@@ -40,13 +36,13 @@ const theme = createTheme({
         thirdText: palette.mediumGrey,
     },
     spacing: {
-        ss: 4,
-        s: 10,
-        m: 20,
-        ml: 20,
-        l: 32,
-        lxl: 44,
-        xl: 64,
+        ss: spacingNormalizer(4),
+        s: spacingNormalizer(10),
+        m: spacingNormalizer(20),
+        ml: spacingNormalizer(20),
+        l: spacingNormalizer(32),
+        lxl: spacingNormalizer(44),
+        xl: spacingNormalizer(64),
     },
     borderRadii: {
         zero: 0,

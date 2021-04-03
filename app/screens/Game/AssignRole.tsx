@@ -68,31 +68,31 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const renderSpy = useCallback(
         () => (
             <Box alignItems="center">
-                <AppText
+                {/* <AppText
                     fontSize={normalize(17)}
                     color="thirdText"
                     variant="semiBold">
                     {traslation.AssignRole.preRole}
-                </AppText>
+                </AppText> */}
                 <AppText
-                    fontSize={normalize(90)}
+                    fontSize={normalize(65)}
                     color="thirdText"
                     variant="bold">
                     {traslation.AssignRole.spy}
                 </AppText>
             </Box>
         ),
-        [traslation.AssignRole.preRole, traslation.AssignRole.spy],
+        [traslation.AssignRole.spy],
     );
     const renderCitizen = useCallback(
         (location: Location) => (
             <Box alignItems="center">
-                <AppText
+                {/* <AppText
                     fontSize={normalize(17)}
                     color="thirdText"
                     variant="semiBold">
                     {traslation.AssignRole.preRole}
-                </AppText>
+                </AppText> */}
                 <AppText
                     fontSize={normalize(70)}
                     color="thirdText"
@@ -112,11 +112,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 </Box>
             </Box>
         ),
-        [
-            language,
-            traslation.AssignRole.citizen,
-            traslation.AssignRole.preRole,
-        ],
+        [language, traslation.AssignRole.citizen],
     );
     const renderGuideText = useCallback(() => {
         const index = modifiedPlayers.indexOf(selectedPlayer);
@@ -193,16 +189,16 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 screenName={traslation.AssignRole.header}
                 onBackPress={handleBackButtonPress}
             />
-            <Box padding="m" flex={1}>
+            <Box paddingBottom="m" paddingHorizontal="m" flex={1}>
                 <Box flex={1}>
-                    <Box alignItems="center" top="20%">
+                    <Box alignItems="center" top={(height * 5) / 100}>
                         <AppText fontSize={normalize(30)} variant="semiBold">
                             {selectedPlayer.name[language]}
                         </AppText>
                         <Button
                             height={(width * 31) / 100}
                             width={(width * 31) / 100}
-                            marginTop="xl"
+                            marginTop="l"
                             onPressIn={() => {
                                 if (!roleDisplayed) setRoleDisplayed(true);
                                 setRoleIsHidden(false);
