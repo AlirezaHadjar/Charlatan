@@ -1,6 +1,11 @@
 import {BottomSheetFlatList} from "@gorhom/bottom-sheet";
-import React, {useCallback, useEffect, useRef} from "react";
-import {FlatList} from "react-native";
+import React, {memo, useCallback, useEffect, useMemo, useRef} from "react";
+import {
+    FlatList,
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    StyleSheet,
+} from "react-native";
 import Animated, {
     useAnimatedScrollHandler,
     useSharedValue,
@@ -39,11 +44,16 @@ const Picker: React.FC<PickerProps> = ({
         ? BottomSheetAnimatedFlatlist
         : NormalAnimatedFlatlist;
     const flatlistRef = useRef<FlatList>(null);
-    const translationY = useSharedValue(0.00000001);
+    const translationY = useSharedValue(0);
     const scrollHandler = useAnimatedScrollHandler((event) => {
-        translationY.value = event.contentOffset.y + 0.00000001;
+        translationY.value = event.contentOffset.y + 0;
     });
 
+    const styles = StyleSheet.create({
+        flatlist: {
+            paddingVertical: itemHeight * 1,
+        },
+    });
     const renderItem = useCallback(
         ({item, index}) => {
             return <Item index={index} item={item} offset={translationY} />;
@@ -60,53 +70,80 @@ const Picker: React.FC<PickerProps> = ({
         if (index === -1) return;
         const offset = ITEM_HEIGHT * index;
         if (offset < 0) return;
-        // flatlistRef.current?.scrollToIndex({index});
         flatlistRef.current?.scrollToOffset({offset});
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleFailedScroll = async (info: {
-        index: number;
-        highestMeasuredFrameIndex: number;
-        averageItemLength: number;
-    }) => {
-        await new Promise((resolve) => setTimeout(resolve, 200));
-        flatlistRef.current?.scrollToIndex({
-            index: info.index,
-            animated: true,
-        });
-    };
+    const getItemLayout = useCallback(
+        (data, index) => ({
+            length: ITEM_HEIGHT,
+            offset: ITEM_HEIGHT * index,
+            index,
+        }),
+        [],
+    );
+    // const getItemCount = useCallback((data) => data., []);
 
-    return (
-        <Box height={numberOfVisibleItems * itemHeight}>
-            <AnimatedFlatlist
-                onScroll={scrollHandler}
-                getItemLayout={(data, index) => ({
-                    index,
-                    offset: ITEM_HEIGHT * index,
-                    length: ITEM_HEIGHT,
-                })}
-                onMomentumScrollEnd={(e) => {
-                    console.log("HERE IN FLATLIST");
-                    const offset = e.nativeEvent.contentOffset.y;
-                    const index = Math.floor(offset / ITEM_HEIGHT);
-                    const {title} = items[index];
-                    onSelect && onSelect(title);
-                }}
-                onScrollToIndexFailed={handleFailedScroll}
-                initialScrollIndex={0}
-                showsVerticalScrollIndicator={false}
-                snapToInterval={itemHeight}
-                ref={flatlistRef}
-                contentContainerStyle={{
-                    paddingVertical: itemHeight * 1,
-                }}
-                keyExtractor={keyExtractor}
-                data={items}
-                renderItem={renderItem}
-            />
-        </Box>
+    const handleFailedScroll = useCallback(
+        async (info: {
+            index: number;
+            highestMeasuredFrameIndex: number;
+            averageItemLength: number;
+        }) => {
+            await new Promise((resolve) => setTimeout(resolve, 200));
+            flatlistRef.current?.scrollToIndex({
+                index: info.index,
+                animated: true,
+            });
+        },
+        [],
+    );
+
+    const handleScrollEnd = useCallback(
+        (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+            const offset = e.nativeEvent.contentOffset.y;
+            const index = Math.floor(offset / ITEM_HEIGHT);
+            const {title} = items[index];
+            onSelect && onSelect(title);
+        },
+        [items, onSelect],
+    );
+
+    return useMemo(
+        () => (
+            <Box height={numberOfVisibleItems * itemHeight}>
+                <AnimatedFlatlist
+                    onScroll={scrollHandler}
+                    getItemLayout={getItemLayout}
+                    maxToRenderPerBatch={6}
+                    windowSize={6}
+                    onMomentumScrollEnd={handleScrollEnd}
+                    onScrollToIndexFailed={handleFailedScroll}
+                    initialScrollIndex={0}
+                    showsVerticalScrollIndicator={false}
+                    snapToInterval={itemHeight}
+                    ref={flatlistRef}
+                    removeClippedSubviews
+                    contentContainerStyle={styles.flatlist}
+                    keyExtractor={keyExtractor}
+                    data={items}
+                    renderItem={renderItem}
+                />
+            </Box>
+        ),
+        [
+            getItemLayout,
+            handleFailedScroll,
+            handleScrollEnd,
+            itemHeight,
+            items,
+            keyExtractor,
+            numberOfVisibleItems,
+            renderItem,
+            scrollHandler,
+            styles.flatlist,
+        ],
     );
 };
 
-export default Picker;
+export default memo(Picker);

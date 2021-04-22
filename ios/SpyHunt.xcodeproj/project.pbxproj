@@ -24,6 +24,9 @@
 		6D382B264D36438BA0449DE5 /* Poppins Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 211F4DA81E854DDFA5FF8775 /* Poppins Medium.ttf */; };
 		797963AD7EE2462DAA9F0328 /* Poppins Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB71F70A259243D8BC8E2BF0 /* Poppins Regular.ttf */; };
 		47281EE9D1674D60B3616310 /* Poppins SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7777527AE3C548D49E944775 /* Poppins SemiBold.ttf */; };
+		B6897C694BAB4E858ED6FF57 /* Dana-FaNum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA6E067E7D25453A8A8490F5 /* Dana-FaNum-Regular.ttf */; };
+		143CE7EE34954871A1793AB7 /* Kalameh Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */; };
+		2A13378CD7344D4F9AC1B2FC /* Kalameh Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +78,9 @@
 		211F4DA81E854DDFA5FF8775 /* Poppins Medium.ttf */ = {isa = PBXFileReference; name = "Poppins Medium.ttf"; path = "../app/assets/fonts/Poppins Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		AB71F70A259243D8BC8E2BF0 /* Poppins Regular.ttf */ = {isa = PBXFileReference; name = "Poppins Regular.ttf"; path = "../app/assets/fonts/Poppins Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		7777527AE3C548D49E944775 /* Poppins SemiBold.ttf */ = {isa = PBXFileReference; name = "Poppins SemiBold.ttf"; path = "../app/assets/fonts/Poppins SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CA6E067E7D25453A8A8490F5 /* Dana-FaNum-Regular.ttf */ = {isa = PBXFileReference; name = "Dana-FaNum-Regular.ttf"; path = "../app/assets/fonts/Dana-FaNum-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */ = {isa = PBXFileReference; name = "Kalameh Bold.ttf"; path = "../app/assets/fonts/Kalameh Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */ = {isa = PBXFileReference; name = "Kalameh Regular.ttf"; path = "../app/assets/fonts/Kalameh Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +220,9 @@
 				211F4DA81E854DDFA5FF8775 /* Poppins Medium.ttf */,
 				AB71F70A259243D8BC8E2BF0 /* Poppins Regular.ttf */,
 				7777527AE3C548D49E944775 /* Poppins SemiBold.ttf */,
+				CA6E067E7D25453A8A8490F5 /* Dana-FaNum-Regular.ttf */,
+				5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */,
+				913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -367,6 +376,9 @@
 				6D382B264D36438BA0449DE5 /* Poppins Medium.ttf in Resources */,
 				797963AD7EE2462DAA9F0328 /* Poppins Regular.ttf in Resources */,
 				47281EE9D1674D60B3616310 /* Poppins SemiBold.ttf in Resources */,
+				B6897C694BAB4E858ED6FF57 /* Dana-FaNum-Regular.ttf in Resources */,
+				143CE7EE34954871A1793AB7 /* Kalameh Bold.ttf in Resources */,
+				2A13378CD7344D4F9AC1B2FC /* Kalameh Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

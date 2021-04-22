@@ -129,7 +129,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                 }),
             );
         navigation.navigate("Result");
-    }, [dispatch, gameResult, guesses, location.id, navigation]);
+    }, [dispatch, gameResult, guesses, location, navigation]);
     const handleNext = useCallback(() => {
         const clonedSpies = [...modifiedSpies];
         const index = clonedSpies.indexOf(selectedSpy);

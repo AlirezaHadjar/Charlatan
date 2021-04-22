@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo, useMemo} from "react";
 import Animated, {
     Extrapolate,
     interpolate,
@@ -14,6 +14,80 @@ import AppText from "./Text";
 
 const ROTATION = 90;
 
+const scaleAnimation = (udv: Animated.SharedValue<number>, index: number) => {
+    "worklet";
+
+    return udv.value === null
+        ? 0
+        : interpolate(
+              udv.value,
+              [
+                  (index - 2) * ITEM_HEIGHT,
+                  (index - 1) * ITEM_HEIGHT,
+                  index * ITEM_HEIGHT,
+                  (index + 1) * ITEM_HEIGHT,
+                  (index + 2) * ITEM_HEIGHT,
+              ],
+              [0.5, 0.65, 1, 0.65, 0.5],
+              Extrapolate.CLAMP,
+          );
+};
+const opacityAnimation = (udv: Animated.SharedValue<number>, index: number) => {
+    "worklet";
+
+    return udv.value === null
+        ? 0
+        : interpolate(
+              udv.value,
+              [
+                  (index - 3) * ITEM_HEIGHT,
+                  (index - 2) * ITEM_HEIGHT,
+                  (index - 1) * ITEM_HEIGHT,
+                  index * ITEM_HEIGHT,
+                  (index + 1) * ITEM_HEIGHT,
+                  (index + 2) * ITEM_HEIGHT,
+                  (index + 3) * ITEM_HEIGHT,
+              ],
+              [0, 0.35, 0.4, 1, 0.4, 0.35, 0],
+              Extrapolate.CLAMP,
+          );
+};
+const rotationAnimation = (
+    udv: Animated.SharedValue<number>,
+    index: number,
+) => {
+    "worklet";
+
+    return udv.value === null
+        ? 0
+        : interpolate(
+              udv.value,
+              [
+                  (index - 3) * ITEM_HEIGHT,
+                  (index - 2) * ITEM_HEIGHT,
+                  (index - 2) * ITEM_HEIGHT * 0.6,
+                  (index - 1) * ITEM_HEIGHT,
+                  index * ITEM_HEIGHT,
+                  (index + 1) * ITEM_HEIGHT,
+                  (index + 2) * ITEM_HEIGHT * 0.6,
+                  (index + 2) * ITEM_HEIGHT,
+                  (index + 3) * ITEM_HEIGHT,
+              ],
+              [
+                  -ROTATION * 1.5,
+                  -ROTATION * 0.7,
+                  -ROTATION * 0.6,
+                  -ROTATION * 0.5,
+                  0,
+                  ROTATION * 0.5,
+                  ROTATION * 0.6,
+                  ROTATION * 0.7,
+                  ROTATION * 1.5,
+              ],
+              Extrapolate.CLAMP,
+          );
+};
+
 const Item: React.FC<PickerItem> = ({item, index, offset}) => {
     const udv = useDerivedValue(() => {
         if (
@@ -27,88 +101,35 @@ const Item: React.FC<PickerItem> = ({item, index, offset}) => {
             return null;
         }
     });
-    const style = useAnimatedStyle(() => {
-        const scale =
-            udv.value === null
-                ? 0
-                : interpolate(
-                      udv.value,
-                      [
-                          (index - 2) * ITEM_HEIGHT,
-                          (index - 1) * ITEM_HEIGHT,
-                          index * ITEM_HEIGHT,
-                          (index + 1) * ITEM_HEIGHT,
-                          (index + 2) * ITEM_HEIGHT,
-                      ],
-                      [0.5, 0.65, 1, 0.65, 0.5],
-                      Extrapolate.CLAMP,
-                  );
-        const opacity =
-            udv.value === null
-                ? 0
-                : interpolate(
-                      udv.value,
-                      [
-                          (index - 3) * ITEM_HEIGHT,
-                          (index - 2) * ITEM_HEIGHT,
-                          (index - 1) * ITEM_HEIGHT,
-                          index * ITEM_HEIGHT,
-                          (index + 1) * ITEM_HEIGHT,
-                          (index + 2) * ITEM_HEIGHT,
-                          (index + 3) * ITEM_HEIGHT,
-                      ],
-                      [0, 0.35, 0.4, 1, 0.4, 0.35, 0],
-                      Extrapolate.CLAMP,
-                  );
-        const rotation =
-            udv.value === null
-                ? 0
-                : interpolate(
-                      udv.value,
-                      [
-                          (index - 3) * ITEM_HEIGHT,
-                          (index - 2) * ITEM_HEIGHT,
-                          (index - 2) * ITEM_HEIGHT * 0.6,
-                          (index - 1) * ITEM_HEIGHT,
-                          index * ITEM_HEIGHT,
-                          (index + 1) * ITEM_HEIGHT,
-                          (index + 2) * ITEM_HEIGHT * 0.6,
-                          (index + 2) * ITEM_HEIGHT,
-                          (index + 3) * ITEM_HEIGHT,
-                      ],
-                      [
-                          -ROTATION * 1.5,
-                          -ROTATION * 0.7,
-                          -ROTATION * 0.6,
-                          -ROTATION * 0.5,
-                          0,
-                          ROTATION * 0.5,
-                          ROTATION * 0.6,
-                          ROTATION * 0.7,
-                          ROTATION * 1.5,
-                      ],
-                      Extrapolate.CLAMP,
-                  );
-        return {
+    const style = useAnimatedStyle(
+        () => ({
             height: ITEM_HEIGHT,
-            opacity,
+            opacity: opacityAnimation(udv, index),
             maxWidth: 100,
             alignItems: "center",
             justifyContent: "center",
             transform: [
-                {scale},
-                {rotateX: `${rotation}deg`},
+                {scale: scaleAnimation(udv, index)},
+                {rotateX: `${rotationAnimation(udv, index)}deg`},
                 {perspective: 600},
             ],
-        };
-    }, [udv, index, offset, item, index]);
-    return (
-        <Animated.View style={style}>
-            <AppText textAlign="center" color="light" fontSize={normalize(40)}>
-                {item.title}
-            </AppText>
-        </Animated.View>
+        }),
+        [udv, index, offset, item, index],
+    );
+
+    return useMemo(
+        () => (
+            <Animated.View style={style}>
+                <AppText
+                    textAlign="center"
+                    color="light"
+                    fontSize={normalize(40)}>
+                    {item.title}
+                </AppText>
+            </Animated.View>
+        ),
+        [item.title, style],
     );
 };
 
-export default Item;
+export default memo(Item);

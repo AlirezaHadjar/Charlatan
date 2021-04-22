@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from "react";
-import {Dimensions, StyleSheet} from "react-native";
+import {Dimensions, StyleSheet, View} from "react-native";
 import {useTheme} from "@shopify/restyle";
 import Animated, {
     Easing,
@@ -22,6 +22,7 @@ import Cog from "../assets/SVGs/Cog";
 import Players from "../assets/SVGs/Players";
 import Clock from "../assets/SVGs/Clock";
 import Pin from "../assets/SVGs/Pin";
+import Pallete from "../assets/SVGs/Pallete";
 import Language from "../assets/SVGs/Language";
 import Question from "../assets/SVGs/Question";
 import Icon from "../components/Icon";
@@ -29,6 +30,7 @@ import {ThemeType} from "../theme/Theme";
 import {AppRoute} from "../navigations/AppNavigator";
 import {GameRoutes} from "../navigations/GameNavigator";
 import {useTranslation} from "../hooks/translation";
+import {useLanguage} from "../hooks/useLanguage";
 import {useSelector} from "../store/useSelector";
 import {getLanguageName, setLanguage} from "../store/reducers/language";
 import {LanguageName} from "../types";
@@ -124,6 +126,40 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             opacity,
         };
     });
+    const animatedSettingStyles4 = useAnimatedStyle(() => {
+        const shift = interpolate(
+            isOpen.value,
+            [0, 0.2],
+            [10, 0],
+            Extrapolate.CLAMP,
+        );
+        const opacity = interpolate(
+            isOpen.value,
+            [0, 0.2, 0.8, 1],
+            [0, 0.8, 1, 1],
+        );
+        return {
+            transform: [{translateY: shift}],
+            opacity,
+        };
+    });
+    const animatedSettingStyles5 = useAnimatedStyle(() => {
+        const shift = interpolate(
+            isOpen.value,
+            [0, 0.4],
+            [10, 0],
+            Extrapolate.CLAMP,
+        );
+        const opacity = interpolate(
+            isOpen.value,
+            [0, 0.2, 0.8, 1],
+            [0, 0.8, 1, 1],
+        );
+        return {
+            transform: [{translateY: shift}],
+            opacity,
+        };
+    });
     const handleAnimation = () => {
         isOpen.value = withTiming(isOpen.value > 0 ? 0 : 1, {
             duration: 500,
@@ -134,6 +170,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
         const des: LanguageName = language === "en" ? "fa" : "en";
         dispatch(setLanguage(des));
     }, [dispatch, language]);
+    useLanguage(language);
     return (
         <Container
             hasIcon
@@ -141,7 +178,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             paddingBottom="lxl"
             paddingHorizontal="ml">
             <Box top="5%">
-                <AppText fontSize={normalize(55)} variant="bold">
+                <AppText fontSize={normalize(65)} variant="bold">
                     {translation.Main.title}
                 </AppText>
             </Box>
@@ -159,8 +196,27 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                 position="absolute"
                 bottom={theme.spacing.m + theme.spacing.s}
                 width="100%">
-                <Box marginBottom="s">
-                    <Icon icon={<Language />} onPress={handleLanguage} />
+                <Box width={(width * 13.9) / 100}>
+                    <Box marginBottom="s">
+                        <Animated.View style={animatedSettingStyles5}>
+                            <Icon
+                                icon={<Pallete />}
+                                onPress={() => navigation.navigate("Test")}
+                                backgroundColor="buttonTertiary"
+                                visible={isOpen}
+                            />
+                        </Animated.View>
+                    </Box>
+                    <Box marginBottom="s">
+                        <Animated.View style={animatedSettingStyles4}>
+                            <Icon
+                                icon={<Language />}
+                                onPress={handleLanguage}
+                                backgroundColor="buttonTertiary"
+                                visible={isOpen}
+                            />
+                        </Animated.View>
+                    </Box>
                 </Box>
                 <Box
                     width="100%"
@@ -174,7 +230,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                         <Animated.View style={animatedCogStyles}>
                             <Icon icon={<Cog />} onPress={handleAnimation} />
                         </Animated.View>
-                        <Animated.View style={[styles.buttonContainer]}>
+                        <View style={styles.buttonContainer}>
                             <Animated.View style={animatedSettingStyles1}>
                                 <Icon
                                     onPress={() =>
@@ -203,7 +259,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                                     visible={isOpen}
                                 />
                             </Animated.View>
-                        </Animated.View>
+                        </View>
                     </Box>
                 </Box>
             </Box>

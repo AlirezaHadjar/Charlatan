@@ -75,7 +75,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                     {traslation.AssignRole.preRole}
                 </AppText> */}
                 <AppText
-                    fontSize={normalize(65)}
+                    fontSize={normalize(75)}
                     color="thirdText"
                     variant="bold">
                     {traslation.AssignRole.spy}
@@ -94,17 +94,17 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                     {traslation.AssignRole.preRole}
                 </AppText> */}
                 <AppText
-                    fontSize={normalize(70)}
+                    fontSize={normalize(75)}
                     color="thirdText"
                     variant="bold">
                     {traslation.AssignRole.citizen}
                 </AppText>
-                <Box flexDirection="row" marginTop="m">
+                <Box flexDirection="row" marginTop="m" alignItems="center">
                     <Box marginEnd="s">
                         <Pin color="thirdText" />
                     </Box>
                     <AppText
-                        fontSize={normalize(17)}
+                        fontSize={normalize(30)}
                         color="thirdText"
                         variant="semiBold">
                         {location.name[language]}
@@ -121,7 +121,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         return (
             <Box maxWidth="50%">
                 <AppText
-                    fontSize={normalize(12)}
+                    fontSize={normalize(16)}
                     color="thirdText"
                     variant="semiBold">
                     {text}
@@ -192,7 +192,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             <Box paddingBottom="m" paddingHorizontal="m" flex={1}>
                 <Box flex={1}>
                     <Box alignItems="center" top={(height * 5) / 100}>
-                        <AppText fontSize={normalize(30)} variant="semiBold">
+                        <AppText fontSize={normalize(40)} variant="semiBold">
                             {selectedPlayer.name[language]}
                         </AppText>
                         <Button
@@ -214,7 +214,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                             renderRole(selectedPlayer)
                         ) : (
                             <AppText
-                                fontSize={normalize(17)}
+                                fontSize={normalize(20)}
                                 color="thirdText"
                                 variant="medium"
                                 textAlign="center">

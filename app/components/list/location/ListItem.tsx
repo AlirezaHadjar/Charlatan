@@ -54,14 +54,21 @@ const ListItem: React.FC<ListItemProps> = ({
                 backgroundColor={backgroundColor}
                 alignItems="center"
                 borderRadius="l">
-                <Box justifyContent="center" flex={1} height="100%">
+                <Box
+                    justifyContent="center"
+                    flex={1}
+                    height="100%"
+                    width="100%">
                     <TextInput
+                        multiline
                         value={name}
                         editable={onChangeText ? true : false}
                         style={{
-                            fontFamily: "Poppins SemiBold",
-                            fontSize: normalize(18),
+                            fontFamily: "Kalameh Bold",
+                            fontSize: normalize(17),
                             color: theme.colors.light,
+                            flex: 1,
+                            textAlign: "center",
                         }}
                         onChangeText={(text) =>
                             onChangeText && onChangeText(text, id)

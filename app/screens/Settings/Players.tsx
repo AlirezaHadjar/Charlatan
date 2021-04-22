@@ -41,7 +41,7 @@ import {useSpy} from "../../hooks/useSpy";
 
 const {width} = Dimensions.get("window");
 
-const Players: React.FC<{}> = ({}) => {
+const Players: React.FC = () => {
     const players = useSelector(getPlayers);
     const spiesLength = useSelector(getSpiesLength);
     const translation = useTranslation();
@@ -162,8 +162,8 @@ const Players: React.FC<{}> = ({}) => {
         [spiesLength, translation.Players.Spies, translation.Players.Spy],
     );
     const handlePlusPress = useCallback(() => {
-        textInputRef.current?.focus();
-        setTimeout(() => addPlayerSheet.current?.snapTo(1), 500);
+        addPlayerSheet.current?.snapTo(1);
+        setTimeout(() => textInputRef.current?.focus(), 500);
     }, []);
     const snapPoints = useMemo(() => {
         const second = Platform.OS === "ios" ? "55%" : "25%";
@@ -234,6 +234,7 @@ const Players: React.FC<{}> = ({}) => {
                                                 translation.Players
                                                     .addPlayerTextInputPlaceholder
                                             }
+                                            style={{fontFamily: "Kalameh Bold"}}
                                             value={query}
                                             ref={textInputRef}
                                             onChangeText={(text) =>

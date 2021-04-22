@@ -49,7 +49,7 @@ const ListItem: React.FC<ListItemProps> = ({
                         value={name}
                         editable={onChangeText ? true : false}
                         style={{
-                            fontFamily: "Poppins SemiBold",
+                            fontFamily: "Kalameh Bold",
                             fontSize: normalize(18),
                             color: theme.colors[textColor],
                         }}

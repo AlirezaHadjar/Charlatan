@@ -1,9 +1,11 @@
+import {useTheme} from "@shopify/restyle";
 import React from "react";
-import {FlatList} from "react-native";
+import {Dimensions, FlatList} from "react-native";
 
 import {getLanguageName} from "../../../store/reducers/language";
 import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
+import {ThemeType} from "../../../theme/Theme";
 import {Location} from "../../../types";
 
 import ListItem from "./ListItem";
@@ -17,6 +19,10 @@ export interface ListProps {
     endDisabled?: boolean;
 }
 
+const {width} = Dimensions.get("window");
+
+const BOX_SIZE = (width * 28) / 100;
+
 const List: React.FC<ListProps> = ({
     items,
     end = null,
@@ -26,6 +32,7 @@ const List: React.FC<ListProps> = ({
     endDisabled,
 }) => {
     const language = useSelector(getLanguageName);
+    const {spacing} = useTheme<ThemeType>();
     return (
         <Box width="100%" marginBottom="m">
             <FlatList
@@ -33,6 +40,10 @@ const List: React.FC<ListProps> = ({
                 data={items}
                 removeClippedSubviews={false}
                 numColumns={3}
+                style={{alignSelf: "center"}}
+                contentContainerStyle={{
+                    width: BOX_SIZE * 3 + spacing.s * 4,
+                }}
                 columnWrapperStyle={{
                     alignItems: "center",
                 }}

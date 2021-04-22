@@ -17,6 +17,7 @@ import {getTime, resetGame} from "../../store/reducers/data";
 import {AppRoute} from "../../navigations/AppNavigator";
 import {GameRoutes} from "../../navigations/GameNavigator";
 import {useAppDispatch} from "../../store/configureStore";
+import {useTranslation} from "../../hooks/translation";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
 });
 
 const Timer: React.FC<TimerProps> = ({navigation}) => {
+    const translation = useTranslation();
     const setupTime = useSelector(getTime);
     const [time, setTime] = useState(setupTime * 1000);
     const dispatch = useAppDispatch();
@@ -61,7 +63,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                 return;
             }
             clearInterval(countdown);
-            setIsPlaying(false);
+            handleButtonPress();
         }, 1000);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPlaying]);
@@ -78,7 +80,10 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
 
     return (
         <Container style={styles.container}>
-            <Header screenName="Timer" onBackPress={handleBackButtonPress} />
+            <Header
+                screenName={translation.Timer.header}
+                onBackPress={handleBackButtonPress}
+            />
             <Box paddingHorizontal="m" alignItems="center" flex={1} top="15%">
                 <Box marginBottom="xl">
                     <AppText

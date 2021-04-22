@@ -9,6 +9,8 @@ import {
     setTime,
 } from "../store/reducers/data";
 import {defaultData} from "../storage/default";
+import {setLanguage} from "../store/reducers/language";
+import {LanguageName} from "../types";
 
 export const fetchData = async () => {
     // Restore data from Storage
@@ -17,13 +19,13 @@ export const fetchData = async () => {
         storageLocations,
         storageTime,
         storageSpiesLength,
-        // firstTime,
+        storageLanguage,
     ] = await Promise.all([
         AsyncStorage.getItem(storageKeys.players),
         AsyncStorage.getItem(storageKeys.locations),
         AsyncStorage.getItem(storageKeys.time),
         AsyncStorage.getItem(storageKeys.spiesLength),
-        // AsyncStorage.getItem(storageKeys.firstTime),
+        AsyncStorage.getItem(storageKeys.language),
     ]);
     const players = storagePlayers
         ? JSON.parse(storagePlayers)
@@ -32,10 +34,14 @@ export const fetchData = async () => {
         ? JSON.parse(storageLocations)
         : defaultData.locations;
     const time = storageTime ? JSON.parse(storageTime) : defaultData.time;
+    const language: LanguageName = storageLanguage
+        ? (storageLanguage as LanguageName)
+        : "en";
     const spiesLength = storageSpiesLength
         ? JSON.parse(storageSpiesLength)
         : defaultData.spiesLength;
 
+    store.dispatch(setLanguage(language));
     store.dispatch(setPlayers(players));
     store.dispatch(setLocations(locations));
     store.dispatch(setTime(time));

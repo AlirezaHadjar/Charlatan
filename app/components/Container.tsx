@@ -1,32 +1,24 @@
 import {BoxProps, useTheme} from "@shopify/restyle";
 import React from "react";
-import {Dimensions, StyleSheet} from "react-native";
+import {StyleProp, StyleSheet, ViewProps} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
-import LinearGradient from "react-native-linear-gradient";
-import Spy from "../assets/SVGs/Spy";
+import Animated from "react-native-reanimated";
 
+import Spy from "../assets/SVGs/Spy";
 import {ThemeType} from "../theme/Theme";
 import Box from "../theme/Box";
 
-import AppImage from "./Image";
-
 export interface Props extends BoxProps<ThemeType> {
     hasIcon?: boolean;
+    style?: StyleProp<ViewProps>;
 }
 
-const {height} = Dimensions.get("window");
+const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
 
-const colors = [
-    "rgba(255, 255, 255, 0)",
-    "rgba(255, 255, 255, 0)",
-    "rgba(255, 255, 255, 0.1)",
-    "rgba(255, 255, 255, 0.3)",
-    "rgba(0, 0, 0, 0.6)",
-];
-
-const Container: React.FC<ContainerProps> = ({
+const Container: React.FC<Props> = ({
     children,
     hasIcon = false,
+    style,
     ...props
 }) => {
     const theme = useTheme<ThemeType>();
@@ -34,41 +26,20 @@ const Container: React.FC<ContainerProps> = ({
         container: {
             flex: 1,
             backgroundColor: theme.colors.mainBackground,
-            // justifyContent: 'flex-end'
             width: "100%",
         },
-        // imageBackground: {
-        //     width: "100%",
-        //     position: "absolute",
-        //     bottom: (height * 5) / 100,
-        // },
     });
     return (
-        <SafeAreaView style={[styles.container]}>
-            {/* <AppImage
-                style={styles.imageBackground}
-                resizeMode="cover"
-                source={require("../assets/images/background.png")}
-            /> */}
+        <AnimatedSafeAreaView style={[styles.container, style]}>
             {hasIcon && (
                 <Box position="absolute" bottom={0}>
                     <Spy />
                 </Box>
             )}
-            <Box
-                width="100%"
-                height="100%"
-                // backgroundColor='danger'
-                // zIndex={2}
-                // position="absolute"
-                {...props}>
+            <Box width="100%" height="100%" {...props}>
                 {children}
             </Box>
-            {/* <LinearGradient
-                colors={colors}
-                style={{width: "100%", height: "100%", position: "absolute"}}
-            /> */}
-        </SafeAreaView>
+        </AnimatedSafeAreaView>
     );
 };
 

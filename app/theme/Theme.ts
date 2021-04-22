@@ -64,22 +64,26 @@ const theme = createTheme({
     textVariants: {
         regular: {
             color: "lightGrey",
-            fontFamily: "Poppins Regular",
+            fontFamily: "Kalameh Regular",
+            // fontFamily: "Poppins Regular",
             fontSize: normalize(18),
         },
         semiBold: {
             color: "lightGrey",
-            fontFamily: "Poppins SemiBold",
+            fontFamily: "Kalameh Regular",
+            // fontFamily: "Poppins SemiBold",
             fontSize: normalize(18),
         },
         medium: {
             color: "lightGrey",
-            fontFamily: "Poppins Medium",
+            fontFamily: "Kalameh Bold",
+            // fontFamily: "Poppins Medium",
             fontSize: normalize(18),
         },
         bold: {
             color: "lightGrey",
-            fontFamily: "Poppins Bold",
+            fontFamily: "Kalameh Bold",
+            // fontFamily: "Poppins Bold",
             fontSize: normalize(18),
         },
     },

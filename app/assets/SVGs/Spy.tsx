@@ -3,7 +3,7 @@ import * as React from "react";
 import {Dimensions} from "react-native";
 import Svg, {G, Path, Circle, Rect, Ellipse} from "react-native-svg";
 
-const {height, width} = Dimensions.get("window");
+const {width} = Dimensions.get("window");
 
 function SvgComponent() {
     return (
@@ -11,7 +11,7 @@ function SvgComponent() {
             <G data-name="Group 23">
                 <Path
                     data-name="Rectangle 1"
-                    fill="#504364"
+                    // fill="#504364"
                     d="M0 0h359.98v359.98H0z"
                 />
                 <G data-name="Group 12">

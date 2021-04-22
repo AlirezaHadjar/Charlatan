@@ -87,10 +87,10 @@ const AppTextInput: React.FC<Props> = ({
             height: multiline ? containerHeight + minHeight : height,
         },
         input: {
-            fontSize,
+            fontSize: 70,
             textAlign,
             alignItems: "flex-end",
-            // fontFamily: "IRANYekanMobileMedium",
+            fontFamily: "Kalameh Bold",
             paddingVertical: multiline ? 10 : 0,
             width: "100%",
             textAlignVertical: "top",

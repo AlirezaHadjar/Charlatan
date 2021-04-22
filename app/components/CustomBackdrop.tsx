@@ -28,7 +28,7 @@ const CustomBackdrop = ({animatedIndex, style, onPress}: Props) => {
         () => [
             style,
             {
-                backgroundColor: "#000",
+                // backgroundColor: "#000",
             },
         ],
         [style],
@@ -46,7 +46,7 @@ const CustomBackdrop = ({animatedIndex, style, onPress}: Props) => {
             }}>
             <Animated.View
                 animatedProps={{...props}}
-                style={[containerStyle, animatedOpacity]}
+                style={[containerStyle]}
             />
         </TapGestureHandler>
     );

@@ -7,6 +7,7 @@ import AssignRole from "./Game/AssignRole";
 import Vote from "./Game/Vote";
 import SpiesGuess from "./Game/SpiesGuess";
 import Result from "./Game/Result";
+import Timer from "./Game/Timer";
 
 export const en = {
     Main,
@@ -18,4 +19,5 @@ export const en = {
     Vote,
     SpiesGuess,
     Result,
+    Timer,
 };

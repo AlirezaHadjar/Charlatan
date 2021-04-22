@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     container: {},
 });
 
-const Locations: React.FC<{}> = ({}) => {
+const Locations: React.FC = () => {
     const locations = useSelector(getLocations);
     const translation = useTranslation();
     const dispatch = useAppDispatch();
@@ -82,8 +82,8 @@ const Locations: React.FC<{}> = ({}) => {
         [locations.length],
     );
     const handlePlusPress = useCallback(() => {
-        textInputRef.current?.focus();
-        setTimeout(() => addLocationSheet.current?.snapTo(1), 500);
+        addLocationSheet.current?.snapTo(1);
+        setTimeout(() => textInputRef.current?.focus(), 500);
     }, []);
     const snapPoints = useMemo(() => {
         const second = Platform.OS === "ios" ? "55%" : "25%";
@@ -176,6 +176,9 @@ const Locations: React.FC<{}> = ({}) => {
                                                     translation.Locations
                                                         .addLocationTextInputPlaceholder
                                                 }
+                                                style={{
+                                                    fontFamily: "Kalameh Bold",
+                                                }}
                                                 ref={textInputRef}
                                                 value={query}
                                                 onChangeText={(text) =>
