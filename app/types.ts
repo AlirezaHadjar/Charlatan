@@ -14,6 +14,17 @@ export interface Data {
     gameResult: GameResult | undefined;
 }
 
+export interface Alert {
+    id: string;
+    variant?: "ask" | "info";
+    text: string;
+    acceptButtonText?: string;
+    cancelButtonText?: string;
+    onAccept?: () => void;
+    onIgnore?: () => void;
+    onCancel?: () => void;
+}
+
 export interface Player {
     id: string;
     name: {

@@ -10,8 +10,9 @@ import theme from "./app/theme/Theme";
 import {store} from "./app/store/getStore";
 import AppNavigator from "./app/navigations/AppNavigator";
 import {fetchData} from "./app/utils/fetchData";
+import Alert from "./app/components/Alert";
 
-const App: React.FC<{}> = ({}) => {
+const App: React.FC = ({}) => {
     const MyTheme = {
         ...DefaultTheme,
         colors: {
@@ -20,6 +21,7 @@ const App: React.FC<{}> = ({}) => {
             background: theme.colors.mainBackground,
         },
     };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [loading, setLoading] = useState(true);
     const [myStore] = useState(store);
 
@@ -46,6 +48,7 @@ const App: React.FC<{}> = ({}) => {
                     <NavigationContainer theme={MyTheme}>
                         <AppNavigator />
                     </NavigationContainer>
+                    <Alert />
                 </SafeAreaProvider>
             </ThemeProvider>
         </Provider>

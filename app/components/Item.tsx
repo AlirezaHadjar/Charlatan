@@ -13,6 +13,7 @@ import {ITEM_HEIGHT} from "../../SpyHunt";
 import AppText from "./Text";
 
 const ROTATION = 90;
+const perspective = 600;
 
 const scaleAnimation = (udv: Animated.SharedValue<number>, index: number) => {
     "worklet";
@@ -65,23 +66,19 @@ const rotationAnimation = (
               [
                   (index - 3) * ITEM_HEIGHT,
                   (index - 2) * ITEM_HEIGHT,
-                  (index - 2) * ITEM_HEIGHT * 0.6,
                   (index - 1) * ITEM_HEIGHT,
                   index * ITEM_HEIGHT,
                   (index + 1) * ITEM_HEIGHT,
-                  (index + 2) * ITEM_HEIGHT * 0.6,
                   (index + 2) * ITEM_HEIGHT,
                   (index + 3) * ITEM_HEIGHT,
               ],
               [
                   -ROTATION * 1.5,
-                  -ROTATION * 0.7,
-                  -ROTATION * 0.6,
+                  -ROTATION * 1.5,
                   -ROTATION * 0.5,
                   0,
                   ROTATION * 0.5,
-                  ROTATION * 0.6,
-                  ROTATION * 0.7,
+                  ROTATION * 1.5,
                   ROTATION * 1.5,
               ],
               Extrapolate.CLAMP,
@@ -111,7 +108,7 @@ const Item: React.FC<PickerItem> = ({item, index, offset}) => {
             transform: [
                 {scale: scaleAnimation(udv, index)},
                 {rotateX: `${rotationAnimation(udv, index)}deg`},
-                {perspective: 600},
+                {perspective},
             ],
         }),
         [udv, index, offset, item, index],

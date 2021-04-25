@@ -36,6 +36,7 @@ import {getLanguageName, setLanguage} from "../store/reducers/language";
 import {LanguageName} from "../types";
 import {useAppDispatch} from "../store/configureStore";
 import {resetGame} from "../store/reducers/data";
+import {setAlert} from "../store/reducers/alert";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<AppRoute, "Main">,
@@ -67,6 +68,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
 
     useEffect(() => {
         dispatch(resetGame());
+        dispatch(setAlert({id: Date.now.toString(), text: "random"}));
     }, [dispatch]);
 
     const animatedCogStyles = useAnimatedStyle(() => {
