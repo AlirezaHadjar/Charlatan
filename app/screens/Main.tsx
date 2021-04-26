@@ -178,7 +178,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             paddingBottom="lxl"
             paddingHorizontal="ml">
             <Box top="5%">
-                <AppText fontSize={normalize(65)} variant="bold">
+                <AppText fontSize={normalize(60)} variant="bold">
                     {translation.Main.title}
                 </AppText>
             </Box>
