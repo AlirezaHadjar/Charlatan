@@ -1,13 +1,18 @@
 import React, {useCallback} from "react";
-import {StyleSheet} from "react-native";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {CompositeNavigationProp, RouteProp} from "@react-navigation/core";
+import {BackHandler, StyleSheet} from "react-native";
+import {
+    CompositeNavigationProp,
+    RouteProp,
+    useFocusEffect,
+    // eslint-disable-next-line import/no-extraneous-dependencies
+} from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import Citizen from "../../assets/SVGs/Citizen";
 import Spy from "../../assets/SVGs/Spy";
+import BackCross from "../../assets/SVGs/BackCross";
 import Box from "../../theme/Box";
 import {useSelector} from "../../store/useSelector";
 import {getGameResult} from "../../store/reducers/data";
@@ -55,12 +60,27 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
     };
     const handleBackButtonPress = useCallback(() => {
         navigation.navigate("Main");
+        return true;
     }, [navigation]);
+    useFocusEffect(
+        useCallback(() => {
+            BackHandler.addEventListener(
+                "hardwareBackPress",
+                handleBackButtonPress,
+            );
+            return () =>
+                BackHandler.removeEventListener(
+                    "hardwareBackPress",
+                    handleBackButtonPress,
+                );
+        }, [handleBackButtonPress]),
+    );
     return (
         <Container style={styles.container}>
             <Header
                 screenName={translation.Result.header}
                 onBackPress={handleBackButtonPress}
+                icon={<BackCross />}
             />
             <Box alignItems="center" flex={1} paddingTop="lxl">
                 {renderWinnerText()}

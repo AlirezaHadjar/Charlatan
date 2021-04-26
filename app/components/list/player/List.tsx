@@ -19,6 +19,7 @@ export interface ListProps {
     onEndPress?: (id: string) => void;
     onChangeText?: (text: string, id: string) => void;
     endDisabled?: boolean;
+    endDisableText?: string;
 }
 
 const List: React.FC<ListProps> = ({
@@ -28,6 +29,7 @@ const List: React.FC<ListProps> = ({
     onEndPress,
     onChangeText,
     endDisabled = false,
+    endDisableText = "",
 }) => {
     const language = useSelector(getLanguageName);
     return (
@@ -43,6 +45,7 @@ const List: React.FC<ListProps> = ({
                         name={item.name[language]}
                         end={end}
                         endDisabled={endDisabled}
+                        endDisableText={endDisableText}
                         onEndPress={onEndPress}
                         onChangeText={onChangeText}
                         textColor={

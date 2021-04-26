@@ -1,7 +1,11 @@
 import React, {useCallback, useMemo, useState} from "react";
-import {StyleSheet, Dimensions} from "react-native";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {CompositeNavigationProp, RouteProp} from "@react-navigation/core";
+import {StyleSheet, Dimensions, BackHandler} from "react-native";
+import {
+    CompositeNavigationProp,
+    RouteProp,
+    useFocusEffect,
+    // eslint-disable-next-line import/no-extraneous-dependencies
+} from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import Container from "../../components/Container";
@@ -16,6 +20,7 @@ import {
 import {useSelector} from "../../store/useSelector";
 import Box from "../../theme/Box";
 import Check from "../../assets/SVGs/Check";
+import BackCross from "../../assets/SVGs/BackCross";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {Vote as VoteType, VotingResult, Winners} from "../../types";
@@ -26,6 +31,7 @@ import Play from "../../assets/SVGs/Play";
 import {useAppDispatch} from "../../store/configureStore";
 import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
+import {setAlert} from "../../store/reducers/alert";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -205,14 +211,38 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         votes,
     ]);
     const handleBackButtonPress = useCallback(() => {
-        dispatch(resetGame());
-        navigation.navigate("Main");
-    }, [dispatch, navigation]);
+        dispatch(
+            setAlert({
+                id: Date.now.toString(),
+                text: translation.Vote.backAlert,
+                variant: "ask",
+                onAccept: () => {
+                    dispatch(resetGame());
+                    navigation.navigate("Main");
+                },
+            }),
+        );
+        return true;
+    }, [dispatch, navigation, translation.Vote.backAlert]);
+    useFocusEffect(
+        useCallback(() => {
+            BackHandler.addEventListener(
+                "hardwareBackPress",
+                handleBackButtonPress,
+            );
+            return () =>
+                BackHandler.removeEventListener(
+                    "hardwareBackPress",
+                    handleBackButtonPress,
+                );
+        }, [handleBackButtonPress]),
+    );
     return (
         <Container style={styles.container}>
             <Header
                 screenName={translation.Vote.header}
                 onBackPress={handleBackButtonPress}
+                icon={<BackCross />}
             />
             <Box paddingHorizontal="m" flex={1} paddingVertical="m">
                 <Box flex={1} alignItems="center">

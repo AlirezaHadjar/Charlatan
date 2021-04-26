@@ -8,6 +8,7 @@ import {
 import Animated, {
     Extrapolate,
     interpolate,
+    runOnJS,
     useAnimatedStyle,
     useSharedValue,
     withTiming,
@@ -19,6 +20,7 @@ import {useSelector} from "../store/useSelector";
 import {getAlert, removeAlert} from "../store/reducers/alert";
 import {Alert as AlertType} from "../types";
 import {useAppDispatch} from "../store/configureStore";
+import {useTranslation} from "../hooks/translation";
 
 import AppText from "./Text";
 
@@ -36,6 +38,7 @@ const Alert: React.FC = () => {
     const alert = useSelector(getAlert);
     const isExist = useSharedValue(0);
     const dispatch = useAppDispatch();
+    const translation = useTranslation();
 
     useEffect(() => {
         if (alert) isExist.value = withTiming(1);
@@ -74,13 +77,21 @@ const Alert: React.FC = () => {
     const handleAccept = useCallback((alert: AlertType) => {
         if (alert.onAccept) alert.onAccept();
     }, []);
-    const handlePress = useCallback(
-        (alert: AlertType, callback: (alert: AlertType) => void) => {
-            isExist.value = withTiming(0);
+    const wrapper = useCallback(
+        (alert: AlertType, callback) => {
             dispatch(removeAlert());
             callback(alert);
         },
-        [dispatch, isExist],
+        [dispatch],
+    );
+    const handlePress = useCallback(
+        (alert: AlertType, callback: (alert: AlertType) => void) => {
+            isExist.value = withTiming(0, {}, (isFinished) => {
+                if (!isFinished) return;
+                runOnJS(wrapper)(alert, callback);
+            });
+        },
+        [isExist, wrapper],
     );
 
     const renderInfoVariant = useCallback(
@@ -102,14 +113,20 @@ const Alert: React.FC = () => {
                             justifyContent="center"
                             borderRadius="hero1">
                             <AppText variant="bold" color="danger">
-                                {alert.acceptButtonText}
+                                {alert.acceptButtonText ||
+                                    translation.components.Alert.okButtonText
+                                        .default}
                             </AppText>
                         </Box>
                     </TouchableOpacity>
                 </Box>
             );
         },
-        [handleAccept, handlePress],
+        [
+            handleAccept,
+            handlePress,
+            translation.components.Alert.okButtonText.default,
+        ],
     );
 
     const renderAskVariant = useCallback(
@@ -129,7 +146,9 @@ const Alert: React.FC = () => {
                                 alignItems="center"
                                 justifyContent="center">
                                 <AppText variant="bold" color="buttonPrimary">
-                                    {alert.acceptButtonText}
+                                    {alert.acceptButtonText ||
+                                        translation.components.Alert
+                                            .acceptButtonText.default}
                                 </AppText>
                             </Box>
                         </TouchableOpacity>
@@ -141,7 +160,9 @@ const Alert: React.FC = () => {
                                 alignItems="center"
                                 justifyContent="center">
                                 <AppText variant="bold" color="danger">
-                                    {alert.cancelButtonText}
+                                    {alert.cancelButtonText ||
+                                        translation.components.Alert
+                                            .rejectButtonText.default}
                                 </AppText>
                             </Box>
                         </TouchableOpacity>
@@ -149,7 +170,13 @@ const Alert: React.FC = () => {
                 </Box>
             );
         },
-        [handleAccept, handleCancel, handlePress],
+        [
+            handleAccept,
+            handleCancel,
+            handlePress,
+            translation.components.Alert.acceptButtonText.default,
+            translation.components.Alert.rejectButtonText.default,
+        ],
     );
 
     const renderContent = useCallback(

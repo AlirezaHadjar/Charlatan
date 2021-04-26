@@ -38,12 +38,15 @@ import {LISTITEM_HEIGHT} from "../../../SpyHunt";
 import {ThemeType} from "../../theme/Theme";
 import {usePlayer} from "../../hooks/usePlayer";
 import {useSpy} from "../../hooks/useSpy";
+import {getLanguageName} from "../../store/reducers/language";
+import AppTouchable from "../../components/Touchable";
 
 const {width} = Dimensions.get("window");
 
 const Players: React.FC = () => {
     const players = useSelector(getPlayers);
     const spiesLength = useSelector(getSpiesLength);
+    const languageName = useSelector(getLanguageName);
     const translation = useTranslation();
     const dispatch = useDispatch();
     const [query, setQuery] = useState("");
@@ -185,6 +188,9 @@ const Players: React.FC = () => {
                             items={players}
                             end={itemCross}
                             endDisabled={players.length < 4}
+                            endDisableText={
+                                translation.Players.lengthBelowAlert
+                            }
                             onChangeText={handleEditPlayer}
                             onEndPress={handleRemovePlayer}
                         />
@@ -224,25 +230,41 @@ const Players: React.FC = () => {
                                     height={LISTITEM_HEIGHT}
                                     borderRadius="l"
                                     justifyContent="center"
-                                    flexDirection="row"
+                                    flexDirection={
+                                        languageName === "en"
+                                            ? "row"
+                                            : "row-reverse"
+                                    }
                                     paddingHorizontal="m"
                                     alignItems="center"
                                     borderWidth={1}>
                                     <Box flex={1}>
                                         <TextInput
+                                            maxLength={15}
                                             placeholder={
                                                 translation.Players
                                                     .addPlayerTextInputPlaceholder
                                             }
                                             style={{fontFamily: "Kalameh Bold"}}
                                             value={query}
+                                            textAlign={
+                                                languageName === "en"
+                                                    ? "left"
+                                                    : "right"
+                                            }
                                             ref={textInputRef}
                                             onChangeText={(text) =>
                                                 setQuery(text)
                                             }
                                         />
                                     </Box>
-                                    <TouchableOpacity onPress={handleAddPlayer}>
+                                    <AppTouchable
+                                        onPress={handleAddPlayer}
+                                        disabled={query.trim() === ""}
+                                        disableText={
+                                            translation.Players
+                                                .addTextInputAlert
+                                        }>
                                         <Box
                                             width={30}
                                             height={30}
@@ -252,7 +274,7 @@ const Players: React.FC = () => {
                                             backgroundColor="mainTextColor">
                                             <Check />
                                         </Box>
-                                    </TouchableOpacity>
+                                    </AppTouchable>
                                 </Box>
                             </Box>
                         </BottomSheetView>
@@ -260,9 +282,11 @@ const Players: React.FC = () => {
                 ),
                 [
                     handleAddPlayer,
+                    languageName,
                     query,
                     snapPoints,
                     translation.Players.addPlayerTextInputPlaceholder,
+                    translation.Players.addTextInputAlert,
                 ],
             )}
             {useMemo(
@@ -302,7 +326,10 @@ const Players: React.FC = () => {
                                         justifyContent: "center",
                                         flex: 1,
                                     }}>
-                                    <TouchableOpacity
+                                    <AppTouchable
+                                        disableText={
+                                            translation.Players.removeSpyAlert
+                                        }
                                         disabled={spiesLength < 2}
                                         onPress={() => {
                                             dispatch(
@@ -316,13 +343,16 @@ const Players: React.FC = () => {
                                                 : {},
                                         ]}>
                                         <Minus color="secondText" scale={0.9} />
-                                    </TouchableOpacity>
+                                    </AppTouchable>
                                     <AppText
                                         color="light"
                                         fontSize={normalize(70)}>
                                         {spiesLength}
                                     </AppText>
-                                    <TouchableOpacity
+                                    <AppTouchable
+                                        disableText={
+                                            translation.Players.addSpyAlert
+                                        }
                                         disabled={
                                             spiesLength >=
                                             Math.floor(players.length / 3)
@@ -340,7 +370,7 @@ const Players: React.FC = () => {
                                                 : {},
                                         ]}>
                                         <Plus color="secondText" scale={0.9} />
-                                    </TouchableOpacity>
+                                    </AppTouchable>
                                 </BottomSheetView>
                             </Box>
                         </BottomSheetView>
@@ -353,6 +383,8 @@ const Players: React.FC = () => {
                     styles.boxContainer,
                     styles.disabled,
                     theme.colors.danger,
+                    translation.Players.addSpyAlert,
+                    translation.Players.removeSpyAlert,
                     translation.Players.spiesBottomSheetTitle,
                 ],
             )}

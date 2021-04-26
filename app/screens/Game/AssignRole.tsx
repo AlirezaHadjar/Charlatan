@@ -1,8 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {StyleSheet, Dimensions} from "react-native";
+import {StyleSheet, Dimensions, BackHandler} from "react-native";
 import {StackNavigationProp} from "@react-navigation/stack";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {CompositeNavigationProp, RouteProp} from "@react-navigation/core";
+import {
+    CompositeNavigationProp,
+    RouteProp,
+    useFocusEffect,
+    // eslint-disable-next-line import/no-extraneous-dependencies
+} from "@react-navigation/core";
 
 import Button from "../../components/Button";
 import Play from "../../assets/SVGs/Play";
@@ -22,11 +26,13 @@ import {
 import AppText from "../../components/Text";
 import {Location, Player} from "../../types";
 import Pin from "../../assets/SVGs/Pin";
+import BackCross from "../../assets/SVGs/BackCross";
 import {useAppDispatch} from "../../store/configureStore";
 import {AppRoute} from "../../navigations/AppNavigator";
 import {GameRoutes} from "../../navigations/GameNavigator";
 import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
+import {setAlert} from "../../store/reducers/alert";
 
 const {width, height} = Dimensions.get("window");
 
@@ -46,7 +52,7 @@ export type AssignRoleProps = {
 
 const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const players = useSelector(getPlayers);
-    const traslation = useTranslation();
+    const translation = useTranslation();
     const language = useSelector(getLanguageName);
     const location = useSelector(getSelectedLocation);
     const dispatch = useAppDispatch();
@@ -78,11 +84,11 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                     fontSize={normalize(75)}
                     color="thirdText"
                     variant="bold">
-                    {traslation.AssignRole.spy}
+                    {translation.AssignRole.spy}
                 </AppText>
             </Box>
         ),
-        [traslation.AssignRole.spy],
+        [translation.AssignRole.spy],
     );
     const renderCitizen = useCallback(
         (location: Location) => (
@@ -97,7 +103,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                     fontSize={normalize(75)}
                     color="thirdText"
                     variant="bold">
-                    {traslation.AssignRole.citizen}
+                    {translation.AssignRole.citizen}
                 </AppText>
                 <Box flexDirection="row" marginTop="m" alignItems="center">
                     <Box marginEnd="s">
@@ -112,12 +118,12 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 </Box>
             </Box>
         ),
-        [language, traslation.AssignRole.citizen],
+        [language, translation.AssignRole.citizen],
     );
     const renderGuideText = useCallback(() => {
         const index = modifiedPlayers.indexOf(selectedPlayer);
         const isLast = index === modifiedPlayers.length - 1;
-        const text = isLast ? "" : traslation.AssignRole.nextButtonGuide;
+        const text = isLast ? "" : translation.AssignRole.nextButtonGuide;
         return (
             <Box maxWidth="50%">
                 <AppText
@@ -131,7 +137,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     }, [
         modifiedPlayers,
         selectedPlayer,
-        traslation.AssignRole.nextButtonGuide,
+        translation.AssignRole.nextButtonGuide,
     ]);
     const renderRole = useCallback(
         (player: Player) => {
@@ -160,8 +166,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 variant="simple"
                 title={
                     isLast
-                        ? traslation.AssignRole.startButtonTitle
-                        : traslation.AssignRole.nextButtonTitle
+                        ? translation.AssignRole.startButtonTitle
+                        : translation.AssignRole.nextButtonTitle
                 }
                 onPressOut={handleNext}
                 backgroundColor="buttonTertiary"
@@ -176,18 +182,42 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         handleNext,
         modifiedPlayers,
         selectedPlayer,
-        traslation.AssignRole.nextButtonTitle,
-        traslation.AssignRole.startButtonTitle,
+        translation.AssignRole.nextButtonTitle,
+        translation.AssignRole.startButtonTitle,
     ]);
     const handleBackButtonPress = useCallback(() => {
-        dispatch(resetGame());
-        navigation.navigate("Main");
-    }, [dispatch, navigation]);
+        dispatch(
+            setAlert({
+                id: Date.now.toString(),
+                text: translation.AssignRole.backAlert,
+                variant: "ask",
+                onAccept: () => {
+                    dispatch(resetGame());
+                    navigation.navigate("Main");
+                },
+            }),
+        );
+        return true;
+    }, [dispatch, navigation, translation.AssignRole.backAlert]);
+    useFocusEffect(
+        useCallback(() => {
+            BackHandler.addEventListener(
+                "hardwareBackPress",
+                handleBackButtonPress,
+            );
+            return () =>
+                BackHandler.removeEventListener(
+                    "hardwareBackPress",
+                    handleBackButtonPress,
+                );
+        }, [handleBackButtonPress]),
+    );
     return (
         <Container style={styles.container}>
             <Header
-                screenName={traslation.AssignRole.header}
+                screenName={translation.AssignRole.header}
                 onBackPress={handleBackButtonPress}
+                icon={<BackCross />}
             />
             <Box paddingBottom="m" paddingHorizontal="m" flex={1}>
                 <Box flex={1}>
@@ -219,8 +249,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 variant="medium"
                                 textAlign="center">
                                 {roleDisplayed
-                                    ? traslation.AssignRole.seeRoleGuideAgain
-                                    : traslation.AssignRole.seeRoleGuide}
+                                    ? translation.AssignRole.seeRoleGuideAgain
+                                    : translation.AssignRole.seeRoleGuide}
                             </AppText>
                         )}
                     </Box>

@@ -13,11 +13,17 @@ export interface HeaderProps {
     end?: JSX.Element;
     screenName: string;
     onBackPress?: () => void;
+    icon?: JSX.Element;
 }
 
 const {height} = Dimensions.get("window");
 
-const Header: React.FC<HeaderProps> = ({end, screenName, onBackPress}) => {
+const Header: React.FC<HeaderProps> = ({
+    end,
+    screenName,
+    onBackPress,
+    icon = <ArrowLeft />,
+}) => {
     const navigation = useNavigation();
     const handlePress = useCallback(() => {
         if (onBackPress) return onBackPress();
@@ -32,9 +38,7 @@ const Header: React.FC<HeaderProps> = ({end, screenName, onBackPress}) => {
             <Box flex={1}>
                 <Pressable onPress={handlePress} hitSlop={40}>
                     <Box flexDirection="row" alignItems="center">
-                        <Box marginEnd="m">
-                            <ArrowLeft />
-                        </Box>
+                        <Box marginEnd="m">{icon}</Box>
                         <AppText
                             variant="semiBold"
                             color="mainTextColor"

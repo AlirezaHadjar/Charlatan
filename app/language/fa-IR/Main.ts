@@ -1,4 +1,4 @@
 const Main = {
-    title: "جاسوس",
+    title: "شکار جاسوس",
 };
 export default Main;

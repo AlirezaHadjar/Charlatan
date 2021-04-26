@@ -8,6 +8,7 @@ import Vote from "./Game/Vote";
 import SpiesGuess from "./Game/SpiesGuess";
 import Result from "./Game/Result";
 import Timer from "./Game/Timer";
+import {components} from "./Components/index";
 
 export const fa = {
     Main,
@@ -20,4 +21,5 @@ export const fa = {
     SpiesGuess,
     Result,
     Timer,
+    components,
 };

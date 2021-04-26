@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useCallback, useMemo, useRef} from "react";
 import {useDispatch} from "react-redux";
 
 import Container from "../../components/Container";
@@ -10,6 +10,7 @@ import {useSelector} from "../../store/useSelector";
 import {useTranslation} from "../../hooks/translation";
 import {useTime} from "../../hooks/useTime";
 import Box from "../../theme/Box";
+import {PickerRef} from "../../types";
 
 const renderPickerItems = () => {
     const minutes = [];
@@ -20,50 +21,64 @@ const renderPickerItems = () => {
 const Time: React.FC = () => {
     const time = useSelector(getTime);
     const translation = useTranslation();
+    const minRef = useRef<PickerRef>();
+    const secRef = useRef<PickerRef>();
     const dispatch = useDispatch();
+
     const minutes = useMemo(() => {
         const res = Math.floor(time / 60);
         return `${res}`;
     }, [time]);
+
     const seconds = useMemo(() => {
         const res = Math.floor(time % 60);
         return `${res}`;
     }, [time]);
+
+    const handleZero = useCallback(() => {
+        minRef.current?.scrollToTitle("1");
+        secRef.current?.scrollToTitle("2");
+        // dispatch(setTime(62));
+    }, []);
+
     const handleSelect = useCallback(
-        (min: string, sec: string) => {
+        (min: string, sec: string, priority: "urgent" | "normal") => {
             const newTime = +min * 60 + +sec;
+            console.log("newTime", newTime);
+            if (newTime === 0) handleZero();
+            if (priority === "normal" && newTime === 0) return;
             dispatch(setTime(newTime));
         },
-        [dispatch],
+        [dispatch, handleZero],
     );
     useTime(time);
-    useEffect(() => {
-        console.log("Rerendering");
-    });
+
     return (
         <Container>
             <Header screenName={translation.Time.header} />
             <Box paddingHorizontal="m" flex={1}>
                 {useMemo(
                     () => (
-                        <Box flexDirection="row" top="50%">
+                        <Box flexDirection="row" top="40%">
                             <Box flex={1} alignItems="center">
                                 <AppText>Minutes</AppText>
                                 <Picker
+                                    ref={minRef}
                                     items={renderPickerItems()}
                                     initialTitle={minutes}
-                                    onSelect={(min) =>
-                                        handleSelect(min, seconds)
+                                    onSelect={(min, priority) =>
+                                        handleSelect(min, seconds, priority)
                                     }
                                 />
                             </Box>
                             <Box flex={1} alignItems="center">
                                 <AppText>Seconds</AppText>
                                 <Picker
+                                    ref={secRef}
                                     items={renderPickerItems()}
                                     initialTitle={seconds}
-                                    onSelect={(sec) =>
-                                        handleSelect(minutes, sec)
+                                    onSelect={(sec, priority) =>
+                                        handleSelect(minutes, sec, priority)
                                     }
                                 />
                             </Box>

@@ -1,7 +1,6 @@
 import {useTheme} from "@shopify/restyle";
 import React from "react";
 import {TextInput} from "react-native";
-import {TouchableOpacity} from "react-native-gesture-handler";
 
 import {LISTITEM_HEIGHT} from "../../../../SpyHunt";
 import {getLanguageName} from "../../../store/reducers/language";
@@ -9,6 +8,7 @@ import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
 import theme, {ThemeType} from "../../../theme/Theme";
 import normalize from "../../../utils/normalizer";
+import AppTouchable from "../../Touchable";
 
 export interface ListItemProps {
     id: string;
@@ -19,6 +19,7 @@ export interface ListItemProps {
     backgroundColor: keyof typeof theme["colors"];
     textColor: keyof typeof theme["colors"];
     endDisabled: boolean;
+    endDisableText: string;
 }
 
 const ListItem: React.FC<ListItemProps> = ({
@@ -30,6 +31,7 @@ const ListItem: React.FC<ListItemProps> = ({
     onChangeText,
     backgroundColor,
     textColor,
+    endDisableText,
 }) => {
     const theme = useTheme<ThemeType>();
     const language = useSelector(getLanguageName);
@@ -46,6 +48,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 borderRadius="l">
                 <Box justifyContent="center" flex={1} height="100%">
                     <TextInput
+                        maxLength={15}
                         value={name}
                         editable={onChangeText ? true : false}
                         style={{
@@ -58,15 +61,16 @@ const ListItem: React.FC<ListItemProps> = ({
                         }
                     />
                 </Box>
-                <TouchableOpacity
+                <AppTouchable
                     disabled={endDisabled}
+                    disableText={endDisableText}
                     onPress={() => {
                         if (onEndPress) onEndPress(id);
                     }}>
                     <Box justifyContent="center" height="100%">
                         {end}
                     </Box>
-                </TouchableOpacity>
+                </AppTouchable>
             </Box>
         </Box>
     );

@@ -19,9 +19,6 @@ const slice = createSlice({
         setAlert: (alert, {payload}: PayloadAction<Alert>) => {
             const newAlert: Alert = {...payload};
             newAlert.variant = payload.variant || "info";
-            newAlert.cancelButtonText = payload.cancelButtonText || "NO";
-            newAlert.acceptButtonText = payload.acceptButtonText || "OK";
-            newAlert.text = payload.text || "Confirmation";
             alert.item = newAlert;
         },
         removeAlert: (alert, _action: PayloadAction<undefined>) => {

@@ -20,6 +20,8 @@ import theme, {ThemeType} from "../theme/Theme";
 import normalize from "../utils/normalizer";
 import {Strumber} from "../types";
 import Box from "../theme/Box";
+import {setAlert} from "../store/reducers/alert";
+import {useAppDispatch} from "../store/configureStore";
 
 import AppText from "./Text";
 
@@ -39,6 +41,7 @@ export interface ButtonProps extends Props {
     textColor?: keyof typeof theme.colors;
     disabled?: boolean;
     icon?: JSX.Element;
+    disableText?: string;
     onPress?: () => void;
     onPressIn?: () => void;
     onPressOut?: () => void;
@@ -60,6 +63,7 @@ const Button: React.FC<ButtonProps> = ({
     fontSize = normalize(13),
     disabled = false,
     variant = "simple",
+    disableText = "",
     children,
     onPressIn,
     onPressOut,
@@ -67,6 +71,7 @@ const Button: React.FC<ButtonProps> = ({
     scaleTo = 0.9,
     ...props
 }) => {
+    const dispatch = useAppDispatch();
     const pressed = useSharedValue(false);
     const pressing = useDerivedValue(() => {
         return pressed.value
@@ -151,6 +156,12 @@ const Button: React.FC<ButtonProps> = ({
         const scale = interpolate(pressing.value, [scaleTo, 1], [scaleTo, 1]);
         return {transform: [{scale}]};
     });
+    const handlePress = useCallback(() => {
+        if (onPress && !disabled) return onPress();
+        if (disabled && disableText) {
+            dispatch(setAlert({id: Date.now.toString(), text: disableText}));
+        }
+    }, [disableText, disabled, dispatch, onPress]);
     return (
         <TouchableOpacity
             onPressIn={() => {
@@ -162,8 +173,7 @@ const Button: React.FC<ButtonProps> = ({
                 onPressOut && onPressOut();
             }}
             activeOpacity={0.9}
-            onPress={() => onPress && onPress()}
-            disabled={disabled}>
+            onPress={handlePress}>
             <Animated.View style={animatedStyle}>
                 {variant === "simple" && renderSimpleButton()}
                 {variant === "icon" && renderIconButton()}

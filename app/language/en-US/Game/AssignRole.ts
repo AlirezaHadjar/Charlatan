@@ -6,6 +6,7 @@ const AssignRole = {
     preRole: "You Are",
     nextButtonTitle: "Next",
     startButtonTitle: "Start",
+    backAlert: "Are You Sure? (By Doing This Your Game Progress will be Lost!)",
     spy: "Spy",
     citizen: "Citizen",
 };

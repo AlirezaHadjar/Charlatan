@@ -5,4 +5,5 @@ export const storageKeys = {
     firstTime: "firstTime",
     language: "language",
     spiesLength: "spiesLength",
+    isRTL: "isRTL",
 };

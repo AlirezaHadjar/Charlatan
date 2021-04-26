@@ -34,6 +34,8 @@ import {useLocation} from "../../hooks/useLocation";
 import {defaultData} from "../../storage/default";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
+import {getLanguageName} from "../../store/reducers/language";
+import AppTouchable from "../../components/Touchable";
 
 const {height} = Dimensions.get("window");
 
@@ -43,6 +45,7 @@ const styles = StyleSheet.create({
 
 const Locations: React.FC = () => {
     const locations = useSelector(getLocations);
+    const languageName = useSelector(getLanguageName);
     const translation = useTranslation();
     const dispatch = useAppDispatch();
     const [query, setQuery] = useState("");
@@ -126,7 +129,10 @@ const Locations: React.FC = () => {
                         <List
                             items={locations}
                             end={itemCross}
-                            endDisabled={locations.length < 5}
+                            endDisabled={locations.length < 6}
+                            endDisableText={
+                                translation.Locations.lengthBelowAlert
+                            }
                             onChangeText={handleEditLocation}
                             onEndPress={handleRemoveLocation}
                         />
@@ -166,12 +172,17 @@ const Locations: React.FC = () => {
                                         height={LISTITEM_HEIGHT}
                                         borderRadius="l"
                                         justifyContent="center"
-                                        flexDirection="row"
+                                        flexDirection={
+                                            languageName === "en"
+                                                ? "row"
+                                                : "row-reverse"
+                                        }
                                         paddingHorizontal="m"
                                         alignItems="center"
                                         borderWidth={1}>
                                         <Box flex={1}>
                                             <TextInput
+                                                maxLength={15}
                                                 placeholder={
                                                     translation.Locations
                                                         .addLocationTextInputPlaceholder
@@ -181,12 +192,22 @@ const Locations: React.FC = () => {
                                                 }}
                                                 ref={textInputRef}
                                                 value={query}
+                                                textAlign={
+                                                    languageName === "en"
+                                                        ? "left"
+                                                        : "right"
+                                                }
                                                 onChangeText={(text) =>
                                                     setQuery(text)
                                                 }
                                             />
                                         </Box>
-                                        <TouchableOpacity
+                                        <AppTouchable
+                                            disabled={query.trim() === ""}
+                                            disableText={
+                                                translation.Locations
+                                                    .addTextInputAlert
+                                            }
                                             onPress={handleAddLocation}>
                                             <Box
                                                 width={30}
@@ -197,7 +218,7 @@ const Locations: React.FC = () => {
                                                 backgroundColor="danger">
                                                 <Check />
                                             </Box>
-                                        </TouchableOpacity>
+                                        </AppTouchable>
                                     </Box>
                                 </Box>
                             </BottomSheetView>
@@ -205,9 +226,11 @@ const Locations: React.FC = () => {
                     ),
                     [
                         handleAddLocation,
+                        languageName,
                         query,
                         snapPoints,
                         translation.Locations.addLocationTextInputPlaceholder,
+                        translation.Locations.addTextInputAlert,
                     ],
                 )}
             </KeyboardAvoidingView>

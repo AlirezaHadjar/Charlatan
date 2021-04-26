@@ -1,15 +1,11 @@
 import {useTheme} from "@shopify/restyle";
 import React from "react";
-import {
-    Dimensions,
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-} from "react-native";
+import {Dimensions, StyleSheet, TextInput} from "react-native";
 
 import Box from "../../../theme/Box";
 import theme, {ThemeType} from "../../../theme/Theme";
 import normalize from "../../../utils/normalizer";
+import AppTouchable from "../../Touchable";
 
 export interface ListItemProps {
     id: string;
@@ -19,6 +15,7 @@ export interface ListItemProps {
     onChangeText?: (text: string, id: string) => void;
     backgroundColor: keyof typeof theme["colors"];
     endDisabled: boolean;
+    endDisableText: string;
 }
 
 const {width} = Dimensions.get("window");
@@ -41,6 +38,7 @@ const ListItem: React.FC<ListItemProps> = ({
     onChangeText,
     backgroundColor,
     endDisabled,
+    endDisableText,
 }) => {
     const theme = useTheme<ThemeType>();
     return (
@@ -62,6 +60,7 @@ const ListItem: React.FC<ListItemProps> = ({
                     <TextInput
                         multiline
                         value={name}
+                        maxLength={15}
                         editable={onChangeText ? true : false}
                         style={{
                             fontFamily: "Kalameh Bold",
@@ -75,14 +74,15 @@ const ListItem: React.FC<ListItemProps> = ({
                         }
                     />
                 </Box>
-                <TouchableOpacity
+                <AppTouchable
                     disabled={endDisabled}
+                    disableText={endDisableText}
                     style={styles.cross}
                     onPress={() => {
                         if (onEndPress) onEndPress(id);
                     }}>
                     <Box justifyContent="center">{end}</Box>
-                </TouchableOpacity>
+                </AppTouchable>
             </Box>
         </Box>
     );

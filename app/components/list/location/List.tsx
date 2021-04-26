@@ -17,6 +17,7 @@ export interface ListProps {
     onEndPress?: (id: string) => void;
     onChangeText?: (text: string, id: string) => void;
     endDisabled?: boolean;
+    endDisableText?: string;
 }
 
 const {width} = Dimensions.get("window");
@@ -30,6 +31,7 @@ const List: React.FC<ListProps> = ({
     onEndPress,
     onChangeText,
     endDisabled,
+    endDisableText = "",
 }) => {
     const language = useSelector(getLanguageName);
     const {spacing} = useTheme<ThemeType>();
@@ -54,6 +56,7 @@ const List: React.FC<ListProps> = ({
                         name={item.name[language]}
                         end={end}
                         onEndPress={onEndPress}
+                        endDisableText={endDisableText}
                         endDisabled={endDisabled}
                         onChangeText={onChangeText}
                         backgroundColor={

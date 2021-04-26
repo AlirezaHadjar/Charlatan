@@ -1,7 +1,11 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {StyleSheet, Dimensions} from "react-native";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {CompositeNavigationProp, RouteProp} from "@react-navigation/core";
+import {StyleSheet, Dimensions, BackHandler} from "react-native";
+import {
+    CompositeNavigationProp,
+    RouteProp,
+    useFocusEffect,
+    // eslint-disable-next-line import/no-extraneous-dependencies
+} from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import Header from "../../components/Header";
@@ -9,6 +13,7 @@ import Container from "../../components/Container";
 import Button from "../../components/Button";
 import Box from "../../theme/Box";
 import Stop from "../../assets/SVGs/Stop";
+import BackCross from "../../assets/SVGs/BackCross";
 import Play from "../../assets/SVGs/Play";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
@@ -18,6 +23,7 @@ import {AppRoute} from "../../navigations/AppNavigator";
 import {GameRoutes} from "../../navigations/GameNavigator";
 import {useAppDispatch} from "../../store/configureStore";
 import {useTranslation} from "../../hooks/translation";
+import {setAlert} from "../../store/reducers/alert";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -74,15 +80,39 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
         navigation.navigate("Vote");
     }, [isPlaying, navigation, time]);
     const handleBackButtonPress = useCallback(() => {
-        dispatch(resetGame());
-        navigation.navigate("Main");
-    }, [dispatch, navigation]);
+        dispatch(
+            setAlert({
+                id: Date.now.toString(),
+                text: translation.Timer.backAlert,
+                variant: "ask",
+                onAccept: () => {
+                    dispatch(resetGame());
+                    navigation.navigate("Main");
+                },
+            }),
+        );
+        return true;
+    }, [dispatch, navigation, translation.Timer.backAlert]);
+    useFocusEffect(
+        useCallback(() => {
+            BackHandler.addEventListener(
+                "hardwareBackPress",
+                handleBackButtonPress,
+            );
+            return () =>
+                BackHandler.removeEventListener(
+                    "hardwareBackPress",
+                    handleBackButtonPress,
+                );
+        }, [handleBackButtonPress]),
+    );
 
     return (
         <Container style={styles.container}>
             <Header
                 screenName={translation.Timer.header}
                 onBackPress={handleBackButtonPress}
+                icon={<BackCross />}
             />
             <Box paddingHorizontal="m" alignItems="center" flex={1} top="15%">
                 <Box marginBottom="xl">

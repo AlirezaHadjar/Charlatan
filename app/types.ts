@@ -83,3 +83,7 @@ export interface Language {
     name: LanguageName;
     data: LanguageData | undefined;
 }
+
+export interface PickerRef {
+    scrollToTitle: (title: string) => void;
+}
