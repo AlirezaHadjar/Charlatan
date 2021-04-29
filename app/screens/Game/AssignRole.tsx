@@ -65,9 +65,11 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             selected: index === 0 ? true : false,
         })),
     );
+
     useEffect(() => {
         dispatch(startGame());
     }, [dispatch]);
+
     const selectedPlayer = useMemo(() => {
         return modifiedPlayers.find((pl) => pl.selected);
     }, [modifiedPlayers]);
@@ -169,7 +171,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                         ? translation.AssignRole.startButtonTitle
                         : translation.AssignRole.nextButtonTitle
                 }
-                onPressOut={handleNext}
+                onPress={handleNext}
                 backgroundColor="secondBackground"
                 height={(width * 15) / 100}
                 width={(width * 31) / 100}>

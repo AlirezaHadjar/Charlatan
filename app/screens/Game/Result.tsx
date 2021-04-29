@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {BackHandler, StyleSheet} from "react-native";
+import {BackHandler, Dimensions, StyleSheet} from "react-native";
 import {
     CompositeNavigationProp,
     RouteProp,
@@ -12,6 +12,7 @@ import Container from "../../components/Container";
 import Header from "../../components/Header";
 import Citizen from "../../assets/SVGs/Citizen";
 import Spy from "../../assets/SVGs/Spy";
+import Refresh from "../../assets/SVGs/Refresh";
 import BackCross from "../../assets/SVGs/BackCross";
 import Box from "../../theme/Box";
 import {useSelector} from "../../store/useSelector";
@@ -22,6 +23,7 @@ import normalize from "../../utils/normalizer";
 import {useTranslation} from "../../hooks/translation";
 import {GameRoutes} from "../../navigations/GameNavigator";
 import {AppRoute} from "../../navigations/AppNavigator";
+import Button from "../../components/Button";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -32,6 +34,8 @@ export type ResultProps = {
     navigation: NavigationProps;
     route: RouteProp<AppRoute, "Main">;
 };
+
+const {width, height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     container: {},
@@ -62,6 +66,7 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
         navigation.navigate("Main");
         return true;
     }, [navigation]);
+
     useFocusEffect(
         useCallback(() => {
             BackHandler.addEventListener(
@@ -75,6 +80,9 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
                 );
         }, [handleBackButtonPress]),
     );
+    const handlePlayAgain = useCallback(() => {
+        navigation.navigate("StartGame");
+    }, [navigation]);
     return (
         <Container style={styles.container}>
             <Header
@@ -82,16 +90,31 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
                 onBackPress={handleBackButtonPress}
                 icon={<BackCross />}
             />
-            <Box alignItems="center" flex={1} paddingTop="lxl">
-                {renderWinnerText()}
-                <Box bottom={0} position="absolute">
-                    {gameResult.winner === Winners.Citizens ? (
-                        <Citizen />
-                    ) : (
-                        <Spy />
-                    )}
+            {gameResult && (
+                <Box alignItems="center" flex={1} paddingTop="lxl">
+                    {renderWinnerText()}
+                    <Button
+                        fontSize={normalize(23)}
+                        variant="simple"
+                        title={translation.Result.playAgain}
+                        onPress={handlePlayAgain}
+                        backgroundColor="secondBackground"
+                        marginVertical="m"
+                        height={(height * 7) / 100}
+                        width={(width * 53) / 100}>
+                        <Box flex={0.3}>
+                            <Refresh scale={1} />
+                        </Box>
+                    </Button>
+                    <Box bottom={0} position="absolute">
+                        {gameResult.winner === Winners.Citizens ? (
+                            <Citizen />
+                        ) : (
+                            <Spy />
+                        )}
+                    </Box>
                 </Box>
-            </Box>
+            )}
         </Container>
     );
 };

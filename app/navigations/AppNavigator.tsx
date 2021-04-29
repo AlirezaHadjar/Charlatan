@@ -7,6 +7,7 @@ import Guide from "../screens/Guide";
 import Time from "../screens/Settings/Time";
 import Players from "../screens/Settings/Players";
 import Locations from "../screens/Settings/Locations";
+import StartGame from "../screens/Game/StartGame";
 
 import GameNavigator from "./GameNavigator";
 
@@ -18,11 +19,12 @@ export type AppRoute = {
     Time: undefined;
     Locations: undefined;
     GameNavigator: undefined;
+    StartGame: undefined;
 };
 
 const Stack = createStackNavigator<AppRoute>();
 
-const AppNavigator: React.FC<{}> = ({}) => (
+const AppNavigator: React.FC = () => (
     <Stack.Navigator
         headerMode="none"
         initialRouteName="Main"
@@ -40,6 +42,7 @@ const AppNavigator: React.FC<{}> = ({}) => (
         <Stack.Screen component={Test} name="Test" />
         <Stack.Screen component={Players} name="Players" />
         <Stack.Screen component={Time} name="Time" />
+        <Stack.Screen component={StartGame} name="StartGame" />
         <Stack.Screen component={Locations} name="Locations" />
         <Stack.Screen component={GameNavigator} name="GameNavigator" />
     </Stack.Navigator>
