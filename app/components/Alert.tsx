@@ -189,26 +189,28 @@ const Alert: React.FC = () => {
         [renderAskVariant, renderInfoVariant],
     );
     return alert ? (
-        <TouchableWithoutFeedback
-            onPress={() => handlePress(alert, handleIgnore)}>
-            <Box
-                position="absolute"
-                height="100%"
-                width="100%"
-                alignItems="center"
-                justifyContent="center">
-                <Animated.View style={opacStyle} />
-                <Animated.View style={boxStyle}>
-                    <Box
-                        width={(width * 77) / 100}
-                        maxHeight={(height * 80) / 100}
-                        borderRadius="hero1"
-                        backgroundColor="buttonPrimary">
-                        {renderContent(alert)}
-                    </Box>
-                </Animated.View>
-            </Box>
-        </TouchableWithoutFeedback>
+        <Box
+            position="absolute"
+            height="100%"
+            width="100%"
+            backgroundColor="transparent"
+            alignItems="center"
+            justifyContent="center">
+            <TouchableWithoutFeedback
+                onPress={() => handlePress(alert, handleIgnore)}>
+                <Box position="absolute" height="100%" width="100%" />
+            </TouchableWithoutFeedback>
+            <Animated.View style={opacStyle} />
+            <Animated.View style={boxStyle}>
+                <Box
+                    width={(width * 77) / 100}
+                    maxHeight={(height * 80) / 100}
+                    borderRadius="hero1"
+                    backgroundColor="buttonPrimary">
+                    {renderContent(alert)}
+                </Box>
+            </Animated.View>
+        </Box>
     ) : null;
 };
 

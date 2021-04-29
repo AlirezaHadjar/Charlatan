@@ -46,6 +46,8 @@ export interface PickerItem {
     item: {title: string; id: string};
     index: number;
     offset: Animated.SharedValue<number>;
+    itemHeight: number;
+    maxWidth?: number;
 }
 
 export interface Vote {

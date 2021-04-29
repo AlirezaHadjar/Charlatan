@@ -32,7 +32,7 @@ const Container: React.FC<Props> = ({
     return (
         <AnimatedSafeAreaView style={[styles.container, style]}>
             {hasIcon && (
-                <Box position="absolute" bottom={0}>
+                <Box position="absolute" bottom={0} alignSelf="center">
                     <Spy />
                 </Box>
             )}

@@ -155,6 +155,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         return (
             <Button
                 disabled={isDisabled}
+                disableText="باید یک مکان رو انتخاب کنی"
                 fontSize={normalize(18)}
                 variant="simple"
                 title={
@@ -162,7 +163,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                         ? translation.SpiesGuess.finishButtonTitle
                         : translation.SpiesGuess.nextButtonTitle
                 }
-                onPressOut={handleNext}
+                onPress={handleNext}
                 backgroundColor="buttonTertiary"
                 opacity={isDisabled ? 0.5 : 1}
                 height={(width * 15) / 100}

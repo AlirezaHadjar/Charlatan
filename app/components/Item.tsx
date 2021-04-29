@@ -8,54 +8,16 @@ import Animated, {
 
 import {PickerItem} from "../types";
 import normalize from "../utils/normalizer";
-import {ITEM_HEIGHT} from "../../SpyHunt";
 
 import AppText from "./Text";
 
 const ROTATION = 90;
 const perspective = 600;
 
-const scaleAnimation = (udv: Animated.SharedValue<number>, index: number) => {
-    "worklet";
-
-    return udv.value === null
-        ? 0
-        : interpolate(
-              udv.value,
-              [
-                  (index - 2) * ITEM_HEIGHT,
-                  (index - 1) * ITEM_HEIGHT,
-                  index * ITEM_HEIGHT,
-                  (index + 1) * ITEM_HEIGHT,
-                  (index + 2) * ITEM_HEIGHT,
-              ],
-              [0.5, 0.65, 1, 0.65, 0.5],
-              Extrapolate.CLAMP,
-          );
-};
-const opacityAnimation = (udv: Animated.SharedValue<number>, index: number) => {
-    "worklet";
-
-    return udv.value === null
-        ? 0
-        : interpolate(
-              udv.value,
-              [
-                  (index - 3) * ITEM_HEIGHT,
-                  (index - 2) * ITEM_HEIGHT,
-                  (index - 1) * ITEM_HEIGHT,
-                  index * ITEM_HEIGHT,
-                  (index + 1) * ITEM_HEIGHT,
-                  (index + 2) * ITEM_HEIGHT,
-                  (index + 3) * ITEM_HEIGHT,
-              ],
-              [0, 0.35, 0.4, 1, 0.4, 0.35, 0],
-              Extrapolate.CLAMP,
-          );
-};
-const rotationAnimation = (
+const scaleAnimation = (
     udv: Animated.SharedValue<number>,
     index: number,
+    itemHeight: number,
 ) => {
     "worklet";
 
@@ -64,13 +26,59 @@ const rotationAnimation = (
         : interpolate(
               udv.value,
               [
-                  (index - 3) * ITEM_HEIGHT,
-                  (index - 2) * ITEM_HEIGHT,
-                  (index - 1) * ITEM_HEIGHT,
-                  index * ITEM_HEIGHT,
-                  (index + 1) * ITEM_HEIGHT,
-                  (index + 2) * ITEM_HEIGHT,
-                  (index + 3) * ITEM_HEIGHT,
+                  (index - 2) * itemHeight,
+                  (index - 1) * itemHeight,
+                  index * itemHeight,
+                  (index + 1) * itemHeight,
+                  (index + 2) * itemHeight,
+              ],
+              [0.5, 0.65, 1, 0.65, 0.5],
+              Extrapolate.CLAMP,
+          );
+};
+const opacityAnimation = (
+    udv: Animated.SharedValue<number>,
+    index: number,
+    itemHeight: number,
+) => {
+    "worklet";
+
+    return udv.value === null
+        ? 0
+        : interpolate(
+              udv.value,
+              [
+                  (index - 3) * itemHeight,
+                  (index - 2) * itemHeight,
+                  (index - 1) * itemHeight,
+                  index * itemHeight,
+                  (index + 1) * itemHeight,
+                  (index + 2) * itemHeight,
+                  (index + 3) * itemHeight,
+              ],
+              [0, 0.35, 0.4, 1, 0.4, 0.35, 0],
+              Extrapolate.CLAMP,
+          );
+};
+const rotationAnimation = (
+    udv: Animated.SharedValue<number>,
+    index: number,
+    itemHeight: number,
+) => {
+    "worklet";
+
+    return udv.value === null
+        ? 0
+        : interpolate(
+              udv.value,
+              [
+                  (index - 3) * itemHeight,
+                  (index - 2) * itemHeight,
+                  (index - 1) * itemHeight,
+                  index * itemHeight,
+                  (index + 1) * itemHeight,
+                  (index + 2) * itemHeight,
+                  (index + 3) * itemHeight,
               ],
               [
                   -ROTATION * 1.5,
@@ -85,29 +93,35 @@ const rotationAnimation = (
           );
 };
 
-const Item: React.FC<PickerItem> = ({item, index, offset}) => {
+const Item: React.FC<PickerItem> = ({
+    item,
+    index,
+    offset,
+    itemHeight,
+    maxWidth,
+}) => {
     const udv = useDerivedValue(() => {
         if (
-            offset.value >= (index - 3) * ITEM_HEIGHT &&
-            offset.value <= (index + 3) * ITEM_HEIGHT
+            offset.value >= (index - 3) * itemHeight &&
+            offset.value <= (index + 3) * itemHeight
         ) {
             return offset.value;
-        } else if (offset.value < (index - 3) * ITEM_HEIGHT) {
+        } else if (offset.value < (index - 3) * itemHeight) {
             return null;
-        } else if (offset.value > (index + 3) * ITEM_HEIGHT) {
+        } else if (offset.value > (index + 3) * itemHeight) {
             return null;
         }
     });
     const style = useAnimatedStyle(
         () => ({
-            height: ITEM_HEIGHT,
-            opacity: opacityAnimation(udv, index),
-            maxWidth: 100,
+            height: itemHeight,
+            opacity: opacityAnimation(udv, index, itemHeight),
+            maxWidth,
             alignItems: "center",
             justifyContent: "center",
             transform: [
-                {scale: scaleAnimation(udv, index)},
-                {rotateX: `${rotationAnimation(udv, index)}deg`},
+                {scale: scaleAnimation(udv, index, itemHeight)},
+                {rotateX: `${rotationAnimation(udv, index, itemHeight)}deg`},
                 {perspective},
             ],
         }),

@@ -54,6 +54,7 @@ const ListItem: React.FC<ListItemProps> = ({
                         style={{
                             fontFamily: "Kalameh Bold",
                             fontSize: normalize(18),
+                            fontWeight: "normal",
                             color: theme.colors[textColor],
                         }}
                         onChangeText={(text) =>

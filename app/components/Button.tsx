@@ -5,7 +5,7 @@ import {
     SpacingProps,
 } from "@shopify/restyle";
 import React, {useCallback} from "react";
-import {Dimensions, ViewStyle, TouchableOpacity} from "react-native";
+import {Dimensions, ViewStyle} from "react-native";
 import Animated, {
     Easing,
     interpolate,
@@ -20,10 +20,9 @@ import theme, {ThemeType} from "../theme/Theme";
 import normalize from "../utils/normalizer";
 import {Strumber} from "../types";
 import Box from "../theme/Box";
-import {setAlert} from "../store/reducers/alert";
-import {useAppDispatch} from "../store/configureStore";
 
 import AppText from "./Text";
+import AppTouchable from "./Touchable";
 
 type Props = BackgroundColorProps<ThemeType> &
     SpacingProps<ThemeType> &
@@ -71,7 +70,6 @@ const Button: React.FC<ButtonProps> = ({
     scaleTo = 0.9,
     ...props
 }) => {
-    const dispatch = useAppDispatch();
     const pressed = useSharedValue(false);
     const pressing = useDerivedValue(() => {
         return pressed.value
@@ -156,14 +154,8 @@ const Button: React.FC<ButtonProps> = ({
         const scale = interpolate(pressing.value, [scaleTo, 1], [scaleTo, 1]);
         return {transform: [{scale}]};
     });
-    const handlePress = useCallback(() => {
-        if (onPress && !disabled) return onPress();
-        if (disabled && disableText) {
-            dispatch(setAlert({id: Date.now.toString(), text: disableText}));
-        }
-    }, [disableText, disabled, dispatch, onPress]);
     return (
-        <TouchableOpacity
+        <AppTouchable
             onPressIn={() => {
                 pressed.value = true;
                 onPressIn && onPressIn();
@@ -172,13 +164,15 @@ const Button: React.FC<ButtonProps> = ({
                 pressed.value = false;
                 onPressOut && onPressOut();
             }}
+            disabled={disabled}
+            disableText={disableText}
             activeOpacity={0.9}
-            onPress={handlePress}>
+            onPress={onPress}>
             <Animated.View style={animatedStyle}>
                 {variant === "simple" && renderSimpleButton()}
                 {variant === "icon" && renderIconButton()}
             </Animated.View>
-        </TouchableOpacity>
+        </AppTouchable>
     );
 };
 

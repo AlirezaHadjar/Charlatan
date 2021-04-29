@@ -185,13 +185,14 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
             <Button
                 disabled={isDisabled}
                 fontSize={normalize(18)}
+                disableText={`باید ${spiesIds.length} جاسوس را رو انتخاب کنی`}
                 variant="simple"
                 title={
                     isLast
                         ? translation.Vote.finishButtonTitle
                         : translation.Vote.nextButtonTitle
                 }
-                onPressOut={handleNext}
+                onPress={handleNext}
                 backgroundColor="buttonTertiary"
                 opacity={isDisabled ? 0.5 : 1}
                 height={(width * 15) / 100}

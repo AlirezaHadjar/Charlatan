@@ -12,9 +12,14 @@ import {useTime} from "../../hooks/useTime";
 import Box from "../../theme/Box";
 import {PickerRef} from "../../types";
 
-const renderPickerItems = () => {
+const renderSecondsPickerItems = () => {
+    const seconds = [];
+    for (let i = 0; i < 60; i++) seconds.push({id: `${i}`, title: `${i}`});
+    return seconds;
+};
+const renderMinutesPickerItems = () => {
     const minutes = [];
-    for (let i = 0; i < 60; i++) minutes.push({id: `${i}`, title: `${i}`});
+    for (let i = 0; i < 16; i++) minutes.push({id: `${i}`, title: `${i}`});
     return minutes;
 };
 
@@ -36,15 +41,13 @@ const Time: React.FC = () => {
     }, [time]);
 
     const handleZero = useCallback(() => {
-        minRef.current?.scrollToTitle("1");
-        secRef.current?.scrollToTitle("2");
-        // dispatch(setTime(62));
+        minRef.current?.scrollToTitle("2");
+        secRef.current?.scrollToTitle("0");
     }, []);
 
     const handleSelect = useCallback(
         (min: string, sec: string, priority: "urgent" | "normal") => {
             const newTime = +min * 60 + +sec;
-            console.log("newTime", newTime);
             if (newTime === 0) handleZero();
             if (priority === "normal" && newTime === 0) return;
             dispatch(setTime(newTime));
@@ -64,7 +67,8 @@ const Time: React.FC = () => {
                                 <AppText>Minutes</AppText>
                                 <Picker
                                     ref={minRef}
-                                    items={renderPickerItems()}
+                                    items={renderMinutesPickerItems()}
+                                    maxWidth={100}
                                     initialTitle={minutes}
                                     onSelect={(min, priority) =>
                                         handleSelect(min, seconds, priority)
@@ -75,7 +79,8 @@ const Time: React.FC = () => {
                                 <AppText>Seconds</AppText>
                                 <Picker
                                     ref={secRef}
-                                    items={renderPickerItems()}
+                                    items={renderSecondsPickerItems()}
+                                    maxWidth={100}
                                     initialTitle={seconds}
                                     onSelect={(sec, priority) =>
                                         handleSelect(minutes, sec, priority)

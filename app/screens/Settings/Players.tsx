@@ -245,7 +245,10 @@ const Players: React.FC = () => {
                                                 translation.Players
                                                     .addPlayerTextInputPlaceholder
                                             }
-                                            style={{fontFamily: "Kalameh Bold"}}
+                                            style={{
+                                                fontFamily: "Kalameh Bold",
+                                                fontWeight: "normal",
+                                            }}
                                             value={query}
                                             textAlign={
                                                 languageName === "en"

@@ -33,6 +33,7 @@ export interface PickerProps {
     initialTitle?: string;
     onSelect?: (value: string, priority: "urgent" | "normal") => void;
     isInBottomSheet?: boolean;
+    maxWidth?: number;
 }
 
 const NormalAnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
@@ -51,6 +52,7 @@ const Picker = forwardRef(
             initialTitle = "",
             onSelect,
             isInBottomSheet = false,
+            maxWidth,
         }: PickerProps,
         ref: Ref<PickerRef>,
     ) => {
@@ -70,9 +72,17 @@ const Picker = forwardRef(
         });
         const renderItem = useCallback(
             ({item, index}) => {
-                return <Item index={index} item={item} offset={translationY} />;
+                return (
+                    <Item
+                        index={index}
+                        item={item}
+                        offset={translationY}
+                        itemHeight={itemHeight}
+                        maxWidth={maxWidth}
+                    />
+                );
             },
-            [translationY],
+            [itemHeight, maxWidth, translationY],
         );
         const keyExtractor = useCallback(
             (item, index) => `${item.id}-${index}`,
@@ -84,11 +94,11 @@ const Picker = forwardRef(
                 console.log(title);
                 const index = items.findIndex((item) => item.title === title);
                 if (index === -1) return;
-                const offset = ITEM_HEIGHT * index;
+                const offset = itemHeight * index;
                 if (offset < 0) return;
                 flatlistRef.current?.scrollToOffset({offset});
             },
-            [items],
+            [itemHeight, items],
         );
 
         useImperativeHandle(ref, () => ({
@@ -105,11 +115,11 @@ const Picker = forwardRef(
 
         const getItemLayout = useCallback(
             (data, index) => ({
-                length: ITEM_HEIGHT,
-                offset: ITEM_HEIGHT * index,
+                length: itemHeight,
+                offset: itemHeight * index,
                 index,
             }),
-            [],
+            [itemHeight],
         );
         // const getItemCount = useCallback((data) => data., []);
 
@@ -130,14 +140,13 @@ const Picker = forwardRef(
 
         const handleScrollEnd = useCallback(
             (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-                // console.log("calc");
                 const offset = e.nativeEvent.contentOffset.y;
-                const index = Math.floor(offset / ITEM_HEIGHT);
+                const index = Math.floor(offset / itemHeight);
+                if (index < 0 || index >= items.length) return;
                 const {title} = items[index];
-                // console.log("TITLE: ", title);
                 onSelect && onSelect(title, "normal");
             },
-            [items, onSelect],
+            [itemHeight, items, onSelect],
         );
 
         return useMemo(

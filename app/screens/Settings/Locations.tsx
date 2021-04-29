@@ -189,6 +189,7 @@ const Locations: React.FC = () => {
                                                 }
                                                 style={{
                                                     fontFamily: "Kalameh Bold",
+                                                    fontWeight: "normal",
                                                 }}
                                                 ref={textInputRef}
                                                 value={query}
