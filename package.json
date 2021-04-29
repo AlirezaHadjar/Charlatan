@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "postversion": "react-native-version",
     "build-android": "cd android && gradlew clean && gradlew assembleRelease",
     "ios": "react-native run-ios",
     "start": "react-native start",
@@ -44,6 +45,7 @@
     "eslint-config-react-native-wcandillon": "^3.5.0",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "react-native-version": "^4.0.0",
     "react-test-renderer": "16.13.1",
     "typesafe-actions": "^5.1.0",
     "typescript": "^4.2.4"
