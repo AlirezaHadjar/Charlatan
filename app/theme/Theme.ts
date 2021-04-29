@@ -5,35 +5,39 @@ import normalize from "../utils/normalizer";
 
 const palette = {
     transparent: "transparent",
-    contrast: "#000",
-    white: "#504364",
-    lightGrey: "#BFBECB",
-    mediumGrey: "#9D99AC",
-    darkGrey: "#333333",
-    red: "#931831",
-    lightRed: "#883143",
-    milky: "#F2F5E0",
-    brown: "#43372D",
-    black: "#040D14",
-    light: "#EEF2F7",
-    lightPurple: "#615673",
+    cyan: "#00ADB5",
+    superLightGrey: "#D1D2D4",
+    lightGrey: "#707070",
+    mediumGrey: "#393e46",
+    darkGrey: "#464E5D",
+    black: "#040d14",
+    superLight: "#eef2f7",
+    light: "#EEEEEE",
+    white: "#ffffff",
+    red: "#883143",
 };
 
 const theme = createTheme({
     colors: {
-        transparent: palette.transparent,
-        mainBackground: palette.white,
-        secondBackground: palette.lightPurple,
+        // Backgrounds
+        mainBackground: palette.mediumGrey,
+        secondBackground: palette.cyan,
+        thirdBackground: palette.darkGrey,
+        // Buttons
         buttonPrimary: palette.light,
         buttonSecondary: palette.black,
-        buttonTertiary: palette.lightRed,
-        mainTextColor: palette.lightGrey,
-        contrast: palette.contrast,
-        danger: palette.red,
-        light: palette.milky,
-        lightGrey: palette.lightGrey,
+        buttonTertiary: palette.cyan,
+        // Texts
+        mainTextColor: palette.superLightGrey,
         secondText: palette.darkGrey,
-        thirdText: palette.mediumGrey,
+        thirdText: palette.superLight,
+        fourthText: palette.black,
+        // Characters
+        characterPrimary: palette.darkGrey,
+        // Specials
+        contrast: palette.white,
+        transparent: palette.transparent,
+        danger: palette.red,
     },
     spacing: {
         ss: spacingNormalizer(4),
@@ -55,35 +59,26 @@ const theme = createTheme({
         hero2: 50,
         hero3: 60,
     },
-    boxVariants: {
-        icon: {
-            borderRadius: "m",
-            backgroundColor: "mainForeground",
-        },
-    },
+    boxVariants: {},
     textVariants: {
         regular: {
-            color: "lightGrey",
+            color: "secondText",
             fontFamily: "Kalameh Regular",
-            // fontFamily: "Poppins Regular",
             fontSize: normalize(18),
         },
         semiBold: {
-            color: "lightGrey",
+            color: "secondText",
             fontFamily: "Kalameh Regular",
-            // fontFamily: "Poppins SemiBold",
             fontSize: normalize(18),
         },
         medium: {
-            color: "lightGrey",
+            color: "secondText",
             fontFamily: "Kalameh Bold",
-            // fontFamily: "Poppins Medium",
             fontSize: normalize(18),
         },
         bold: {
-            color: "lightGrey",
+            color: "secondText",
             fontFamily: "Kalameh Bold",
-            // fontFamily: "Poppins Bold",
             fontSize: normalize(18),
         },
     },

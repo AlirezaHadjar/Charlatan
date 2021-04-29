@@ -1,6 +1,13 @@
 import * as React from "react";
 import Svg, {Path} from "react-native-svg";
 
+import theme from "../../theme/Theme";
+
+interface Props {
+    scale?: number;
+    color?: keyof typeof theme["colors"];
+}
+
 function SvgComponent() {
     return (
         <Svg width={8.728} height={8.728} viewBox="0 0 8.728 8.728">

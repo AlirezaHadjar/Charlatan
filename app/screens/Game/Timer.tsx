@@ -189,7 +189,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                         color={
                             +minutes > 1 || !isPlaying
                                 ? "mainTextColor"
-                                : "danger"
+                                : "secondBackground"
                         }
                         fontSize={normalize(
                             80,

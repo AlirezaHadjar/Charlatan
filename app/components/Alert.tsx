@@ -101,7 +101,10 @@ const Alert: React.FC = () => {
                     <Box alignSelf="center" top={-45} position="absolute">
                         <Danger />
                     </Box>
-                    <AppText color="contrast" variant="bold" textAlign="center">
+                    <AppText
+                        color="fourthText"
+                        variant="bold"
+                        textAlign="center">
                         {alert.text}
                     </AppText>
                     <TouchableOpacity
@@ -133,7 +136,10 @@ const Alert: React.FC = () => {
         (alert: AlertType) => {
             return (
                 <Box padding="m">
-                    <AppText color="contrast" variant="bold" textAlign="center">
+                    <AppText
+                        color="fourthText"
+                        variant="bold"
+                        textAlign="center">
                         {alert.text}
                     </AppText>
                     <Box flexDirection="row" marginTop="s">
@@ -158,6 +164,7 @@ const Alert: React.FC = () => {
                             <Box
                                 height={40}
                                 alignItems="center"
+                                backgroundColor="buttonPrimary"
                                 justifyContent="center">
                                 <AppText variant="bold" color="danger">
                                     {alert.cancelButtonText ||

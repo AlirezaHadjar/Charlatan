@@ -62,7 +62,7 @@ const List: React.FC<ListProps> = ({
                         backgroundColor={
                             selectedIds.includes(item.id)
                                 ? "buttonSecondary"
-                                : "secondBackground"
+                                : "thirdBackground"
                         }
                     />
                 )}

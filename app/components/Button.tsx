@@ -58,7 +58,7 @@ const Button: React.FC<ButtonProps> = ({
     style = {},
     icon,
     backgroundColor = "buttonSecondary",
-    textColor = "light",
+    textColor = "mainTextColor",
     fontSize = normalize(13),
     disabled = false,
     variant = "simple",

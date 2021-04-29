@@ -59,7 +59,7 @@ const Players: React.FC = () => {
         boxContainer: {
             width: (width * 10) / 100,
             height: (width * 10) / 100,
-            backgroundColor: theme.colors.light,
+            backgroundColor: theme.colors.buttonPrimary,
             borderRadius: theme.borderRadii.m,
             marginHorizontal: theme.spacing.m,
             alignItems: "center",
@@ -149,12 +149,15 @@ const Players: React.FC = () => {
                     backgroundColor="buttonSecondary">
                     <Box
                         borderRadius="hero1"
-                        backgroundColor="danger"
+                        backgroundColor="secondBackground"
                         marginEnd="s"
                         paddingHorizontal="s">
                         <AppText>{spiesLength}</AppText>
                     </Box>
-                    <AppText fontSize={normalize(15)} variant="semiBold">
+                    <AppText
+                        fontSize={normalize(15)}
+                        variant="semiBold"
+                        color="thirdText">
                         {spiesLength > 1
                             ? translation.Players.Spies
                             : translation.Players.Spy}
@@ -198,7 +201,7 @@ const Players: React.FC = () => {
                     <Box alignItems="flex-end">
                         <Icon
                             icon={<Plus />}
-                            backgroundColor="danger"
+                            backgroundColor="secondBackground"
                             onPress={handlePlusPress}
                         />
                     </Box>
@@ -312,14 +315,16 @@ const Players: React.FC = () => {
                         ref={spiesLengthSheet}
                         snapPoints={[0, "30%"]}
                         backgroundComponent={() => <Box />}
-                        style={{backgroundColor: theme.colors.danger}}>
+                        style={{
+                            backgroundColor: theme.colors.secondBackground,
+                        }}>
                         <BottomSheetView style={{flex: 1}}>
                             <Box
                                 padding="m"
                                 width="100%"
                                 flex={1}
                                 alignItems="center">
-                                <AppText color="light">
+                                <AppText color="thirdText">
                                     {translation.Players.spiesBottomSheetTitle}
                                 </AppText>
                                 <BottomSheetView
@@ -345,10 +350,13 @@ const Players: React.FC = () => {
                                                 ? styles.disabled
                                                 : {},
                                         ]}>
-                                        <Minus color="secondText" scale={0.9} />
+                                        <Minus
+                                            color="secondBackground"
+                                            scale={0.9}
+                                        />
                                     </AppTouchable>
                                     <AppText
-                                        color="light"
+                                        color="thirdText"
                                         fontSize={normalize(70)}>
                                         {spiesLength}
                                     </AppText>
@@ -372,7 +380,10 @@ const Players: React.FC = () => {
                                                 ? styles.disabled
                                                 : {},
                                         ]}>
-                                        <Plus color="secondText" scale={0.9} />
+                                        <Plus
+                                            color="secondBackground"
+                                            scale={0.9}
+                                        />
                                     </AppTouchable>
                                 </BottomSheetView>
                             </Box>
@@ -385,7 +396,7 @@ const Players: React.FC = () => {
                     spiesLength,
                     styles.boxContainer,
                     styles.disabled,
-                    theme.colors.danger,
+                    theme.colors.secondBackground,
                     translation.Players.addSpyAlert,
                     translation.Players.removeSpyAlert,
                     translation.Players.spiesBottomSheetTitle,

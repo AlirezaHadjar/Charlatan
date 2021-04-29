@@ -1,10 +1,17 @@
 import * as React from "react";
 import Svg, {G, Path} from "react-native-svg";
 
-function SvgComponent() {
+import theme from "../../theme/Theme";
+
+interface Props {
+    scale?: number;
+    color?: keyof typeof theme["colors"];
+}
+
+function SvgComponent({scale = 1, color = "buttonPrimary"}: Props) {
     return (
-        <Svg width={24} height={24} viewBox="0 0 24 24">
-            <G fill="#eef2f7">
+        <Svg width={scale * 24} height={scale * 24} viewBox="0 0 24 24">
+            <G fill={theme.colors[color]}>
                 <Path
                     data-name="Path 4"
                     // eslint-disable-next-line max-len

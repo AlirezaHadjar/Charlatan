@@ -7,14 +7,14 @@ import AppText from "../components/Text";
 import Box from "../theme/Box";
 import {useTranslation} from "../hooks/translation";
 
-const Guide: React.FC<{}> = ({}) => {
+const Guide: React.FC = () => {
     const translation = useTranslation();
     return (
         <Container>
             <Header screenName={translation.Guide.header} />
             <Box paddingHorizontal="m" flex={1}>
                 <Box
-                    backgroundColor="secondBackground"
+                    backgroundColor="thirdBackground"
                     width="100%"
                     borderTopEndRadius="hero1"
                     borderTopStartRadius="hero1"

@@ -68,7 +68,11 @@ const ListItem: React.FC<ListItemProps> = ({
                     onPress={() => {
                         if (onEndPress) onEndPress(id);
                     }}>
-                    <Box justifyContent="center" height="100%">
+                    <Box
+                        justifyContent="center"
+                        height="100%"
+                        marginEnd={language === "en" ? undefined : "s"}
+                        marginStart={language === "en" ? "s" : undefined}>
                         {end}
                     </Box>
                 </AppTouchable>

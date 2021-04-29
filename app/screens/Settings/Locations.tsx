@@ -104,7 +104,7 @@ const Locations: React.FC = () => {
                     flexDirection="row"
                     paddingHorizontal="s"
                     backgroundColor="buttonSecondary">
-                    <AppText fontSize={normalize(14)}>
+                    <AppText fontSize={normalize(14)} color="thirdText">
                         {translation.Locations.reset}
                     </AppText>
                 </Box>
@@ -140,7 +140,7 @@ const Locations: React.FC = () => {
                     <Box alignItems="flex-end">
                         <Icon
                             icon={<Plus />}
-                            backgroundColor="danger"
+                            backgroundColor="secondBackground"
                             onPress={handlePlusPress}
                         />
                     </Box>
@@ -216,7 +216,7 @@ const Locations: React.FC = () => {
                                                 alignItems="center"
                                                 justifyContent="center"
                                                 borderRadius="m"
-                                                backgroundColor="danger">
+                                                backgroundColor="secondBackground">
                                                 <Check />
                                             </Box>
                                         </AppTouchable>

@@ -66,7 +66,7 @@ const ListItem: React.FC<ListItemProps> = ({
                             fontFamily: "Kalameh Bold",
                             fontSize: normalize(17),
                             fontWeight: "normal",
-                            color: theme.colors.light,
+                            color: theme.colors.thirdText,
                             flex: 1,
                             textAlign: "center",
                         }}

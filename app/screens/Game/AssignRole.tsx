@@ -170,7 +170,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                         : translation.AssignRole.nextButtonTitle
                 }
                 onPressOut={handleNext}
-                backgroundColor="buttonTertiary"
+                backgroundColor="secondBackground"
                 height={(width * 15) / 100}
                 width={(width * 31) / 100}>
                 <Box flex={0.5}>
@@ -238,7 +238,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                             variant="icon"
                             icon={<Eye />}
                             title=""
-                            backgroundColor="buttonTertiary"
+                            backgroundColor="secondBackground"
                         />
                         {!roleIsHidden ? (
                             renderRole(selectedPlayer)

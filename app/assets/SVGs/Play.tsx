@@ -9,7 +9,7 @@ interface Props {
     color?: keyof typeof theme["colors"];
 }
 
-const Play = ({scale = 1, color = "light"}: Props) => {
+const Play = ({scale = 1, color = "buttonPrimary"}: Props) => {
     return (
         <Svg width={scale * 42.667} height={scale * 51} viewBox="0 0 42.667 51">
             <Path

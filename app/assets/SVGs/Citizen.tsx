@@ -2,20 +2,33 @@
 import * as React from "react";
 import Svg, {G, Path, Circle, Rect} from "react-native-svg";
 
+import theme from "../../theme/Theme";
+
+interface Props {
+    scale?: number;
+}
+
 function SvgComponent() {
+    const color = {
+        primary: theme.colors.characterPrimary,
+        secondary: "#002741",
+        primaryShadow: "#3B4351",
+        secondaryShadow: "#011E31",
+        land: "#414753",
+        hair: "#4c2d22",
+        glasses: "#1c1106",
+        skinLight: "#feb3ae",
+        skinDark: "#ed9f9d",
+    };
     return (
         <Svg width={360} height={360.475}>
             <G data-name="Group 23">
-                <Path
-                    data-name="Rectangle 1"
-                    fill="#504364"
-                    d="M0 0h359.98v359.98H0z"
-                />
+                <Path data-name="Rectangle 1" d="M0 0h359.98v359.98H0z" />
                 <G data-name="Group 12">
                     <Path
                         data-name="Path 1"
                         d="M0 341.945v-35.513c5.836-25.46 39.118-65.689 74.417-7 21.928 36.46 42.19-19.844 84.832-32.225s51.853 27.957 83.527 26.423-5.06-85.83 65.549-88.526c32.68-1.248 51.656 16.151 51.656 16.151v138.671H0z"
-                        fill="#756486"
+                        fill={color.land}
                     />
                     <G data-name="Group 9">
                         <G data-name="Group 7">
@@ -52,7 +65,7 @@ function SvgComponent() {
                             <Path
                                 data-name="Path 10"
                                 d="M191.488 166.356h-23.156c-4.678 0-8.47 4.257-8.47 9.509v23.35c0 12.429 8.976 20.031 20.048 20.031s20.048-7.6 20.048-20.031v-23.351c0-5.251-3.792-9.508-8.47-9.508z"
-                                fill="#feb3ae"
+                                fill={color.skinLight}
                             />
                             <Path
                                 data-name="Path 11"
@@ -68,7 +81,7 @@ function SvgComponent() {
                                     cy={13.878}
                                     r={13.878}
                                     transform="rotate(-80.85 67.979 30.075)"
-                                    fill="#ed9f9d"
+                                    fill={color.skinLight}
                                 />
                                 <Circle
                                     data-name="Ellipse 2"
@@ -76,7 +89,7 @@ function SvgComponent() {
                                     cy={13.878}
                                     r={13.878}
                                     transform="rotate(-80.85 115.28 -25.457)"
-                                    fill="#ed9f9d"
+                                    fill={color.skinLight}
                                 />
                                 <Path
                                     data-name="Rectangle 3"
@@ -91,12 +104,12 @@ function SvgComponent() {
                                 <Path
                                     data-name="Path 12"
                                     d="M86.809 136.414l-.083.086c1.3.112 2.612.185 3.94.185a45.218 45.218 0 0011.573-1.5c.017-.034.03-.069.046-.1 20.5-5.439 35.67-24.928 35.67-48.142V49.62c0-27.425-13.875-25.254-39.992-25.254-39.046 0-54.585-2.171-54.585 25.254v37.316c0 26.058 19.12 47.415 43.431 49.478z"
-                                    fill="#feb3ae"
+                                    fill={color.skinLight}
                                 />
                                 <Path
                                     data-name="Path 13"
                                     d="M96.879 110.681H84.618a2.356 2.356 0 01-2.356-2.356 2.356 2.356 0 012.356-2.356H96.88a2.356 2.356 0 012.356 2.356 2.356 2.356 0 01-2.357 2.356z"
-                                    fill="#ed9f9d"
+                                    fill={color.skinLight}
                                 />
                                 <Path
                                     data-name="Path 30"
@@ -117,7 +130,7 @@ function SvgComponent() {
                                     <Path
                                         data-name="Path 17"
                                         d="M90.752 97.497h-2.165a4.255 4.255 0 01-4.223-4.783l1.083-10.378a4.255 4.255 0 014.222-3.727 4.255 4.255 0 014.223 3.727l1.083 10.378a4.255 4.255 0 01-4.223 4.783z"
-                                        fill="#ed9f9d"
+                                        fill={color.skinLight}
                                     />
                                     <G
                                         data-name="Group 2"
@@ -157,7 +170,7 @@ function SvgComponent() {
                             </G>
                         </G>
                     </G>
-                    <G data-name="Group 10" fill="#36244a">
+                    <G data-name="Group 10" fill={color.primary}>
                         <Path
                             data-name="Rectangle 10"
                             d="M270.782 47.552h34.071v13.339h-34.071z"
@@ -169,10 +182,10 @@ function SvgComponent() {
                     </G>
                     <Path
                         data-name="Rectangle 12"
-                        fill="#36244a"
+                        fill={color.primary}
                         d="M286.188 172.072h34.071v13.339h-34.071z"
                     />
-                    <G data-name="Group 11" fill="#36244a">
+                    <G data-name="Group 11" fill={color.primary}>
                         <Path
                             data-name="Rectangle 13"
                             d="M39.061 179.982h34.071v13.339H39.061z"
@@ -185,7 +198,7 @@ function SvgComponent() {
                     <Path
                         data-name="Path 29"
                         d="M69.99 359.905s52.1 7.683 75.5-33.343c9.107-15.967 27.775-42.9 57.575-8.359s14.414-32.131 38.806-32.453c17.255-.228 12.037 10.1 29.072 8.989s16.741-19.3 38.615-28.546c34.262-14.482 50.439 36.294 50.439 36.294v57.437H143.504z"
-                        fill="#756486"
+                        fill={color.land}
                         opacity={0.7}
                     />
                 </G>

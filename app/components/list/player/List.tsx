@@ -50,8 +50,8 @@ const List: React.FC<ListProps> = ({
                         onChangeText={onChangeText}
                         textColor={
                             selectedIds.includes(item.id)
-                                ? "light"
-                                : "secondText"
+                                ? "buttonPrimary"
+                                : "buttonSecondary"
                         }
                         backgroundColor={
                             selectedIds.includes(item.id)

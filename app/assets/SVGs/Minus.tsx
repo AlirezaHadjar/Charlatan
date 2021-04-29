@@ -8,7 +8,7 @@ interface Props {
     color?: keyof typeof theme["colors"];
 }
 
-function SvgComponent({scale = 1, color = "light"}: Props) {
+function SvgComponent({scale = 1, color = "buttonPrimary"}: Props) {
     return (
         <Svg
             width={scale * 29}

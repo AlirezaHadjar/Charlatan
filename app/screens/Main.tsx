@@ -22,7 +22,7 @@ import Cog from "../assets/SVGs/Cog";
 import Players from "../assets/SVGs/Players";
 import Clock from "../assets/SVGs/Clock";
 import Pin from "../assets/SVGs/Pin";
-import Pallete from "../assets/SVGs/Pallete";
+import Pallet from "../assets/SVGs/Pallet";
 import Language from "../assets/SVGs/Language";
 import Question from "../assets/SVGs/Question";
 import Icon from "../components/Icon";
@@ -200,7 +200,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                     <Box marginBottom="s">
                         <Animated.View style={animatedSettingStyles5}>
                             <Icon
-                                icon={<Pallete />}
+                                icon={<Pallet />}
                                 onPress={() => navigation.navigate("Test")}
                                 backgroundColor="buttonTertiary"
                                 visible={isOpen}

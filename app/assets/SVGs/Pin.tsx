@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import * as React from "react";
 import Svg, {Path} from "react-native-svg";
+
 import theme from "../../theme/Theme";
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
     color?: keyof typeof theme["colors"];
 }
 
-function SvgComponent({scale = 1, color = "light"}: Props) {
+function SvgComponent({scale = 1, color = "buttonPrimary"}: Props) {
     return (
         <Svg
             data-name="Iconly/Bold/Location"

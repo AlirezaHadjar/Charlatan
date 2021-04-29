@@ -133,7 +133,7 @@ const Item: React.FC<PickerItem> = ({
             <Animated.View style={style}>
                 <AppText
                     textAlign="center"
-                    color="light"
+                    // color=""
                     fontSize={normalize(40)}>
                     {item.title}
                 </AppText>
