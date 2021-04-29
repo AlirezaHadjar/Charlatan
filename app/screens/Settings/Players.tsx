@@ -66,7 +66,7 @@ const Players: React.FC = () => {
             justifyContent: "center",
         },
         disabled: {
-            backgroundColor: theme.colors.lightGrey,
+            backgroundColor: theme.colors.buttonDisabled,
         },
     });
 
@@ -128,6 +128,13 @@ const Players: React.FC = () => {
                 dispatch(setSpiesLength(maxSpiesLength));
         },
         [dispatch, players.length, spiesLength],
+    );
+    const handleBlur = useCallback(
+        (text: string, id: string) => {
+            if (text.trim() === "") handleRemovePlayer(id);
+            // dispatch();
+        },
+        [handleRemovePlayer],
     );
     const handleAddPlayer = useCallback(() => {
         dispatch(addPlayer({en: query, fa: query}));
@@ -195,6 +202,7 @@ const Players: React.FC = () => {
                                 translation.Players.lengthBelowAlert
                             }
                             onChangeText={handleEditPlayer}
+                            onBlur={handleBlur}
                             onEndPress={handleRemovePlayer}
                         />
                     </Box>

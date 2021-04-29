@@ -15,6 +15,7 @@ export interface ListItemProps {
     end: JSX.Element;
     name: string;
     onEndPress?: (id: string) => void;
+    onBlur?: (text: string, id: string) => void;
     onChangeText?: (text: string, id: string) => void;
     backgroundColor: keyof typeof theme["colors"];
     textColor: keyof typeof theme["colors"];
@@ -29,12 +30,14 @@ const ListItem: React.FC<ListItemProps> = ({
     name,
     onEndPress,
     onChangeText,
+    onBlur,
     backgroundColor,
     textColor,
     endDisableText,
 }) => {
     const theme = useTheme<ThemeType>();
     const language = useSelector(getLanguageName);
+
     return (
         <Box>
             <Box
@@ -49,6 +52,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 <Box justifyContent="center" flex={1} height="100%">
                     <TextInput
                         maxLength={15}
+                        onBlur={() => onBlur && onBlur(name, id)}
                         value={name}
                         editable={onChangeText ? true : false}
                         style={{

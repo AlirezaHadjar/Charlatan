@@ -44,10 +44,11 @@ const slice = createSlice({
                 (player) => player.id === payload.id,
             );
             if (index === -1) return;
-            for (const property in payload) {
-                data.players[index][property as keyof typeof payload] =
-                    payload[property as keyof typeof payload];
-            }
+            // for (const property in payload) {
+            //     data.players[index][property as keyof typeof payload] =
+            //         payload[property as keyof typeof payload];
+            // }
+            data.players[index] = Object.assign(data.players[index], payload);
         },
         startGame: (data, _action: PayloadAction<undefined>) => {
             // Assign Spy Role to Players

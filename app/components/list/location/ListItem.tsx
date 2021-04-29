@@ -13,6 +13,7 @@ export interface ListItemProps {
     name: string;
     onEndPress?: (id: string) => void;
     onChangeText?: (text: string, id: string) => void;
+    onBlur?: (text: string, id: string) => void;
     backgroundColor: keyof typeof theme["colors"];
     endDisabled: boolean;
     endDisableText: string;
@@ -36,6 +37,7 @@ const ListItem: React.FC<ListItemProps> = ({
     name,
     onEndPress,
     onChangeText,
+    onBlur,
     backgroundColor,
     endDisabled,
     endDisableText,
@@ -59,6 +61,7 @@ const ListItem: React.FC<ListItemProps> = ({
                     width="100%">
                     <TextInput
                         multiline
+                        onBlur={() => onBlur && onBlur(name, id)}
                         value={name}
                         maxLength={15}
                         editable={onChangeText ? true : false}

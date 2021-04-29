@@ -75,6 +75,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             transform: [{rotate: `${rotation}deg`}],
         };
     });
+
     const animatedSettingStyles1 = useAnimatedStyle(() => {
         const shift = interpolate(
             isOpen.value,
@@ -92,6 +93,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             opacity,
         };
     });
+
     const animatedSettingStyles2 = useAnimatedStyle(() => {
         const shift = interpolate(
             isOpen.value,
@@ -109,6 +111,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             opacity,
         };
     });
+
     const animatedSettingStyles3 = useAnimatedStyle(() => {
         const shift = interpolate(
             isOpen.value,
@@ -126,6 +129,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             opacity,
         };
     });
+
     const animatedSettingStyles4 = useAnimatedStyle(() => {
         const shift = interpolate(
             isOpen.value,
@@ -143,6 +147,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             opacity,
         };
     });
+
     const animatedSettingStyles5 = useAnimatedStyle(() => {
         const shift = interpolate(
             isOpen.value,
@@ -160,6 +165,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             opacity,
         };
     });
+
     const handleAnimation = () => {
         isOpen.value = withTiming(isOpen.value > 0 ? 0 : 1, {
             duration: 500,
@@ -170,7 +176,9 @@ const Main: React.FC<MainProps> = ({navigation}) => {
         const des: LanguageName = language === "en" ? "fa" : "en";
         dispatch(setLanguage(des));
     }, [dispatch, language]);
+
     useLanguage(language);
+
     return (
         <Container
             hasIcon

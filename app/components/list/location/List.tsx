@@ -16,6 +16,7 @@ export interface ListProps {
     end?: JSX.Element;
     onEndPress?: (id: string) => void;
     onChangeText?: (text: string, id: string) => void;
+    onBlur?: (text: string, id: string) => void;
     endDisabled?: boolean;
     endDisableText?: string;
 }
@@ -30,6 +31,7 @@ const List: React.FC<ListProps> = ({
     selectedIds = [],
     onEndPress,
     onChangeText,
+    onBlur,
     endDisabled,
     endDisableText = "",
 }) => {
@@ -59,6 +61,7 @@ const List: React.FC<ListProps> = ({
                         endDisableText={endDisableText}
                         endDisabled={endDisabled}
                         onChangeText={onChangeText}
+                        onBlur={onBlur}
                         backgroundColor={
                             selectedIds.includes(item.id)
                                 ? "buttonSecondary"

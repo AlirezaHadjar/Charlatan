@@ -63,6 +63,13 @@ const Locations: React.FC = () => {
         },
         [dispatch],
     );
+    const handleBlur = useCallback(
+        (text: string, id: string) => {
+            if (text.trim() === "") handleRemoveLocation(id);
+            // dispatch();
+        },
+        [handleRemoveLocation],
+    );
     const handleAddLocation = useCallback(() => {
         dispatch(addLocation({fa: query, en: query}));
         setQuery("");
@@ -130,6 +137,7 @@ const Locations: React.FC = () => {
                             items={locations}
                             end={itemCross}
                             endDisabled={locations.length < 6}
+                            onBlur={handleBlur}
                             endDisableText={
                                 translation.Locations.lengthBelowAlert
                             }

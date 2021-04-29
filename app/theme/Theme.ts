@@ -27,6 +27,7 @@ const theme = createTheme({
         buttonPrimary: palette.light,
         buttonSecondary: palette.black,
         buttonTertiary: palette.cyan,
+        buttonDisabled: palette.lightGrey,
         // Texts
         mainTextColor: palette.superLightGrey,
         secondText: palette.darkGrey,
