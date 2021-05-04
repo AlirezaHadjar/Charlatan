@@ -5,6 +5,7 @@ import normalize from "../utils/normalizer";
 
 const palette = {
     transparent: "transparent",
+    red: "#883143",
     cyan: "#00ADB5",
     superLightGrey: "#D1D2D4",
     lightGrey: "#707070",
@@ -14,7 +15,6 @@ const palette = {
     superLight: "#eef2f7",
     light: "#EEEEEE",
     white: "#ffffff",
-    red: "#883143",
 };
 
 const theme = createTheme({
@@ -88,3 +88,11 @@ const theme = createTheme({
 
 export type ThemeType = typeof theme;
 export default theme;
+
+export const lightTheme: ThemeType = {
+    ...theme,
+    colors: {
+        ...theme.colors,
+        mainBackground: palette.white,
+    },
+};

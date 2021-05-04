@@ -12,7 +12,6 @@ import Animated, {
 import {StackNavigationProp} from "@react-navigation/stack";
 import {CompositeNavigationProp, RouteProp} from "@react-navigation/native";
 
-import Container from "../components/Container";
 import Box from "../theme/Box";
 import AppText from "../components/Text";
 import Button from "../components/Button";
@@ -36,6 +35,8 @@ import {getLanguageName, setLanguage} from "../store/reducers/language";
 import {LanguageName} from "../types";
 import {useAppDispatch} from "../store/configureStore";
 import {resetGame} from "../store/reducers/data";
+import {useDarkTheme} from "../contexts/ThemeContext";
+import AnimatedContainer from "../components/AnimatedContainer";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<AppRoute, "Main">,
@@ -63,6 +64,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
     const isOpen = useSharedValue(0);
     const translation = useTranslation();
     const language = useSelector(getLanguageName);
+    const {toggle} = useDarkTheme();
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -180,7 +182,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
     useLanguage(language);
 
     return (
-        <Container
+        <AnimatedContainer
             hasIcon
             alignItems="center"
             paddingBottom="lxl"
@@ -209,7 +211,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                         <Animated.View style={animatedSettingStyles5}>
                             <Icon
                                 icon={<Pallet />}
-                                onPress={() => navigation.navigate("Test")}
+                                onPress={() => toggle()}
                                 backgroundColor="buttonTertiary"
                                 visible={isOpen}
                             />
@@ -271,7 +273,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                     </Box>
                 </Box>
             </Box>
-        </Container>
+        </AnimatedContainer>
     );
 };
 

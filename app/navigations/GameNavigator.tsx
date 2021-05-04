@@ -17,7 +17,7 @@ export type GameRoutes = {
 
 const Stack = createStackNavigator<GameRoutes>();
 
-const AppNavigator: React.FC<{}> = ({}) => (
+const GameNavigator: React.FC = () => (
     <Stack.Navigator
         headerMode="none"
         initialRouteName="AssignRole"
@@ -38,4 +38,4 @@ const AppNavigator: React.FC<{}> = ({}) => (
     </Stack.Navigator>
 );
 
-export default AppNavigator;
+export default GameNavigator;
