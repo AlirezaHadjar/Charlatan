@@ -2,6 +2,7 @@ import * as React from "react";
 import Svg, {Rect} from "react-native-svg";
 
 import theme from "../../theme/Theme";
+import normalize from "../../utils/normalizer";
 
 interface Props {
     scale?: number;
@@ -10,7 +11,7 @@ interface Props {
 
 function SvgComponent() {
     return (
-        <Svg width={56} height={56} viewBox="0 0 56 56">
+        <Svg width={normalize(56)} height={normalize(56)} viewBox="0 0 56 56">
             <Rect
                 data-name="Rectangle 26"
                 width={56}

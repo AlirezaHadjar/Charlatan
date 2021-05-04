@@ -1,7 +1,7 @@
 import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import {ThemeProvider} from "@shopify/restyle";
 import React, {useMemo} from "react";
-import {StatusBar} from "react-native";
+import {StatusBar, StatusBarStyle} from "react-native";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 
 import theme, {lightTheme} from "../theme/Theme";
@@ -15,6 +15,10 @@ const ThemeNavigator: React.FC = () => {
     const {isDark} = useDarkTheme();
 
     const appTheme = useMemo(() => (isDark ? theme : lightTheme), [isDark]);
+    const statusBarText: StatusBarStyle = useMemo(
+        () => (isDark ? "light-content" : "dark-content"),
+        [isDark],
+    );
     const MyTheme = {
         ...DefaultTheme,
         colors: {
@@ -25,7 +29,11 @@ const ThemeNavigator: React.FC = () => {
     };
     return (
         <ThemeProvider theme={appTheme}>
-            <StatusBar backgroundColor={theme.colors.mainBackground} />
+            <StatusBar
+                backgroundColor={appTheme.colors.mainBackground}
+                barStyle={statusBarText}
+                showHideTransition="fade"
+            />
             <SafeAreaProvider>
                 <NavigationContainer theme={MyTheme}>
                     <AppNavigator />

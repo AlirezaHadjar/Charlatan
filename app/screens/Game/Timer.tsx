@@ -223,8 +223,8 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                     variant="icon"
                     icon={isPlaying ? <Stop /> : <Play />}
                     title=""
-                    height={(width * 31) / 100}
-                    width={(width * 31) / 100}
+                    height={(height * 15) / 100}
+                    width={(height * 15) / 100}
                     onPress={handleButtonPress}
                     backgroundColor="buttonTertiary"
                 />

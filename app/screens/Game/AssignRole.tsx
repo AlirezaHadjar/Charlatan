@@ -224,7 +224,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 onBackPress={handleBackButtonPress}
                 icon={<BackCross />}
             />
-            <Box paddingBottom="m" paddingHorizontal="m" flex={1}>
+            <Box paddingBottom="s" paddingHorizontal="m" flex={1}>
                 <Box flex={1}>
                     <Box alignItems="center" top={(height * 5) / 100}>
                         <Animatable>
@@ -235,8 +235,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                             </AppText>
                         </Animatable>
                         <Button
-                            height={(width * 31) / 100}
-                            width={(width * 31) / 100}
+                            height={(height * 15) / 100}
+                            width={(height * 15) / 100}
                             marginTop="l"
                             onPressIn={() => {
                                 if (!roleDisplayed) setRoleDisplayed(true);

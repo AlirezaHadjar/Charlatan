@@ -1,11 +1,13 @@
 import React from "react";
-import {ScrollView} from "react-native";
+import {Dimensions, ScrollView} from "react-native";
 
 import Container from "../components/Container";
 import Header from "../components/Header";
 import AppText from "../components/Text";
 import Box from "../theme/Box";
 import {useTranslation} from "../hooks/translation";
+
+const {height} = Dimensions.get("window");
 
 const Guide: React.FC = () => {
     const translation = useTranslation();
@@ -21,7 +23,9 @@ const Guide: React.FC = () => {
                     padding="m"
                     flex={1}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <AppText lineHeight={30} variant="regular">
+                        <AppText
+                            lineHeight={(height * 3.2) / 100}
+                            variant="regular">
                             {translation.Guide.text}
                         </AppText>
                     </ScrollView>

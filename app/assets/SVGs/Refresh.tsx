@@ -2,6 +2,7 @@ import * as React from "react";
 import Svg, {Path} from "react-native-svg";
 
 import theme from "../../theme/Theme";
+import normalize from "../../utils/normalizer";
 
 interface Props {
     scale?: number;
@@ -11,8 +12,8 @@ interface Props {
 function SvgComponent({scale = 1, color = "buttonPrimary"}: Props) {
     return (
         <Svg
-            width={scale * 21.503}
-            height={scale * 19.618}
+            width={scale * normalize(21.503)}
+            height={scale * normalize(19.618)}
             viewBox="0 0 21.503 19.618">
             <Path
                 // eslint-disable-next-line max-len

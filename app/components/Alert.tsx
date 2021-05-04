@@ -99,7 +99,10 @@ const Alert: React.FC = () => {
         (alert: AlertType) => {
             return (
                 <Box padding="m">
-                    <Box alignSelf="center" top={-45} position="absolute">
+                    <Box
+                        alignSelf="center"
+                        top={(-height * 5) / 100}
+                        position="absolute">
                         <Danger />
                     </Box>
                     <AppText
@@ -112,7 +115,7 @@ const Alert: React.FC = () => {
                         onPress={() => handlePress(alert, handleAccept)}>
                         <Box
                             width="100%"
-                            height={40}
+                            height={(height * 4.5) / 100}
                             alignItems="center"
                             justifyContent="center"
                             borderRadius="hero1">
@@ -149,7 +152,7 @@ const Alert: React.FC = () => {
                             onPress={() => handlePress(alert, handleAccept)}>
                             <Box
                                 backgroundColor="danger"
-                                height={40}
+                                height={(height * 4.5) / 100}
                                 alignItems="center"
                                 justifyContent="center">
                                 <AppText variant="bold" color="buttonPrimary">
@@ -163,7 +166,7 @@ const Alert: React.FC = () => {
                             style={styles.askButton}
                             onPress={() => handlePress(alert, handleCancel)}>
                             <Box
-                                height={40}
+                                height={(height * 4.5) / 100}
                                 alignItems="center"
                                 backgroundColor="buttonPrimary"
                                 justifyContent="center">

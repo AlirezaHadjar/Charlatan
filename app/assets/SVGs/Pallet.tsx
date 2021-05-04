@@ -2,6 +2,7 @@ import * as React from "react";
 import Svg, {Path} from "react-native-svg";
 
 import theme from "../../theme/Theme";
+import normalize from "../../utils/normalizer";
 
 interface Props {
     scale?: number;
@@ -15,7 +16,10 @@ function SvgComponent({
     backgroundColor = "secondBackground",
 }: Props) {
     return (
-        <Svg width={scale * 21} height={scale * 22.029} viewBox="0 0 21 22.029">
+        <Svg
+            width={scale * normalize(21)}
+            height={scale * normalize(22.029)}
+            viewBox="0 0 21 22.029">
             <Path
                 data-name="Path 34"
                 // eslint-disable-next-line max-len

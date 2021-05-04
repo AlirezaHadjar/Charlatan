@@ -3,6 +3,7 @@ import * as React from "react";
 import Svg, {G, Path, Circle} from "react-native-svg";
 
 import theme from "../../theme/Theme";
+import normalizer from "../../utils/normalizer";
 
 interface Props {
     scale?: number;
@@ -12,8 +13,8 @@ interface Props {
 const QuestionComponent = ({scale = 1, color = "buttonPrimary"}: Props) => {
     return (
         <Svg
-            width={scale * 13.886}
-            height={scale * 25.632}
+            width={scale * normalizer(13.886)}
+            height={scale * normalizer(25.632)}
             viewBox="0 0 13.886 25.632">
             <G
                 data-name="Group 1"

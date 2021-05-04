@@ -46,7 +46,7 @@ export type SpiesGuessProps = {
     route: RouteProp<AppRoute, "Main">;
 };
 
-const {width} = Dimensions.get("window");
+const {width, height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     container: {},
@@ -84,8 +84,8 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
     const itemCheck = useMemo(
         () => (
             <Box
-                width={30}
-                height={30}
+                width={(height * 3) / 100}
+                height={(height * 3) / 100}
                 backgroundColor="mainTextColor"
                 alignItems="center"
                 justifyContent="center"

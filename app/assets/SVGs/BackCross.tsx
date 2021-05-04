@@ -2,6 +2,7 @@ import * as React from "react";
 import Svg, {G, Path} from "react-native-svg";
 
 import theme from "../../theme/Theme";
+import normalize from "../../utils/normalizer";
 
 interface Props {
     scale?: number;
@@ -10,7 +11,10 @@ interface Props {
 
 function SvgComponent() {
     return (
-        <Svg width={21.657} height={21.657} viewBox="0 0 21.657 21.657">
+        <Svg
+            width={normalize(21.657)}
+            height={normalize(21.657)}
+            viewBox="0 0 21.657 21.657">
             <G
                 data-name="Group 30"
                 fill="none"

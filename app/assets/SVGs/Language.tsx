@@ -2,6 +2,7 @@ import * as React from "react";
 import Svg, {G, Path} from "react-native-svg";
 
 import theme from "../../theme/Theme";
+import normalize from "../../utils/normalizer";
 
 interface Props {
     scale?: number;
@@ -10,7 +11,10 @@ interface Props {
 
 function SvgComponent({scale = 1, color = "buttonPrimary"}: Props) {
     return (
-        <Svg width={scale * 24} height={scale * 24} viewBox="0 0 24 24">
+        <Svg
+            width={scale * normalize(24)}
+            height={scale * normalize(24)}
+            viewBox="0 0 24 24">
             <G fill={theme.colors[color]}>
                 <Path
                     data-name="Path 4"

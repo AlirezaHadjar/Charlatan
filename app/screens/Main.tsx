@@ -200,6 +200,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                         variant="icon"
                         scaleTo={0.95}
                         icon={<Play />}
+                        borderRadius="hero3"
                         alignSelf="center"
                         onPress={() => navigation.navigate("GameNavigator")}
                     />
