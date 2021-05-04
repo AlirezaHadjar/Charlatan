@@ -37,6 +37,7 @@ import {useAppDispatch} from "../store/configureStore";
 import {resetGame} from "../store/reducers/data";
 import {useDarkTheme} from "../contexts/ThemeContext";
 import AnimatedContainer from "../components/AnimatedContainer";
+import Animatable from "../components/Animatable";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<AppRoute, "Main">,
@@ -193,14 +194,16 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                 </AppText>
             </Box>
             <Box position="absolute" top="29%">
-                <Button
-                    title=""
-                    variant="icon"
-                    scaleTo={0.95}
-                    icon={<Play />}
-                    alignSelf="center"
-                    onPress={() => navigation.navigate("GameNavigator")}
-                />
+                <Animatable>
+                    <Button
+                        title=""
+                        variant="icon"
+                        scaleTo={0.95}
+                        icon={<Play />}
+                        alignSelf="center"
+                        onPress={() => navigation.navigate("GameNavigator")}
+                    />
+                </Animatable>
             </Box>
             <Box
                 position="absolute"

@@ -33,6 +33,7 @@ import {GameRoutes} from "../../navigations/GameNavigator";
 import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
+import Animatable from "../../components/Animatable";
 
 const {width, height} = Dimensions.get("window");
 
@@ -128,12 +129,14 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         const text = isLast ? "" : translation.AssignRole.nextButtonGuide;
         return (
             <Box maxWidth="50%">
-                <AppText
-                    fontSize={normalize(16)}
-                    color="thirdText"
-                    variant="semiBold">
-                    {text}
-                </AppText>
+                <Animatable>
+                    <AppText
+                        fontSize={normalize(16)}
+                        color="thirdText"
+                        variant="semiBold">
+                        {text}
+                    </AppText>
+                </Animatable>
             </Box>
         );
     }, [
@@ -224,9 +227,13 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             <Box paddingBottom="m" paddingHorizontal="m" flex={1}>
                 <Box flex={1}>
                     <Box alignItems="center" top={(height * 5) / 100}>
-                        <AppText fontSize={normalize(40)} variant="semiBold">
-                            {selectedPlayer.name[language]}
-                        </AppText>
+                        <Animatable>
+                            <AppText
+                                fontSize={normalize(40)}
+                                variant="semiBold">
+                                {selectedPlayer.name[language]}
+                            </AppText>
+                        </Animatable>
                         <Button
                             height={(width * 31) / 100}
                             width={(width * 31) / 100}
@@ -243,7 +250,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                             backgroundColor="secondBackground"
                         />
                         {!roleIsHidden ? (
-                            renderRole(selectedPlayer)
+                            <Animatable>
+                                {renderRole(selectedPlayer)}
+                            </Animatable>
                         ) : (
                             <AppText
                                 fontSize={normalize(20)}

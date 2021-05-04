@@ -52,11 +52,12 @@ const List: React.FC<ListProps> = ({
                     alignItems: "center",
                 }}
                 keyExtractor={(item, index) => item.id.toString() + index}
-                renderItem={({item}) => (
+                renderItem={({item, index}) => (
                     <ListItem
                         id={item.id}
                         name={item.name[language]}
                         end={end}
+                        index={index}
                         onEndPress={onEndPress}
                         endDisableText={endDisableText}
                         endDisabled={endDisabled}

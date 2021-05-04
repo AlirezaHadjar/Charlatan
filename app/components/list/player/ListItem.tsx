@@ -1,6 +1,12 @@
+import React, {useEffect} from "react";
 import {useTheme} from "@shopify/restyle";
-import React from "react";
 import {TextInput} from "react-native";
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+    interpolate,
+    withTiming,
+} from "react-native-reanimated";
 
 import {LISTITEM_HEIGHT} from "../../../../SpyHunt";
 import {getLanguageName} from "../../../store/reducers/language";
@@ -12,6 +18,7 @@ import AppTouchable from "../../Touchable";
 
 export interface ListItemProps {
     id: string;
+    index: number;
     end: JSX.Element;
     name: string;
     onEndPress?: (id: string) => void;
@@ -25,6 +32,7 @@ export interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = ({
     id,
+    index,
     end,
     endDisabled,
     name,
@@ -37,9 +45,25 @@ const ListItem: React.FC<ListItemProps> = ({
 }) => {
     const theme = useTheme<ThemeType>();
     const language = useSelector(getLanguageName);
+    const progress = useSharedValue(0);
+
+    const animatedStyles = useAnimatedStyle(() => {
+        const opacity = interpolate(progress.value, [0, 1], [0.5, 1]);
+        const translateY = interpolate(progress.value, [0, 1], [30, 0]);
+        const scaleY = interpolate(progress.value, [0, 1], [0.7, 1]);
+        return {
+            opacity,
+            transform: [{translateY}, {scaleY}],
+        };
+    }, [progress]);
+
+    useEffect(() => {
+        progress.value = 0;
+        progress.value = withTiming(1, {duration: 200 + index * 200});
+    }, [index, progress]);
 
     return (
-        <Box>
+        <Animated.View style={animatedStyles}>
             <Box
                 width="100%"
                 height={LISTITEM_HEIGHT}
@@ -81,7 +105,7 @@ const ListItem: React.FC<ListItemProps> = ({
                     </Box>
                 </AppTouchable>
             </Box>
-        </Box>
+        </Animated.View>
     );
 };
 

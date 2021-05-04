@@ -7,6 +7,7 @@ import ArrowLeft from "../assets/SVGs/ArrowLeft";
 import Box from "../theme/Box";
 import normalize from "../utils/normalizer";
 
+import Animatable from "./Animatable";
 import AppText from "./Text";
 
 export interface HeaderProps {
@@ -30,26 +31,28 @@ const Header: React.FC<HeaderProps> = ({
         return navigation.goBack();
     }, [navigation, onBackPress]);
     return (
-        <Box
-            flexDirection="row"
-            alignItems="center"
-            paddingHorizontal="m"
-            height={(height * 10) / 100}>
-            <Box flex={1}>
-                <Pressable onPress={handlePress} hitSlop={40}>
-                    <Box flexDirection="row" alignItems="center">
-                        <Box marginEnd="m">{icon}</Box>
-                        <AppText
-                            variant="semiBold"
-                            color="mainTextColor"
-                            fontSize={normalize(20)}>
-                            {screenName}
-                        </AppText>
-                    </Box>
-                </Pressable>
+        <Animatable>
+            <Box
+                flexDirection="row"
+                alignItems="center"
+                paddingHorizontal="m"
+                height={(height * 10) / 100}>
+                <Box flex={1}>
+                    <Pressable onPress={handlePress} hitSlop={40}>
+                        <Box flexDirection="row" alignItems="center">
+                            <Box marginEnd="m">{icon}</Box>
+                            <AppText
+                                variant="semiBold"
+                                color="mainTextColor"
+                                fontSize={normalize(20)}>
+                                {screenName}
+                            </AppText>
+                        </Box>
+                    </Pressable>
+                </Box>
+                <Box>{end}</Box>
             </Box>
-            <Box>{end}</Box>
-        </Box>
+        </Animatable>
     );
 };
 

@@ -39,11 +39,13 @@ const List: React.FC<ListProps> = ({
             <FlatList
                 showsVerticalScrollIndicator={false}
                 data={items}
+                // extraData={items}
                 removeClippedSubviews={false}
                 keyExtractor={(item, index) => item.id.toString() + index}
-                renderItem={({item}) => (
+                renderItem={({item, index}) => (
                     <ListItem
                         id={item.id}
+                        index={index}
                         name={item.name[language]}
                         end={end}
                         endDisabled={endDisabled}

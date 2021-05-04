@@ -11,6 +11,7 @@ import Animated, {
     runOnJS,
     useAnimatedStyle,
     useSharedValue,
+    withSpring,
     withTiming,
 } from "react-native-reanimated";
 
@@ -41,7 +42,7 @@ const Alert: React.FC = () => {
     const translation = useTranslation();
 
     useEffect(() => {
-        if (alert) isExist.value = withTiming(1);
+        if (alert) isExist.value = withSpring(1);
     }, [alert, isExist]);
 
     const opacStyle = useAnimatedStyle(() => {
