@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useState} from "react";
 
 import {storageKeys} from "../storage/keys";
 
-export const useTime = (time: number) => {
+export const useTime = () => {
     const [storageTime, setStorageTime] = useState<number>(0);
 
     const saveTime = useCallback(
@@ -15,7 +15,9 @@ export const useTime = (time: number) => {
         [storageTime],
     );
 
-    useEffect(() => {
-        saveTime(time);
-    }, [time, saveTime]);
+    // useEffect(() => {
+    //     saveTime(time);
+    // }, [time, saveTime]);
+
+    return [saveTime];
 };

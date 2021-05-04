@@ -195,7 +195,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                             80,
                         )}>{`${minutes} : ${seconds}`}</AppText>
                 </Box>
-                <TouchableOpacity onPress={handleTipsShown}>
+                {/* <TouchableOpacity onPress={handleTipsShown}>
                     <Box
                         width="100%"
                         alignItems="center"
@@ -217,7 +217,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                         numberOfVisibleItems={VISIBLE_TIPS}
                         itemHeight={TIP_HEIGHT}
                     />
-                </Animated.View>
+                </Animated.View> */}
                 <Button
                     marginVertical="m"
                     variant="icon"

@@ -31,5 +31,5 @@ export const getLanguageName = createSelector(
 );
 export const getLanguageData = createSelector(
     (state: AppState) => state.entities.language,
-    (language: Language) => language?.data,
+    (language: Language) => language.data,
 );

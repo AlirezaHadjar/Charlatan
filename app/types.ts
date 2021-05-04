@@ -83,7 +83,7 @@ export type LanguageData = typeof languageDatas[keyof typeof languageDatas];
 
 export interface Language {
     name: LanguageName;
-    data: LanguageData | undefined;
+    data: LanguageData;
 }
 
 export interface PickerRef {
