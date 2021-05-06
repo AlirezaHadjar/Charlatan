@@ -94,13 +94,13 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
                 <Box alignItems="center" flex={1} paddingTop="lxl">
                     {renderWinnerText()}
                     <Button
-                        fontSize={normalize(23)}
+                        fontSize={normalize(19)}
                         variant="simple"
                         title={translation.Result.playAgain}
                         onPress={handlePlayAgain}
                         backgroundColor="secondBackground"
                         marginVertical="m"
-                        height={(height * 7) / 100}
+                        height={(height * 8) / 100}
                         width={(width * 53) / 100}>
                         <Box flex={0.3}>
                             <Refresh scale={1} />

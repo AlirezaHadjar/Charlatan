@@ -82,7 +82,7 @@ const Locations: React.FC = () => {
                 width={30}
                 height={30}
                 backgroundColor="mainTextColor"
-                opacity={locations.length < 5 ? 0.3 : 1}
+                opacity={locations.length <= 5 ? 0.5 : 1}
                 alignItems="center"
                 justifyContent="center"
                 borderRadius="m">

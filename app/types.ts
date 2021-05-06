@@ -47,6 +47,7 @@ export interface PickerItem {
     index: number;
     offset: Animated.SharedValue<number>;
     itemHeight: number;
+    itemWidth?: number;
     maxWidth?: number;
 }
 

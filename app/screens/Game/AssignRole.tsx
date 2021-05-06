@@ -224,7 +224,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 onBackPress={handleBackButtonPress}
                 icon={<BackCross />}
             />
-            <Box paddingBottom="s" paddingHorizontal="m" flex={1}>
+            <Box paddingBottom="m" paddingHorizontal="m" flex={1}>
                 <Box flex={1}>
                     <Box alignItems="center" top={(height * 5) / 100}>
                         <Animatable>
@@ -243,27 +243,28 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 setRoleIsHidden(false);
                             }}
                             onPressOut={() => setRoleIsHidden(true)}
-                            marginBottom="m"
+                            marginBottom="l"
                             variant="icon"
                             icon={<Eye />}
                             title=""
                             backgroundColor="secondBackground"
                         />
-                        {!roleIsHidden ? (
-                            <Animatable>
-                                {renderRole(selectedPlayer)}
-                            </Animatable>
-                        ) : (
-                            <AppText
-                                fontSize={normalize(20)}
-                                color="thirdText"
-                                variant="medium"
-                                textAlign="center">
-                                {roleDisplayed
-                                    ? translation.AssignRole.seeRoleGuideAgain
-                                    : translation.AssignRole.seeRoleGuide}
-                            </AppText>
-                        )}
+                        <Animatable deps={[roleIsHidden]}>
+                            {!roleIsHidden ? (
+                                renderRole(selectedPlayer)
+                            ) : (
+                                <AppText
+                                    fontSize={normalize(20)}
+                                    color="thirdText"
+                                    variant="medium"
+                                    textAlign="center">
+                                    {roleDisplayed
+                                        ? translation.AssignRole
+                                              .seeRoleGuideAgain
+                                        : translation.AssignRole.seeRoleGuide}
+                                </AppText>
+                            )}
+                        </Animatable>
                     </Box>
                 </Box>
                 <Box height={(height * 15) / 100} justifyContent="flex-end">

@@ -189,7 +189,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             paddingBottom="lxl"
             paddingHorizontal="ml">
             <Box top="5%">
-                <AppText fontSize={normalize(60)} variant="bold">
+                <AppText fontSize={normalize(55)} variant="bold">
                     {translation.Main.title}
                 </AppText>
             </Box>
@@ -202,7 +202,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                         icon={<Play />}
                         borderRadius="hero3"
                         alignSelf="center"
-                        onPress={() => navigation.navigate("GameNavigator")}
+                        onPress={() => navigation.navigate("StartGame")}
                     />
                 </Animatable>
             </Box>

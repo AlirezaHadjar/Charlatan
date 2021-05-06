@@ -11,15 +11,21 @@ import Animated, {
     useSharedValue,
 } from "react-native-reanimated";
 
-import {ITEM_HEIGHT} from "../../SpyHunt";
+import {ITEM_HEIGHT, ITEM_WIDTH} from "../../SpyHunt";
 import Box from "../theme/Box";
 
 import Item from "./Item";
 
+interface ItemType {
+    id: string;
+    title: string;
+}
+
 export interface PickerProps {
     numberOfVisibleItems?: number;
     itemHeight?: number;
-    items: {id: string; title: string}[];
+    itemWidth?: number;
+    items: ItemType[];
     initialTitle?: string;
     onSelect?: (value: string, priority: "urgent" | "normal") => void;
     isInBottomSheet?: boolean;
@@ -33,9 +39,14 @@ const BottomSheetAnimatedFlatlist = Animated.createAnimatedComponent(
 
 export const NUM = 3;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const keyExtractor: (item: any, index: number) => string = (item, index) =>
+    `${item.id}-${index}`;
+
 const Picker: React.FC<PickerProps> = ({
     numberOfVisibleItems = NUM,
     itemHeight = ITEM_HEIGHT,
+    itemWidth = ITEM_WIDTH,
     items = [],
     initialTitle = "",
     onSelect,
@@ -64,20 +75,16 @@ const Picker: React.FC<PickerProps> = ({
                     item={item}
                     offset={translationY}
                     itemHeight={itemHeight}
+                    itemWidth={itemWidth}
                     maxWidth={maxWidth}
                 />
             );
         },
-        [itemHeight, maxWidth, translationY],
-    );
-    const keyExtractor = useCallback(
-        (item, index) => `${item.id}-${index}`,
-        [],
+        [itemHeight, itemWidth, maxWidth, translationY],
     );
 
     const handleFlatlistScroll = useCallback(
         (title: string) => {
-            // console.log(title);
             const index = items.findIndex((item) => item.title === title);
             if (index === -1) return;
             const offset = itemHeight * index;
@@ -88,7 +95,6 @@ const Picker: React.FC<PickerProps> = ({
     );
 
     useEffect(() => {
-        // console.log("useEffect");
         handleFlatlistScroll(initialTitle);
     }, [handleFlatlistScroll, initialTitle]);
 
@@ -100,7 +106,6 @@ const Picker: React.FC<PickerProps> = ({
         }),
         [itemHeight],
     );
-    // const getItemCount = useCallback((data) => data., []);
 
     const handleFailedScroll = useCallback(
         async (info: {
@@ -120,7 +125,7 @@ const Picker: React.FC<PickerProps> = ({
     const handleScrollEnd = useCallback(
         (e: NativeSyntheticEvent<NativeScrollEvent>) => {
             const offset = e.nativeEvent.contentOffset.y;
-            const index = Math.floor(offset / itemHeight);
+            const index = Math.floor((offset + itemHeight * 0.3) / itemHeight);
             if (index < 0 || index >= items.length) return;
             const {title} = items[index];
             onSelect && onSelect(title, "normal");
@@ -156,7 +161,6 @@ const Picker: React.FC<PickerProps> = ({
             handleScrollEnd,
             itemHeight,
             items,
-            keyExtractor,
             numberOfVisibleItems,
             renderItem,
             scrollHandler,

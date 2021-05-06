@@ -98,6 +98,7 @@ const Item: React.FC<PickerItem> = ({
     index,
     offset,
     itemHeight,
+    itemWidth,
     maxWidth,
 }) => {
     const udv = useDerivedValue(() => {
@@ -115,6 +116,7 @@ const Item: React.FC<PickerItem> = ({
     const style = useAnimatedStyle(
         () => ({
             height: itemHeight,
+            width: itemWidth,
             opacity: opacityAnimation(udv, index, itemHeight),
             maxWidth,
             alignItems: "center",

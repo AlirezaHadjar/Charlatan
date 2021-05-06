@@ -75,7 +75,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 height={BOX_SIZE}
                 marginVertical="ss"
                 marginStart="s"
-                paddingHorizontal="m"
+                // paddingHorizontal="m"
                 backgroundColor={backgroundColor}
                 alignItems="center"
                 borderRadius="l">
@@ -92,7 +92,7 @@ const ListItem: React.FC<ListItemProps> = ({
                         editable={onChangeText ? true : false}
                         style={{
                             fontFamily: "Kalameh Bold",
-                            fontSize: normalize(17),
+                            fontSize: normalize(15),
                             fontWeight: "normal",
                             color: theme.colors.thirdText,
                             flex: 1,

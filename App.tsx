@@ -1,11 +1,7 @@
 import "react-native-gesture-handler";
 import React, {useCallback, useEffect, useState} from "react";
-import {I18nManager, Platform} from "react-native";
+import {I18nManager} from "react-native";
 import {Provider} from "react-redux";
-import changeNavigationBarColor, {
-    hideNavigationBar,
-    showNavigationBar,
-} from "react-native-navigation-bar-color";
 
 import {store} from "./app/store/getStore";
 import {fetchData} from "./app/utils/fetchData";
@@ -24,21 +20,14 @@ const App: React.FC = ({}) => {
         console.log(e);
     }
 
-    const handleAndroidNavBar = useCallback(() => {
-        if (Platform.OS !== "android") return;
-        changeNavigationBarColor("translucent", true, true);
-        hideNavigationBar();
-    }, []);
-
-    const fetch = async () => {
-        handleAndroidNavBar();
+    const fetch = useCallback(async () => {
         await fetchData();
         setLoading(false);
-    };
+    }, []);
 
     useEffect(() => {
         fetch();
-    }, []);
+    }, [fetch]);
     return (
         <Provider store={myStore}>
             <DarkThemeProvider>

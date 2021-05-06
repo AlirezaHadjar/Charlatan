@@ -5,7 +5,7 @@ const PIXEL_RATIO = PixelRatio.get();
 
 // IPhone 6: 750 * 1334 (Pixel Ratio: 2)
 
-const pixelRatio = PIXEL_RATIO > 2.5 ? 2.5 : PIXEL_RATIO;
+const pixelRatio = PIXEL_RATIO > 2.5 ? 2.7 : PIXEL_RATIO;
 
 const heightScale = SCREEN_HEIGHT / 750;
 const pixelDensityScale = pixelRatio / 2 < 1 ? 1 : pixelRatio / 2;

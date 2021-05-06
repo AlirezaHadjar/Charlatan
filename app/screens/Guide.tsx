@@ -24,7 +24,7 @@ const Guide: React.FC = () => {
                     flex={1}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <AppText
-                            lineHeight={(height * 3.2) / 100}
+                            lineHeight={(height * 3.8) / 100}
                             variant="regular">
                             {translation.Guide.text}
                         </AppText>

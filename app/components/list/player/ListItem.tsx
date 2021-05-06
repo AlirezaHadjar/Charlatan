@@ -73,7 +73,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 flexDirection={language === "en" ? "row" : "row-reverse"}
                 alignItems="center"
                 borderRadius="l">
-                <Box justifyContent="center" flex={1} height="100%">
+                <Box justifyContent="center" height="100%">
                     <TextInput
                         maxLength={15}
                         onBlur={() => onBlur && onBlur(name, id)}
@@ -90,6 +90,7 @@ const ListItem: React.FC<ListItemProps> = ({
                         }
                     />
                 </Box>
+                <Box flex={1} />
                 <AppTouchable
                     disabled={endDisabled}
                     disableText={endDisableText}

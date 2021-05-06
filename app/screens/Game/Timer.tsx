@@ -38,7 +38,7 @@ import Arrow from "../../assets/SVGs/ArrowLeft";
 import {useTranslation} from "../../hooks/translation";
 import {setAlert} from "../../store/reducers/alert";
 import Picker from "../../components/Picker";
-
+import {useInterval} from "../../hooks/interval";
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
     StackNavigationProp<AppRoute>
@@ -90,21 +90,14 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
         return `${res}`;
     }, [time]);
 
-    useEffect(() => {
-        if (!isPlaying) return;
-        let remainingTime = time;
-        const startTime = Date.now() + time + 1000;
-        const countdown = setInterval(() => {
-            remainingTime = startTime - Date.now();
-            if (Math.floor(remainingTime) >= 0) {
-                setTime(remainingTime);
-                return;
-            }
-            clearInterval(countdown);
-            handleButtonPress();
-        }, 1000);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isPlaying]);
+    const handleUpdate = useCallback(() => {
+        console.log("Changing");
+        const newTime = time - 1000;
+        setTime(newTime);
+        if (Math.floor(newTime / 1000) === 0) setIsPlaying(false);
+    }, [time]);
+
+    useInterval(handleUpdate, isPlaying ? 1000 : null);
 
     const handleButtonPress = useCallback(() => {
         if (!isPlaying)

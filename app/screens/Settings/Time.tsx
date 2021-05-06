@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo} from "react";
 import {useDispatch} from "react-redux";
-import {AppState} from "react-native";
+import {AppState, Dimensions} from "react-native";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -11,6 +11,8 @@ import {useSelector} from "../../store/useSelector";
 import {useTranslation} from "../../hooks/translation";
 import {useTime} from "../../hooks/useTime";
 import Box from "../../theme/Box";
+
+const {width} = Dimensions.get("window");
 
 const renderSecondsPickerItems = () => {
     const seconds = [];
@@ -73,10 +75,11 @@ const Time: React.FC = () => {
                     {useMemo(
                         () => (
                             <Box flex={1} alignItems="center">
-                                <AppText>Minutes</AppText>
+                                <AppText>{translation.Time.minutes}</AppText>
                                 <Picker
                                     items={renderMinutesPickerItems()}
-                                    maxWidth={100}
+                                    // maxWidth={100}
+                                    itemWidth={(width * 35) / 100}
                                     initialTitle={minutes}
                                     onSelect={(min) =>
                                         handleSelect(min, seconds)
@@ -84,15 +87,21 @@ const Time: React.FC = () => {
                                 />
                             </Box>
                         ),
-                        [handleSelect, minutes, seconds],
+                        [
+                            handleSelect,
+                            minutes,
+                            seconds,
+                            translation.Time.minutes,
+                        ],
                     )}
                     {useMemo(
                         () => (
                             <Box flex={1} alignItems="center">
-                                <AppText>Seconds</AppText>
+                                <AppText>{translation.Time.seconds}</AppText>
                                 <Picker
                                     items={renderSecondsPickerItems()}
-                                    maxWidth={100}
+                                    // maxWidth={100}
+                                    itemWidth={(width * 35) / 100}
                                     initialTitle={seconds}
                                     onSelect={(sec) =>
                                         handleSelect(minutes, sec)
@@ -100,7 +109,12 @@ const Time: React.FC = () => {
                                 />
                             </Box>
                         ),
-                        [handleSelect, minutes, seconds],
+                        [
+                            handleSelect,
+                            minutes,
+                            seconds,
+                            translation.Time.seconds,
+                        ],
                     )}
                 </Box>
             </Box>

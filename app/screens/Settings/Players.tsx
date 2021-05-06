@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {
     Dimensions,
     Keyboard,
@@ -40,6 +40,7 @@ import {usePlayer} from "../../hooks/usePlayer";
 import {useSpy} from "../../hooks/useSpy";
 import {getLanguageName} from "../../store/reducers/language";
 import AppTouchable from "../../components/Touchable";
+import {Player} from "../../types";
 
 const {width} = Dimensions.get("window");
 
@@ -103,7 +104,7 @@ const Players: React.FC = () => {
                 width={30}
                 height={30}
                 backgroundColor="mainTextColor"
-                opacity={players.length < 4 ? 0.3 : 1}
+                opacity={players.length <= 3 ? 0.3 : 1}
                 alignItems="center"
                 justifyContent="center"
                 borderRadius="m">
@@ -136,6 +137,18 @@ const Players: React.FC = () => {
         },
         [handleRemovePlayer],
     );
+    const handleZeroSpy = useCallback(
+        (players: Player[]) => {
+            const availableSpiesLength = Math.floor(players.length / 3);
+            if (availableSpiesLength > 0)
+                dispatch(setSpiesLength(availableSpiesLength));
+        },
+        [dispatch],
+    );
+    useEffect(() => {
+        if (spiesLength !== 0) return;
+        handleZeroSpy(players);
+    }, [handleZeroSpy, players, spiesLength]);
     const handleAddPlayer = useCallback(() => {
         dispatch(addPlayer({en: query, fa: query}));
         setQuery("");

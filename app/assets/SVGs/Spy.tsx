@@ -1,9 +1,13 @@
 /* eslint-disable max-len */
 import {useTheme} from "@shopify/restyle";
 import * as React from "react";
+import {Dimensions} from "react-native";
 import Svg, {G, Path, Circle, Rect, Ellipse} from "react-native-svg";
 
 import {ThemeType} from "../../theme/Theme";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get("window");
 
 const DEFAULT_WIDTH = 360;
 const DEFAULT_HEIGHT = 360.475;
