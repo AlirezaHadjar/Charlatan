@@ -16,9 +16,7 @@ const App: React.FC = ({}) => {
     try {
         I18nManager.forceRTL(false);
         I18nManager.allowRTL(false);
-    } catch (e) {
-        console.log(e);
-    }
+    } catch (e) {}
 
     const fetch = useCallback(async () => {
         await fetchData();

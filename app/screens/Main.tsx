@@ -202,7 +202,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                         icon={<Play />}
                         borderRadius="hero3"
                         alignSelf="center"
-                        onPress={() => navigation.navigate("StartGame")}
+                        onPress={() => navigation.navigate("SelectGame")}
                     />
                 </Animatable>
             </Box>

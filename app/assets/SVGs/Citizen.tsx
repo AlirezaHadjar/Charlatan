@@ -1,14 +1,16 @@
 /* eslint-disable max-len */
+import {useTheme} from "@shopify/restyle";
 import * as React from "react";
 import Svg, {G, Path, Circle, Rect} from "react-native-svg";
 
-import theme from "../../theme/Theme";
+import {ThemeType} from "../../theme/Theme";
 
 interface Props {
     scale?: number;
 }
 
 function SvgComponent() {
+    const theme = useTheme<ThemeType>();
     const color = {
         primary: theme.colors.characterPrimary,
         secondary: "#002741",

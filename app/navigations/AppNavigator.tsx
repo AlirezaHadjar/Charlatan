@@ -8,6 +8,7 @@ import Time from "../screens/Settings/Time";
 import Players from "../screens/Settings/Players";
 import Locations from "../screens/Settings/Locations";
 import StartGame from "../screens/Game/StartGame";
+import SelectGame from "../screens/Game/SelectGame";
 
 import GameNavigator from "./GameNavigator";
 
@@ -19,6 +20,7 @@ export type AppRoute = {
     Time: undefined;
     Locations: undefined;
     GameNavigator: undefined;
+    SelectGame: undefined;
     StartGame: undefined;
 };
 
@@ -42,6 +44,7 @@ const AppNavigator: React.FC = () => (
         <Stack.Screen component={Test} name="Test" />
         <Stack.Screen component={Players} name="Players" />
         <Stack.Screen component={Time} name="Time" />
+        <Stack.Screen component={SelectGame} name="SelectGame" />
         <Stack.Screen component={StartGame} name="StartGame" />
         <Stack.Screen component={Locations} name="Locations" />
         <Stack.Screen component={GameNavigator} name="GameNavigator" />

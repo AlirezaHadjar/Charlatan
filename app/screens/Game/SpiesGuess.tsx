@@ -13,11 +13,12 @@ import Header from "../../components/Header";
 import List from "../../components/list/location/List";
 import AppText from "../../components/Text";
 import {
-    getGameResult,
+    editGame,
+    getActiveGameId,
+    getGame,
+    getLocation,
     getLocations,
-    getPlayers,
-    getSelectedLocation,
-    getSpiesIds,
+    getPlayersByPlayers,
     resetGame,
     setGameResult,
 } from "../../store/reducers/data";
@@ -54,12 +55,24 @@ const styles = StyleSheet.create({
 
 const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
     const translation = useTranslation();
-    const language = useSelector(getLanguageName);
-    const players = useSelector(getPlayers);
-    const spiesIds = useSelector(getSpiesIds);
+    const activeGameId = useSelector(getActiveGameId);
+    const selectedGame = useSelector(getGame(activeGameId));
+    const selectedRound = useMemo(
+        () => selectedGame.rounds[selectedGame.currentRoundIndex],
+        [selectedGame.currentRoundIndex, selectedGame.rounds],
+    );
+    const selectedLocationId = useMemo(
+        () => (selectedRound ? selectedRound.selectedLocationId : ""),
+        [selectedRound],
+    );
+    const spiesIds = useMemo(
+        () => (selectedRound ? selectedRound.spiesIds : []),
+        [selectedRound],
+    );
+    const players = useSelector(getPlayersByPlayers(selectedGame.players));
+    const location = useSelector(getLocation(selectedLocationId));
     const locations = useSelector(getLocations);
-    const location = useSelector(getSelectedLocation);
-    const gameResult = useSelector(getGameResult);
+    const language = useSelector(getLanguageName);
     const dispatch = useAppDispatch();
     const [guesses, setGuesses] = useState<GuessType[]>([]);
     const spies = useMemo(
@@ -119,23 +132,38 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         [guesses, selectedSpy.id],
     );
     const handleWinner = useCallback(() => {
-        const guessedLocations = guesses.map((guess) => guess.guessedId);
+        const guessedIds = guesses.map((guess) => guess.guessedId);
         const guessesWhichWereCorrect = guesses.filter(
-            (guess) => guess.guessedId === location.id,
+            (guess) => guess.guessedId === location?.id,
         );
         const spiesWhoGuessedCorrectlyIds = guessesWhichWereCorrect.map(
             (guess) => guess.guesserId,
         );
-        if (guessedLocations.includes(location.id))
+        if (guessedIds.includes(location.id))
             dispatch(
                 setGameResult({
-                    ...gameResult,
-                    winner: Winners.Spies,
-                    spiesWhoGuessedCorrectlyIds,
+                    gameId: selectedGame.id,
+                    round: {
+                        winner: Winners.Spies,
+                        spiesWhoGuessedCorrectlyIds,
+                    },
                 }),
             );
+        dispatch(
+            editGame({
+                currentRoundIndex: selectedGame.currentRoundIndex + 1,
+                id: selectedGame.id,
+            }),
+        );
         navigation.navigate("Result");
-    }, [dispatch, gameResult, guesses, location, navigation]);
+    }, [
+        dispatch,
+        guesses,
+        location?.id,
+        navigation,
+        selectedGame.currentRoundIndex,
+        selectedGame.id,
+    ]);
     const handleNext = useCallback(() => {
         const clonedSpies = [...modifiedSpies];
         const index = clonedSpies.indexOf(selectedSpy);

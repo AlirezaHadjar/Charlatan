@@ -6,12 +6,12 @@ import Animated, {
     useSharedValue,
 } from "react-native-reanimated";
 
-import Theme from "../theme/Theme";
+import {ThemeType} from "../theme/Theme";
 
 import Button from "./Button";
 
 export interface IconProps {
-    backgroundColor?: keyof typeof Theme.colors;
+    backgroundColor?: keyof ThemeType["colors"];
     onPress?: () => void;
     icon: JSX.Element;
     size?: number;

@@ -4,16 +4,16 @@ import {FlatList} from "react-native";
 import {getLanguageName} from "../../../store/reducers/language";
 import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
-import {Player} from "../../../types";
+import {User} from "../../../types";
 
 import ListItem from "./ListItem";
 
-interface ModifiedPlayer extends Player {
+interface ModifiedPlayer extends User {
     selected?: boolean;
 }
 
 export interface ListProps {
-    items: Player[];
+    items: User[];
     selectedIds?: string[];
     end?: JSX.Element;
     onEndPress?: (id: string) => void;

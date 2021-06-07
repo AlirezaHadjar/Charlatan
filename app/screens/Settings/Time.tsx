@@ -44,7 +44,6 @@ const Time: React.FC = () => {
     }, [time]);
 
     const handleStateChange = useCallback(() => {
-        console.log("Saving...");
         saveTime(time);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -72,50 +71,38 @@ const Time: React.FC = () => {
             <Header screenName={translation.Time.header} />
             <Box paddingHorizontal="m" flex={1}>
                 <Box flexDirection="row" top="40%">
-                    {useMemo(
-                        () => (
-                            <Box flex={1} alignItems="center">
-                                <AppText>{translation.Time.minutes}</AppText>
+                    <Box flex={1} alignItems="center">
+                        <AppText>{translation.Time.minutes}</AppText>
+                        {useMemo(
+                            () => (
                                 <Picker
                                     items={renderMinutesPickerItems()}
-                                    // maxWidth={100}
                                     itemWidth={(width * 35) / 100}
                                     initialTitle={minutes}
                                     onSelect={(min) =>
                                         handleSelect(min, seconds)
                                     }
                                 />
-                            </Box>
-                        ),
-                        [
-                            handleSelect,
-                            minutes,
-                            seconds,
-                            translation.Time.minutes,
-                        ],
-                    )}
-                    {useMemo(
-                        () => (
-                            <Box flex={1} alignItems="center">
-                                <AppText>{translation.Time.seconds}</AppText>
+                            ),
+                            [handleSelect, minutes, seconds],
+                        )}
+                    </Box>
+                    <Box flex={1} alignItems="center">
+                        <AppText>{translation.Time.seconds}</AppText>
+                        {useMemo(
+                            () => (
                                 <Picker
                                     items={renderSecondsPickerItems()}
-                                    // maxWidth={100}
                                     itemWidth={(width * 35) / 100}
                                     initialTitle={seconds}
                                     onSelect={(sec) =>
                                         handleSelect(minutes, sec)
                                     }
                                 />
-                            </Box>
-                        ),
-                        [
-                            handleSelect,
-                            minutes,
-                            seconds,
-                            translation.Time.seconds,
-                        ],
-                    )}
+                            ),
+                            [handleSelect, minutes, seconds],
+                        )}
+                    </Box>
                 </Box>
             </Box>
         </Container>

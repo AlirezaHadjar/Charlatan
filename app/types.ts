@@ -5,13 +5,29 @@ import {languageDatas} from "./language/index";
 export type Strumber = string | number;
 
 export interface Data {
-    players: Player[];
+    players: User[];
     time: number;
     locations: Location[];
-    selectedLocation: Location | undefined;
     spiesLength: number;
+    games: Game[];
+    activeGameId: string;
+}
+
+export interface Round {
     spiesIds: string[];
-    gameResult: GameResult | undefined;
+    selectedLocationId: string;
+    winner: Winner;
+    votingResult: VotingResult[];
+    spiesWhoGuessedCorrectlyIds: string[];
+}
+
+export interface Game {
+    id: string;
+    name: string;
+    currentRoundIndex: number;
+    rounds: Round[];
+    players: Player[];
+    updatedAt: number;
 }
 
 export interface Alert {
@@ -25,20 +41,23 @@ export interface Alert {
     onCancel?: () => void;
 }
 
-export interface Player {
+export interface Name {
+    en: string;
+    fa: string;
+}
+
+export interface User {
     id: string;
-    name: {
-        en: string;
-        fa: string;
-    };
-    role: string;
+    name: Name;
+}
+
+export interface Player {
+    score: number;
+    id: string;
 }
 
 export interface Location {
-    name: {
-        en: string;
-        fa: string;
-    };
+    name: Name;
     id: string;
 }
 

@@ -1,6 +1,6 @@
-import {Location, Player} from "../types";
+import {Location, User} from "../types";
 
-const players: Player[] = [
+const players: User[] = [
     {id: "1", role: "", name: {fa: "بازیکن ۱", en: "Player 1"}},
     {id: "2", role: "", name: {fa: "بازیکن ۲", en: "Player 2"}},
     {id: "3", role: "", name: {fa: "بازیکن ۳", en: "Player 3"}},

@@ -24,7 +24,9 @@ const Animatable: React.FC<AnimatableProps> = ({
     const progress = useSharedValue(0);
     useEffect(() => {
         progress.value = 0;
-        progress.value = withTiming(1, {duration});
+        progress.value = withTiming(1, {duration: 200}, (isFinished) => {
+            if (isFinished) progress.value = withTiming(1, {duration});
+        });
     }, [duration, progress, deps]);
 
     const styles = useAnimatedStyle(() => {

@@ -78,7 +78,7 @@ const Button: React.FC<ButtonProps> = ({
                   easing: Easing.bezier(0.85, 0, 0.15, 1),
               })
             : withSequence(
-                  withTiming(1.01, {
+                  withTiming(1.05, {
                       duration: 500,
                       easing: Easing.bezier(0.85, 0, 0.15, 1),
                   }),

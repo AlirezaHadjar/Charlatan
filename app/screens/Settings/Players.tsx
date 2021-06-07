@@ -40,7 +40,7 @@ import {usePlayer} from "../../hooks/usePlayer";
 import {useSpy} from "../../hooks/useSpy";
 import {getLanguageName} from "../../store/reducers/language";
 import AppTouchable from "../../components/Touchable";
-import {Player} from "../../types";
+import {User} from "../../types";
 
 const {width} = Dimensions.get("window");
 
@@ -124,7 +124,6 @@ const Players: React.FC = () => {
         (id: string) => {
             const maxSpiesLength = Math.floor((players.length - 1) / 3);
             dispatch(removePlayer(id));
-            console.log(spiesLength, maxSpiesLength);
             if (spiesLength > maxSpiesLength)
                 dispatch(setSpiesLength(maxSpiesLength));
         },
@@ -138,7 +137,7 @@ const Players: React.FC = () => {
         [handleRemovePlayer],
     );
     const handleZeroSpy = useCallback(
-        (players: Player[]) => {
+        (players: User[]) => {
             const availableSpiesLength = Math.floor(players.length / 3);
             if (availableSpiesLength > 0)
                 dispatch(setSpiesLength(availableSpiesLength));

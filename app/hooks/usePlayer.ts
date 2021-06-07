@@ -2,13 +2,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useCallback, useEffect, useState} from "react";
 
 import {storageKeys} from "../storage/keys";
-import {Player} from "../types";
+import {User} from "../types";
 
-export const usePlayer = (players: Player[]) => {
-    const [storagePlayers, setStoragePlayers] = useState<Player[]>([]);
+export const usePlayer = (players: User[]) => {
+    const [storagePlayers, setStoragePlayers] = useState<User[]>([]);
 
     const savePlayers = useCallback(
-        (newPlayers: Player[]) => {
+        (newPlayers: User[]) => {
             if (storagePlayers === newPlayers) return;
             AsyncStorage.setItem(
                 storageKeys.players,

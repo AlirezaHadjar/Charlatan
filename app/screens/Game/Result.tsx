@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useMemo} from "react";
 import {BackHandler, Dimensions, StyleSheet} from "react-native";
 import {
     CompositeNavigationProp,
@@ -16,7 +16,7 @@ import Refresh from "../../assets/SVGs/Refresh";
 import BackCross from "../../assets/SVGs/BackCross";
 import Box from "../../theme/Box";
 import {useSelector} from "../../store/useSelector";
-import {getGameResult} from "../../store/reducers/data";
+import {getActiveGameId, getGame} from "../../store/reducers/data";
 import {Winners} from "../../types";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
@@ -43,10 +43,15 @@ const styles = StyleSheet.create({
 
 const Result: React.FC<ResultProps> = ({navigation}) => {
     const translation = useTranslation();
-    const gameResult = useSelector(getGameResult);
+    const activeGameId = useSelector(getActiveGameId);
+    const selectedGame = useSelector(getGame(activeGameId));
+    const selectedRound = useMemo(
+        () => selectedGame.rounds[selectedGame.currentRoundIndex - 1],
+        [selectedGame.currentRoundIndex, selectedGame.rounds],
+    );
     const renderWinnerText = () => {
         const text =
-            gameResult.winner === Winners.Spies
+            selectedRound.winner === Winners.Spies
                 ? translation.Result.spies
                 : translation.Result.citizens;
         return (
@@ -90,24 +95,27 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
                 onBackPress={handleBackButtonPress}
                 icon={<BackCross />}
             />
-            {gameResult && (
+            {selectedRound && (
                 <Box alignItems="center" flex={1} paddingTop="lxl">
                     {renderWinnerText()}
-                    <Button
-                        fontSize={normalize(19)}
-                        variant="simple"
-                        title={translation.Result.playAgain}
-                        onPress={handlePlayAgain}
-                        backgroundColor="secondBackground"
-                        marginVertical="m"
-                        height={(height * 8) / 100}
-                        width={(width * 53) / 100}>
-                        <Box flex={0.3}>
-                            <Refresh scale={1} />
-                        </Box>
-                    </Button>
+                    {selectedGame.currentRoundIndex <
+                        selectedGame.rounds.length - 1 && (
+                        <Button
+                            fontSize={normalize(19)}
+                            variant="simple"
+                            title={translation.Result.playAgain}
+                            onPress={handlePlayAgain}
+                            backgroundColor="secondBackground"
+                            marginVertical="m"
+                            height={(height * 8) / 100}
+                            width={(width * 53) / 100}>
+                            <Box flex={0.3}>
+                                <Refresh scale={1} />
+                            </Box>
+                        </Button>
+                    )}
                     <Box bottom={0} position="absolute">
-                        {gameResult.winner === Winners.Citizens ? (
+                        {selectedRound.winner === Winners.Citizens ? (
                             <Citizen />
                         ) : (
                             <Spy />

@@ -17,9 +17,9 @@ interface Props {
 }
 
 function SvgComponent({scale = 1}: Props) {
+    const theme = useTheme<ThemeType>();
     const width = React.useMemo(() => scale * DEFAULT_WIDTH, [scale]);
     const height = React.useMemo(() => scale * DEFAULT_HEIGHT, [scale]);
-    const theme = useTheme<ThemeType>();
     const color = {
         primary: theme.colors.characterPrimary,
         secondary: "#002741",

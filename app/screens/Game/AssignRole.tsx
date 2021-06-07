@@ -17,14 +17,14 @@ import Box from "../../theme/Box";
 import normalize from "../../utils/normalizer";
 import {useSelector} from "../../store/useSelector";
 import {
-    startGame,
-    getPlayers,
-    getSelectedLocation,
-    getSpiesIds,
     resetGame,
+    getActiveGameId,
+    getGame,
+    getPlayersByPlayers,
+    getLocation,
 } from "../../store/reducers/data";
 import AppText from "../../components/Text";
-import {Location, Player} from "../../types";
+import {Location, User} from "../../types";
 import Pin from "../../assets/SVGs/Pin";
 import BackCross from "../../assets/SVGs/BackCross";
 import {useAppDispatch} from "../../store/configureStore";
@@ -52,12 +52,26 @@ export type AssignRoleProps = {
 };
 
 const Game: React.FC<AssignRoleProps> = ({navigation}) => {
-    const players = useSelector(getPlayers);
+    const activeGameId = useSelector(getActiveGameId);
+    const selectedGame = useSelector(getGame(activeGameId));
+    const selectedRound = useMemo(
+        () => selectedGame.rounds[selectedGame.currentRoundIndex],
+        [selectedGame.currentRoundIndex, selectedGame.rounds],
+    );
+    const selectedLocationId = useMemo(
+        () => (selectedRound ? selectedRound.selectedLocationId : ""),
+        [selectedRound],
+    );
+    const spiesIds = useMemo(
+        () => (selectedRound ? selectedRound.spiesIds : []),
+        [selectedRound],
+    );
+    console.log("Round", selectedGame.currentRoundIndex);
+    const location = useSelector(getLocation(selectedLocationId));
+    const players = useSelector(getPlayersByPlayers(selectedGame.players));
     const translation = useTranslation();
     const language = useSelector(getLanguageName);
-    const location = useSelector(getSelectedLocation);
     const dispatch = useAppDispatch();
-    const spiesIds = useSelector(getSpiesIds);
     const [roleIsHidden, setRoleIsHidden] = useState(true);
     const [roleDisplayed, setRoleDisplayed] = useState(false);
     const [modifiedPlayers, setModifiedPlayers] = useState(
@@ -68,21 +82,16 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     );
 
     useEffect(() => {
-        dispatch(startGame());
-    }, [dispatch]);
+        console.log("SPIES: ", spiesIds);
+    }, [spiesIds]);
 
     const selectedPlayer = useMemo(() => {
         return modifiedPlayers.find((pl) => pl.selected);
     }, [modifiedPlayers]);
+
     const renderSpy = useCallback(
         () => (
             <Box alignItems="center">
-                {/* <AppText
-                    fontSize={normalize(17)}
-                    color="thirdText"
-                    variant="semiBold">
-                    {traslation.AssignRole.preRole}
-                </AppText> */}
                 <AppText
                     fontSize={normalize(75)}
                     color="thirdText"
@@ -96,12 +105,6 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const renderCitizen = useCallback(
         (location: Location) => (
             <Box alignItems="center">
-                {/* <AppText
-                    fontSize={normalize(17)}
-                    color="thirdText"
-                    variant="semiBold">
-                    {traslation.AssignRole.preRole}
-                </AppText> */}
                 <AppText
                     fontSize={normalize(75)}
                     color="thirdText"
@@ -145,7 +148,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         translation.AssignRole.nextButtonGuide,
     ]);
     const renderRole = useCallback(
-        (player: Player) => {
+        (player: User) => {
             if (spiesIds.includes(player.id)) return renderSpy();
             return renderCitizen(location);
         },
@@ -217,6 +220,17 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 );
         }, [handleBackButtonPress]),
     );
+    const selectedPlayerName = useMemo(
+        () => (
+            <Animatable deps={[selectedPlayer]}>
+                <AppText fontSize={normalize(40)} variant="semiBold">
+                    {selectedPlayer.name[language]}
+                </AppText>
+            </Animatable>
+        ),
+        [language, selectedPlayer],
+    );
+
     return (
         <Container style={styles.container}>
             <Header
@@ -227,13 +241,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             <Box paddingBottom="m" paddingHorizontal="m" flex={1}>
                 <Box flex={1}>
                     <Box alignItems="center" top={(height * 5) / 100}>
-                        <Animatable>
-                            <AppText
-                                fontSize={normalize(40)}
-                                variant="semiBold">
-                                {selectedPlayer.name[language]}
-                            </AppText>
-                        </Animatable>
+                        {selectedPlayerName}
                         <Button
                             height={(height * 15) / 100}
                             width={(height * 15) / 100}

@@ -21,10 +21,10 @@ import {
     resetGame,
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
-import {LanguageData, Player, Location} from "../../types";
+import {LanguageData, User, Location} from "../../types";
 
 type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<AppRoute, "Main">,
+    StackNavigationProp<AppRoute, "StartGame">,
     StackNavigationProp<GameRoutes>
 >;
 
@@ -41,7 +41,7 @@ const StartGame: React.FC<StartGameProps> = ({navigation}) => {
     const spiesLength = useSelector(getSpiesLength);
     const isValid = useCallback(
         (
-            players: Player[],
+            players: User[],
             locations: Location[],
             spiesLength: number,
             translation: LanguageData,

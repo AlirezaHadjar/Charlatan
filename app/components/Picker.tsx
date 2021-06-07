@@ -125,8 +125,9 @@ const Picker: React.FC<PickerProps> = ({
     const handleScrollEnd = useCallback(
         (e: NativeSyntheticEvent<NativeScrollEvent>) => {
             const offset = e.nativeEvent.contentOffset.y;
-            const index = Math.floor((offset + itemHeight * 0.3) / itemHeight);
-            if (index < 0 || index >= items.length) return;
+            let index = Math.round(offset / itemHeight);
+            if (index < 0) index = 0;
+            else if (index >= items.length) index = items.length - 1;
             const {title} = items[index];
             onSelect && onSelect(title, "normal");
         },

@@ -1,6 +1,5 @@
 import {createTheme} from "@shopify/restyle";
 
-import spacingNormalizer from "../utils/spacingNormalizer";
 import normalize from "../utils/normalizer";
 
 const palette = {
@@ -11,7 +10,10 @@ const palette = {
     lightGrey: "#707070",
     mediumGrey: "#393e46",
     darkGrey: "#464E5D",
+    semiBlack: "#1e2022",
     black: "#040d14",
+    lightBlue: "#C9D6DF",
+    superLightBlue: "#F0F5F9",
     superLight: "#eef2f7",
     light: "#EEEEEE",
     white: "#ffffff",
@@ -30,7 +32,7 @@ const theme = createTheme({
         buttonDisabled: palette.lightGrey,
         // Texts
         mainTextColor: palette.superLightGrey,
-        secondText: palette.darkGrey,
+        secondText: palette.light,
         thirdText: palette.superLight,
         fourthText: palette.black,
         // Characters
@@ -93,6 +95,25 @@ export const lightTheme: ThemeType = {
     ...theme,
     colors: {
         ...theme.colors,
-        mainBackground: palette.white,
+        // Backgrounds
+        mainBackground: palette.lightBlue,
+        secondBackground: palette.superLightBlue,
+        thirdBackground: palette.superLightBlue,
+        // Buttons
+        buttonPrimary: palette.superLightBlue,
+        buttonSecondary: palette.black,
+        buttonTertiary: palette.superLightBlue,
+        buttonDisabled: palette.lightGrey,
+        // Texts
+        mainTextColor: palette.darkGrey,
+        secondText: palette.darkGrey,
+        thirdText: palette.superLightBlue,
+        fourthText: palette.black,
+        // Characters
+        characterPrimary: palette.darkGrey,
+        // Specials
+        contrast: palette.black,
+        transparent: palette.transparent,
+        danger: palette.red,
     },
 };

@@ -12,8 +12,9 @@ import Container from "../../components/Container";
 import Header from "../../components/Header";
 import List from "../../components/list/player/List";
 import {
-    getPlayers,
-    getSpiesIds,
+    getActiveGameId,
+    getGame,
+    getPlayersByPlayers,
     resetGame,
     setGameResult,
 } from "../../store/reducers/data";
@@ -51,9 +52,18 @@ const styles = StyleSheet.create({
 
 const Vote: React.FC<VoteProps> = ({navigation}) => {
     const translation = useTranslation();
+    const activeGameId = useSelector(getActiveGameId);
+    const selectedGame = useSelector(getGame(activeGameId));
+    const selectedRound = useMemo(
+        () => selectedGame.rounds[selectedGame.currentRoundIndex],
+        [selectedGame.currentRoundIndex, selectedGame.rounds],
+    );
+    const spiesIds = useMemo(
+        () => (selectedRound ? selectedRound.spiesIds : []),
+        [selectedRound],
+    );
+    const players = useSelector(getPlayersByPlayers(selectedGame.players));
     const language = useSelector(getLanguageName);
-    const players = useSelector(getPlayers);
-    const spiesIds = useSelector(getSpiesIds);
     const dispatch = useAppDispatch();
     const [votes, setVotes] = useState<VoteType[]>([]);
     const [modifiedPlayers, setModifiedPlayers] = useState(
@@ -126,11 +136,17 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
     };
     const getWinner = useCallback(
         (mostVoted: VotingResult[], spiesIds: string[]) => {
-            const spiesAreInVotes = spiesIds.some((id) =>
+            const spiesInVotes = spiesIds.filter((id) =>
                 mostVoted.find((vote) => vote.playerId === id),
             );
-            if (mostVoted.length > 1 && spiesAreInVotes) return Winners.Spies;
-            if (spiesAreInVotes) return Winners.Citizens;
+            const votesAreOnlySpies = mostVoted.length === spiesIds.length;
+            // There Are More Than One Person That have been Most Voted
+            if (mostVoted.length > 1) {
+                if (votesAreOnlySpies) return Winners.Citizens;
+                return Winners.Spies;
+            }
+            // There is Only One person That has been Most Voted
+            if (spiesInVotes.length > 0) return Winners.Citizens;
             return Winners.Spies;
         },
         [],
@@ -157,13 +173,21 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         const winner = getWinner(mostVoted, spiesIds);
         dispatch(
             setGameResult({
-                spiesWhoGuessedCorrectlyIds: [],
-                winner,
-                votingResult,
+                gameId: selectedGame.id,
+                round: {votingResult, winner},
             }),
         );
         navigation.navigate("SpiesGuess");
-    }, [dispatch, getWinner, language, navigation, players, spiesIds, votes]);
+    }, [
+        dispatch,
+        getWinner,
+        language,
+        navigation,
+        players,
+        selectedGame.id,
+        spiesIds,
+        votes,
+    ]);
     const handleNext = useCallback(() => {
         const clonedPlayers = [...modifiedPlayers];
         const index = clonedPlayers.indexOf(selectedPlayer);

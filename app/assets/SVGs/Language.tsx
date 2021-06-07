@@ -1,15 +1,17 @@
+import {useTheme} from "@shopify/restyle";
 import * as React from "react";
 import Svg, {G, Path} from "react-native-svg";
 
-import theme from "../../theme/Theme";
+import {ThemeType} from "../../theme/Theme";
 import normalize from "../../utils/normalizer";
 
 interface Props {
     scale?: number;
-    color?: keyof typeof theme["colors"];
+    color?: keyof ThemeType["colors"];
 }
 
 function SvgComponent({scale = 1, color = "buttonPrimary"}: Props) {
+    const theme = useTheme<ThemeType>();
     return (
         <Svg
             width={scale * normalize(24)}

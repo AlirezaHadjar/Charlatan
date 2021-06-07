@@ -91,7 +91,6 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
     }, [time]);
 
     const handleUpdate = useCallback(() => {
-        console.log("Changing");
         const newTime = time - 1000;
         setTime(newTime);
         if (Math.floor(newTime / 1000) === 0) setIsPlaying(false);
