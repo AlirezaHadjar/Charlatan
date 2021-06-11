@@ -1,34 +1,48 @@
-import {useTheme} from "@shopify/restyle";
 import React from "react";
-import {Dimensions, FlatList, StyleSheet} from "react-native";
+import {Dimensions, FlatList, FlatListProps, StyleSheet} from "react-native";
+import Animated, {
+    useAnimatedScrollHandler,
+    useSharedValue,
+} from "react-native-reanimated";
 
-import {getLanguageName} from "../../../store/reducers/language";
-import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
-import {ThemeType} from "../../../theme/Theme";
-import {Game, Location} from "../../../types";
-import normalize from "../../../utils/normalizer";
-import Play from "../../../assets/SVGs/Play";
+import {Game} from "../../../types";
+import {ListIndicator} from "../ListIndicator";
 
 import ListItem from "./ListItem";
-import Button from "../../Button";
 
 export interface ListProps {
     items: Game[];
     onPress?: (id: string) => void;
 }
 
-const {width} = Dimensions.get("window");
-const CONTAINER_WIDTH = width - 60;
+const {width, height} = Dimensions.get("window");
+const CONTAINER_WIDTH = width;
 
-const BOX_SIZE = (width * 60) / 100;
+const BOX_HEIGHT = (height * 56) / 100;
+const BOX_WIDTH = (width * 73) / 100;
+const MARGIN = (width * 3) / 100;
+
+const AnimatedFlatList = Animated.createAnimatedComponent<
+    Readonly<FlatListProps<Game>>
+>(FlatList);
 
 const List: React.FC<ListProps> = ({items, onPress}) => {
-    const language = useSelector(getLanguageName);
-    const {spacing} = useTheme<ThemeType>();
+    const offsetX = useSharedValue(0);
+    const wholeWidth = BOX_WIDTH + 2 * MARGIN;
+
+    const scrollHandler = useAnimatedScrollHandler(
+        {
+            onScroll: (event) => {
+                offsetX.value = event.contentOffset.x;
+            },
+        },
+        [offsetX.value],
+    );
+
     const styles = StyleSheet.create({
         flatlist: {
-            paddingHorizontal: CONTAINER_WIDTH / 2 - BOX_SIZE / 2,
+            paddingHorizontal: CONTAINER_WIDTH / 2 - BOX_WIDTH / 2 - MARGIN,
         },
     });
     return (
@@ -37,30 +51,35 @@ const List: React.FC<ListProps> = ({items, onPress}) => {
             marginBottom="m"
             alignSelf="center"
             alignItems="center">
-            <FlatList
+            <AnimatedFlatList
                 showsHorizontalScrollIndicator={false}
                 data={items}
-                snapToInterval={BOX_SIZE}
+                scrollEventThrottle={16}
+                onScroll={scrollHandler}
+                snapToInterval={wholeWidth}
                 pagingEnabled
                 horizontal
                 contentContainerStyle={styles.flatlist}
                 keyExtractor={(item, index) => item.id.toString() + index}
-                renderItem={({item}) => (
-                    <ListItem item={item} onPress={onPress} />
+                renderItem={({item, index}) => (
+                    <ListItem
+                        item={item}
+                        onPress={onPress}
+                        margin={MARGIN}
+                        height={BOX_HEIGHT}
+                        width={BOX_WIDTH}
+                        index={index}
+                        offsetX={offsetX}
+                    />
                 )}
             />
-            {/* <Button
-                fontSize={normalize(18)}
-                variant="simple"
-                title="Continue"
-                backgroundColor="secondBackground"
-                marginTop="m"
-                height={(width * 20) / 100}
-                width={(width * 40) / 100}>
-                <Box flex={0.5}>
-                    <Play scale={0.4} />
-                </Box>
-            </Button> */}
+            <Box paddingVertical="m">
+                <ListIndicator
+                    itemWidth={wholeWidth}
+                    itemsLength={items.length}
+                    offsetX={offsetX}
+                />
+            </Box>
         </Box>
     );
 };

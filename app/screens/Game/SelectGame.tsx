@@ -275,7 +275,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     return (
         <Container>
             <Header screenName={headerTitle} onBackPress={handBackPress} />
-            <Box flex={1} paddingHorizontal="m">
+            <Box flex={1}>
                 <Box width="100%" flex={1}>
                     {Content}
                 </Box>

@@ -7,6 +7,7 @@ const palette = {
     red: "#883143",
     cyan: "#00ADB5",
     superLightGrey: "#D1D2D4",
+    mediumLightGrey: "#BFBECB",
     lightGrey: "#707070",
     mediumGrey: "#393e46",
     darkGrey: "#464E5D",
@@ -37,6 +38,9 @@ const theme = createTheme({
         fourthText: palette.black,
         // Characters
         characterPrimary: palette.darkGrey,
+        // Cards
+        cardBackground: palette.superLight,
+        cardIndicator: palette.mediumLightGrey,
         // Specials
         contrast: palette.white,
         transparent: palette.transparent,
@@ -58,6 +62,7 @@ const theme = createTheme({
         l: normalize(12),
         xl: normalize(16),
         sl: normalize(25),
+        ssl: normalize(30),
         hero1: normalize(35),
         hero2: normalize(50),
         hero3: normalize(70),

@@ -1,9 +1,10 @@
 import {useTheme} from "@shopify/restyle";
 import React from "react";
-import {Dimensions, Pressable} from "react-native";
+import {Pressable} from "react-native";
 import Animated, {
+    Extrapolate,
+    interpolate,
     useAnimatedStyle,
-    useSharedValue,
 } from "react-native-reanimated";
 
 import {ThemeType} from "../../../theme/Theme";
@@ -12,31 +13,49 @@ import AppText from "../../Text";
 
 export interface ListItemProps {
     item: Game;
+    width: number;
+    height: number;
+    index: number;
+    offsetX: Animated.SharedValue<number>;
+    margin: number;
     onPress?: (id: string) => void;
 }
 
-const {width} = Dimensions.get("window");
-
-const BOX_SIZE = (width * 60) / 100;
-
-const ListItem: React.FC<ListItemProps> = ({item, onPress}) => {
+const ListItem: React.FC<ListItemProps> = ({
+    item,
+    onPress,
+    width,
+    height,
+    margin,
+    offsetX,
+    index,
+}) => {
     const theme = useTheme<ThemeType>();
-    const progress = useSharedValue(0);
+
+    const wholeWidth = width + 2 * margin;
 
     const animatedStyles = useAnimatedStyle(() => {
-        // const opacity = interpolate(progress.value, [0, 1], [0.5, 1]);
-        // const translateY = interpolate(progress.value, [0, 1], [30, 0]);
-        // const scale = interpolate(progress.value, [0, 1], [0.9, 1]);
+        const scaleY = interpolate(
+            offsetX.value,
+            [
+                (index - 1) * wholeWidth,
+                index * wholeWidth,
+                (index + 1) * wholeWidth,
+            ],
+            [0.92, 1, 0.92],
+            Extrapolate.CLAMP,
+        );
         return {
-            width: BOX_SIZE,
-            height: BOX_SIZE,
-            borderRadius: BOX_SIZE / 2,
-            backgroundColor: "red",
+            width,
+            height,
+            borderRadius: theme.borderRadii.ssl,
+            backgroundColor: theme.colors.cardBackground,
             alignItems: "center",
             justifyContent: "center",
-            opacity: 0.4,
+            marginHorizontal: margin,
+            transform: [{scaleY}],
         };
-    });
+    }, [index, offsetX.value]);
 
     // useEffect(() => {
     //     progress.value = 0;
