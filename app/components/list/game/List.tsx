@@ -5,6 +5,8 @@ import Animated, {
     useSharedValue,
 } from "react-native-reanimated";
 
+import {getPlayers} from "../../../store/reducers/data";
+import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
 import {Game} from "../../../types";
 import {ListIndicator} from "../ListIndicator";
@@ -29,6 +31,7 @@ const AnimatedFlatList = Animated.createAnimatedComponent<
 
 const List: React.FC<ListProps> = ({items, onPress}) => {
     const offsetX = useSharedValue(0);
+    const users = useSelector(getPlayers);
     const wholeWidth = BOX_WIDTH + 2 * MARGIN;
 
     const scrollHandler = useAnimatedScrollHandler(
@@ -67,6 +70,7 @@ const List: React.FC<ListProps> = ({items, onPress}) => {
                         onPress={onPress}
                         margin={MARGIN}
                         height={BOX_HEIGHT}
+                        users={users}
                         width={BOX_WIDTH}
                         index={index}
                         offsetX={offsetX}

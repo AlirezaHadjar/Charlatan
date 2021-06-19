@@ -35,6 +35,8 @@ export interface ButtonProps extends Props {
     height?: Strumber;
     variant?: "simple" | "icon";
     borderRadius?: keyof typeof theme.borderRadii;
+    paddingIconText?: keyof typeof theme.spacing;
+    reverse?: boolean;
     style?: ViewStyle;
     backgroundColor?: keyof typeof theme.colors;
     textColor?: keyof typeof theme.colors;
@@ -56,6 +58,8 @@ const Button: React.FC<ButtonProps> = ({
     height = (SCREEN_HEIGHT * 16.3) / 100,
     borderRadius = "hero3",
     style = {},
+    reverse = false,
+    paddingIconText = "m",
     icon,
     backgroundColor = "buttonSecondary",
     textColor = "mainTextColor",
@@ -90,14 +94,12 @@ const Button: React.FC<ButtonProps> = ({
     });
     const renderSimpleButton = useCallback(() => {
         const inside = (
-            <>
+            <Box
+                flexDirection={reverse ? "row-reverse" : "row"}
+                paddingStart={paddingIconText}
+                alignItems="center">
                 {title !== "" && (
-                    <Box
-                        flexDirection="row-reverse"
-                        width="100%"
-                        alignItems="center"
-                        justifyContent="center"
-                        flex={1}>
+                    <Box alignItems="center" justifyContent="center" flex={1}>
                         <AppText
                             {...{fontSize}}
                             color={textColor}
@@ -107,8 +109,13 @@ const Button: React.FC<ButtonProps> = ({
                         </AppText>
                     </Box>
                 )}
-                {children}
-            </>
+                <Box
+                    alignItems={reverse ? "flex-end" : "flex-start"}
+                    justifyContent="center"
+                    flex={0.5}>
+                    <Box justifyContent="center">{children}</Box>
+                </Box>
+            </Box>
         );
         return (
             <Box
@@ -125,7 +132,9 @@ const Button: React.FC<ButtonProps> = ({
         children,
         fontSize,
         height,
+        paddingIconText,
         props,
+        reverse,
         style,
         textColor,
         title,

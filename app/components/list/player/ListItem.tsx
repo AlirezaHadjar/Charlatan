@@ -67,7 +67,7 @@ const ListItem: React.FC<ListItemProps> = ({
             <Box
                 width="100%"
                 height={LISTITEM_HEIGHT}
-                marginVertical="ss"
+                marginVertical="s"
                 paddingHorizontal="m"
                 backgroundColor={backgroundColor}
                 flexDirection={language === "en" ? "row" : "row-reverse"}
@@ -81,8 +81,8 @@ const ListItem: React.FC<ListItemProps> = ({
                         editable={onChangeText ? true : false}
                         style={{
                             fontFamily: "Kalameh Bold",
-                            fontSize: normalize(18),
                             fontWeight: "normal",
+                            fontSize: normalize(18),
                             color: theme.colors[textColor],
                         }}
                         onChangeText={(text) =>

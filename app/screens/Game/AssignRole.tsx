@@ -181,9 +181,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 backgroundColor="secondBackground"
                 height={(width * 15) / 100}
                 width={(width * 31) / 100}>
-                <Box flex={0.5}>
-                    <Play scale={0.4} />
-                </Box>
+                <Play scale={0.4} />
             </Button>
         );
     }, [

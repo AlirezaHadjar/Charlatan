@@ -6,8 +6,12 @@ import {
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
 import React, {useCallback, useMemo} from "react";
-import {BackHandler, Dimensions, StyleSheet} from "react-native";
-import {useTheme} from "@shopify/restyle";
+import {
+    BackHandler,
+    Dimensions,
+    TextInput,
+    TouchableOpacity,
+} from "react-native";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -22,23 +26,20 @@ import {
     getGames,
     editGame,
     getGame,
-    editRound,
     getActiveGameId,
     setActiveGameId,
-    startGame,
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
 import Box from "../../theme/Box";
 import {useAppDispatch} from "../../store/configureStore";
 import Button from "../../components/Button";
-import AppTouchable from "../../components/Touchable";
 import {useTranslation} from "../../hooks/translation";
-import {ThemeType} from "../../theme/Theme";
 import normalize from "../../utils/normalizer";
-import Minus from "../../assets/SVGs/Minus";
+import Trash from "../../assets/SVGs/Trash";
+import Play from "../../assets/SVGs/Play";
 import Plus from "../../assets/SVGs/Plus";
 
-const {width} = Dimensions.get("window");
+const {width, height} = Dimensions.get("window");
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<AppRoute, "SelectGame">,
@@ -56,25 +57,25 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     const dispatch = useAppDispatch();
     const games = useSelector(getGames);
     const translation = useTranslation();
-    const theme = useTheme<ThemeType>();
+    // const theme = useTheme<ThemeType>();
     const activeGameId = useSelector(getActiveGameId);
     const selectedGame = useSelector(getGame(activeGameId));
     const players = useSelector(getPlayers);
 
-    const styles = StyleSheet.create({
-        boxContainer: {
-            width: (width * 10) / 100,
-            height: (width * 10) / 100,
-            backgroundColor: theme.colors.buttonPrimary,
-            borderRadius: theme.borderRadii.m,
-            marginHorizontal: theme.spacing.m,
-            alignItems: "center",
-            justifyContent: "center",
-        },
-        disabled: {
-            backgroundColor: theme.colors.buttonDisabled,
-        },
-    });
+    // const styles = StyleSheet.create({
+    // boxContainer: {
+    //     width: (width * 10) / 100,
+    //     height: (width * 10) / 100,
+    //     backgroundColor: theme.colors.buttonPrimary,
+    //     borderRadius: theme.borderRadii.m,
+    //     marginHorizontal: theme.spacing.m,
+    //     alignItems: "center",
+    //     justifyContent: "center",
+    // },
+    // disabled: {
+    //     backgroundColor: theme.colors.buttonDisabled,
+    // },
+    // });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const stage: Stage = useMemo(
@@ -149,12 +150,25 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     const SelectContent = useMemo(
         () => (
             <Box flex={1}>
-                <AppText textAlign="center">
-                    Select The Game You Want to Play
+                <AppText textAlign="center" fontSize={normalize(25)}>
+                    Choose The Game
                 </AppText>
                 <Box flex={1} justifyContent="center">
                     <GameList items={games} onPress={handleGameSelect} />
                 </Box>
+                <Button
+                    alignSelf="flex-end"
+                    marginEnd="m"
+                    fontSize={normalize(18)}
+                    reverse
+                    variant="simple"
+                    title="New Game"
+                    // onPress={handleNext}
+                    backgroundColor="secondBackground"
+                    height={(width * 15) / 100}
+                    width={(width * 40) / 100}>
+                    <Plus scale={0.6} />
+                </Button>
             </Box>
         ),
         [games, handleGameSelect],
@@ -166,10 +180,33 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
             ? selectedGame.players.map((player) => player.id)
             : [];
         return (
-            <Box flex={1}>
-                <Box flex={0.55}>
-                    <AppText>{selectedGame.name}</AppText>
-                    <AppText>Players:</AppText>
+            <Box flex={1} paddingHorizontal="m">
+                <Box flex={3}>
+                    <Box
+                        width="100%"
+                        borderRadius="hero2"
+                        borderWidth={3}
+                        borderColor="cardIndicator"
+                        height={(height * 8) / 100}
+                        backgroundColor="contrast">
+                        <TextInput
+                            value={selectedGame.name}
+                            onChangeText={(text) =>
+                                dispatch(
+                                    editGame({id: selectedGame.id, name: text}),
+                                )
+                            }
+                            style={{
+                                width: "100%",
+                                fontSize: normalize(25),
+                                fontFamily: "Kalameh Bold",
+                                fontWeight: "normal",
+                                height: "100%",
+                                textAlign: "center",
+                            }}
+                        />
+                    </Box>
+                    {/* <AppText>Players:</AppText> */}
                     <Box paddingVertical="m">
                         <UserList
                             items={players}
@@ -178,7 +215,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             onEndPress={handleSelectPlayer}
                         />
                     </Box>
-                    <Box
+                    {/* <Box
                         flexDirection="row"
                         alignItems="center"
                         justifyContent="center">
@@ -223,8 +260,8 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             ]}>
                             <Plus color="secondBackground" scale={0.9} />
                         </AppTouchable>
-                    </Box>
-                    <Box flexDirection="row">
+                    </Box> */}
+                    {/* <Box flexDirection="row">
                         <Button
                             title="Delete"
                             height={70}
@@ -250,21 +287,29 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             height={70}
                             width={125}
                         />
-                    </Box>
+                    </Box> */}
                 </Box>
+                <Box flex={1} />
+                <Button
+                    alignSelf="flex-end"
+                    fontSize={normalize(18)}
+                    variant="simple"
+                    title={translation.AssignRole.nextButtonTitle}
+                    // onPress={handleNext}
+                    backgroundColor="secondBackground"
+                    height={(width * 15) / 100}
+                    width={(width * 31) / 100}>
+                    <Play scale={0.4} />
+                </Button>
             </Box>
         );
     }, [
         dispatch,
         handleSelectPlayer,
         itemCheck,
-        navigation,
         players,
         selectedGame,
-        styles.boxContainer,
-        styles.disabled,
-        translation.Players.addSpyAlert,
-        translation.Players.removeSpyAlert,
+        translation.AssignRole.nextButtonTitle,
     ]);
 
     const Content = useMemo(() => {
@@ -274,7 +319,15 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
 
     return (
         <Container>
-            <Header screenName={headerTitle} onBackPress={handBackPress} />
+            <Header
+                screenName={headerTitle}
+                onBackPress={handBackPress}
+                end={
+                    <TouchableOpacity>
+                        <Trash />
+                    </TouchableOpacity>
+                }
+            />
             <Box flex={1}>
                 <Box width="100%" flex={1}>
                     {Content}

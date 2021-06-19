@@ -12,21 +12,18 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		143CE7EE34954871A1793AB7 /* Kalameh Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */; };
+		2A13378CD7344D4F9AC1B2FC /* Kalameh Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* SpyHuntTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SpyHuntTests.m */; };
 		720633A7675DF50A382C603C /* libPods-SpyHunt-SpyHuntTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D960FD9B8CF528514DEBCBFD /* libPods-SpyHunt-SpyHuntTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		D6CC3692267792F800F5B528 /* Kalameh Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */; };
+		D6CC3693267792FE00F5B528 /* Kalameh Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */; };
 		DDE3FF0DB129DDF71A002BD8 /* libPods-SpyHunt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3195A357237C417108EEA1E /* libPods-SpyHunt.a */; };
 		DF6BBC548E33FB6D526D7974 /* libPods-SpyHunt-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE8609253A1B049CE5C0C5D /* libPods-SpyHunt-tvOSTests.a */; };
-		27B456D3A88C467A87687AD4 /* Poppins Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD070C56BD264EA2BE5F393B /* Poppins Bold.ttf */; };
-		6D382B264D36438BA0449DE5 /* Poppins Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 211F4DA81E854DDFA5FF8775 /* Poppins Medium.ttf */; };
-		797963AD7EE2462DAA9F0328 /* Poppins Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB71F70A259243D8BC8E2BF0 /* Poppins Regular.ttf */; };
-		47281EE9D1674D60B3616310 /* Poppins SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7777527AE3C548D49E944775 /* Poppins SemiBold.ttf */; };
-		B6897C694BAB4E858ED6FF57 /* Dana-FaNum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA6E067E7D25453A8A8490F5 /* Dana-FaNum-Regular.ttf */; };
-		143CE7EE34954871A1793AB7 /* Kalameh Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */; };
-		2A13378CD7344D4F9AC1B2FC /* Kalameh Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,10 +59,12 @@
 		2D02E47B1E0B4A5D006451C7 /* SpyHunt-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpyHunt-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* SpyHunt-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SpyHunt-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B24D2B3FBF2CF1DEAC2CAE6 /* Pods-SpyHunt-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-SpyHunt-tvOS/Pods-SpyHunt-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Kalameh Bold.ttf"; path = "../app/assets/fonts/Kalameh Bold.ttf"; sourceTree = "<group>"; };
 		521F23923BA688C9902256FD /* Pods-SpyHunt-SpyHuntTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt-SpyHuntTests.release.xcconfig"; path = "Target Support Files/Pods-SpyHunt-SpyHuntTests/Pods-SpyHunt-SpyHuntTests.release.xcconfig"; sourceTree = "<group>"; };
 		5BE8609253A1B049CE5C0C5D /* libPods-SpyHunt-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpyHunt-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SpyHunt/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D09FA328E4AFD706A54CAB7 /* Pods-SpyHunt-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-SpyHunt-tvOSTests/Pods-SpyHunt-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Kalameh Regular.ttf"; path = "../app/assets/fonts/Kalameh Regular.ttf"; sourceTree = "<group>"; };
 		A107B9B0E054A9A032DF05DA /* Pods-SpyHunt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt.release.xcconfig"; path = "Target Support Files/Pods-SpyHunt/Pods-SpyHunt.release.xcconfig"; sourceTree = "<group>"; };
 		A27D2D81FBDB875BBB9245F2 /* Pods-SpyHunt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt.debug.xcconfig"; path = "Target Support Files/Pods-SpyHunt/Pods-SpyHunt.debug.xcconfig"; sourceTree = "<group>"; };
 		C3195A357237C417108EEA1E /* libPods-SpyHunt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpyHunt.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,13 +73,6 @@
 		EAE163C57B19AA98B80CF7E7 /* libPods-SpyHunt-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpyHunt-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		BD070C56BD264EA2BE5F393B /* Poppins Bold.ttf */ = {isa = PBXFileReference; name = "Poppins Bold.ttf"; path = "../app/assets/fonts/Poppins Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		211F4DA81E854DDFA5FF8775 /* Poppins Medium.ttf */ = {isa = PBXFileReference; name = "Poppins Medium.ttf"; path = "../app/assets/fonts/Poppins Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AB71F70A259243D8BC8E2BF0 /* Poppins Regular.ttf */ = {isa = PBXFileReference; name = "Poppins Regular.ttf"; path = "../app/assets/fonts/Poppins Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7777527AE3C548D49E944775 /* Poppins SemiBold.ttf */ = {isa = PBXFileReference; name = "Poppins SemiBold.ttf"; path = "../app/assets/fonts/Poppins SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CA6E067E7D25453A8A8490F5 /* Dana-FaNum-Regular.ttf */ = {isa = PBXFileReference; name = "Dana-FaNum-Regular.ttf"; path = "../app/assets/fonts/Dana-FaNum-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */ = {isa = PBXFileReference; name = "Kalameh Bold.ttf"; path = "../app/assets/fonts/Kalameh Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */ = {isa = PBXFileReference; name = "Kalameh Regular.ttf"; path = "../app/assets/fonts/Kalameh Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +128,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		033DCB22747744A286F79CFB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */,
+				913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* SpyHunt */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,7 +176,6 @@
 				8D09FA328E4AFD706A54CAB7 /* Pods-SpyHunt-tvOSTests.debug.xcconfig */,
 				10430FC0E01006F85F1FAACD /* Pods-SpyHunt-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -213,21 +213,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		033DCB22747744A286F79CFB /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				BD070C56BD264EA2BE5F393B /* Poppins Bold.ttf */,
-				211F4DA81E854DDFA5FF8775 /* Poppins Medium.ttf */,
-				AB71F70A259243D8BC8E2BF0 /* Poppins Regular.ttf */,
-				7777527AE3C548D49E944775 /* Poppins SemiBold.ttf */,
-				CA6E067E7D25453A8A8490F5 /* Dana-FaNum-Regular.ttf */,
-				5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */,
-				913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -240,6 +225,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				1C0B04B260D03D78368F0697 /* [CP] Copy Pods Resources */,
+				C8477774274A9DB1F1C981B5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -262,6 +248,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				32E189390B713F2DCF0282D7 /* [CP] Copy Pods Resources */,
+				95D848766347B32217BB0BA7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -372,11 +359,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				27B456D3A88C467A87687AD4 /* Poppins Bold.ttf in Resources */,
-				6D382B264D36438BA0449DE5 /* Poppins Medium.ttf in Resources */,
-				797963AD7EE2462DAA9F0328 /* Poppins Regular.ttf in Resources */,
-				47281EE9D1674D60B3616310 /* Poppins SemiBold.ttf in Resources */,
-				B6897C694BAB4E858ED6FF57 /* Dana-FaNum-Regular.ttf in Resources */,
 				143CE7EE34954871A1793AB7 /* Kalameh Bold.ttf in Resources */,
 				2A13378CD7344D4F9AC1B2FC /* Kalameh Regular.ttf in Resources */,
 			);
@@ -394,6 +376,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6CC3693267792FE00F5B528 /* Kalameh Regular.ttf in Resources */,
+				D6CC3692267792F800F5B528 /* Kalameh Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +490,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95D848766347B32217BB0BA7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SpyHunt/Pods-SpyHunt-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SpyHunt/Pods-SpyHunt-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C8477774274A9DB1F1C981B5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SpyHunt-SpyHuntTests/Pods-SpyHunt-SpyHuntTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SpyHunt-SpyHuntTests/Pods-SpyHunt-SpyHuntTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D03B91F694F7DE39E2331428 /* [CP] Check Pods Manifest.lock */ = {
