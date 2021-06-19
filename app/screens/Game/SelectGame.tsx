@@ -118,8 +118,8 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     const handleSelectPlayer = useCallback(
         (id: string) => {
             if (!selectedGame) return;
-            const {players} = selectedGame;
-            const playerIndex = players.findIndex((player) => player.id === id);
+            const players = [...selectedGame.players];
+            const playerIndex = players.findIndex(player => player.id === id);
             if (playerIndex === -1) players.push({id, score: 0});
             else players.splice(playerIndex, 1);
             dispatch(
@@ -177,7 +177,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
         if (!selectedGame) return;
         console.log("Change");
         const selectedIds = selectedGame
-            ? selectedGame.players.map((player) => player.id)
+            ? selectedGame.players.map(player => player.id)
             : [];
         return (
             <Box flex={1} paddingHorizontal="m">
@@ -191,7 +191,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         backgroundColor="contrast">
                         <TextInput
                             value={selectedGame.name}
-                            onChangeText={(text) =>
+                            onChangeText={text =>
                                 dispatch(
                                     editGame({id: selectedGame.id, name: text}),
                                 )

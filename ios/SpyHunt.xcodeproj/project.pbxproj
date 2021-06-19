@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SpyHuntTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SpyHuntTests.m */; };
-		134D5569D2A9CB2F7E5E566D /* libPods-SpyHunt-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE163C57B19AA98B80CF7E7 /* libPods-SpyHunt-tvOS.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -23,7 +22,6 @@
 		D6CC3692267792F800F5B528 /* Kalameh Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */; };
 		D6CC3693267792FE00F5B528 /* Kalameh Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */; };
 		DDE3FF0DB129DDF71A002BD8 /* libPods-SpyHunt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3195A357237C417108EEA1E /* libPods-SpyHunt.a */; };
-		DF6BBC548E33FB6D526D7974 /* libPods-SpyHunt-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE8609253A1B049CE5C0C5D /* libPods-SpyHunt-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +46,6 @@
 		00E356EE1AD99517003FC87E /* SpyHuntTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpyHuntTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SpyHuntTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpyHuntTests.m; sourceTree = "<group>"; };
-		10430FC0E01006F85F1FAACD /* Pods-SpyHunt-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-SpyHunt-tvOSTests/Pods-SpyHunt-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* SpyHunt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpyHunt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SpyHunt/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SpyHunt/AppDelegate.m; sourceTree = "<group>"; };
@@ -58,19 +55,14 @@
 		1423F46714159A8BD4283D55 /* Pods-SpyHunt-SpyHuntTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt-SpyHuntTests.debug.xcconfig"; path = "Target Support Files/Pods-SpyHunt-SpyHuntTests/Pods-SpyHunt-SpyHuntTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* SpyHunt-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpyHunt-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* SpyHunt-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SpyHunt-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B24D2B3FBF2CF1DEAC2CAE6 /* Pods-SpyHunt-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-SpyHunt-tvOS/Pods-SpyHunt-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		5172BF7AF51F4858B195EAF5 /* Kalameh Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Kalameh Bold.ttf"; path = "../app/assets/fonts/Kalameh Bold.ttf"; sourceTree = "<group>"; };
 		521F23923BA688C9902256FD /* Pods-SpyHunt-SpyHuntTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt-SpyHuntTests.release.xcconfig"; path = "Target Support Files/Pods-SpyHunt-SpyHuntTests/Pods-SpyHunt-SpyHuntTests.release.xcconfig"; sourceTree = "<group>"; };
-		5BE8609253A1B049CE5C0C5D /* libPods-SpyHunt-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpyHunt-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SpyHunt/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8D09FA328E4AFD706A54CAB7 /* Pods-SpyHunt-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-SpyHunt-tvOSTests/Pods-SpyHunt-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		913D998C93CC410EAF52C585 /* Kalameh Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Kalameh Regular.ttf"; path = "../app/assets/fonts/Kalameh Regular.ttf"; sourceTree = "<group>"; };
 		A107B9B0E054A9A032DF05DA /* Pods-SpyHunt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt.release.xcconfig"; path = "Target Support Files/Pods-SpyHunt/Pods-SpyHunt.release.xcconfig"; sourceTree = "<group>"; };
 		A27D2D81FBDB875BBB9245F2 /* Pods-SpyHunt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt.debug.xcconfig"; path = "Target Support Files/Pods-SpyHunt/Pods-SpyHunt.debug.xcconfig"; sourceTree = "<group>"; };
 		C3195A357237C417108EEA1E /* libPods-SpyHunt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpyHunt.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7E221BDC45212A4BFB3075F /* Pods-SpyHunt-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpyHunt-tvOS.release.xcconfig"; path = "Target Support Files/Pods-SpyHunt-tvOS/Pods-SpyHunt-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		D960FD9B8CF528514DEBCBFD /* libPods-SpyHunt-SpyHuntTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpyHunt-SpyHuntTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EAE163C57B19AA98B80CF7E7 /* libPods-SpyHunt-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpyHunt-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -96,7 +88,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				134D5569D2A9CB2F7E5E566D /* libPods-SpyHunt-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +95,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF6BBC548E33FB6D526D7974 /* libPods-SpyHunt-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,8 +148,6 @@
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				C3195A357237C417108EEA1E /* libPods-SpyHunt.a */,
 				D960FD9B8CF528514DEBCBFD /* libPods-SpyHunt-SpyHuntTests.a */,
-				EAE163C57B19AA98B80CF7E7 /* libPods-SpyHunt-tvOS.a */,
-				5BE8609253A1B049CE5C0C5D /* libPods-SpyHunt-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -171,10 +159,6 @@
 				A107B9B0E054A9A032DF05DA /* Pods-SpyHunt.release.xcconfig */,
 				1423F46714159A8BD4283D55 /* Pods-SpyHunt-SpyHuntTests.debug.xcconfig */,
 				521F23923BA688C9902256FD /* Pods-SpyHunt-SpyHuntTests.release.xcconfig */,
-				3B24D2B3FBF2CF1DEAC2CAE6 /* Pods-SpyHunt-tvOS.debug.xcconfig */,
-				C7E221BDC45212A4BFB3075F /* Pods-SpyHunt-tvOS.release.xcconfig */,
-				8D09FA328E4AFD706A54CAB7 /* Pods-SpyHunt-tvOSTests.debug.xcconfig */,
-				10430FC0E01006F85F1FAACD /* Pods-SpyHunt-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -263,7 +247,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "SpyHunt-tvOS" */;
 			buildPhases = (
-				474AE353454780E51016B650 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -283,7 +266,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "SpyHunt-tvOSTests" */;
 			buildPhases = (
-				D795EED3C63E8E7ECEA37B36 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -448,28 +430,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SpyHunt/Pods-SpyHunt-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		474AE353454780E51016B650 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SpyHunt-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		76FA135DC71E10D5E4AD7B32 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -499,10 +459,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SpyHunt/Pods-SpyHunt-frameworks.sh",
+				"${PODS_ROOT}/hermes-engine/destroot/Library/Frameworks/iphoneos/hermes.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -517,10 +479,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SpyHunt-SpyHuntTests/Pods-SpyHunt-SpyHuntTests-frameworks.sh",
+				"${PODS_ROOT}/hermes-engine/destroot/Library/Frameworks/iphoneos/hermes.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,28 +508,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-SpyHunt-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D795EED3C63E8E7ECEA37B36 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SpyHunt-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -752,7 +694,6 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B24D2B3FBF2CF1DEAC2CAE6 /* Pods-SpyHunt-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -780,7 +721,6 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7E221BDC45212A4BFB3075F /* Pods-SpyHunt-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -808,7 +748,6 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D09FA328E4AFD706A54CAB7 /* Pods-SpyHunt-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -835,7 +774,6 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 10430FC0E01006F85F1FAACD /* Pods-SpyHunt-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -892,6 +830,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -952,6 +891,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
