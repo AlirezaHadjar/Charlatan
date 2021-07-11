@@ -1,5 +1,5 @@
 const Main = {
-    title: "Spy Hunt",
+    title: "Charlatan",
 };
 
 export default Main;
