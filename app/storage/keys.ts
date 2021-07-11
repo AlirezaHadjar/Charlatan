@@ -6,4 +6,5 @@ export const storageKeys = {
     language: "language",
     spiesLength: "spiesLength",
     isRTL: "isRTL",
+    games: "games",
 };

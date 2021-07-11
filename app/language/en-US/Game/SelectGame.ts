@@ -1,0 +1,21 @@
+const SelectGame = {
+    ChooseTheGame: "Choose The Game",
+    ThereIsNoGame: "There is No Game",
+    NewGame: "New Game",
+    selectGame: "Select Game",
+    startGame: "Start Game",
+    playersLowerBound: "Players Length Should be at Least 3.",
+    nextButtonTitle: "Next",
+    RoundsLength: "Number Of Rounds",
+    SpiesLength: "Number Of Spies",
+    roundsNotEnough: "Rounds Length Should be at Least 1.",
+    spiesUpperBound: "Spies Length Can't be more than 1/3 of Players",
+    spiesLowerBound: "Spies Length Should be at Least 1.",
+    roundsUpperBound: "Rounds Can't be more then 10",
+    startOver: "Start Over",
+    deleteGameAssurement: "Are You Sure You Want to Delete the Game?",
+    continue: "Continue",
+    yes: "Yes",
+    no: "No",
+};
+export default SelectGame;

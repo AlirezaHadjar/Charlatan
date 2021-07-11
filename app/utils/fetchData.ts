@@ -21,12 +21,14 @@ export const fetchData = async () => {
         storageTime,
         storageSpiesLength,
         storageLanguage,
+        storageGames,
     ] = await Promise.all([
         AsyncStorage.getItem(storageKeys.players),
         AsyncStorage.getItem(storageKeys.locations),
         AsyncStorage.getItem(storageKeys.time),
         AsyncStorage.getItem(storageKeys.spiesLength),
         AsyncStorage.getItem(storageKeys.language),
+        AsyncStorage.getItem(storageKeys.games),
     ]);
     const players: User[] = storagePlayers
         ? JSON.parse(storagePlayers)
@@ -43,50 +45,56 @@ export const fetchData = async () => {
     const spiesLength: number = storageSpiesLength
         ? JSON.parse(storageSpiesLength)
         : defaultData.spiesLength;
+    const games: Game[] = storageGames
+        ? JSON.parse(storageGames)
+        : defaultData.games;
 
     // Fake Data
 
-    const games: Game[] = [
-        {
-            id: "1",
-            name: "Our Family",
-            updatedAt: 123,
-            players: [
-                {
-                    id: players[0].id,
-                    score: 0,
-                },
-            ],
-            rounds: [],
-            currentRoundIndex: 0,
-        },
-        {
-            id: "2",
-            name: "Our Friend",
-            updatedAt: 123,
-            players: [
-                {
-                    id: players[0].id,
-                    score: 0,
-                },
-            ],
-            rounds: [],
-            currentRoundIndex: 1,
-        },
-        {
-            id: "3",
-            name: "Our Co-Worker",
-            updatedAt: 123,
-            players: [
-                {
-                    id: players[0].id,
-                    score: 0,
-                },
-            ],
-            rounds: [],
-            currentRoundIndex: 2,
-        },
-    ];
+    // const games1: Game[] = [
+    //     {
+    //         id: "1",
+    //         name: "Our Family",
+    //         updatedAt: 123,
+    //         players: [
+    //             {
+    //                 id: players[0].id,
+    //                 score: 0,
+    //             },
+    //         ],
+    //         rounds: [],
+    //         spiesLength: 1,
+    //         currentRoundIndex: 0,
+    //     },
+    //     {
+    //         id: "2",
+    //         name: "Our Friend",
+    //         updatedAt: 123,
+    //         players: [
+    //             {
+    //                 id: players[0].id,
+    //                 score: 0,
+    //             },
+    //         ],
+    //         rounds: [],
+    //         spiesLength: 1,
+    //         currentRoundIndex: 1,
+    //     },
+    //     {
+    //         id: "3",
+    //         name: "Our Co-Worker",
+    //         updatedAt: 123,
+    //         players: [
+    //             {
+    //                 id: players[0].id,
+    //                 score: 0,
+    //             },
+    //         ],
+    //         rounds: [],
+    //         spiesLength: 1,
+    //         currentRoundIndex: 2,
+    //     },
+    // ];
 
     store.dispatch(setLanguage(language));
     store.dispatch(setPlayers(players));

@@ -10,6 +10,7 @@ import {setAlert} from "../store/reducers/alert";
 
 export interface TouchableProps extends TouchableOpacityProps {
     disableText?: string;
+    enabled?: boolean;
     disabled?: boolean;
     onPress?: (event: GestureResponderEvent) => void;
 }
@@ -17,6 +18,7 @@ export interface TouchableProps extends TouchableOpacityProps {
 const AppTouchable: React.FC<TouchableProps> = ({
     children,
     disableText,
+    enabled = true,
     disabled,
     onPress,
     ...props
@@ -35,7 +37,10 @@ const AppTouchable: React.FC<TouchableProps> = ({
     );
 
     return (
-        <TouchableOpacity onPress={(e) => handlePress(e)} {...props}>
+        <TouchableOpacity
+            onPress={e => handlePress(e)}
+            {...props}
+            disabled={!enabled}>
             {children}
         </TouchableOpacity>
     );

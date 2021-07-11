@@ -15,6 +15,7 @@ export interface IconProps {
     onPress?: () => void;
     icon: JSX.Element;
     size?: number;
+    disabled?: boolean;
     visible?: Animated.SharedValue<number>;
 }
 
@@ -26,6 +27,7 @@ const Icon: React.FC<IconProps> = ({
     onPress,
     backgroundColor = "buttonSecondary",
     visible,
+    disabled = false,
 }) => {
     const isVisible = useSharedValue(1);
     useDerivedValue(() => {
@@ -50,6 +52,7 @@ const Icon: React.FC<IconProps> = ({
             <Button
                 title=""
                 variant="icon"
+                disabled={disabled}
                 backgroundColor={backgroundColor}
                 style={styles.container}
                 onPress={() => onPress && onPress()}

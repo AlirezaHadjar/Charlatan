@@ -4,6 +4,7 @@ import {languageDatas} from "./language/index";
 
 export type Strumber = string | number;
 
+export type Stage = "Config" | "Finalize";
 export interface Data {
     players: User[];
     time: number;
@@ -25,6 +26,7 @@ export interface Game {
     id: string;
     name: string;
     currentRoundIndex: number;
+    spiesLength: number;
     rounds: Round[];
     players: Player[];
     updatedAt: number;

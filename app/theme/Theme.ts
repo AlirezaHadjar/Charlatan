@@ -18,6 +18,10 @@ const palette = {
     superLight: "#eef2f7",
     light: "#EEEEEE",
     white: "#ffffff",
+    gold: "#FFD700",
+    silver: "#C0C0C0",
+    bronze: "#cd7f32",
+    darkGreen: "#2b504a",
 };
 
 const theme = createTheme({
@@ -45,6 +49,10 @@ const theme = createTheme({
         contrast: palette.white,
         transparent: palette.transparent,
         danger: palette.red,
+        gold: palette.gold,
+        silver: palette.silver,
+        bronze: palette.bronze,
+        badRank: palette.semiBlack,
     },
     spacing: {
         ss: normalize(4),

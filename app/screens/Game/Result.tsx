@@ -7,21 +7,23 @@ import {
     // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
+import {useSharedValue} from "react-native-reanimated";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import Citizen from "../../assets/SVGs/Citizen";
 import Spy from "../../assets/SVGs/Spy";
-import Refresh from "../../assets/SVGs/Refresh";
+import Play from "../../assets/SVGs/Play";
 import BackCross from "../../assets/SVGs/BackCross";
 import Box from "../../theme/Box";
 import {useSelector} from "../../store/useSelector";
-import {getActiveGameId, getGame} from "../../store/reducers/data";
+import {getActiveGameId, getGame, getPlayers} from "../../store/reducers/data";
 import {Winners} from "../../types";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {useTranslation} from "../../hooks/translation";
 import {GameRoutes} from "../../navigations/GameNavigator";
+import GameBoard from "../../components/list/game/ListItem";
 import {AppRoute} from "../../navigations/AppNavigator";
 import Button from "../../components/Button";
 
@@ -41,9 +43,15 @@ const styles = StyleSheet.create({
     container: {},
 });
 
+const BOX_HEIGHT = (height * 56) / 100;
+const BOX_WIDTH = (width * 73) / 100;
+const MARGIN = (width * 3) / 100;
+
 const Result: React.FC<ResultProps> = ({navigation}) => {
     const translation = useTranslation();
     const activeGameId = useSelector(getActiveGameId);
+    const users = useSelector(getPlayers);
+    const offsetX = useSharedValue(0);
     const selectedGame = useSelector(getGame(activeGameId));
     const selectedRound = useMemo(
         () => selectedGame.rounds[selectedGame.currentRoundIndex - 1],
@@ -88,6 +96,7 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
     const handlePlayAgain = useCallback(() => {
         navigation.navigate("StartGame");
     }, [navigation]);
+
     return (
         <Container style={styles.container}>
             <Header
@@ -99,21 +108,31 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
                 <Box alignItems="center" flex={1} paddingTop="lxl">
                     {renderWinnerText()}
                     {selectedGame.currentRoundIndex <
-                        selectedGame.rounds.length - 1 && (
+                        selectedGame.rounds.length && (
                         <Button
                             fontSize={normalize(19)}
                             variant="simple"
-                            title={translation.Result.playAgain}
+                            title={translation.Result.PlayNextRound}
                             onPress={handlePlayAgain}
                             backgroundColor="secondBackground"
                             marginVertical="m"
                             height={(height * 8) / 100}
                             width={(width * 53) / 100}>
-                            <Box flex={0.3}>
-                                <Refresh scale={1} />
-                            </Box>
+                            <Play scale={0.5} />
                         </Button>
                     )}
+                    <Box zIndex={1}>
+                        <GameBoard
+                            onlyResult
+                            item={selectedGame}
+                            margin={MARGIN}
+                            height={BOX_HEIGHT}
+                            users={users}
+                            width={BOX_WIDTH}
+                            index={0}
+                            offsetX={offsetX}
+                        />
+                    </Box>
                     <Box bottom={0} position="absolute">
                         {selectedRound.winner === Winners.Citizens ? (
                             <Citizen />

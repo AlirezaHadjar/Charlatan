@@ -36,7 +36,7 @@ const List: React.FC<ListProps> = ({items, onPress}) => {
 
     const scrollHandler = useAnimatedScrollHandler(
         {
-            onScroll: (event) => {
+            onScroll: event => {
                 offsetX.value = event.contentOffset.x;
             },
         },

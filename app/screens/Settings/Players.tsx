@@ -4,12 +4,9 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     Platform,
-    StyleSheet,
     TextInput,
-    TouchableOpacity,
 } from "react-native";
 import BottomSheet, {BottomSheetView} from "@gorhom/bottom-sheet";
-import {useTheme} from "@shopify/restyle";
 import {useDispatch} from "react-redux";
 
 import Container from "../../components/Container";
@@ -28,14 +25,12 @@ import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import Icon from "../../components/Icon";
 import Plus from "../../assets/SVGs/Plus";
-import Minus from "../../assets/SVGs/Minus";
 import Check from "../../assets/SVGs/Check";
 import Cross from "../../assets/SVGs/Cross";
 import List from "../../components/list/player/List";
 import {useTranslation} from "../../hooks/translation";
 import CustomBackdrop from "../../components/CustomBackdrop";
 import {LISTITEM_HEIGHT} from "../../../SpyHunt";
-import {ThemeType} from "../../theme/Theme";
 import {usePlayer} from "../../hooks/usePlayer";
 import {useSpy} from "../../hooks/useSpy";
 import {getLanguageName} from "../../store/reducers/language";
@@ -51,25 +46,25 @@ const Players: React.FC = () => {
     const translation = useTranslation();
     const dispatch = useDispatch();
     const [query, setQuery] = useState("");
-    const theme = useTheme<ThemeType>();
+    // const theme = useTheme<ThemeType>();
     const textInputRef = useRef<TextInput>(null);
     const addPlayerSheet = useRef<BottomSheet>(null);
-    const spiesLengthSheet = useRef<BottomSheet>(null);
+    // const spiesLengthSheet = useRef<BottomSheet>(null);
 
-    const styles = StyleSheet.create({
-        boxContainer: {
-            width: (width * 10) / 100,
-            height: (width * 10) / 100,
-            backgroundColor: theme.colors.buttonPrimary,
-            borderRadius: theme.borderRadii.m,
-            marginHorizontal: theme.spacing.m,
-            alignItems: "center",
-            justifyContent: "center",
-        },
-        disabled: {
-            backgroundColor: theme.colors.buttonDisabled,
-        },
-    });
+    // const styles = StyleSheet.create({
+    //     boxContainer: {
+    //         width: (width * 10) / 100,
+    //         height: (width * 10) / 100,
+    //         backgroundColor: theme.colors.buttonPrimary,
+    //         borderRadius: theme.borderRadii.m,
+    //         marginHorizontal: theme.spacing.m,
+    //         alignItems: "center",
+    //         justifyContent: "center",
+    //     },
+    //     disabled: {
+    //         backgroundColor: theme.colors.buttonDisabled,
+    //     },
+    // });
 
     usePlayer(players);
     useSpy(spiesLength);
@@ -154,38 +149,38 @@ const Players: React.FC = () => {
         Keyboard.dismiss();
         setTimeout(() => addPlayerSheet.current?.snapTo(0), 1000);
     }, [dispatch, query]);
-    const renderSpiesButton = useCallback(
-        () => (
-            <TouchableOpacity
-                onPress={() => spiesLengthSheet.current?.snapTo(1)}>
-                <Box
-                    borderRadius="hero1"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    flexDirection="row"
-                    paddingHorizontal="s"
-                    paddingVertical="ss"
-                    backgroundColor="buttonSecondary">
-                    <Box
-                        borderRadius="hero1"
-                        backgroundColor="secondBackground"
-                        marginEnd="s"
-                        paddingHorizontal="s">
-                        <AppText>{spiesLength}</AppText>
-                    </Box>
-                    <AppText
-                        fontSize={normalize(15)}
-                        variant="semiBold"
-                        color="thirdText">
-                        {spiesLength > 1
-                            ? translation.Players.Spies
-                            : translation.Players.Spy}
-                    </AppText>
-                </Box>
-            </TouchableOpacity>
-        ),
-        [spiesLength, translation.Players.Spies, translation.Players.Spy],
-    );
+    // const renderSpiesButton = useCallback(
+    //     () => (
+    //         <TouchableOpacity
+    //             onPress={() => spiesLengthSheet.current?.snapTo(1)}>
+    //             <Box
+    //                 borderRadius="hero1"
+    //                 alignItems="center"
+    //                 justifyContent="space-between"
+    //                 flexDirection="row"
+    //                 paddingHorizontal="s"
+    //                 paddingVertical="ss"
+    //                 backgroundColor="buttonSecondary">
+    //                 <Box
+    //                     borderRadius="hero1"
+    //                     backgroundColor="secondBackground"
+    //                     marginEnd="s"
+    //                     paddingHorizontal="s">
+    //                     <AppText>{spiesLength}</AppText>
+    //                 </Box>
+    //                 <AppText
+    //                     fontSize={normalize(15)}
+    //                     variant="semiBold"
+    //                     color="thirdText">
+    //                     {spiesLength > 1
+    //                         ? translation.Players.Spies
+    //                         : translation.Players.Spy}
+    //                 </AppText>
+    //             </Box>
+    //         </TouchableOpacity>
+    //     ),
+    //     [spiesLength, translation.Players.Spies, translation.Players.Spy],
+    // );
     const handlePlusPress = useCallback(() => {
         addPlayerSheet.current?.snapTo(1);
         setTimeout(() => textInputRef.current?.focus(), 500);
@@ -198,7 +193,7 @@ const Players: React.FC = () => {
         <Container>
             <Header
                 screenName={translation.Players.header}
-                end={renderSpiesButton()}
+                // end={renderSpiesButton()}
             />
             {players.length === 0 && renderEmptyPlayers()}
             <KeyboardAvoidingView
@@ -230,7 +225,7 @@ const Players: React.FC = () => {
             {useMemo(
                 () => (
                     <BottomSheet
-                        backdropComponent={(props) => (
+                        backdropComponent={props => (
                             <CustomBackdrop
                                 onPress={() => {
                                     setTimeout(
@@ -279,7 +274,7 @@ const Players: React.FC = () => {
                                                     : "right"
                                             }
                                             ref={textInputRef}
-                                            onChangeText={(text) =>
+                                            onChangeText={text =>
                                                 setQuery(text)
                                             }
                                         />
@@ -315,10 +310,10 @@ const Players: React.FC = () => {
                     translation.Players.addTextInputAlert,
                 ],
             )}
-            {useMemo(
+            {/* {useMemo(
                 () => (
                     <BottomSheet
-                        backdropComponent={(props) => (
+                        backdropComponent={props => (
                             <CustomBackdrop
                                 onPress={() => {
                                     setTimeout(
@@ -421,7 +416,7 @@ const Players: React.FC = () => {
                     translation.Players.removeSpyAlert,
                     translation.Players.spiesBottomSheetTitle,
                 ],
-            )}
+            )} */}
         </Container>
     );
 };

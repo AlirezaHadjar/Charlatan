@@ -1,6 +1,6 @@
 import {useTheme} from "@shopify/restyle";
 import React, {useEffect} from "react";
-import {Dimensions, StyleSheet, TextInput} from "react-native";
+import {Dimensions, Platform, StyleSheet, TextInput} from "react-native";
 import Animated, {
     interpolate,
     useAnimatedStyle,
@@ -65,7 +65,9 @@ const ListItem: React.FC<ListItemProps> = ({
 
     useEffect(() => {
         progress.value = 0;
-        progress.value = withTiming(1, {duration: 200 + index * 200});
+        progress.value = withTiming(1, {
+            duration: 200 + Math.floor(index / 3) * 200,
+        });
     }, [index, progress]);
 
     return (
@@ -73,9 +75,8 @@ const ListItem: React.FC<ListItemProps> = ({
             <Box
                 width={BOX_SIZE}
                 height={BOX_SIZE}
-                marginVertical="ss"
+                marginVertical="s"
                 marginStart="s"
-                // paddingHorizontal="m"
                 backgroundColor={backgroundColor}
                 alignItems="center"
                 borderRadius="l">
@@ -91,14 +92,15 @@ const ListItem: React.FC<ListItemProps> = ({
                         maxLength={15}
                         editable={onChangeText ? true : false}
                         style={{
+                            paddingTop: Platform.OS === "ios" ? "45%" : 0,
                             fontFamily: "Kalameh Bold",
-                            fontSize: normalize(15),
+                            fontSize: normalize(18),
                             fontWeight: "normal",
                             color: theme.colors.thirdText,
                             flex: 1,
                             textAlign: "center",
                         }}
-                        onChangeText={(text) =>
+                        onChangeText={text =>
                             onChangeText && onChangeText(text, id)
                         }
                     />

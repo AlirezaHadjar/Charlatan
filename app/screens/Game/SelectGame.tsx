@@ -5,7 +5,7 @@ import {
     // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
-import React, {useCallback, useMemo} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {
     BackHandler,
     Dimensions,
@@ -13,6 +13,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 
+import {useGames} from "../../hooks/games";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import GameList from "../../components/list/game/List";
@@ -28,6 +29,13 @@ import {
     getGame,
     getActiveGameId,
     setActiveGameId,
+    editRound,
+    editSpiesLength,
+    startGame,
+    addNewGame,
+    startOverAGame,
+    deleteGame,
+    resetScores,
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
 import Box from "../../theme/Box";
@@ -36,8 +44,13 @@ import Button from "../../components/Button";
 import {useTranslation} from "../../hooks/translation";
 import normalize from "../../utils/normalizer";
 import Trash from "../../assets/SVGs/Trash";
+import AppTouchable from "../../components/Touchable";
+import Minus from "../../assets/SVGs/Minus";
 import Play from "../../assets/SVGs/Play";
+import Refresh from "../../assets/SVGs/Refresh";
 import Plus from "../../assets/SVGs/Plus";
+import {setAlert} from "../../store/reducers/alert";
+import {Stage} from "../../types";
 
 const {width, height} = Dimensions.get("window");
 
@@ -51,41 +64,22 @@ export type SelectGameProps = {
     route: RouteProp<AppRoute, "Main">;
 };
 
-type Stage = "Select" | "Finilize";
-
 const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     const dispatch = useAppDispatch();
     const games = useSelector(getGames);
     const translation = useTranslation();
-    // const theme = useTheme<ThemeType>();
     const activeGameId = useSelector(getActiveGameId);
     const selectedGame = useSelector(getGame(activeGameId));
     const players = useSelector(getPlayers);
 
-    // const styles = StyleSheet.create({
-    // boxContainer: {
-    //     width: (width * 10) / 100,
-    //     height: (width * 10) / 100,
-    //     backgroundColor: theme.colors.buttonPrimary,
-    //     borderRadius: theme.borderRadii.m,
-    //     marginHorizontal: theme.spacing.m,
-    //     alignItems: "center",
-    //     justifyContent: "center",
-    // },
-    // disabled: {
-    //     backgroundColor: theme.colors.buttonDisabled,
-    // },
-    // });
+    useGames(games);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const stage: Stage = useMemo(
-        () => (!activeGameId ? "Select" : "Finilize"),
-        [activeGameId],
-    );
+    const [stage, setStage] = useState<Stage>("Config");
 
     const headerTitle = useMemo(
-        () => (!activeGameId ? "Select Game" : "Start Game"),
-        [activeGameId],
+        () =>
+            translation.SelectGame[!activeGameId ? "selectGame" : "startGame"],
+        [activeGameId, translation.SelectGame],
     );
 
     const handleGameSelect = useCallback(
@@ -95,14 +89,24 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
         [dispatch],
     );
 
+    const handleNewGame = useCallback(() => {
+        const id = Date.now().toString();
+        dispatch(addNewGame({id}));
+        dispatch(setActiveGameId(id));
+    }, [dispatch]);
+
     const handBackPress = useCallback(() => {
+        if (stage === "Finalize") {
+            setStage("Config");
+            return true;
+        }
         if (activeGameId) {
             dispatch(setActiveGameId(""));
             return true;
         }
         navigation.goBack();
         return true;
-    }, [activeGameId, navigation, dispatch]);
+    }, [stage, activeGameId, navigation, dispatch]);
 
     useFocusEffect(
         useCallback(() => {
@@ -147,35 +151,47 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
         [],
     );
 
-    const SelectContent = useMemo(
-        () => (
+    const SelectContent = useMemo(() => {
+        return (
             <Box flex={1}>
-                <AppText textAlign="center" fontSize={normalize(25)}>
-                    Choose The Game
-                </AppText>
-                <Box flex={1} justifyContent="center">
-                    <GameList items={games} onPress={handleGameSelect} />
-                </Box>
+                {games.length > 0 ? (
+                    <>
+                        <AppText textAlign="center" fontSize={normalize(25)}>
+                            {translation.SelectGame.ChooseTheGame}
+                        </AppText>
+                        <Box flex={1} justifyContent="center">
+                            <GameList
+                                items={games}
+                                onPress={handleGameSelect}
+                            />
+                        </Box>
+                    </>
+                ) : (
+                    <Box justifyContent="center" flex={1}>
+                        <AppText textAlign="center" fontSize={normalize(30)}>
+                            {translation.SelectGame.ThereIsNoGame}
+                        </AppText>
+                    </Box>
+                )}
                 <Button
                     alignSelf="flex-end"
                     marginEnd="m"
                     fontSize={normalize(18)}
                     reverse
                     variant="simple"
-                    title="New Game"
-                    // onPress={handleNext}
+                    title={translation.SelectGame.NewGame}
+                    onPress={handleNewGame}
                     backgroundColor="secondBackground"
                     height={(width * 15) / 100}
                     width={(width * 40) / 100}>
                     <Plus scale={0.6} />
                 </Button>
             </Box>
-        ),
-        [games, handleGameSelect],
-    );
+        );
+    }, [games, handleGameSelect, handleNewGame, translation.SelectGame]);
+
     const EditContent = useMemo(() => {
         if (!selectedGame) return;
-        console.log("Change");
         const selectedIds = selectedGame
             ? selectedGame.players.map(player => player.id)
             : [];
@@ -191,6 +207,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         backgroundColor="contrast">
                         <TextInput
                             value={selectedGame.name}
+                            autoCapitalize="words"
                             onChangeText={text =>
                                 dispatch(
                                     editGame({id: selectedGame.id, name: text}),
@@ -206,7 +223,6 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             }}
                         />
                     </Box>
-                    {/* <AppText>Players:</AppText> */}
                     <Box paddingVertical="m">
                         <UserList
                             items={players}
@@ -215,87 +231,16 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             onEndPress={handleSelectPlayer}
                         />
                     </Box>
-                    {/* <Box
-                        flexDirection="row"
-                        alignItems="center"
-                        justifyContent="center">
-                        <AppTouchable
-                            disableText={translation.Players.removeSpyAlert}
-                            disabled={selectedGame.rounds.length < 2}
-                            onPress={() => {
-                                dispatch(
-                                    editRound({
-                                        gameId: selectedGame.id,
-                                        mode: "sub",
-                                    }),
-                                );
-                            }}
-                            style={[
-                                styles.boxContainer,
-                                selectedGame.rounds.length < 2
-                                    ? styles.disabled
-                                    : {},
-                            ]}>
-                            <Minus color="secondBackground" scale={0.9} />
-                        </AppTouchable>
-                        <AppText color="thirdText" fontSize={normalize(70)}>
-                            {selectedGame.rounds.length}
-                        </AppText>
-                        <AppTouchable
-                            disableText={translation.Players.addSpyAlert}
-                            disabled={selectedGame.rounds.length >= 15}
-                            onPress={() => {
-                                dispatch(
-                                    editRound({
-                                        gameId: selectedGame.id,
-                                        mode: "add",
-                                    }),
-                                );
-                            }}
-                            style={[
-                                styles.boxContainer,
-                                selectedGame.rounds.length >= 15
-                                    ? styles.disabled
-                                    : {},
-                            ]}>
-                            <Plus color="secondBackground" scale={0.9} />
-                        </AppTouchable>
-                    </Box> */}
-                    {/* <Box flexDirection="row">
-                        <Button
-                            title="Delete"
-                            height={70}
-                            width={125}
-                            backgroundColor="danger"
-                        />
-                        {selectedGame.currentRoundIndex <
-                            selectedGame.rounds.length && (
-                            <Button
-                                title="Continue"
-                                height={70}
-                                width={125}
-                                backgroundColor="buttonPrimary"
-                                onPress={() => {
-                                    dispatch(startGame());
-                                    navigation.navigate("StartGame");
-                                }}
-                            />
-                        )}
-                        <Button
-                            backgroundColor="buttonTertiary"
-                            title="Start From First"
-                            height={70}
-                            width={125}
-                        />
-                    </Box> */}
                 </Box>
                 <Box flex={1} />
                 <Button
                     alignSelf="flex-end"
                     fontSize={normalize(18)}
                     variant="simple"
-                    title={translation.AssignRole.nextButtonTitle}
-                    // onPress={handleNext}
+                    title={translation.SelectGame.nextButtonTitle}
+                    onPress={() => setStage("Finalize")}
+                    disableText={translation.SelectGame.playersLowerBound}
+                    disabled={selectedGame.players.length < 3}
                     backgroundColor="secondBackground"
                     height={(width * 15) / 100}
                     width={(width * 31) / 100}>
@@ -309,13 +254,210 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
         itemCheck,
         players,
         selectedGame,
-        translation.AssignRole.nextButtonTitle,
+        translation.SelectGame,
     ]);
 
+    const handleConfigChange = (type: "round" | "spy", mode: "add" | "sub") => {
+        if (type === "round") {
+            dispatch(editRound({gameId: selectedGame.id, mode}));
+            return;
+        }
+        if (type === "spy") {
+            dispatch(editSpiesLength({gameId: selectedGame.id, mode}));
+            return;
+        }
+    };
+
+    const FinalizeContent = useMemo(() => {
+        if (!selectedGame) return;
+        return (
+            <Box flex={1} paddingHorizontal="m">
+                <Box flex={1}>
+                    <Box
+                        paddingVertical="m"
+                        flexDirection="row"
+                        alignItems="center">
+                        <AppText fontSize={normalize(23)}>
+                            {translation.SelectGame.RoundsLength}
+                        </AppText>
+                        <Box flex={1} />
+                        <Box
+                            height={(height * 5) / 100}
+                            borderRadius="hero1"
+                            paddingHorizontal="s"
+                            width={(width * 40) / 100}
+                            flexDirection="row"
+                            alignItems="center"
+                            justifyContent="space-between"
+                            backgroundColor="danger">
+                            <AppTouchable
+                                disableText={
+                                    translation.SelectGame.roundsNotEnough
+                                }
+                                disabled={selectedGame.rounds.length <= 1}
+                                onPress={() =>
+                                    handleConfigChange("round", "sub")
+                                }>
+                                <Box
+                                    height={(height * 4) / 100}
+                                    width={(height * 4) / 100}
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    borderRadius="hero1"
+                                    backgroundColor="buttonPrimary">
+                                    <Minus color="fourthText" />
+                                </Box>
+                            </AppTouchable>
+                            <AppText variant="bold" fontSize={normalize(25)}>
+                                {selectedGame.rounds.length}
+                            </AppText>
+                            <AppTouchable
+                                disableText={
+                                    translation.SelectGame.roundsUpperBound
+                                }
+                                disabled={selectedGame.rounds.length >= 10}
+                                onPress={() =>
+                                    handleConfigChange("round", "add")
+                                }>
+                                <Box
+                                    height={(height * 4) / 100}
+                                    width={(height * 4) / 100}
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    borderRadius="hero1"
+                                    backgroundColor="buttonPrimary">
+                                    <Plus color="fourthText" />
+                                </Box>
+                            </AppTouchable>
+                        </Box>
+                    </Box>
+                    <Box
+                        paddingVertical="m"
+                        flexDirection="row"
+                        alignItems="center">
+                        <AppText fontSize={normalize(23)}>
+                            {translation.SelectGame.SpiesLength}
+                        </AppText>
+                        <Box flex={1} />
+                        <Box
+                            height={(height * 5) / 100}
+                            borderRadius="hero1"
+                            paddingHorizontal="s"
+                            width={(width * 40) / 100}
+                            flexDirection="row"
+                            alignItems="center"
+                            justifyContent="space-between"
+                            backgroundColor="danger">
+                            <AppTouchable
+                                disableText={
+                                    translation.SelectGame.spiesLowerBound
+                                }
+                                disabled={selectedGame.spiesLength <= 1}
+                                onPress={() =>
+                                    handleConfigChange("spy", "sub")
+                                }>
+                                <Box
+                                    height={(height * 4) / 100}
+                                    width={(height * 4) / 100}
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    borderRadius="hero1"
+                                    backgroundColor="buttonPrimary">
+                                    <Minus color="fourthText" />
+                                </Box>
+                            </AppTouchable>
+                            <AppText variant="bold" fontSize={normalize(25)}>
+                                {selectedGame.spiesLength}
+                            </AppText>
+                            <AppTouchable
+                                disableText={
+                                    translation.SelectGame.spiesUpperBound
+                                }
+                                disabled={
+                                    selectedGame.spiesLength >=
+                                    Math.floor(selectedGame.players.length / 3)
+                                }
+                                onPress={() =>
+                                    handleConfigChange("spy", "add")
+                                }>
+                                <Box
+                                    height={(height * 4) / 100}
+                                    width={(height * 4) / 100}
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    borderRadius="hero1"
+                                    backgroundColor="buttonPrimary">
+                                    <Plus color="fourthText" />
+                                </Box>
+                            </AppTouchable>
+                        </Box>
+                    </Box>
+                </Box>
+                <Box flexDirection="row" justifyContent="space-between">
+                    <Button
+                        title={translation.SelectGame.startOver}
+                        backgroundColor="transparent"
+                        fontSize={normalize(20)}
+                        disabled={selectedGame.rounds.length < 1}
+                        disableText={translation.SelectGame.roundsNotEnough}
+                        onPress={() => {
+                            dispatch(startOverAGame());
+                            dispatch(resetScores());
+                            dispatch(startGame());
+                            // dispatch(setActiveGameId(""));
+                            navigation.navigate("StartGame");
+                        }}
+                        width={(width * 40) / 100}
+                        height={(height * 8) / 100}>
+                        <Refresh scale={1} />
+                    </Button>
+                    {selectedGame.currentRoundIndex <
+                        selectedGame.rounds.length &&
+                        selectedGame.currentRoundIndex > 0 && (
+                            <Button
+                                title={translation.SelectGame.continue}
+                                onPress={() => {
+                                    dispatch(startGame());
+                                    // dispatch(setActiveGameId(""));
+                                    navigation.navigate("StartGame");
+                                }}
+                                fontSize={normalize(20)}
+                                width={(width * 40) / 100}
+                                height={(height * 8) / 100}>
+                                <Play scale={0.4} />
+                            </Button>
+                        )}
+                </Box>
+            </Box>
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedGame]);
+
+    const GameContent = useMemo(() => {
+        if (stage === "Config") return EditContent;
+        return FinalizeContent;
+    }, [EditContent, FinalizeContent, stage]);
+
     const Content = useMemo(() => {
-        if (activeGameId) return EditContent;
+        if (activeGameId) return GameContent;
         return SelectContent;
-    }, [EditContent, SelectContent, activeGameId]);
+    }, [GameContent, SelectContent, activeGameId]);
+
+    const handleDelete = () => {
+        dispatch(
+            setAlert({
+                id: Date.now.toString(),
+                text: translation.SelectGame.deleteGameAssurement,
+                acceptButtonText: translation.SelectGame.yes,
+                cancelButtonText: translation.SelectGame.no,
+                variant: "ask",
+                onAccept: () => {
+                    dispatch(setActiveGameId(""));
+                    dispatch(deleteGame(selectedGame.id));
+                },
+            }),
+        );
+    };
 
     return (
         <Container>
@@ -323,9 +465,11 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                 screenName={headerTitle}
                 onBackPress={handBackPress}
                 end={
-                    <TouchableOpacity>
-                        <Trash />
-                    </TouchableOpacity>
+                    selectedGame && (
+                        <TouchableOpacity onPress={handleDelete}>
+                            <Trash />
+                        </TouchableOpacity>
+                    )
                 }
             />
             <Box flex={1}>

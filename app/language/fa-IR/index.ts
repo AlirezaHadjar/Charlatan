@@ -6,6 +6,7 @@ import Time from "./Settings/Time";
 import AssignRole from "./Game/AssignRole";
 import Vote from "./Game/Vote";
 import SpiesGuess from "./Game/SpiesGuess";
+import SelectGame from "./Game/SelectGame";
 import Result from "./Game/Result";
 import Timer from "./Game/Timer";
 import {components} from "./Components/index";
@@ -21,5 +22,6 @@ export const fa = {
     SpiesGuess,
     Result,
     Timer,
+    SelectGame,
     components,
 };

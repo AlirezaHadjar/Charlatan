@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const Guide = {
     header: "Guide",
     text:

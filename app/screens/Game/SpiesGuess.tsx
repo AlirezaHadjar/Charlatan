@@ -13,9 +13,11 @@ import Header from "../../components/Header";
 import List from "../../components/list/location/List";
 import AppText from "../../components/Text";
 import {
+    calculateScores,
     editGame,
     getActiveGameId,
     getGame,
+    getGames,
     getLocation,
     getLocations,
     getPlayersByPlayers,
@@ -36,6 +38,7 @@ import {useAppDispatch} from "../../store/configureStore";
 import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
+import {useGames} from "../../hooks/games";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -55,6 +58,7 @@ const styles = StyleSheet.create({
 
 const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
     const translation = useTranslation();
+    const games = useSelector(getGames);
     const activeGameId = useSelector(getActiveGameId);
     const selectedGame = useSelector(getGame(activeGameId));
     const selectedRound = useMemo(
@@ -76,7 +80,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
     const dispatch = useAppDispatch();
     const [guesses, setGuesses] = useState<GuessType[]>([]);
     const spies = useMemo(
-        () => players.filter((player) => spiesIds.includes(player.id)),
+        () => players.filter(player => spiesIds.includes(player.id)),
         [spiesIds, players],
     );
     const [modifiedSpies, setModifiedSpies] = useState(
@@ -86,14 +90,17 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         })),
     );
     const selectedSpy = useMemo(() => {
-        return modifiedSpies.find((pl) => pl.selected);
+        return modifiedSpies.find(pl => pl.selected);
     }, [modifiedSpies]);
     const guessedIds = useMemo(() => {
         const selected = guesses.filter(
-            (guess) => guess.guesserId === selectedSpy.id,
+            guess => guess.guesserId === selectedSpy.id,
         );
-        return selected.map((guess) => guess.guessedId);
+        return selected.map(guess => guess.guessedId);
     }, [guesses, selectedSpy.id]);
+
+    useGames(games);
+
     const itemCheck = useMemo(
         () => (
             <Box
@@ -112,7 +119,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         (guessedId: string) => {
             const clonedGuesses = [...guesses];
             const index = clonedGuesses.findIndex(
-                (guess) =>
+                guess =>
                     guess.guessedId === guessedId &&
                     guess.guesserId === selectedSpy.id,
             );
@@ -120,10 +127,10 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                 clonedGuesses.push({guessedId, guesserId: selectedSpy.id});
             else clonedGuesses.splice(index, 1);
             const guesserGuessesLength = clonedGuesses.filter(
-                (guess) => guess.guesserId === selectedSpy.id,
+                guess => guess.guesserId === selectedSpy.id,
             ).length;
             const voterFirstVoteIndex = clonedGuesses.findIndex(
-                (guess) => guess.guesserId === selectedSpy.id,
+                guess => guess.guesserId === selectedSpy.id,
             );
             if (guesserGuessesLength > 1 && voterFirstVoteIndex !== -1)
                 clonedGuesses.splice(voterFirstVoteIndex, 1);
@@ -132,12 +139,12 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         [guesses, selectedSpy.id],
     );
     const handleWinner = useCallback(() => {
-        const guessedIds = guesses.map((guess) => guess.guessedId);
+        const guessedIds = guesses.map(guess => guess.guessedId);
         const guessesWhichWereCorrect = guesses.filter(
-            (guess) => guess.guessedId === location?.id,
+            guess => guess.guessedId === location?.id,
         );
         const spiesWhoGuessedCorrectlyIds = guessesWhichWereCorrect.map(
-            (guess) => guess.guesserId,
+            guess => guess.guesserId,
         );
         if (guessedIds.includes(location.id))
             dispatch(
@@ -149,6 +156,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                     },
                 }),
             );
+        dispatch(calculateScores());
         dispatch(
             editGame({
                 currentRoundIndex: selectedGame.currentRoundIndex + 1,
@@ -169,7 +177,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         const index = clonedSpies.indexOf(selectedSpy);
         const isLast = index === clonedSpies.length - 1;
         if (isLast) return handleWinner();
-        clonedSpies.map((pl) => (pl.selected = false));
+        clonedSpies.map(pl => (pl.selected = false));
         clonedSpies[index + 1].selected = true;
         setModifiedSpies(clonedSpies);
     }, [handleWinner, modifiedSpies, selectedSpy]);
@@ -177,7 +185,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         const index = modifiedSpies.indexOf(selectedSpy);
         const isLast = index === modifiedSpies.length - 1;
         const voterVotesLength = guesses.filter(
-            (guess) => guess.guesserId === selectedSpy.id,
+            guess => guess.guesserId === selectedSpy.id,
         ).length;
         const isDisabled = voterVotesLength < 1;
         return (

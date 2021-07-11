@@ -1,9 +1,9 @@
 import {Location, User} from "../types";
 
 const players: User[] = [
-    {id: "1", role: "", name: {fa: "بازیکن ۱", en: "Player 1"}},
-    {id: "2", role: "", name: {fa: "بازیکن ۲", en: "Player 2"}},
-    {id: "3", role: "", name: {fa: "بازیکن ۳", en: "Player 3"}},
+    {id: "1", name: {fa: "بازیکن ۱", en: "Player 1"}},
+    {id: "2", name: {fa: "بازیکن ۲", en: "Player 2"}},
+    {id: "3", name: {fa: "بازیکن ۳", en: "Player 3"}},
 ];
 const locations: Location[] = [
     {id: "1", name: {fa: "بیمارستان", en: "Hospital"}},
@@ -24,10 +24,12 @@ const locations: Location[] = [
 ];
 const time = 300;
 const spiesLength = 1;
+const games = [];
 
 export const defaultData = {
     players,
     locations,
     time,
     spiesLength,
+    games,
 };

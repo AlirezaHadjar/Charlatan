@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {
@@ -66,7 +66,6 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         () => (selectedRound ? selectedRound.spiesIds : []),
         [selectedRound],
     );
-    console.log("Round", selectedGame.currentRoundIndex);
     const location = useSelector(getLocation(selectedLocationId));
     const players = useSelector(getPlayersByPlayers(selectedGame.players));
     const translation = useTranslation();
@@ -81,12 +80,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         })),
     );
 
-    useEffect(() => {
-        console.log("SPIES: ", spiesIds);
-    }, [spiesIds]);
-
     const selectedPlayer = useMemo(() => {
-        return modifiedPlayers.find((pl) => pl.selected);
+        return modifiedPlayers.find(pl => pl.selected);
     }, [modifiedPlayers]);
 
     const renderSpy = useCallback(
@@ -159,7 +154,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         const index = clonedPlayers.indexOf(selectedPlayer);
         const isLast = index === clonedPlayers.length - 1;
         if (isLast) return navigation.navigate("Timer");
-        clonedPlayers.map((pl) => (pl.selected = false));
+        clonedPlayers.map(pl => (pl.selected = false));
         clonedPlayers[index + 1].selected = true;
         setRoleDisplayed(false);
         setModifiedPlayers(clonedPlayers);

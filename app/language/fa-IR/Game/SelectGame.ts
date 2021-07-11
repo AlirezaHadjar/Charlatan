@@ -1,0 +1,21 @@
+const SelectGame = {
+    ChooseTheGame: "بازی مورد نظرتو انتخاب کن",
+    ThereIsNoGame: "هیچ بازی وجود نداره",
+    NewGame: "بازی جدید",
+    selectGame: "انتخاب بازی",
+    startGame: "شروع بازی",
+    playersLowerBound: "تعداد بازیکن ها باید حداقل ۳ تا بشه.",
+    nextButtonTitle: "بعدی",
+    RoundsLength: "تعداد راند ها",
+    SpiesLength: "تعداد جاسوس ها",
+    roundsNotEnough: "تعداد راند ها باید حداقل یکی باشه",
+    roundsUpperBound: "تعداد راند ها نمی تونه بیشتر از ده تا باشه",
+    spiesUpperBound: "تعداد جاسوس ها باید حداکثر ۱/۳ بازیکن ها باشه",
+    spiesLowerBound: "تعداد جاسپس ها باید حداقل یکی باشه",
+    startOver: "شروع مجدد",
+    continue: "ادامه",
+    deleteGameAssurement: "مطمئنی می خوای بازی رو حذف کنی؟",
+    yes: "اره",
+    no: "نه",
+};
+export default SelectGame;

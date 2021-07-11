@@ -1,6 +1,6 @@
 import {useTheme} from "@shopify/restyle";
-import React from "react";
-import {Pressable, StyleSheet, FlatList, Dimensions} from "react-native";
+import React, {useMemo} from "react";
+import {Pressable, StyleSheet, FlatList} from "react-native";
 import Animated, {
     Extrapolate,
     interpolate,
@@ -12,6 +12,7 @@ import {ThemeType} from "../../../theme/Theme";
 import Player from "../../../assets/SVGs/Player";
 import {Game, Player as PlayerType, User} from "../../../types";
 import normalize from "../../../utils/normalizer";
+import {useTranslation} from "../../../hooks/translation";
 import AppText from "../../Text";
 
 import Separator from "./Separator";
@@ -25,10 +26,11 @@ export interface ListItemProps {
     offsetX: Animated.SharedValue<number>;
     margin: number;
     onPress?: (id: string) => void;
+    onlyResult?: boolean;
 }
 
 const getPlayerName = (users: User[], player: PlayerType) => {
-    const index = users.findIndex((user) => user.id === player.id);
+    const index = users.findIndex(user => user.id === player.id);
     if (index === -1)
         return {
             en: "Not Found",
@@ -36,10 +38,6 @@ const getPlayerName = (users: User[], player: PlayerType) => {
         };
     return users[index].name;
 };
-
-const {width: SCREEN_WIDTH} = Dimensions.get("window");
-
-const MORE_DOT_SIZE = (SCREEN_WIDTH * 2) / 100;
 
 const ListItem: React.FC<ListItemProps> = ({
     item,
@@ -50,8 +48,18 @@ const ListItem: React.FC<ListItemProps> = ({
     margin,
     offsetX,
     index,
+    onlyResult = false,
 }) => {
     const theme = useTheme<ThemeType>();
+    const translation = useTranslation();
+    const remainingRounds = useMemo(
+        () => item.rounds.length - item.currentRoundIndex,
+        [item.currentRoundIndex, item.rounds.length],
+    );
+    const sortedPlayers = useMemo(() => {
+        const cloned = [...item.players];
+        return cloned.sort((a, b) => b.score - a.score);
+    }, [item.players]);
 
     const wholeWidth = width + 2 * margin;
 
@@ -60,7 +68,6 @@ const ListItem: React.FC<ListItemProps> = ({
             width,
             height,
             borderRadius: theme.borderRadii.ssl,
-            backgroundColor: theme.colors.cardBackground,
             alignItems: "center",
             marginHorizontal: margin,
             overflow: "hidden",
@@ -83,86 +90,87 @@ const ListItem: React.FC<ListItemProps> = ({
         };
     }, [index, offsetX.value]);
 
-    // useEffect(() => {
-    //     progress.value = 0;
-    //     progress.value = withTiming(1, {duration: 200 + index * 200});
-    // }, [index, progress]);
+    const handleColor: (index: number) => keyof ThemeType["colors"] = index => {
+        if (index === 0) return "gold";
+        if (index === 1) return "silver";
+        if (index === 2) return "bronze";
+        return "badRank";
+    };
 
     return (
-        <Pressable onPress={() => onPress(item.id)}>
+        <Pressable
+            onPress={() => onPress && onPress(item.id)}
+            disabled={onlyResult}>
             <Animated.View style={[animatedStyles, styles.card]}>
                 <Box
+                    position="absolute"
                     width="100%"
-                    flex={0.15}
-                    alignItems="center"
-                    justifyContent="center">
-                    <AppText
-                        color="fourthText"
-                        variant="bold"
-                        fontSize={normalize(25)}>
-                        {item.name}
-                    </AppText>
-                </Box>
-                <Separator text="1 Round Remaining" />
+                    opacity={onlyResult ? 0.9 : 1}
+                    height="100%"
+                    backgroundColor={
+                        onlyResult ? "mainBackground" : "cardBackground"
+                    }
+                />
+                {!onlyResult && (
+                    <>
+                        <Box
+                            width="100%"
+                            flex={0.15}
+                            alignItems="center"
+                            justifyContent="center">
+                            <AppText
+                                color="fourthText"
+                                variant="bold"
+                                fontSize={normalize(25)}>
+                                {item.name}
+                            </AppText>
+                        </Box>
+                        <Separator
+                            text={
+                                remainingRounds > 0 &&
+                                `${remainingRounds} ${translation.components.GameList.roundRemaining}`
+                            }
+                        />
+                    </>
+                )}
                 <Box flex={1}>
                     <FlatList
-                        data={item.players}
-                        keyExtractor={(item) => item.id}
+                        data={sortedPlayers}
+                        keyExtractor={item => item.id}
                         contentContainerStyle={{
                             paddingTop: theme.spacing.m,
-                            flex: 1,
                         }}
-                        // ListFooterComponent={
-                        //     <Box
-                        //         flexDirection="row"
-                        //         paddingHorizontal="m"
-                        //         paddingVertical="s">
-                        //         <Box
-                        //             width={MORE_DOT_SIZE}
-                        //             height={MORE_DOT_SIZE}
-                        //             borderRadius="hero1"
-                        //             backgroundColor="mainTextColor"
-                        //         />
-                        //         <Box
-                        //             width={MORE_DOT_SIZE}
-                        //             height={MORE_DOT_SIZE}
-                        //             borderRadius="hero1"
-                        //             backgroundColor="mainTextColor"
-                        //         />
-                        //         <Box
-                        //             width={MORE_DOT_SIZE}
-                        //             height={MORE_DOT_SIZE}
-                        //             borderRadius="hero1"
-                        //             backgroundColor="mainTextColor"
-                        //         />
-                        //     </Box>
-                        // }
                         ListHeaderComponent={
-                            <Box
-                                paddingVertical="s"
-                                paddingHorizontal="l"
-                                width="100%"
-                                marginBottom="s"
-                                justifyContent="space-between"
-                                flexDirection="row"
-                                alignItems="center">
-                                <Box flex={1} alignItems="flex-start">
+                            sortedPlayers.length > 0 && (
+                                <Box
+                                    paddingVertical="s"
+                                    paddingHorizontal="l"
+                                    width="100%"
+                                    marginBottom="s"
+                                    justifyContent="space-between"
+                                    flexDirection="row"
+                                    alignItems="center">
+                                    <Box flex={1} alignItems="flex-start">
+                                        <AppText
+                                            variant="bold"
+                                            fontSize={normalize(18)}
+                                            color="silver">
+                                            {
+                                                translation.components.GameList
+                                                    .player
+                                            }
+                                        </AppText>
+                                    </Box>
                                     <AppText
                                         variant="bold"
                                         fontSize={normalize(18)}
-                                        color="fourthText">
-                                        Player
+                                        color="danger">
+                                        {translation.components.GameList.score}
                                     </AppText>
                                 </Box>
-                                <AppText
-                                    variant="bold"
-                                    fontSize={normalize(18)}
-                                    color="danger">
-                                    Score
-                                </AppText>
-                            </Box>
+                            )
                         }
-                        renderItem={({item}) => (
+                        renderItem={({item, index}) => (
                             <Box
                                 paddingVertical="s"
                                 paddingHorizontal="l"
@@ -178,19 +186,40 @@ const ListItem: React.FC<ListItemProps> = ({
                                     <AppText
                                         variant="bold"
                                         fontSize={normalize(22)}
-                                        color="fourthText">
+                                        color={handleColor(index)}>
+                                        {`${index + 1}.  `}
                                         {getPlayerName(users, item).en}
                                     </AppText>
                                 </Box>
                                 <AppText
                                     variant="bold"
                                     fontSize={normalize(22)}
-                                    color="fourthText">
+                                    color={
+                                        onlyResult ? "silver" : "fourthText"
+                                    }>
                                     {item.score}
                                 </AppText>
                             </Box>
                         )}
                     />
+                    {sortedPlayers.length === 0 && (
+                        <Box
+                            position="absolute"
+                            width="100%"
+                            height="100%"
+                            alignItems="center"
+                            justifyContent="center">
+                            <AppText
+                                color="fourthText"
+                                variant="bold"
+                                fontSize={normalize(22)}>
+                                {
+                                    translation.components.GameList
+                                        .ThereIsNoPlayer
+                                }
+                            </AppText>
+                        </Box>
+                    )}
                 </Box>
             </Animated.View>
         </Pressable>

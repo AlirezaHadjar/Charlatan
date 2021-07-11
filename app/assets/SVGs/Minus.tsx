@@ -14,8 +14,8 @@ function SvgComponent({scale = 1, color = "buttonPrimary"}: Props) {
     const theme = useTheme<ThemeType>();
     return (
         <Svg
-            width={scale * normalize(29)}
-            height={scale * normalize(29)}
+            width={scale * normalize(27)}
+            height={scale * normalize(27)}
             viewBox="0 0 24 24"
             fill="none"
             stroke={theme.colors[color]}

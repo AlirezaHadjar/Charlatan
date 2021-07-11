@@ -14,6 +14,7 @@ import List from "../../components/list/player/List";
 import {
     getActiveGameId,
     getGame,
+    getGames,
     getPlayersByPlayers,
     resetGame,
     setGameResult,
@@ -33,6 +34,7 @@ import {useAppDispatch} from "../../store/configureStore";
 import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
+import {useGames} from "../../hooks/games";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
 const Vote: React.FC<VoteProps> = ({navigation}) => {
     const translation = useTranslation();
     const activeGameId = useSelector(getActiveGameId);
+    const games = useSelector(getGames);
     const selectedGame = useSelector(getGame(activeGameId));
     const selectedRound = useMemo(
         () => selectedGame.rounds[selectedGame.currentRoundIndex],
@@ -73,17 +76,19 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         })),
     );
     const selectedPlayer = useMemo(() => {
-        return modifiedPlayers.find((pl) => pl.selected);
+        return modifiedPlayers.find(pl => pl.selected);
     }, [modifiedPlayers]);
     const votingPeople = useMemo(() => {
-        return modifiedPlayers.filter((pl) => !pl.selected);
+        return modifiedPlayers.filter(pl => !pl.selected);
     }, [modifiedPlayers]);
     const votedPeopleIds = useMemo(() => {
         const selected = votes.filter(
-            (vote) => vote.voterId === selectedPlayer.id,
+            vote => vote.voterId === selectedPlayer.id,
         );
-        return selected.map((vote) => vote.votedId);
+        return selected.map(vote => vote.votedId);
     }, [selectedPlayer.id, votes]);
+
+    useGames(games);
 
     const itemCheck = useMemo(
         () => (
@@ -103,7 +108,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         (votedId: string) => {
             const clonedVotes = [...votes];
             const index = clonedVotes.findIndex(
-                (vote) =>
+                vote =>
                     vote.votedId === votedId &&
                     vote.voterId === selectedPlayer.id,
             );
@@ -111,10 +116,10 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
                 clonedVotes.push({votedId, voterId: selectedPlayer.id});
             else clonedVotes.splice(index, 1);
             const voterVotesLength = clonedVotes.filter(
-                (vote) => vote.voterId === selectedPlayer.id,
+                vote => vote.voterId === selectedPlayer.id,
             ).length;
             const voterFirstVoteIndex = clonedVotes.findIndex(
-                (vote) => vote.voterId === selectedPlayer.id,
+                vote => vote.voterId === selectedPlayer.id,
             );
             if (
                 voterVotesLength > spiesIds.length &&
@@ -136,8 +141,8 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
     };
     const getWinner = useCallback(
         (mostVoted: VotingResult[], spiesIds: string[]) => {
-            const spiesInVotes = spiesIds.filter((id) =>
-                mostVoted.find((vote) => vote.playerId === id),
+            const spiesInVotes = spiesIds.filter(id =>
+                mostVoted.find(vote => vote.playerId === id),
             );
             const votesAreOnlySpies = mostVoted.length === spiesIds.length;
             // There Are More Than One Person That have been Most Voted
@@ -152,8 +157,8 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         [],
     );
     const handleWinner = useCallback(() => {
-        const votingResult: VotingResult[] = players.map((player) => {
-            const {length} = votes.filter((vote) => vote.votedId === player.id);
+        const votingResult: VotingResult[] = players.map(player => {
+            const {length} = votes.filter(vote => vote.votedId === player.id);
             return {
                 playerId: player.id,
                 numberOfVotes: length,
@@ -163,7 +168,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         let mostVoted: VotingResult[] = [
             {playerName: "", numberOfVotes: 0, playerId: ""},
         ];
-        votingResult.forEach((result) => {
+        votingResult.forEach(result => {
             if (result.numberOfVotes === 0) return;
             if (result.numberOfVotes > mostVoted[0].numberOfVotes)
                 mostVoted = [result];
@@ -193,7 +198,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         const index = clonedPlayers.indexOf(selectedPlayer);
         const isLast = index === clonedPlayers.length - 1;
         if (isLast) return handleWinner();
-        clonedPlayers.map((pl) => (pl.selected = false));
+        clonedPlayers.map(pl => (pl.selected = false));
         clonedPlayers[index + 1].selected = true;
         setModifiedPlayers(clonedPlayers);
     }, [handleWinner, modifiedPlayers, selectedPlayer]);
@@ -202,7 +207,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         const index = modifiedPlayers.indexOf(selectedPlayer);
         const isLast = index === modifiedPlayers.length - 1;
         const voterVotesLength = votes.filter(
-            (vote) => vote.voterId === selectedPlayer.id,
+            vote => vote.voterId === selectedPlayer.id,
         ).length;
         const isDisabled = voterVotesLength < spiesIds.length;
         return (

@@ -63,50 +63,59 @@ const ListItem: React.FC<ListItemProps> = ({
     }, [index, progress]);
 
     return (
-        <Animated.View style={animatedStyles}>
-            <Box
-                width="100%"
-                height={LISTITEM_HEIGHT}
-                marginVertical="s"
-                paddingHorizontal="m"
-                backgroundColor={backgroundColor}
-                flexDirection={language === "en" ? "row" : "row-reverse"}
-                alignItems="center"
-                borderRadius="l">
-                <Box justifyContent="center" height="100%">
-                    <TextInput
-                        maxLength={15}
-                        onBlur={() => onBlur && onBlur(name, id)}
-                        value={name}
-                        editable={onChangeText ? true : false}
-                        style={{
-                            fontFamily: "Kalameh Bold",
-                            fontWeight: "normal",
-                            fontSize: normalize(18),
-                            color: theme.colors[textColor],
-                        }}
-                        onChangeText={(text) =>
-                            onChangeText && onChangeText(text, id)
-                        }
-                    />
-                </Box>
-                <Box flex={1} />
-                <AppTouchable
-                    disabled={endDisabled}
-                    disableText={endDisableText}
-                    onPress={() => {
-                        if (onEndPress) onEndPress(id);
-                    }}>
-                    <Box
-                        justifyContent="center"
-                        height="100%"
-                        marginEnd={language === "en" ? undefined : "s"}
-                        marginStart={language === "en" ? "s" : undefined}>
-                        {end}
+        <AppTouchable
+            enabled={onChangeText ? false : true}
+            disabled={endDisabled}
+            disableText={endDisableText}
+            onPress={() => {
+                if (onEndPress) onEndPress(id);
+            }}>
+            <Animated.View style={animatedStyles}>
+                <Box
+                    width="100%"
+                    height={LISTITEM_HEIGHT}
+                    marginVertical="s"
+                    paddingHorizontal="m"
+                    backgroundColor={backgroundColor}
+                    flexDirection={language === "en" ? "row" : "row-reverse"}
+                    alignItems="center"
+                    borderRadius="l">
+                    <Box justifyContent="center" height="100%">
+                        <TextInput
+                            maxLength={15}
+                            onBlur={() => onBlur && onBlur(name, id)}
+                            value={name}
+                            editable={onChangeText ? true : false}
+                            style={{
+                                fontFamily: "Kalameh Bold",
+                                fontWeight: "normal",
+                                fontSize: normalize(18),
+                                color: theme.colors[textColor],
+                            }}
+                            onChangeText={text =>
+                                onChangeText && onChangeText(text, id)
+                            }
+                        />
                     </Box>
-                </AppTouchable>
-            </Box>
-        </Animated.View>
+                    <Box flex={1} />
+                    <AppTouchable
+                        enabled={onChangeText ? true : false}
+                        disabled={endDisabled}
+                        disableText={endDisableText}
+                        onPress={() => {
+                            if (onEndPress) onEndPress(id);
+                        }}>
+                        <Box
+                            justifyContent="center"
+                            height="100%"
+                            marginEnd={language === "en" ? undefined : "s"}
+                            marginStart={language === "en" ? "s" : undefined}>
+                            {end}
+                        </Box>
+                    </AppTouchable>
+                </Box>
+            </Animated.View>
+        </AppTouchable>
     );
 };
 

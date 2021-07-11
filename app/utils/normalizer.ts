@@ -8,9 +8,10 @@ const PIXEL_RATIO = PixelRatio.get();
 const pixelRatio = PIXEL_RATIO > 2.5 ? 2.7 : PIXEL_RATIO;
 
 const heightScale = SCREEN_HEIGHT / 750;
-const pixelDensityScale = pixelRatio / 2 < 1 ? 1 : pixelRatio / 2;
+// console.log("Ratio", pixelRatio / 2 < 1, pixelRatio, Platform.OS);
+const pixelDensityScale = pixelRatio / 2 < 1.3 ? 1.3 : pixelRatio / 2;
 
-const normalize: (size: number) => number = (size) => {
+const normalize: (size: number) => number = size => {
     const newSize = (size * heightScale) / pixelDensityScale;
 
     const fontSize = Math.round(PixelRatio.roundToNearestPixel(newSize));

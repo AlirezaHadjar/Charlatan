@@ -158,14 +158,14 @@ const Main: React.FC<MainProps> = ({navigation}) => {
             [10, 0],
             Extrapolate.CLAMP,
         );
-        const opacity = interpolate(
-            isOpen.value,
-            [0, 0.2, 0.8, 1],
-            [0, 0.8, 1, 1],
-        );
+        // const opacity = interpolate(
+        //     isOpen.value,
+        //     [0, 0.2, 0.8, 1],
+        //     [0, 0.8, 1, 1],
+        // );
         return {
             transform: [{translateY: shift}],
-            opacity,
+            opacity: 0,
         };
     });
 
@@ -214,6 +214,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                     <Box marginBottom="s">
                         <Animated.View style={animatedSettingStyles5}>
                             <Icon
+                                disabled
                                 icon={<Pallet />}
                                 onPress={() => toggle()}
                                 backgroundColor="buttonTertiary"
