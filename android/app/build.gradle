@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.spyhunt"
+        applicationId "app.daiereh.charlatan"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2

@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'SpyHunt' do
+target 'Charlatan' do
   config = use_native_modules!
 
   use_react_native!(
@@ -11,7 +11,7 @@ target 'SpyHunt' do
     :hermes_enabled => true
   )
 
-  target 'SpyHuntTests' do
+  target 'CharlatanTests' do
     inherit! :complete
   end
 
