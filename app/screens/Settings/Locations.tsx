@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from "react";
+import React, {useCallback, useMemo, useRef, useState, useEffect} from "react";
 import {
     StyleSheet,
     Keyboard,
@@ -36,6 +36,7 @@ import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {getLanguageName} from "../../store/reducers/language";
 import AppTouchable from "../../components/Touchable";
+import {requests} from "../../api/requests";
 
 const {height} = Dimensions.get("window");
 
@@ -70,6 +71,17 @@ const Locations: React.FC = () => {
         },
         [handleRemoveLocation],
     );
+
+    useEffect(() => {
+        requests.requestAd();
+
+        requests.unHideAd();
+
+        return () => {
+            requests.hideAd();
+        };
+    }, []);
+
     const handleAddLocation = useCallback(() => {
         dispatch(addLocation({fa: query, en: query}));
         setQuery("");
@@ -156,7 +168,7 @@ const Locations: React.FC = () => {
                 {useMemo(
                     () => (
                         <BottomSheet
-                            backdropComponent={(props) => (
+                            backdropComponent={props => (
                                 <CustomBackdrop
                                     onPress={() => {
                                         textInputRef.current?.blur();
@@ -206,7 +218,7 @@ const Locations: React.FC = () => {
                                                         ? "left"
                                                         : "right"
                                                 }
-                                                onChangeText={(text) =>
+                                                onChangeText={text =>
                                                     setQuery(text)
                                                 }
                                             />

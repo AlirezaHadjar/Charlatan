@@ -11,6 +11,7 @@ import {useSelector} from "../../store/useSelector";
 import {useTranslation} from "../../hooks/translation";
 import {useTime} from "../../hooks/useTime";
 import Box from "../../theme/Box";
+import {requests} from "../../api/requests";
 
 const {width} = Dimensions.get("window");
 
@@ -49,6 +50,16 @@ const Time: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        requests.requestAd();
+
+        requests.unHideAd();
+
+        return () => {
+            requests.hideAd();
+        };
+    }, []);
+
+    useEffect(() => {
         AppState.addEventListener("change", handleStateChange);
 
         return () => {
@@ -79,9 +90,7 @@ const Time: React.FC = () => {
                                     items={renderMinutesPickerItems()}
                                     itemWidth={(width * 35) / 100}
                                     initialTitle={minutes}
-                                    onSelect={(min) =>
-                                        handleSelect(min, seconds)
-                                    }
+                                    onSelect={min => handleSelect(min, seconds)}
                                 />
                             ),
                             [handleSelect, minutes, seconds],
@@ -95,9 +104,7 @@ const Time: React.FC = () => {
                                     items={renderSecondsPickerItems()}
                                     itemWidth={(width * 35) / 100}
                                     initialTitle={seconds}
-                                    onSelect={(sec) =>
-                                        handleSelect(minutes, sec)
-                                    }
+                                    onSelect={sec => handleSelect(minutes, sec)}
                                 />
                             ),
                             [handleSelect, minutes, seconds],

@@ -5,7 +5,7 @@ import {
     // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState, useEffect} from "react";
 import {
     BackHandler,
     Dimensions,
@@ -51,6 +51,7 @@ import Refresh from "../../assets/SVGs/Refresh";
 import Plus from "../../assets/SVGs/Plus";
 import {setAlert} from "../../store/reducers/alert";
 import {Stage} from "../../types";
+import {requests} from "../../api/requests";
 
 const {width, height} = Dimensions.get("window");
 
@@ -88,6 +89,9 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
         },
         [dispatch],
     );
+    useEffect(() => {
+        requests.hideAd();
+    }, []);
 
     const handleNewGame = useCallback(() => {
         const id = Date.now().toString();

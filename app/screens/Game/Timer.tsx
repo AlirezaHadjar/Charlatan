@@ -39,6 +39,7 @@ import {useTranslation} from "../../hooks/translation";
 import {setAlert} from "../../store/reducers/alert";
 import Picker from "../../components/Picker";
 import {useInterval} from "../../hooks/interval";
+import {requests} from "../../api/requests";
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
     StackNavigationProp<AppRoute>
@@ -95,6 +96,16 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
         setTime(newTime);
         if (Math.floor(newTime / 1000) === 0) setIsPlaying(false);
     }, [time]);
+
+    useEffect(() => {
+        requests.requestNativeClipAd();
+
+        requests.unHideAd();
+
+        return () => {
+            requests.hideAd();
+        };
+    }, []);
 
     useInterval(handleUpdate, isPlaying ? 1000 : null);
 
@@ -161,7 +172,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
     });
 
     const handleTipsShown = useCallback(() => {
-        setTipsShown((shown) => !shown);
+        setTipsShown(shown => !shown);
     }, []);
 
     return (

@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import {BackHandler, Dimensions, StyleSheet} from "react-native";
 import {
     CompositeNavigationProp,
@@ -26,6 +26,7 @@ import {GameRoutes} from "../../navigations/GameNavigator";
 import GameBoard from "../../components/list/game/ListItem";
 import {AppRoute} from "../../navigations/AppNavigator";
 import Button from "../../components/Button";
+import {requests} from "../../api/requests";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -57,6 +58,9 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
         () => selectedGame.rounds[selectedGame.currentRoundIndex - 1],
         [selectedGame.currentRoundIndex, selectedGame.rounds],
     );
+    useEffect(() => {
+        requests.hideAd();
+    }, []);
     const renderWinnerText = () => {
         const text =
             selectedRound.winner === Winners.Spies

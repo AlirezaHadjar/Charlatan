@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {
@@ -39,6 +39,7 @@ import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import {useGames} from "../../hooks/games";
+import {requests} from "../../api/requests";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -217,6 +218,9 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         translation.SpiesGuess.finishButtonTitle,
         translation.SpiesGuess.nextButtonTitle,
     ]);
+    useEffect(() => {
+        requests.hideAd();
+    }, []);
     const handleBackButtonPress = useCallback(() => {
         dispatch(
             setAlert({

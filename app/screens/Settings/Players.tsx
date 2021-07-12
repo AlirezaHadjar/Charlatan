@@ -36,6 +36,7 @@ import {useSpy} from "../../hooks/useSpy";
 import {getLanguageName} from "../../store/reducers/language";
 import AppTouchable from "../../components/Touchable";
 import {User} from "../../types";
+import {requests} from "../../api/requests";
 
 const {width} = Dimensions.get("window");
 
@@ -49,6 +50,16 @@ const Players: React.FC = () => {
     // const theme = useTheme<ThemeType>();
     const textInputRef = useRef<TextInput>(null);
     const addPlayerSheet = useRef<BottomSheet>(null);
+
+    useEffect(() => {
+        requests.requestAd();
+
+        requests.unHideAd();
+
+        return () => {
+            requests.hideAd();
+        };
+    }, []);
     // const spiesLengthSheet = useRef<BottomSheet>(null);
 
     // const styles = StyleSheet.create({

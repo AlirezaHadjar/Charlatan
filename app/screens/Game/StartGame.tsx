@@ -6,7 +6,8 @@ import {
     // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
+import {requests} from "../../api/requests";
 
 import Container from "../../components/Container";
 import {useTranslation} from "../../hooks/translation";
@@ -77,15 +78,18 @@ const StartGame: React.FC<StartGameProps> = ({navigation}) => {
         },
         [dispatch],
     );
+    useEffect(() => {
+        requests.hideAd();
+    }, []);
     useFocusEffect(
         useCallback(() => {
             dispatch(resetGame());
             if (!isValid(players, locations, spiesLength, translation)) {
                 return navigation.navigate("Main");
             }
-            navigation.dispatch((state) => {
+            navigation.dispatch(state => {
                 const routes = state.routes.filter(
-                    (r) => r.name !== "GameNavigator",
+                    r => r.name !== "GameNavigator",
                 );
                 return CommonActions.reset({
                     ...state,
