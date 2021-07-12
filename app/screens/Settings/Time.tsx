@@ -50,7 +50,7 @@ const Time: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        requests.requestAd();
+        requests.requestNativeClipAd();
 
         requests.unHideAd();
 
