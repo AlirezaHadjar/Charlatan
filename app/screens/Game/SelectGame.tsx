@@ -396,8 +396,8 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                 <Box flexDirection="row" justifyContent="space-between">
                     <Button
                         title={translation.SelectGame.startOver}
-                        backgroundColor="transparent"
-                        fontSize={normalize(20)}
+                        // backgroundColor="transparent"
+                        fontSize={normalize(18)}
                         disabled={selectedGame.rounds.length < 1}
                         disableText={translation.SelectGame.roundsNotEnough}
                         onPress={() => {
@@ -421,7 +421,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                                     // dispatch(setActiveGameId(""));
                                     navigation.navigate("StartGame");
                                 }}
-                                fontSize={normalize(20)}
+                                fontSize={normalize(18)}
                                 width={(width * 40) / 100}
                                 height={(height * 8) / 100}>
                                 <Play scale={0.4} />
@@ -472,7 +472,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                     )
                 }
             />
-            <Box flex={1}>
+            <Box flex={1} paddingBottom="m">
                 <Box width="100%" flex={1}>
                     {Content}
                 </Box>

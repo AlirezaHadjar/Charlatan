@@ -110,14 +110,14 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
                     {selectedGame.currentRoundIndex <
                         selectedGame.rounds.length && (
                         <Button
-                            fontSize={normalize(19)}
+                            fontSize={normalize(18)}
                             variant="simple"
                             title={translation.Result.PlayNextRound}
                             onPress={handlePlayAgain}
                             backgroundColor="secondBackground"
                             marginVertical="m"
                             height={(height * 8) / 100}
-                            width={(width * 53) / 100}>
+                            width={(width * 60) / 100}>
                             <Play scale={0.5} />
                         </Button>
                     )}

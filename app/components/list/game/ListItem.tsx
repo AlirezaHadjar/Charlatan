@@ -202,25 +202,22 @@ const ListItem: React.FC<ListItemProps> = ({
                             </Box>
                         )}
                     />
-                    {sortedPlayers.length === 0 && (
-                        <Box
-                            position="absolute"
-                            width="100%"
-                            height="100%"
-                            alignItems="center"
-                            justifyContent="center">
-                            <AppText
-                                color="fourthText"
-                                variant="bold"
-                                fontSize={normalize(22)}>
-                                {
-                                    translation.components.GameList
-                                        .ThereIsNoPlayer
-                                }
-                            </AppText>
-                        </Box>
-                    )}
                 </Box>
+                {sortedPlayers.length === 0 && (
+                    <Box
+                        position="absolute"
+                        width="100%"
+                        height="100%"
+                        alignItems="center"
+                        justifyContent="center">
+                        <AppText
+                            color="fourthText"
+                            variant="bold"
+                            fontSize={normalize(22)}>
+                            {translation.components.GameList.ThereIsNoPlayer}
+                        </AppText>
+                    </Box>
+                )}
             </Animated.View>
         </Pressable>
     );

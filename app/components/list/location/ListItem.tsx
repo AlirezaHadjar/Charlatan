@@ -71,51 +71,61 @@ const ListItem: React.FC<ListItemProps> = ({
     }, [index, progress]);
 
     return (
-        <Animated.View style={animatedStyles}>
-            <Box
-                width={BOX_SIZE}
-                height={BOX_SIZE}
-                marginVertical="s"
-                marginStart="s"
-                backgroundColor={backgroundColor}
-                alignItems="center"
-                borderRadius="l">
+        <AppTouchable
+            enabled={onChangeText ? false : true}
+            disabled={endDisabled}
+            disableText={endDisableText}
+            onPress={() => {
+                if (onEndPress) onEndPress(id);
+            }}>
+            <Animated.View style={animatedStyles}>
                 <Box
-                    justifyContent="center"
-                    flex={1}
-                    height="100%"
-                    width="100%">
-                    <TextInput
-                        multiline
-                        onBlur={() => onBlur && onBlur(name, id)}
-                        value={name}
-                        maxLength={15}
-                        editable={onChangeText ? true : false}
-                        style={{
-                            paddingTop: Platform.OS === "ios" ? "45%" : 0,
-                            fontFamily: "Kalameh Bold",
-                            fontSize: normalize(18),
-                            fontWeight: "normal",
-                            color: theme.colors.thirdText,
-                            flex: 1,
-                            textAlign: "center",
-                        }}
-                        onChangeText={text =>
-                            onChangeText && onChangeText(text, id)
-                        }
-                    />
+                    width={BOX_SIZE}
+                    height={BOX_SIZE}
+                    marginVertical="s"
+                    marginStart="s"
+                    backgroundColor={backgroundColor}
+                    alignItems="center"
+                    borderRadius="l">
+                    <Box
+                        justifyContent="center"
+                        flex={1}
+                        height="100%"
+                        width="100%">
+                        <TextInput
+                            multiline
+                            onBlur={() => onBlur && onBlur(name, id)}
+                            value={name}
+                            pointerEvents={onChangeText ? "auto" : "none"}
+                            maxLength={15}
+                            editable={onChangeText ? true : false}
+                            style={{
+                                paddingTop: Platform.OS === "ios" ? "45%" : 0,
+                                fontFamily: "Kalameh Bold",
+                                fontSize: normalize(18),
+                                fontWeight: "normal",
+                                color: theme.colors.thirdText,
+                                flex: 1,
+                                textAlign: "center",
+                            }}
+                            onChangeText={text =>
+                                onChangeText && onChangeText(text, id)
+                            }
+                        />
+                    </Box>
+                    <AppTouchable
+                        enabled={onChangeText ? true : false}
+                        disabled={endDisabled}
+                        disableText={endDisableText}
+                        style={styles.cross}
+                        onPress={() => {
+                            if (onEndPress) onEndPress(id);
+                        }}>
+                        <Box justifyContent="center">{end}</Box>
+                    </AppTouchable>
                 </Box>
-                <AppTouchable
-                    disabled={endDisabled}
-                    disableText={endDisableText}
-                    style={styles.cross}
-                    onPress={() => {
-                        if (onEndPress) onEndPress(id);
-                    }}>
-                    <Box justifyContent="center">{end}</Box>
-                </AppTouchable>
-            </Box>
-        </Animated.View>
+            </Animated.View>
+        </AppTouchable>
     );
 };
 

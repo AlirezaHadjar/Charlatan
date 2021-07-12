@@ -85,6 +85,7 @@ const ListItem: React.FC<ListItemProps> = ({
                             maxLength={15}
                             onBlur={() => onBlur && onBlur(name, id)}
                             value={name}
+                            pointerEvents={onChangeText ? "auto" : "none"}
                             editable={onChangeText ? true : false}
                             style={{
                                 fontFamily: "Kalameh Bold",
