@@ -35,8 +35,9 @@ import {usePlayer} from "../../hooks/usePlayer";
 import {useSpy} from "../../hooks/useSpy";
 import {getLanguageName} from "../../store/reducers/language";
 import AppTouchable from "../../components/Touchable";
-import {User} from "../../types";
 import {requests} from "../../api/requests";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {User} from "../../types";
 
 const {width} = Dimensions.get("window");
 
