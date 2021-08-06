@@ -50,16 +50,6 @@ const Time: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        requests.requestNativeClipAd();
-
-        requests.unHideAd();
-
-        return () => {
-            requests.hideAd();
-        };
-    }, []);
-
-    useEffect(() => {
         AppState.addEventListener("change", handleStateChange);
 
         return () => {

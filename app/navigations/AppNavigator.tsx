@@ -10,7 +10,7 @@ import Locations from "../screens/Settings/Locations";
 import StartGame from "../screens/Game/StartGame";
 import SelectGame from "../screens/Game/SelectGame";
 
-import GameNavigator from "./GameNavigator";
+import GameNavigator, {GameRoutes} from "./GameNavigator";
 
 export type AppRoute = {
     Main: undefined;
@@ -23,6 +23,12 @@ export type AppRoute = {
     SelectGame: undefined;
     StartGame: undefined;
 };
+
+interface Routes extends AppRoute, GameRoutes {}
+
+// type Routes = ;
+
+export type RouteName = keyof Routes;
 
 const Stack = createStackNavigator<AppRoute>();
 

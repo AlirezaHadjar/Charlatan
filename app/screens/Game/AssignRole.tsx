@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {
@@ -34,7 +34,6 @@ import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import Animatable from "../../components/Animatable";
-import {requests} from "../../api/requests";
 
 const {width, height} = Dimensions.get("window");
 
@@ -80,10 +79,6 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             selected: index === 0 ? true : false,
         })),
     );
-
-    useEffect(() => {
-        requests.hideAd();
-    }, []);
 
     const selectedPlayer = useMemo(() => {
         return modifiedPlayers.find(pl => pl.selected);

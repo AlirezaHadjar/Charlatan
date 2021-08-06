@@ -1,18 +1,26 @@
-import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
+import {
+    DefaultTheme,
+    NavigationContainer,
+    NavigationContainerRef,
+} from "@react-navigation/native";
 import {ThemeProvider} from "@shopify/restyle";
-import React, {useMemo} from "react";
+import React, {useMemo, useRef} from "react";
 import {StatusBar, StatusBarStyle} from "react-native";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 
 import theme, {lightTheme} from "../theme/Theme";
 import Alert from "../components/Alert";
 import {useDarkTheme} from "../contexts/ThemeContext";
+import {useAd} from "../hooks/ad";
 
-import AppNavigator from "./AppNavigator";
+import AppNavigator, {AppRoute} from "./AppNavigator";
 
 const ThemeNavigator: React.FC = () => {
     // const themeIsDark = useSelector(getIsThemeDark);
+    const navigationRef = useRef<NavigationContainerRef>(null);
+    const routeNameRef = useRef<string>();
     const {isDark} = useDarkTheme();
+    const [setScreenName] = useAd();
 
     const appTheme = useMemo(() => (isDark ? theme : lightTheme), [isDark]);
     const statusBarText: StatusBarStyle = useMemo(
@@ -27,6 +35,19 @@ const ThemeNavigator: React.FC = () => {
             background: appTheme.colors.mainBackground,
         },
     };
+    const handleChange = () => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navigationRef.current.getCurrentRoute().name;
+
+        if (previousRouteName !== currentRouteName)
+            setScreenName(currentRouteName as keyof AppRoute);
+
+        routeNameRef.current = currentRouteName;
+    };
+
+    const handleReady = () =>
+        (routeNameRef.current = navigationRef.current.getCurrentRoute().name);
+
     return (
         <ThemeProvider theme={appTheme}>
             <StatusBar
@@ -35,7 +56,11 @@ const ThemeNavigator: React.FC = () => {
                 showHideTransition="fade"
             />
             <SafeAreaProvider>
-                <NavigationContainer theme={MyTheme}>
+                <NavigationContainer
+                    theme={MyTheme}
+                    ref={navigationRef}
+                    onReady={handleReady}
+                    onStateChange={handleChange}>
                     <AppNavigator />
                 </NavigationContainer>
                 <Alert />

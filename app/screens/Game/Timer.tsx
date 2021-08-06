@@ -1,18 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {
-    StyleSheet,
-    Dimensions,
-    BackHandler,
-    TouchableOpacity,
-} from "react-native";
+import {StyleSheet, Dimensions, BackHandler} from "react-native";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CompositeNavigationProp,
     RouteProp,
     useFocusEffect,
-    // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
-import {StackNavigationProp} from "@react-navigation/stack";
-import Animated, {
+import {
     Extrapolate,
     interpolate,
     useAnimatedStyle,
@@ -40,6 +34,7 @@ import {setAlert} from "../../store/reducers/alert";
 import Picker from "../../components/Picker";
 import {useInterval} from "../../hooks/interval";
 import {requests} from "../../api/requests";
+
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
     StackNavigationProp<AppRoute>
@@ -96,16 +91,6 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
         setTime(newTime);
         if (Math.floor(newTime / 1000) === 0) setIsPlaying(false);
     }, [time]);
-
-    useEffect(() => {
-        requests.requestNativeClipAd();
-
-        requests.unHideAd();
-
-        return () => {
-            requests.hideAd();
-        };
-    }, []);
 
     useInterval(handleUpdate, isPlaying ? 1000 : null);
 

@@ -38,7 +38,6 @@ import {resetGame} from "../store/reducers/data";
 import {useDarkTheme} from "../contexts/ThemeContext";
 import AnimatedContainer from "../components/AnimatedContainer";
 import Animatable from "../components/Animatable";
-import {requests} from "../api/requests";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<AppRoute, "Main">,
@@ -70,7 +69,6 @@ const Main: React.FC<MainProps> = ({navigation}) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        requests.hideAd();
         dispatch(resetGame());
     }, [dispatch]);
 

@@ -218,9 +218,6 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         translation.SpiesGuess.finishButtonTitle,
         translation.SpiesGuess.nextButtonTitle,
     ]);
-    useEffect(() => {
-        requests.hideAd();
-    }, []);
     const handleBackButtonPress = useCallback(() => {
         dispatch(
             setAlert({

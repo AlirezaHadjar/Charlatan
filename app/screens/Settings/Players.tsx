@@ -52,15 +52,6 @@ const Players: React.FC = () => {
     const textInputRef = useRef<TextInput>(null);
     const addPlayerSheet = useRef<BottomSheet>(null);
 
-    useEffect(() => {
-        requests.requestAd();
-
-        requests.unHideAd();
-
-        return () => {
-            requests.hideAd();
-        };
-    }, []);
     // const spiesLengthSheet = useRef<BottomSheet>(null);
 
     // const styles = StyleSheet.create({

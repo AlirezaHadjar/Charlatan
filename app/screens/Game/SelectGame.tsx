@@ -89,10 +89,6 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
         },
         [dispatch],
     );
-    useEffect(() => {
-        requests.hideAd();
-    }, []);
-
     const handleNewGame = useCallback(() => {
         const id = Date.now().toString();
         dispatch(addNewGame({id}));
@@ -400,7 +396,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                 <Box flexDirection="row" justifyContent="space-between">
                     <Button
                         title={translation.SelectGame.startOver}
-                        // backgroundColor="transparent"
+                        backgroundColor="transparent"
                         fontSize={normalize(18)}
                         disabled={selectedGame.rounds.length < 1}
                         disableText={translation.SelectGame.roundsNotEnough}

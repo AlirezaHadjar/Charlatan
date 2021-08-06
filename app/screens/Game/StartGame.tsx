@@ -78,9 +78,7 @@ const StartGame: React.FC<StartGameProps> = ({navigation}) => {
         },
         [dispatch],
     );
-    useEffect(() => {
-        requests.hideAd();
-    }, []);
+
     useFocusEffect(
         useCallback(() => {
             dispatch(resetGame());

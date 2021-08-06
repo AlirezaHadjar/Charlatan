@@ -36,7 +36,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/runtime": "^7.14.0",
-    "@react-native-community/eslint-config": "^3.0.0",
+    "@react-native-community/eslint-config": "^1.1.0",
     "@testing-library/jest-native": "^4.0.1",
     "@testing-library/react-native": "^7.2.0",
     "@types/jest": "^26.0.24",
@@ -47,7 +47,7 @@
     "babel-jest": "^27.0.6",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "eslint": "^7.29.0",
-    "eslint-config-react-native-wcandillon": "^3.6.1",
+    "eslint-config-react-native-wcandillon": "^3.4.0",
     "jest": "^27.0.6",
     "metro-react-native-babel-preset": "^0.66.1",
     "react-native-version": "^4.0.0",

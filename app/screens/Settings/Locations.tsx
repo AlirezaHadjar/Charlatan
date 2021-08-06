@@ -72,16 +72,6 @@ const Locations: React.FC = () => {
         [handleRemoveLocation],
     );
 
-    useEffect(() => {
-        requests.requestAd();
-
-        requests.unHideAd();
-
-        return () => {
-            requests.hideAd();
-        };
-    }, []);
-
     const handleAddLocation = useCallback(() => {
         dispatch(addLocation({fa: query, en: query}));
         setQuery("");

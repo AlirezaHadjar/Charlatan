@@ -91,10 +91,6 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
 
     useGames(games);
 
-    useEffect(() => {
-        requests.hideAd();
-    }, []);
-
     const itemCheck = useMemo(
         () => (
             <Box

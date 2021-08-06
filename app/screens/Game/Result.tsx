@@ -58,9 +58,6 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
         () => selectedGame.rounds[selectedGame.currentRoundIndex - 1],
         [selectedGame.currentRoundIndex, selectedGame.rounds],
     );
-    useEffect(() => {
-        requests.hideAd();
-    }, []);
     const renderWinnerText = () => {
         const text =
             selectedRound.winner === Winners.Spies
