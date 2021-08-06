@@ -10,7 +10,11 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import {StackNavigationProp} from "@react-navigation/stack";
-import {CompositeNavigationProp, RouteProp} from "@react-navigation/native";
+import {
+    CompositeNavigationProp,
+    RouteProp,
+    useFocusEffect,
+} from "@react-navigation/native";
 
 import Box from "../theme/Box";
 import AppText from "../components/Text";
@@ -38,6 +42,7 @@ import {resetGame} from "../store/reducers/data";
 import {useDarkTheme} from "../contexts/ThemeContext";
 import AnimatedContainer from "../components/AnimatedContainer";
 import Animatable from "../components/Animatable";
+import {requests} from "../api/requests";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<AppRoute, "Main">,
@@ -71,6 +76,10 @@ const Main: React.FC<MainProps> = ({navigation}) => {
     useEffect(() => {
         dispatch(resetGame());
     }, [dispatch]);
+
+    useFocusEffect(() => {
+        requests.hideAd();
+    });
 
     const animatedCogStyles = useAnimatedStyle(() => {
         const rotation = interpolate(isOpen.value, [0, 1], [0, 90]);
