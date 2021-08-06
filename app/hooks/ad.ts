@@ -18,8 +18,9 @@ export const useAd = () => {
     }, []);
 
     const handleVisibility = useCallback(async (screenName: RouteName) => {
-        if (!visibleScreens.includes(screenName))
-            return await requests.hideAd();
+        if (visibleScreens.includes(screenName))
+            return await requests.unHideAd();
+        return await requests.hideAd();
     }, []);
 
     useEffect(() => {

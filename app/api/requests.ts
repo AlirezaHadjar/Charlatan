@@ -30,9 +30,8 @@ const requestAd = async (_position?: "center" | "left") => {
             responseId,
             TapsellPlusHorizontalGravity.BOTTOM,
             TapsellPlusVerticalGravity.LEFT,
-            async () => {
+            () => {
                 console.log("Success");
-                return await unHideAd();
             },
             async () => {
                 console.log("Failure");
@@ -51,9 +50,8 @@ const requestNativeClipAd = async () => {
         console.log("ID AD: ", responseId);
         TapsellPlus.showNativeAd(
             responseId,
-            async () => {
+            () => {
                 console.log("Success");
-                return await unHideAd();
             },
             async () => {
                 console.log("Failure");
