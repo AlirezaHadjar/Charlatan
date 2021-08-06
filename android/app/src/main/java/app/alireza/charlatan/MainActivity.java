@@ -1,4 +1,4 @@
-package app.daiereh.charlatan;
+package app.alireza.charlatan;
 
 import com.facebook.react.ReactActivity;
 
