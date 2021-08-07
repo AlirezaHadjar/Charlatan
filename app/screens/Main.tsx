@@ -14,6 +14,7 @@ import {
     CompositeNavigationProp,
     RouteProp,
     useFocusEffect,
+    useIsFocused,
 } from "@react-navigation/native";
 
 import Box from "../theme/Box";
@@ -43,6 +44,7 @@ import {useDarkTheme} from "../contexts/ThemeContext";
 import AnimatedContainer from "../components/AnimatedContainer";
 import Animatable from "../components/Animatable";
 import {requests} from "../api/requests";
+import {useInterval} from "../hooks/interval";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<AppRoute, "Main">,
@@ -68,6 +70,7 @@ const styles = StyleSheet.create({
 const Main: React.FC<MainProps> = ({navigation}) => {
     const theme = useTheme<ThemeType>();
     const isOpen = useSharedValue(0);
+    const isFocused = useIsFocused();
     const translation = useTranslation();
     const language = useSelector(getLanguageName);
     const {toggle} = useDarkTheme();
@@ -76,6 +79,8 @@ const Main: React.FC<MainProps> = ({navigation}) => {
     useEffect(() => {
         dispatch(resetGame());
     }, [dispatch]);
+
+    useInterval(() => requests.hideAd(), isFocused ? 2000 : null);
 
     useFocusEffect(() => {
         requests.hideAd();
