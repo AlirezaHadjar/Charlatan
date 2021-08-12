@@ -39,7 +39,7 @@ import {useSelector} from "../store/useSelector";
 import {getLanguageName, setLanguage} from "../store/reducers/language";
 import {LanguageName} from "../types";
 import {useAppDispatch} from "../store/configureStore";
-import {resetGame} from "../store/reducers/data";
+import {resetGame, setActiveGameId} from "../store/reducers/data";
 import {useDarkTheme} from "../contexts/ThemeContext";
 import AnimatedContainer from "../components/AnimatedContainer";
 import Animatable from "../components/Animatable";
@@ -84,6 +84,7 @@ const Main: React.FC<MainProps> = ({navigation}) => {
 
     useFocusEffect(() => {
         requests.hideAd();
+        dispatch(setActiveGameId(""));
     });
 
     const animatedCogStyles = useAnimatedStyle(() => {

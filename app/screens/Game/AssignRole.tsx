@@ -1,11 +1,11 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
 import {StackNavigationProp} from "@react-navigation/stack";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CompositeNavigationProp,
     RouteProp,
     useFocusEffect,
-    // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 
 import Button from "../../components/Button";
@@ -55,8 +55,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const activeGameId = useSelector(getActiveGameId);
     const selectedGame = useSelector(getGame(activeGameId));
     const selectedRound = useMemo(
-        () => selectedGame.rounds[selectedGame.currentRoundIndex],
-        [selectedGame.currentRoundIndex, selectedGame.rounds],
+        () =>
+            selectedGame && selectedGame.rounds[selectedGame.currentRoundIndex],
+        [selectedGame],
     );
     const selectedLocationId = useMemo(
         () => (selectedRound ? selectedRound.selectedLocationId : ""),
@@ -67,7 +68,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         [selectedRound],
     );
     const location = useSelector(getLocation(selectedLocationId));
-    const players = useSelector(getPlayersByPlayers(selectedGame.players));
+    const players = useSelector(
+        getPlayersByPlayers(selectedGame && selectedGame.players),
+    );
     const translation = useTranslation();
     const language = useSelector(getLanguageName);
     const dispatch = useAppDispatch();
