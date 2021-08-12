@@ -1,3 +1,4 @@
+import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {BoxProps, useTheme} from "@shopify/restyle";
 import React from "react";
 import {StyleProp, StyleSheet, ViewProps} from "react-native";
@@ -28,16 +29,18 @@ const Container: React.FC<Props> = ({
         },
     });
     return (
-        <SafeAreaView style={[styles.container, style]}>
-            {hasIcon && (
-                <Box position="absolute" bottom={0} alignSelf="center">
-                    <Spy />
+        <BottomSheetModalProvider>
+            <SafeAreaView style={[styles.container, style]}>
+                {hasIcon && (
+                    <Box position="absolute" bottom={0} alignSelf="center">
+                        <Spy />
+                    </Box>
+                )}
+                <Box width="100%" height="100%" {...props}>
+                    {children}
                 </Box>
-            )}
-            <Box width="100%" height="100%" {...props}>
-                {children}
-            </Box>
-        </SafeAreaView>
+            </SafeAreaView>
+        </BottomSheetModalProvider>
     );
 };
 
