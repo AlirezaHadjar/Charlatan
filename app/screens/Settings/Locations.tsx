@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState, useEffect} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {
     StyleSheet,
     Keyboard,
@@ -8,7 +8,6 @@ import {
     Platform,
     Dimensions,
 } from "react-native";
-import BottomSheet, {BottomSheetView} from "@gorhom/bottom-sheet";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -28,7 +27,6 @@ import Check from "../../assets/SVGs/Check";
 import Box from "../../theme/Box";
 import Icon from "../../components/Icon";
 import {LISTITEM_HEIGHT} from "../../../SpyHunt";
-import CustomBackdrop from "../../components/CustomBackdrop";
 import {useTranslation} from "../../hooks/translation";
 import {useLocation} from "../../hooks/useLocation";
 import {defaultData} from "../../storage/default";
@@ -36,7 +34,7 @@ import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {getLanguageName} from "../../store/reducers/language";
 import AppTouchable from "../../components/Touchable";
-import {requests} from "../../api/requests";
+import AppBottomSheet from "../../components/BottomSheet";
 
 const {height} = Dimensions.get("window");
 
@@ -46,12 +44,11 @@ const styles = StyleSheet.create({
 
 const Locations: React.FC = () => {
     const locations = useSelector(getLocations);
+    const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
     const languageName = useSelector(getLanguageName);
     const translation = useTranslation();
     const dispatch = useAppDispatch();
     const [query, setQuery] = useState("");
-    const addLocationSheet = useRef<BottomSheet>(null);
-    const textInputRef = useRef<TextInput>(null);
     const handleEditLocation = useCallback(
         (text: string, id: string) => {
             dispatch(editLocation({id, name: {fa: text, en: text}}));
@@ -76,7 +73,7 @@ const Locations: React.FC = () => {
         dispatch(addLocation({fa: query, en: query}));
         setQuery("");
         Keyboard.dismiss();
-        setTimeout(() => addLocationSheet.current?.snapTo(0), 1000);
+        setBottomSheetVisible(false);
     }, [dispatch, query]);
     const itemCross = useMemo(
         () => (
@@ -94,12 +91,11 @@ const Locations: React.FC = () => {
         [locations.length],
     );
     const handlePlusPress = useCallback(() => {
-        addLocationSheet.current?.snapTo(1);
-        setTimeout(() => textInputRef.current?.focus(), 500);
+        setBottomSheetVisible(true);
     }, []);
-    const snapPoints = useMemo(() => {
-        const second = Platform.OS === "ios" ? "55%" : "25%";
-        return [0, second];
+    const handleBottomSheetClose = useCallback(() => {
+        Keyboard.dismiss();
+        setBottomSheetVisible(false);
     }, []);
     const renderResetButton = useCallback(
         () => (
@@ -155,95 +151,57 @@ const Locations: React.FC = () => {
                         />
                     </Box>
                 </Box>
-                {useMemo(
-                    () => (
-                        <BottomSheet
-                            backdropComponent={props => (
-                                <CustomBackdrop
-                                    onPress={() => {
-                                        textInputRef.current?.blur();
-                                        setTimeout(
-                                            () =>
-                                                addLocationSheet.current?.collapse(),
-                                            200,
-                                        );
-                                    }}
-                                    animatedIndex={props.animatedIndex}
-                                    animatedPosition={props.animatedPosition}
-                                    style={props.style}
-                                />
-                            )}
-                            ref={addLocationSheet}
-                            snapPoints={snapPoints}>
-                            <BottomSheetView>
-                                <Box padding="m" width="100%" flex={1}>
-                                    <Box
-                                        width="100%"
-                                        height={LISTITEM_HEIGHT}
-                                        borderRadius="l"
-                                        justifyContent="center"
-                                        flexDirection={
-                                            languageName === "en"
-                                                ? "row"
-                                                : "row-reverse"
-                                        }
-                                        paddingHorizontal="m"
-                                        alignItems="center"
-                                        borderWidth={1}>
-                                        <Box flex={1}>
-                                            <TextInput
-                                                maxLength={15}
-                                                placeholder={
-                                                    translation.Locations
-                                                        .addLocationTextInputPlaceholder
-                                                }
-                                                style={{
-                                                    fontFamily: "Kalameh Bold",
-                                                    fontWeight: "normal",
-                                                }}
-                                                ref={textInputRef}
-                                                value={query}
-                                                textAlign={
-                                                    languageName === "en"
-                                                        ? "left"
-                                                        : "right"
-                                                }
-                                                onChangeText={text =>
-                                                    setQuery(text)
-                                                }
-                                            />
-                                        </Box>
-                                        <AppTouchable
-                                            disabled={query.trim() === ""}
-                                            disableText={
-                                                translation.Locations
-                                                    .addTextInputAlert
-                                            }
-                                            onPress={handleAddLocation}>
-                                            <Box
-                                                width={30}
-                                                height={30}
-                                                alignItems="center"
-                                                justifyContent="center"
-                                                borderRadius="m"
-                                                backgroundColor="secondBackground">
-                                                <Check />
-                                            </Box>
-                                        </AppTouchable>
-                                    </Box>
-                                </Box>
-                            </BottomSheetView>
-                        </BottomSheet>
-                    ),
-                    [
-                        handleAddLocation,
-                        languageName,
-                        query,
-                        snapPoints,
-                        translation.Locations.addLocationTextInputPlaceholder,
-                        translation.Locations.addTextInputAlert,
-                    ],
-                )}
+                <AppBottomSheet
+                    isVisible={bottomSheetVisible}
+                    onClose={handleBottomSheetClose}>
+                    <Box
+                        width="100%"
+                        height={LISTITEM_HEIGHT}
+                        borderRadius="l"
+                        justifyContent="center"
+                        flexDirection={
+                            languageName === "en" ? "row" : "row-reverse"
+                        }
+                        paddingHorizontal="m"
+                        alignItems="center"
+                        borderWidth={1}>
+                        <Box flex={1}>
+                            <TextInput
+                                maxLength={15}
+                                placeholder={
+                                    translation.Locations
+                                        .addLocationTextInputPlaceholder
+                                }
+                                style={{
+                                    fontFamily: "Kalameh Bold",
+                                    fontWeight: "normal",
+                                    textAlign:
+                                        languageName === "en"
+                                            ? "left"
+                                            : "right",
+                                }}
+                                value={query}
+                                onChangeText={text => setQuery(text)}
+                            />
+                        </Box>
+                        <AppTouchable
+                            disabled={query.trim() === ""}
+                            disableText={
+                                translation.Locations.addTextInputAlert
+                            }
+                            onPress={handleAddLocation}>
+                            <Box
+                                width={30}
+                                height={30}
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="m"
+                                backgroundColor="secondBackground">
+                                <Check />
+                            </Box>
+                        </AppTouchable>
+                    </Box>
+                </AppBottomSheet>
             </KeyboardAvoidingView>
         </Container>
     );
