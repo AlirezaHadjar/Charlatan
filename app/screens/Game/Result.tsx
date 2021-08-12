@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useCallback, useMemo} from "react";
 import {BackHandler, Dimensions, StyleSheet} from "react-native";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CompositeNavigationProp,
     RouteProp,
     useFocusEffect,
-    // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {useSharedValue} from "react-native-reanimated";
@@ -26,7 +26,6 @@ import {GameRoutes} from "../../navigations/GameNavigator";
 import GameBoard from "../../components/list/game/ListItem";
 import {AppRoute} from "../../navigations/AppNavigator";
 import Button from "../../components/Button";
-import {requests} from "../../api/requests";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -54,6 +53,10 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
     const users = useSelector(getPlayers);
     const offsetX = useSharedValue(0);
     const selectedGame = useSelector(getGame(activeGameId));
+    const isNotLastRound = useMemo(
+        () => selectedGame.currentRoundIndex < selectedGame.rounds.length,
+        [selectedGame.currentRoundIndex, selectedGame.rounds.length],
+    );
     const selectedRound = useMemo(
         () => selectedGame.rounds[selectedGame.currentRoundIndex - 1],
         [selectedGame.currentRoundIndex, selectedGame.rounds],
@@ -108,8 +111,7 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
             {selectedRound && (
                 <Box alignItems="center" flex={1} paddingTop="lxl">
                     {renderWinnerText()}
-                    {selectedGame.currentRoundIndex <
-                        selectedGame.rounds.length && (
+                    {isNotLastRound && (
                         <Button
                             fontSize={normalize(18)}
                             variant="simple"
@@ -127,7 +129,11 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
                             onlyResult
                             item={selectedGame}
                             margin={MARGIN}
-                            height={BOX_HEIGHT}
+                            height={
+                                isNotLastRound
+                                    ? BOX_HEIGHT - (height * 8) / 100
+                                    : BOX_HEIGHT
+                            }
                             users={users}
                             width={BOX_WIDTH}
                             index={0}
