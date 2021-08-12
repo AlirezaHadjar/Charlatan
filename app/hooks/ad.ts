@@ -3,6 +3,8 @@ import {useCallback, useEffect, useState} from "react";
 import {requests} from "../api/requests";
 import {RouteName} from "../navigations/AppNavigator";
 
+import {useInterval} from "./interval";
+
 const visibleScreens: RouteName[] = ["Players", "Locations", "Time"];
 const interstitialAdScreens: RouteName[] = ["Players", "Locations", "Time"];
 const nativeAdScreens: RouteName[] = ["Timer"];
@@ -22,6 +24,8 @@ export const useAd = () => {
             return await requests.unHideAd();
         return await requests.hideAd();
     }, []);
+
+    useInterval(() => handleVisibility(screenName), 5000);
 
     useEffect(() => {
         handleAd(screenName);

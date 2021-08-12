@@ -104,7 +104,6 @@ const Players: React.FC = () => {
     const handleAddPlayer = useCallback(() => {
         dispatch(addPlayer({en: query, fa: query}));
         setQuery("");
-        Keyboard.dismiss();
         setBottomSheetVisible(false);
     }, [dispatch, query]);
     const handlePlusPress = useCallback(() => {
