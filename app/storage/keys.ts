@@ -7,4 +7,6 @@ export const storageKeys = {
     spiesLength: "spiesLength",
     isRTL: "isRTL",
     games: "games",
+    standardAdKey: "standardAdKey",
+    nativeAdKey: "nativeAdKey",
 };

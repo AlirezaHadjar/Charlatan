@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import Animated from "react-native-reanimated";
 
 import {languageDatas} from "./language/index";
@@ -110,4 +111,12 @@ export interface Language {
 
 export interface PickerRef {
     scrollToTitle: (title: string) => void;
+}
+
+export interface NativeAd {
+    icon_url: string;
+    description: string;
+    landscape_static_image_url: string;
+    call_to_action_text: string;
+    title: string;
 }

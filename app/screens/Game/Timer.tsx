@@ -13,6 +13,7 @@ import {
     useDerivedValue,
     withTiming,
 } from "react-native-reanimated";
+import {StackNavigationProp} from "@react-navigation/stack";
 
 import Header from "../../components/Header";
 import Container from "../../components/Container";
@@ -34,6 +35,7 @@ import {setAlert} from "../../store/reducers/alert";
 import Picker from "../../components/Picker";
 import {useInterval} from "../../hooks/interval";
 import {requests} from "../../api/requests";
+import {NativeAd} from "../../components/NativeAd";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -217,6 +219,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                     backgroundColor="buttonTertiary"
                 />
             </Box>
+            <NativeAd />
         </Container>
     );
 };
