@@ -116,11 +116,12 @@ const slice = createSlice({
                 activeGame.players = activeGame.players.map(player => {
                     if (!activeRound.spiesIds.includes(player.id))
                         return player;
-                    const score = activeRound.spiesWhoGuessedCorrectlyIds.includes(
-                        player.id,
-                    )
-                        ? 3
-                        : 2;
+                    const score =
+                        activeRound.spiesWhoGuessedCorrectlyIds.includes(
+                            player.id,
+                        )
+                            ? 3
+                            : 2;
                     return {
                         ...player,
                         score: player.score + score,
@@ -255,12 +256,13 @@ const slice = createSlice({
                 game => game.id === payload.gameId,
             );
             if (index === -1) return;
-            data.games[index].rounds[
-                data.games[index].currentRoundIndex
-            ] = Object.assign(
-                data.games[index].rounds[data.games[index].currentRoundIndex],
-                payload.round,
-            );
+            data.games[index].rounds[data.games[index].currentRoundIndex] =
+                Object.assign(
+                    data.games[index].rounds[
+                        data.games[index].currentRoundIndex
+                    ],
+                    payload.round,
+                );
         },
         resetGame: (_data, _action: PayloadAction<undefined>) => {
             // data.gameResult = undefined;
@@ -321,7 +323,7 @@ export const getLocations = createSelector(
 export const getGame = (gameId: string) =>
     createSelector(
         (state: AppState) => state.entities.data,
-        (data: Data) => data.games.find(game => game.id === gameId),
+        data => data.games.find(game => game.id === gameId),
     );
 export const getSpiesLength = createSelector(
     (state: AppState) => state.entities.data,

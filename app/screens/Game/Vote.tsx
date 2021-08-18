@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CompositeNavigationProp,
     RouteProp,
     useFocusEffect,
-    // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
 
@@ -35,7 +35,6 @@ import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import {useGames} from "../../hooks/games";
-import {requests} from "../../api/requests";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -59,14 +58,17 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
     const games = useSelector(getGames);
     const selectedGame = useSelector(getGame(activeGameId));
     const selectedRound = useMemo(
-        () => selectedGame.rounds[selectedGame.currentRoundIndex],
-        [selectedGame.currentRoundIndex, selectedGame.rounds],
+        () =>
+            selectedGame && selectedGame.rounds[selectedGame.currentRoundIndex],
+        [selectedGame],
     );
     const spiesIds = useMemo(
         () => (selectedRound ? selectedRound.spiesIds : []),
         [selectedRound],
     );
-    const players = useSelector(getPlayersByPlayers(selectedGame.players));
+    const players = useSelector(
+        getPlayersByPlayers(selectedGame && selectedGame.players),
+    );
     const language = useSelector(getLanguageName);
     const dispatch = useAppDispatch();
     const [votes, setVotes] = useState<VoteType[]>([]);
@@ -190,7 +192,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         language,
         navigation,
         players,
-        selectedGame.id,
+        selectedGame,
         spiesIds,
         votes,
     ]);

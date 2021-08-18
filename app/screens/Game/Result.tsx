@@ -54,12 +54,16 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
     const offsetX = useSharedValue(0);
     const selectedGame = useSelector(getGame(activeGameId));
     const isNotLastRound = useMemo(
-        () => selectedGame.currentRoundIndex < selectedGame.rounds.length,
-        [selectedGame.currentRoundIndex, selectedGame.rounds.length],
+        () =>
+            selectedGame &&
+            selectedGame.currentRoundIndex < selectedGame.rounds.length,
+        [selectedGame],
     );
     const selectedRound = useMemo(
-        () => selectedGame.rounds[selectedGame.currentRoundIndex - 1],
-        [selectedGame.currentRoundIndex, selectedGame.rounds],
+        () =>
+            selectedGame &&
+            selectedGame.rounds[selectedGame.currentRoundIndex - 1],
+        [selectedGame],
     );
     const renderWinnerText = () => {
         const text =
