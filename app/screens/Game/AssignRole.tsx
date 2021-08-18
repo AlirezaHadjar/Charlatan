@@ -7,6 +7,13 @@ import {
     RouteProp,
     useFocusEffect,
 } from "@react-navigation/core";
+import Animated, {
+    Easing,
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue,
+    withTiming,
+} from "react-native-reanimated";
 
 import Button from "../../components/Button";
 import Play from "../../assets/SVGs/Play";
@@ -87,6 +94,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         return modifiedPlayers.find(pl => pl.selected);
     }, [modifiedPlayers]);
 
+    const transition = useSharedValue(0);
+
     const renderSpy = useCallback(
         () => (
             <Box alignItems="center">
@@ -153,6 +162,13 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         [location, renderCitizen, renderSpy, spiesIds],
     );
     const handleNext = useCallback(() => {
+        transition.value = withTiming(
+            1,
+            {duration: 1000, easing: Easing.ease},
+            () => {
+                transition.value = 0;
+            },
+        );
         const clonedPlayers = [...modifiedPlayers];
         const index = clonedPlayers.indexOf(selectedPlayer);
         const isLast = index === clonedPlayers.length - 1;
@@ -161,7 +177,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         clonedPlayers[index + 1].selected = true;
         setRoleDisplayed(false);
         setModifiedPlayers(clonedPlayers);
-    }, [modifiedPlayers, navigation, selectedPlayer]);
+    }, [modifiedPlayers, navigation, selectedPlayer, transition.value]);
 
     const renderButton = useCallback(() => {
         const index = modifiedPlayers.indexOf(selectedPlayer);
@@ -227,6 +243,23 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         [language, selectedPlayer],
     );
 
+    const animationStyles = useAnimatedStyle(() => {
+        const opacity = interpolate(
+            transition.value,
+            [0, 0.5, 0.55, 1],
+            [1, 0, 0, 1],
+        );
+        const translateX = interpolate(
+            transition.value,
+            [0, 0.5, 0.52, 1],
+            [0, -50, 50, 0],
+        );
+        return {
+            opacity,
+            transform: [{translateX}],
+        };
+    });
+
     return (
         <Container style={styles.container}>
             <Header
@@ -236,40 +269,43 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             />
             <Box paddingBottom="m" paddingHorizontal="m" flex={1}>
                 <Box flex={1}>
-                    <Box alignItems="center" top={(height * 5) / 100}>
-                        {selectedPlayerName}
-                        <Button
-                            height={(height * 15) / 100}
-                            width={(height * 15) / 100}
-                            marginTop="l"
-                            onPressIn={() => {
-                                if (!roleDisplayed) setRoleDisplayed(true);
-                                setRoleIsHidden(false);
-                            }}
-                            onPressOut={() => setRoleIsHidden(true)}
-                            marginBottom="l"
-                            variant="icon"
-                            icon={<Eye />}
-                            title=""
-                            backgroundColor="secondBackground"
-                        />
-                        <Animatable deps={[roleIsHidden]}>
-                            {!roleIsHidden ? (
-                                renderRole(selectedPlayer)
-                            ) : (
-                                <AppText
-                                    fontSize={normalize(20)}
-                                    color="thirdText"
-                                    variant="medium"
-                                    textAlign="center">
-                                    {roleDisplayed
-                                        ? translation.AssignRole
-                                              .seeRoleGuideAgain
-                                        : translation.AssignRole.seeRoleGuide}
-                                </AppText>
-                            )}
-                        </Animatable>
-                    </Box>
+                    <Animated.View style={animationStyles}>
+                        <Box alignItems="center" top={(height * 5) / 100}>
+                            {selectedPlayerName}
+                            <Button
+                                height={(height * 15) / 100}
+                                width={(height * 15) / 100}
+                                marginTop="l"
+                                onPressIn={() => {
+                                    if (!roleDisplayed) setRoleDisplayed(true);
+                                    setRoleIsHidden(false);
+                                }}
+                                onPressOut={() => setRoleIsHidden(true)}
+                                marginBottom="l"
+                                variant="icon"
+                                icon={<Eye />}
+                                title=""
+                                backgroundColor="secondBackground"
+                            />
+                            <Animatable deps={[roleIsHidden]}>
+                                {!roleIsHidden ? (
+                                    renderRole(selectedPlayer)
+                                ) : (
+                                    <AppText
+                                        fontSize={normalize(20)}
+                                        color="thirdText"
+                                        variant="medium"
+                                        textAlign="center">
+                                        {roleDisplayed
+                                            ? translation.AssignRole
+                                                  .seeRoleGuideAgain
+                                            : translation.AssignRole
+                                                  .seeRoleGuide}
+                                    </AppText>
+                                )}
+                            </Animatable>
+                        </Box>
+                    </Animated.View>
                 </Box>
                 <Box height={(height * 15) / 100} justifyContent="flex-end">
                     {roleDisplayed && (
