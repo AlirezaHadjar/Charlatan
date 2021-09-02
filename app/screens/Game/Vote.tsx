@@ -21,7 +21,6 @@ import {
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
 import Box from "../../theme/Box";
-import Check from "../../assets/SVGs/Check";
 import BackCross from "../../assets/SVGs/BackCross";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
@@ -35,6 +34,7 @@ import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import {useGames} from "../../hooks/games";
+import ItemCheck from "../../components/ItemCheck";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -93,20 +93,6 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
 
     useGames(games);
 
-    const itemCheck = useMemo(
-        () => (
-            <Box
-                width={30}
-                height={30}
-                backgroundColor="mainTextColor"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius="m">
-                <Check />
-            </Box>
-        ),
-        [],
-    );
     const handleVote = useCallback(
         (votedId: string) => {
             const clonedVotes = [...votes];
@@ -289,7 +275,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
                         <List
                             selectedIds={votedPeopleIds}
                             items={votingPeople}
-                            end={itemCheck}
+                            end={<ItemCheck />}
                             onEndPress={handleVote}
                         />
                     </Box>

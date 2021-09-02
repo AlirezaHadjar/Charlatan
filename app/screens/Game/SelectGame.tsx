@@ -1,11 +1,11 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CompositeNavigationProp,
     RouteProp,
     useFocusEffect,
-    // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
-import React, {useCallback, useMemo, useState, useEffect} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {
     BackHandler,
     Dimensions,
@@ -20,7 +20,6 @@ import GameList from "../../components/list/game/List";
 import UserList from "../../components/list/player/List";
 import AppText from "../../components/Text";
 import {AppRoute} from "../../navigations/AppNavigator";
-import Check from "../../assets/SVGs/Check";
 import {GameRoutes} from "../../navigations/GameNavigator";
 import {
     getPlayers,
@@ -51,7 +50,7 @@ import Refresh from "../../assets/SVGs/Refresh";
 import Plus from "../../assets/SVGs/Plus";
 import {setAlert} from "../../store/reducers/alert";
 import {Stage} from "../../types";
-import {requests} from "../../api/requests";
+import ItemCheck from "../../components/ItemCheck";
 
 const {width, height} = Dimensions.get("window");
 
@@ -136,21 +135,6 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
         [dispatch, selectedGame],
     );
 
-    const itemCheck = useMemo(
-        () => (
-            <Box
-                width={30}
-                height={30}
-                backgroundColor="mainTextColor"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius="m">
-                <Check />
-            </Box>
-        ),
-        [],
-    );
-
     const SelectContent = useMemo(() => {
         return (
             <Box flex={1}>
@@ -227,7 +211,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         <UserList
                             items={players}
                             selectedIds={selectedIds}
-                            end={itemCheck}
+                            end={<ItemCheck />}
                             onEndPress={handleSelectPlayer}
                         />
                     </Box>
@@ -251,7 +235,6 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     }, [
         dispatch,
         handleSelectPlayer,
-        itemCheck,
         players,
         selectedGame,
         translation.SelectGame,
@@ -289,7 +272,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             flexDirection="row"
                             alignItems="center"
                             justifyContent="space-between"
-                            backgroundColor="danger">
+                            backgroundColor="buttonTertiary">
                             <AppTouchable
                                 disableText={
                                     translation.SelectGame.roundsNotEnough
@@ -347,7 +330,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             flexDirection="row"
                             alignItems="center"
                             justifyContent="space-between"
-                            backgroundColor="danger">
+                            backgroundColor="buttonTertiary">
                             <AppTouchable
                                 disableText={
                                     translation.SelectGame.spiesLowerBound

@@ -39,6 +39,7 @@ import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import {useGames} from "../../hooks/games";
+import ItemCheck from "../../components/ItemCheck";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -104,20 +105,6 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
 
     useGames(games);
 
-    const itemCheck = useMemo(
-        () => (
-            <Box
-                width={(height * 3) / 100}
-                height={(height * 3) / 100}
-                backgroundColor="mainTextColor"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius="m">
-                <Check />
-            </Box>
-        ),
-        [],
-    );
     const handleGuess = useCallback(
         (guessedId: string) => {
             const clonedGuesses = [...guesses];
@@ -265,7 +252,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                         <List
                             selectedIds={guessedIds}
                             items={locations}
-                            end={itemCheck}
+                            end={<ItemCheck />}
                             onEndPress={handleGuess}
                         />
                     </Box>

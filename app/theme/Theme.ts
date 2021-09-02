@@ -44,6 +44,7 @@ const theme = createTheme({
         characterPrimary: palette.darkGrey,
         // Cards
         cardBackground: palette.superLight,
+        cardGrey: palette.lightGrey,
         cardIndicator: palette.mediumLightGrey,
         // Specials
         contrast: palette.white,

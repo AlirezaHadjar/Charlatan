@@ -27,7 +27,6 @@ const BOX_SIZE = (width * 28) / 100;
 
 const List: React.FC<ListProps> = ({
     items,
-    end = null,
     selectedIds = [],
     onEndPress,
     onChangeText,
@@ -52,24 +51,24 @@ const List: React.FC<ListProps> = ({
                     alignItems: "center",
                 }}
                 keyExtractor={(item, index) => item.id.toString() + index}
-                renderItem={({item, index}) => (
-                    <ListItem
-                        id={item.id}
-                        name={item.name[language]}
-                        end={end}
-                        index={index}
-                        onEndPress={onEndPress}
-                        endDisableText={endDisableText}
-                        endDisabled={endDisabled}
-                        onChangeText={onChangeText}
-                        onBlur={onBlur}
-                        backgroundColor={
-                            selectedIds.includes(item.id)
-                                ? "buttonSecondary"
-                                : "thirdBackground"
-                        }
-                    />
-                )}
+                renderItem={({item, index}) => {
+                    const selected = selectedIds.includes(item.id);
+                    return (
+                        <ListItem
+                            id={item.id}
+                            name={item.name[language]}
+                            index={index}
+                            onEndPress={onEndPress}
+                            endDisableText={endDisableText}
+                            endDisabled={endDisabled}
+                            onChangeText={onChangeText}
+                            onBlur={onBlur}
+                            backgroundColor={
+                                selected ? "buttonSecondary" : "thirdBackground"
+                            }
+                        />
+                    );
+                }}
             />
         </Box>
     );

@@ -18,7 +18,7 @@ import BackCross from "../../assets/SVGs/BackCross";
 import Box from "../../theme/Box";
 import {useSelector} from "../../store/useSelector";
 import {getActiveGameId, getGame, getPlayers} from "../../store/reducers/data";
-import {Winners} from "../../types";
+import {Round, Winners} from "../../types";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {useTranslation} from "../../hooks/translation";
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     container: {},
 });
 
-const BOX_HEIGHT = (height * 56) / 100;
+const BOX_HEIGHT = (height * 30) / 100;
 const BOX_WIDTH = (width * 73) / 100;
 const MARGIN = (width * 3) / 100;
 
@@ -72,7 +72,10 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
                 : translation.Result.citizens;
         return (
             <Box>
-                <AppText textAlign="center" fontSize={normalize(60)}>
+                <AppText
+                    textAlign="center"
+                    fontSize={normalize(60)}
+                    variant="bold">
                     {text}
                 </AppText>
                 <Box marginTop="s">
@@ -87,6 +90,13 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
         navigation.navigate("Main");
         return true;
     }, [navigation]);
+
+    const renderCharacter = useCallback((selectedRound: Round) => {
+        if (!selectedRound) return;
+        const {winner} = selectedRound;
+        if (winner === Winners.Spies) return <Spy />;
+        return <Citizen />;
+    }, []);
 
     useFocusEffect(
         useCallback(() => {
@@ -108,13 +118,26 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
     return (
         <Container style={styles.container}>
             <Header
-                screenName={translation.Result.header}
+                screenName={""}
                 onBackPress={handleBackButtonPress}
                 icon={<BackCross />}
             />
             {selectedRound && (
-                <Box alignItems="center" flex={1} paddingTop="lxl">
+                <Box alignItems="center" flex={1} top={(-height * 8) / 100}>
                     {renderWinnerText()}
+                    <Box zIndex={1} marginTop="m">
+                        <GameBoard
+                            onlyResult
+                            item={selectedGame}
+                            margin={MARGIN}
+                            height={BOX_HEIGHT}
+                            users={users}
+                            width={BOX_WIDTH}
+                            index={0}
+                            offsetX={offsetX}
+                        />
+                    </Box>
+
                     {isNotLastRound && (
                         <Button
                             fontSize={normalize(18)}
@@ -128,31 +151,11 @@ const Result: React.FC<ResultProps> = ({navigation}) => {
                             <Play scale={0.5} />
                         </Button>
                     )}
-                    <Box zIndex={1}>
-                        <GameBoard
-                            onlyResult
-                            item={selectedGame}
-                            margin={MARGIN}
-                            height={
-                                isNotLastRound
-                                    ? BOX_HEIGHT - (height * 8) / 100
-                                    : BOX_HEIGHT
-                            }
-                            users={users}
-                            width={BOX_WIDTH}
-                            index={0}
-                            offsetX={offsetX}
-                        />
-                    </Box>
-                    <Box bottom={0} position="absolute">
-                        {selectedRound.winner === Winners.Citizens ? (
-                            <Citizen />
-                        ) : (
-                            <Spy />
-                        )}
-                    </Box>
                 </Box>
             )}
+            <Box bottom={0} position="absolute" alignSelf="center" zIndex={-1}>
+                {renderCharacter(selectedRound)}
+            </Box>
         </Container>
     );
 };

@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {
     Dimensions,
     Keyboard,
@@ -23,15 +23,15 @@ import normalize from "../../utils/normalizer";
 import Icon from "../../components/Icon";
 import Plus from "../../assets/SVGs/Plus";
 import Check from "../../assets/SVGs/Check";
-import Cross from "../../assets/SVGs/Cross";
 import List from "../../components/list/player/List";
 import {useTranslation} from "../../hooks/translation";
 import {usePlayer} from "../../hooks/usePlayer";
 import {getLanguageName} from "../../store/reducers/language";
 import AppTouchable from "../../components/Touchable";
 import AppBottomSheet from "../../components/BottomSheet";
+import ItemCross from "../../components/ItemCross";
 
-const {width} = Dimensions.get("window");
+const {width, height} = Dimensions.get("window");
 
 const Players: React.FC = () => {
     const players = useSelector(getPlayers);
@@ -66,21 +66,6 @@ const Players: React.FC = () => {
             </Box>
         ),
         [],
-    );
-    const itemCross = useMemo(
-        () => (
-            <Box
-                width={30}
-                height={30}
-                backgroundColor="mainTextColor"
-                opacity={players.length <= 3 ? 0.3 : 1}
-                alignItems="center"
-                justifyContent="center"
-                borderRadius="m">
-                <Cross />
-            </Box>
-        ),
-        [players.length],
     );
 
     const handleEditPlayer = useCallback(
@@ -124,7 +109,7 @@ const Players: React.FC = () => {
                     <Box flex={1}>
                         <List
                             items={players}
-                            end={itemCross}
+                            end={<ItemCross disabled={players.length <= 3} />}
                             endDisabled={players.length < 4}
                             endDisableText={
                                 translation.Players.lengthBelowAlert
@@ -146,48 +131,53 @@ const Players: React.FC = () => {
             <AppBottomSheet
                 isVisible={bottomSheetVisible}
                 onClose={handleBottomSheetClose}>
-                <Box
-                    width="100%"
-                    borderRadius="l"
-                    justifyContent="center"
-                    flexDirection={
-                        languageName === "en" ? "row" : "row-reverse"
-                    }
-                    paddingHorizontal="m"
-                    alignItems="center"
-                    borderWidth={1}>
-                    <Box flex={1}>
-                        <TextInput
-                            maxLength={15}
-                            placeholder={
-                                translation.Players
-                                    .addPlayerTextInputPlaceholder
-                            }
-                            style={{
-                                fontFamily: "Kalameh Bold",
-                                fontWeight: "normal",
-                                width: "100%",
-                                textAlign:
-                                    languageName === "en" ? "left" : "right",
-                            }}
-                            value={query}
-                            onChangeText={text => setQuery(text)}
-                        />
-                    </Box>
-                    <AppTouchable
-                        onPress={handleAddPlayer}
-                        disabled={query.trim() === ""}
-                        disableText={translation.Players.addTextInputAlert}>
-                        <Box
-                            width={30}
-                            height={30}
-                            alignItems="center"
-                            justifyContent="center"
-                            borderRadius="m"
-                            backgroundColor="mainTextColor">
-                            <Check />
+                <Box>
+                    <Box
+                        width="100%"
+                        borderRadius="l"
+                        justifyContent="center"
+                        flexDirection={
+                            languageName === "en" ? "row" : "row-reverse"
+                        }
+                        paddingHorizontal="m"
+                        alignItems="center"
+                        borderWidth={1}>
+                        <Box flex={1}>
+                            <TextInput
+                                maxLength={15}
+                                placeholder={
+                                    translation.Players
+                                        .addPlayerTextInputPlaceholder
+                                }
+                                style={{
+                                    fontFamily: "Kalameh Bold",
+                                    fontWeight: "normal",
+                                    width: "100%",
+                                    textAlign:
+                                        languageName === "en"
+                                            ? "left"
+                                            : "right",
+                                }}
+                                value={query}
+                                onChangeText={text => setQuery(text)}
+                            />
                         </Box>
-                    </AppTouchable>
+                        <AppTouchable
+                            onPress={handleAddPlayer}
+                            disabled={query.trim() === ""}
+                            disableText={translation.Players.addTextInputAlert}>
+                            <Box
+                                width={30}
+                                height={30}
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="m"
+                                backgroundColor="mainTextColor">
+                                <Check />
+                            </Box>
+                        </AppTouchable>
+                    </Box>
+                    <Box height={(height * 6) / 100} />
                 </Box>
             </AppBottomSheet>
         </Container>
