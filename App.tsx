@@ -7,6 +7,7 @@ import {store} from "./app/store/getStore";
 import {fetchData} from "./app/utils/fetchData";
 import ThemeNavigator from "./app/navigations/ThemeNavigator";
 import {DarkThemeProvider} from "./app/contexts/ThemeContext";
+import {AdProvider} from "./app/contexts/AdContext";
 
 const App: React.FC = ({}) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,9 +29,11 @@ const App: React.FC = ({}) => {
     }, [fetch]);
     return (
         <Provider store={myStore}>
-            <DarkThemeProvider>
-                <ThemeNavigator />
-            </DarkThemeProvider>
+            <AdProvider>
+                <DarkThemeProvider>
+                    <ThemeNavigator />
+                </DarkThemeProvider>
+            </AdProvider>
         </Provider>
     );
 };

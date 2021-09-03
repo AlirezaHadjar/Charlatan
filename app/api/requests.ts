@@ -1,19 +1,33 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import TapsellPlus, {
     TapsellPlusBannerType,
     TapsellPlusHorizontalGravity,
     TapsellPlusVerticalGravity,
 } from "react-native-tapsell-plus";
 
+import {storageKeys} from "../storage/keys";
+import {NativeAd} from "../types";
+
 const ZONE_ID_IMAGE = "60eafdc12e00ed7e1856ddb0";
-// const ZONE_ID_CLIP = "60eb3ca9da757601b681a145";
-// const ZONE_ID_CLIP = "5cfaa9deaede570001d5553a";
-// const ZONE_ID_CLIP = "60f1f4733d2dfe5fb3eb6a5f";
-// const ZONE_ID_CLIP = "60f1f4733d2dfe5fb3eb6a5f";
-const ZONE_ID_CLIP = "60eb3ca9da757601b681a145";
-// const ZONE_ID_CLIP = "5cfaa8aee8d17f0001ffb28f";
+const ZONE_ID_CLIP = "611d52b27a287273220e4bca";
 
 const hideAd = async () => {
     await TapsellPlus.hideStandardBanner();
+};
+const destroyAd = async () => {
+    try {
+        hideAd();
+        const standardAdKey = await AsyncStorage.getItem(
+            storageKeys.standardAdKey,
+        );
+        console.log("Destroying Ad", standardAdKey);
+        if (standardAdKey && standardAdKey !== "") {
+            await TapsellPlus.destroyStandardBannerAd(standardAdKey);
+            console.log("Successfully destroyed standard banner");
+        }
+    } catch (error) {
+        console.log("Error while destroying standard banner", error);
+    }
 };
 const unHideAd = async () => {
     await TapsellPlus.displayStandardBanner();
@@ -22,41 +36,45 @@ const unHideAd = async () => {
 const requestAd = async (_position?: "center" | "left") => {
     try {
         await unHideAd();
-        const responseId = await TapsellPlus.requestStandardBannerAd(
+        let savedKey = await AsyncStorage.getItem(storageKeys.standardAdKey);
+        savedKey = await TapsellPlus.requestStandardBannerAd(
             ZONE_ID_IMAGE,
             TapsellPlusBannerType.BANNER_320x50,
         );
+
         TapsellPlus.showStandardBannerAd(
-            responseId,
+            savedKey,
             TapsellPlusHorizontalGravity.BOTTOM,
             TapsellPlusVerticalGravity.LEFT,
-            () => {
-                console.log("Success");
+            async () => {
+                console.log("Successfully loaded standard banner", savedKey);
+                await AsyncStorage.setItem(storageKeys.standardAdKey, savedKey);
             },
             async () => {
-                console.log("Failure");
+                await destroyAd();
                 return await hideAd();
             },
         );
     } catch (error) {
         console.log("Error While Loading Ad: " + error);
+        await destroyAd();
         await hideAd();
         await requestAd();
     }
 };
-const requestNativeClipAd = async () => {
+const requestNativeClipAd = async (
+    setNativeAd: React.Dispatch<React.SetStateAction<NativeAd>>,
+) => {
     try {
-        const responseId = await TapsellPlus.requestNativeAd(ZONE_ID_CLIP);
-        console.log("ID AD: ", responseId);
+        await unHideAd();
+        const savedKey = await TapsellPlus.requestNativeAd(ZONE_ID_CLIP);
         TapsellPlus.showNativeAd(
-            responseId,
-            () => {
-                console.log("Success");
+            savedKey,
+            async ad => {
+                console.log("Success Native Ad", ad);
+                setNativeAd(ad);
             },
-            async () => {
-                console.log("Failure");
-                return await hideAd();
-            },
+            async () => true,
         );
     } catch (error) {
         console.log("Error While Loading Ad: " + error);
@@ -68,6 +86,7 @@ const requestNativeClipAd = async () => {
 export const requests = {
     requestAd,
     requestNativeClipAd,
+    destroyAd,
     hideAd,
     unHideAd,
 };

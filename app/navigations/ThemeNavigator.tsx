@@ -12,6 +12,7 @@ import theme, {lightTheme} from "../theme/Theme";
 import Alert from "../components/Alert";
 import {useDarkTheme} from "../contexts/ThemeContext";
 import {useAd} from "../hooks/ad";
+import {useAdKey} from "../contexts/AdContext";
 
 import AppNavigator, {AppRoute} from "./AppNavigator";
 
@@ -19,8 +20,9 @@ const ThemeNavigator: React.FC = () => {
     // const themeIsDark = useSelector(getIsThemeDark);
     const navigationRef = useRef<NavigationContainerRef>(null);
     const routeNameRef = useRef<string>();
+    const {setNativeAd} = useAdKey();
     const {isDark} = useDarkTheme();
-    const [setScreenName] = useAd();
+    const {setScreenName} = useAd(setNativeAd);
 
     const appTheme = useMemo(() => (isDark ? theme : lightTheme), [isDark]);
     const statusBarText: StatusBarStyle = useMemo(
