@@ -32,10 +32,7 @@ export const useAd = (
         if (visibleScreens.includes(screenName))
             return await requests.unHideAd();
         await requests.destroyAd();
-        // return await requests.hideAd();
     }, []);
-
-    // useInterval(() => handleVisibility(screenName), 5000);
 
     useEffect(() => {
         handleAd(screenName);

@@ -16,9 +16,11 @@ const hideAd = async () => {
 };
 const destroyAd = async () => {
     try {
+        hideAd();
         const standardAdKey = await AsyncStorage.getItem(
             storageKeys.standardAdKey,
         );
+        console.log("Destroying Ad", standardAdKey);
         if (standardAdKey && standardAdKey !== "") {
             await TapsellPlus.destroyStandardBannerAd(standardAdKey);
             console.log("Successfully destroyed standard banner");
@@ -45,6 +47,7 @@ const requestAd = async (_position?: "center" | "left") => {
             TapsellPlusHorizontalGravity.BOTTOM,
             TapsellPlusVerticalGravity.LEFT,
             async () => {
+                console.log("Successfully loaded standard banner", savedKey);
                 await AsyncStorage.setItem(storageKeys.standardAdKey, savedKey);
             },
             async () => {
