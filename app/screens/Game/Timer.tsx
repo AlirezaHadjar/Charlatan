@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
@@ -6,13 +6,8 @@ import {
     RouteProp,
     useFocusEffect,
 } from "@react-navigation/core";
-import {
-    Extrapolate,
-    interpolate,
-    useAnimatedStyle,
-    useDerivedValue,
-    withTiming,
-} from "react-native-reanimated";
+import {useDerivedValue, withTiming} from "react-native-reanimated";
+import {StackNavigationProp} from "@react-navigation/stack";
 
 import Header from "../../components/Header";
 import Container from "../../components/Container";
@@ -28,12 +23,10 @@ import {getTime, resetGame} from "../../store/reducers/data";
 import {AppRoute} from "../../navigations/AppNavigator";
 import {GameRoutes} from "../../navigations/GameNavigator";
 import {useAppDispatch} from "../../store/configureStore";
-import Arrow from "../../assets/SVGs/ArrowLeft";
 import {useTranslation} from "../../hooks/translation";
 import {setAlert} from "../../store/reducers/alert";
-import Picker from "../../components/Picker";
 import {useInterval} from "../../hooks/interval";
-import {requests} from "../../api/requests";
+import CircularProgressbar from "../../components/CircularProgressbar";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -45,7 +38,7 @@ export type TimerProps = {
     route: RouteProp<AppRoute, "Main">;
 };
 
-const {width, height} = Dimensions.get("window");
+const {height, width} = Dimensions.get("window");
 const VISIBLE_TIPS = 3;
 const TIP_HEIGHT = (height * 10) / 100;
 const EXPANDED_TIPS_CONTAINER_HEIGHT = VISIBLE_TIPS * TIP_HEIGHT;
@@ -54,21 +47,26 @@ const styles = StyleSheet.create({
     container: {},
 });
 
-const helper = [
-    {title: "title111", id: "1"},
-    {title: "asddf", id: "2"},
-    {title: "sdfasdf", id: "3"},
-    {title: "ertydfgh", id: "4"},
-    {title: "dfghrte", id: "5"},
-    {title: "sdfgertw", id: "6"},
-    {title: "dfhjrdt", id: "7"},
-];
+// const helper = [
+//     {title: "title111", id: "1"},
+//     {title: "asddf", id: "2"},
+//     {title: "sdfasdf", id: "3"},
+//     {title: "ertydfgh", id: "4"},
+//     {title: "dfghrte", id: "5"},
+//     {title: "sdfgertw", id: "6"},
+//     {title: "dfhjrdt", id: "7"},
+// ];
 
 const Timer: React.FC<TimerProps> = ({navigation}) => {
     const translation = useTranslation();
     const setupTime = useSelector(getTime);
     const [time, setTime] = useState(setupTime * 1000);
+    const timeAnimated = useDerivedValue(() => {
+        return withTiming(time / (setupTime * 1000), {duration: 1000});
+    }, [time, setupTime]);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [tipsShown, setTipsShown] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const tipsContainerHeight = useDerivedValue(() => {
         if (tipsShown) return withTiming(EXPANDED_TIPS_CONTAINER_HEIGHT);
         return withTiming(0);
@@ -94,12 +92,16 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
 
     useInterval(handleUpdate, isPlaying ? 1000 : null);
 
+    const handleNext = useCallback(() => {
+        navigation.navigate("Vote");
+    }, [navigation]);
+
     const handleButtonPress = useCallback(() => {
         if (!isPlaying)
             return Math.floor(time / 1000) > 0 && setIsPlaying(true);
         setIsPlaying(false);
-        navigation.navigate("Vote");
-    }, [isPlaying, navigation, time]);
+        handleNext();
+    }, [handleNext, isPlaying, time]);
 
     const handleBackButtonPress = useCallback(() => {
         dispatch(
@@ -130,35 +132,35 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
         }, [handleBackButtonPress]),
     );
 
-    const tipsContainerStyles = useAnimatedStyle(() => {
-        const opacity = interpolate(
-            tipsContainerHeight.value,
-            [0, EXPANDED_TIPS_CONTAINER_HEIGHT],
-            [0, 1],
-            Extrapolate.CLAMP,
-        );
-        return {
-            height: tipsContainerHeight.value,
-            opacity,
-            width: "100%",
-        };
-    }, [tipsContainerHeight.value]);
+    // const tipsContainerStyles = useAnimatedStyle(() => {
+    //     const opacity = interpolate(
+    //         tipsContainerHeight.value,
+    //         [0, EXPANDED_TIPS_CONTAINER_HEIGHT],
+    //         [0, 1],
+    //         Extrapolate.CLAMP,
+    //     );
+    //     return {
+    //         height: tipsContainerHeight.value,
+    //         opacity,
+    //         width: "100%",
+    //     };
+    // }, [tipsContainerHeight.value]);
 
-    const arrowStyles = useAnimatedStyle(() => {
-        const rotation = interpolate(
-            tipsContainerHeight.value,
-            [0, EXPANDED_TIPS_CONTAINER_HEIGHT],
-            [0, 90],
-            Extrapolate.CLAMP,
-        );
-        return {
-            transform: [{rotate: "180deg"}, {rotate: `${rotation}deg`}],
-        };
-    });
+    // const arrowStyles = useAnimatedStyle(() => {
+    //     const rotation = interpolate(
+    //         tipsContainerHeight.value,
+    //         [0, EXPANDED_TIPS_CONTAINER_HEIGHT],
+    //         [0, 90],
+    //         Extrapolate.CLAMP,
+    //     );
+    //     return {
+    //         transform: [{rotate: "180deg"}, {rotate: `${rotation}deg`}],
+    //     };
+    // });
 
-    const handleTipsShown = useCallback(() => {
-        setTipsShown(shown => !shown);
-    }, []);
+    // const handleTipsShown = useCallback(() => {
+    //     setTipsShown(shown => !shown);
+    // }, []);
 
     return (
         <Container style={styles.container}>
@@ -167,12 +169,13 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                 onBackPress={handleBackButtonPress}
                 icon={<BackCross />}
             />
+
             <Box
                 paddingHorizontal="m"
                 alignItems="center"
                 flex={1}
                 justifyContent="center">
-                <Box marginVertical="m">
+                <CircularProgressbar progress={timeAnimated}>
                     <AppText
                         color={
                             +minutes > 1 || !isPlaying
@@ -182,8 +185,42 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                         fontSize={normalize(
                             80,
                         )}>{`${minutes} : ${seconds}`}</AppText>
-                </Box>
-                {/* <TouchableOpacity onPress={handleTipsShown}>
+                </CircularProgressbar>
+                {time > 0 ? (
+                    <Button
+                        marginTop="xl"
+                        variant="icon"
+                        icon={isPlaying ? <Stop /> : <Play />}
+                        title=""
+                        height={(height * 15) / 100}
+                        width={(height * 15) / 100}
+                        onPress={handleButtonPress}
+                        backgroundColor="buttonTertiary"
+                    />
+                ) : (
+                    <Box alignItems="center" marginTop="l">
+                        <AppText fontSize={normalize(40)}>
+                            {translation.Timer.timesUp}
+                        </AppText>
+                        <Button
+                            marginTop="m"
+                            fontSize={normalize(26)}
+                            variant="simple"
+                            title={translation.Timer.next}
+                            onPress={handleNext}
+                            backgroundColor="secondBackground"
+                            height={(width * 20) / 100}
+                            width={(width * 40) / 100}>
+                            <Play scale={0.4} />
+                        </Button>
+                    </Box>
+                )}
+            </Box>
+        </Container>
+    );
+};
+
+/* <TouchableOpacity onPress={handleTipsShown}>
                     <Box
                         width="100%"
                         alignItems="center"
@@ -205,20 +242,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                         numberOfVisibleItems={VISIBLE_TIPS}
                         itemHeight={TIP_HEIGHT}
                     />
-                </Animated.View> */}
-                <Button
-                    marginVertical="m"
-                    variant="icon"
-                    icon={isPlaying ? <Stop /> : <Play />}
-                    title=""
-                    height={(height * 15) / 100}
-                    width={(height * 15) / 100}
-                    onPress={handleButtonPress}
-                    backgroundColor="buttonTertiary"
-                />
-            </Box>
-        </Container>
-    );
-};
+                </Animated.View> 
+                */
 
 export default Timer;
