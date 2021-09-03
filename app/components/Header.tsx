@@ -31,26 +31,43 @@ const Header: React.FC<HeaderProps> = ({
         return navigation.goBack();
     }, [navigation, onBackPress]);
     return (
-        <Animatable>
+        <Animatable zIndex={10}>
             <Box
                 flexDirection="row"
                 alignItems="center"
                 paddingHorizontal="m"
                 height={(height * 10) / 100}>
                 <Box flex={1}>
-                    <Pressable onPress={handlePress} hitSlop={40}>
-                        <Box flexDirection="row" alignItems="center">
-                            <Box marginEnd="m">{icon}</Box>
+                    <Box
+                        flexDirection="row"
+                        alignItems="center"
+                        height="100%"
+                        justifyContent="space-between">
+                        <Pressable onPress={handlePress} hitSlop={10}>
+                            <Box
+                                marginEnd="m"
+                                zIndex={1}
+                                height="100%"
+                                alignItems="center"
+                                justifyContent="center">
+                                {icon}
+                            </Box>
+                        </Pressable>
+                        <Box
+                            zIndex={-1}
+                            width="100%"
+                            alignItems="center"
+                            position="absolute">
                             <AppText
-                                variant="semiBold"
+                                variant="bold"
                                 color="mainTextColor"
-                                fontSize={normalize(20)}>
+                                fontSize={normalize(24)}>
                                 {screenName}
                             </AppText>
                         </Box>
-                    </Pressable>
+                        <Box>{end}</Box>
+                    </Box>
                 </Box>
-                <Box>{end}</Box>
             </Box>
         </Animatable>
     );

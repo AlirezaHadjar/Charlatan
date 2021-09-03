@@ -1,13 +1,12 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CommonActions,
     CompositeNavigationProp,
     RouteProp,
     useFocusEffect,
-    // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
-import React, {useCallback, useEffect} from "react";
-import {requests} from "../../api/requests";
+import React, {useCallback} from "react";
 
 import Container from "../../components/Container";
 import {useTranslation} from "../../hooks/translation";

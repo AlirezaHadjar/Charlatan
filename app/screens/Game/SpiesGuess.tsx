@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
 import {StackNavigationProp} from "@react-navigation/stack";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CompositeNavigationProp,
     RouteProp,
     useFocusEffect,
-    // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 
 import Container from "../../components/Container";
@@ -39,7 +39,7 @@ import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import {useGames} from "../../hooks/games";
-import {requests} from "../../api/requests";
+import ItemCheck from "../../components/ItemCheck";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -63,8 +63,9 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
     const activeGameId = useSelector(getActiveGameId);
     const selectedGame = useSelector(getGame(activeGameId));
     const selectedRound = useMemo(
-        () => selectedGame.rounds[selectedGame.currentRoundIndex],
-        [selectedGame.currentRoundIndex, selectedGame.rounds],
+        () =>
+            selectedGame && selectedGame.rounds[selectedGame.currentRoundIndex],
+        [selectedGame],
     );
     const selectedLocationId = useMemo(
         () => (selectedRound ? selectedRound.selectedLocationId : ""),
@@ -74,7 +75,9 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         () => (selectedRound ? selectedRound.spiesIds : []),
         [selectedRound],
     );
-    const players = useSelector(getPlayersByPlayers(selectedGame.players));
+    const players = useSelector(
+        getPlayersByPlayers(selectedGame && selectedGame.players),
+    );
     const location = useSelector(getLocation(selectedLocationId));
     const locations = useSelector(getLocations);
     const language = useSelector(getLanguageName);
@@ -102,20 +105,6 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
 
     useGames(games);
 
-    const itemCheck = useMemo(
-        () => (
-            <Box
-                width={(height * 3) / 100}
-                height={(height * 3) / 100}
-                backgroundColor="mainTextColor"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius="m">
-                <Check />
-            </Box>
-        ),
-        [],
-    );
     const handleGuess = useCallback(
         (guessedId: string) => {
             const clonedGuesses = [...guesses];
@@ -165,14 +154,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
             }),
         );
         navigation.navigate("Result");
-    }, [
-        dispatch,
-        guesses,
-        location?.id,
-        navigation,
-        selectedGame.currentRoundIndex,
-        selectedGame.id,
-    ]);
+    }, [dispatch, guesses, location, navigation, selectedGame]);
     const handleNext = useCallback(() => {
         const clonedSpies = [...modifiedSpies];
         const index = clonedSpies.indexOf(selectedSpy);
@@ -192,7 +174,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         return (
             <Button
                 disabled={isDisabled}
-                disableText="باید یک مکان رو انتخاب کنی"
+                disableText={translation.SpiesGuess.disableButtonText}
                 fontSize={normalize(18)}
                 variant="simple"
                 title={
@@ -215,6 +197,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         handleNext,
         modifiedSpies,
         selectedSpy,
+        translation.SpiesGuess.disableButtonText,
         translation.SpiesGuess.finishButtonTitle,
         translation.SpiesGuess.nextButtonTitle,
     ]);
@@ -269,7 +252,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                         <List
                             selectedIds={guessedIds}
                             items={locations}
-                            end={itemCheck}
+                            end={<ItemCheck />}
                             onEndPress={handleGuess}
                         />
                     </Box>

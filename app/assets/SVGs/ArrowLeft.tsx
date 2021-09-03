@@ -10,13 +10,13 @@ interface Props {
     color?: keyof ThemeType["colors"];
 }
 
-function SvgComponent() {
+function SvgComponent({scale = 1.1}: Props) {
     const theme = useTheme<ThemeType>();
     return (
         <Svg
             data-name="Arrow - Left 2"
-            width={normalize(16.667)}
-            height={normalize(20)}
+            width={normalize(scale * 16.667)}
+            height={normalize(scale * 20)}
             viewBox="0 0 16.667 20">
             <Path
                 data-name="Arrow - Left 2"

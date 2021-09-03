@@ -107,9 +107,7 @@ const ListItem: React.FC<ListItemProps> = ({
                     width="100%"
                     opacity={onlyResult ? 0.9 : 1}
                     height="100%"
-                    backgroundColor={
-                        onlyResult ? "mainBackground" : "cardBackground"
-                    }
+                    backgroundColor={onlyResult ? "cardGrey" : "cardBackground"}
                 />
                 {!onlyResult && (
                     <>

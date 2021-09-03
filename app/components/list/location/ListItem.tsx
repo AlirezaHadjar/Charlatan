@@ -15,7 +15,7 @@ import AppTouchable from "../../Touchable";
 
 export interface ListItemProps {
     id: string;
-    end: JSX.Element;
+    end?: JSX.Element;
     index: number;
     name: string;
     onEndPress?: (id: string) => void;
@@ -113,16 +113,18 @@ const ListItem: React.FC<ListItemProps> = ({
                             }
                         />
                     </Box>
-                    <AppTouchable
-                        enabled={onChangeText ? true : false}
-                        disabled={endDisabled}
-                        disableText={endDisableText}
-                        style={styles.cross}
-                        onPress={() => {
-                            if (onEndPress) onEndPress(id);
-                        }}>
-                        <Box justifyContent="center">{end}</Box>
-                    </AppTouchable>
+                    {end && (
+                        <AppTouchable
+                            enabled={onChangeText ? true : false}
+                            disabled={endDisabled}
+                            disableText={endDisableText}
+                            style={styles.cross}
+                            onPress={() => {
+                                if (onEndPress) onEndPress(id);
+                            }}>
+                            <Box justifyContent="center">{end}</Box>
+                        </AppTouchable>
+                    )}
                 </Box>
             </Animated.View>
         </AppTouchable>

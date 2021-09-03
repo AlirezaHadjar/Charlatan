@@ -1,3 +1,4 @@
+import {BoxProps} from "@shopify/restyle";
 import React, {useEffect} from "react";
 import Animated, {
     interpolate,
@@ -6,10 +7,13 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 
+import Box from "../theme/Box";
+import {ThemeType} from "../theme/Theme";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DependencyList = ReadonlyArray<any>;
 
-export interface AnimatableProps {
+export interface AnimatableProps extends BoxProps<ThemeType> {
     duration?: number;
     relocation?: number;
     deps?: DependencyList;
@@ -20,6 +24,7 @@ const Animatable: React.FC<AnimatableProps> = ({
     duration = 1000,
     relocation = 10,
     deps,
+    ...rest
 }) => {
     const progress = useSharedValue(0);
     useEffect(() => {
@@ -37,7 +42,11 @@ const Animatable: React.FC<AnimatableProps> = ({
             transform: [{translateY}],
         };
     }, []);
-    return <Animated.View style={styles}>{children}</Animated.View>;
+    return (
+        <Box {...rest}>
+            <Animated.View style={styles}>{children}</Animated.View>
+        </Box>
+    );
 };
 
 export default Animatable;

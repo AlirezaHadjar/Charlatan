@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CompositeNavigationProp,
     RouteProp,
     useFocusEffect,
-    // eslint-disable-next-line import/no-extraneous-dependencies
 } from "@react-navigation/core";
 import {StackNavigationProp} from "@react-navigation/stack";
 
@@ -21,7 +21,6 @@ import {
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
 import Box from "../../theme/Box";
-import Check from "../../assets/SVGs/Check";
 import BackCross from "../../assets/SVGs/BackCross";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
@@ -35,7 +34,7 @@ import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import {useGames} from "../../hooks/games";
-import {requests} from "../../api/requests";
+import ItemCheck from "../../components/ItemCheck";
 
 type NavigationProps = CompositeNavigationProp<
     StackNavigationProp<GameRoutes, "AssignRole">,
@@ -59,14 +58,17 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
     const games = useSelector(getGames);
     const selectedGame = useSelector(getGame(activeGameId));
     const selectedRound = useMemo(
-        () => selectedGame.rounds[selectedGame.currentRoundIndex],
-        [selectedGame.currentRoundIndex, selectedGame.rounds],
+        () =>
+            selectedGame && selectedGame.rounds[selectedGame.currentRoundIndex],
+        [selectedGame],
     );
     const spiesIds = useMemo(
         () => (selectedRound ? selectedRound.spiesIds : []),
         [selectedRound],
     );
-    const players = useSelector(getPlayersByPlayers(selectedGame.players));
+    const players = useSelector(
+        getPlayersByPlayers(selectedGame && selectedGame.players),
+    );
     const language = useSelector(getLanguageName);
     const dispatch = useAppDispatch();
     const [votes, setVotes] = useState<VoteType[]>([]);
@@ -91,20 +93,6 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
 
     useGames(games);
 
-    const itemCheck = useMemo(
-        () => (
-            <Box
-                width={30}
-                height={30}
-                backgroundColor="mainTextColor"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius="m">
-                <Check />
-            </Box>
-        ),
-        [],
-    );
     const handleVote = useCallback(
         (votedId: string) => {
             const clonedVotes = [...votes];
@@ -190,7 +178,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
         language,
         navigation,
         players,
-        selectedGame.id,
+        selectedGame,
         spiesIds,
         votes,
     ]);
@@ -287,7 +275,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
                         <List
                             selectedIds={votedPeopleIds}
                             items={votingPeople}
-                            end={itemCheck}
+                            end={<ItemCheck />}
                             onEndPress={handleVote}
                         />
                     </Box>

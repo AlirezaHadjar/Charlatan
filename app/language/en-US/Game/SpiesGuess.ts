@@ -4,5 +4,6 @@ const SpiesGuess = {
     nextButtonTitle: "Next",
     finishButtonTitle: "Finish",
     backAlert: "Are You Sure? (By Doing This Your Game Progress will be Lost!)",
+    disableButtonText: "You must choose a Location",
 };
 export default SpiesGuess;

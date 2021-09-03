@@ -39,32 +39,31 @@ const List: React.FC<ListProps> = ({
             <FlatList
                 showsVerticalScrollIndicator={false}
                 data={items}
-                // extraData={items}
                 removeClippedSubviews={false}
                 keyExtractor={(item, index) => item.id.toString() + index}
-                renderItem={({item, index}) => (
-                    <ListItem
-                        id={item.id}
-                        index={index}
-                        name={item.name[language]}
-                        end={end}
-                        endDisabled={endDisabled}
-                        onBlur={onBlur}
-                        endDisableText={endDisableText}
-                        onEndPress={onEndPress}
-                        onChangeText={onChangeText}
-                        textColor={
-                            selectedIds.includes(item.id)
-                                ? "buttonPrimary"
-                                : "buttonSecondary"
-                        }
-                        backgroundColor={
-                            selectedIds.includes(item.id)
-                                ? "buttonSecondary"
-                                : "buttonPrimary"
-                        }
-                    />
-                )}
+                renderItem={({item, index}) => {
+                    const End = end?.type;
+                    const selected = selectedIds.includes(item.id);
+                    return (
+                        <ListItem
+                            id={item.id}
+                            index={index}
+                            name={item.name[language]}
+                            end={<End selected={selected} />}
+                            endDisabled={endDisabled}
+                            onBlur={onBlur}
+                            endDisableText={endDisableText}
+                            onEndPress={onEndPress}
+                            onChangeText={onChangeText}
+                            textColor={
+                                selected ? "buttonPrimary" : "buttonSecondary"
+                            }
+                            backgroundColor={
+                                selected ? "buttonSecondary" : "buttonPrimary"
+                            }
+                        />
+                    );
+                }}
             />
         </Box>
     );
