@@ -33,9 +33,8 @@ export interface PickerProps {
 }
 
 const NormalAnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
-const BottomSheetAnimatedFlatlist = Animated.createAnimatedComponent(
-    BottomSheetFlatList,
-);
+const BottomSheetAnimatedFlatlist =
+    Animated.createAnimatedComponent(BottomSheetFlatList);
 
 export const NUM = 3;
 
@@ -58,7 +57,7 @@ const Picker: React.FC<PickerProps> = ({
         : NormalAnimatedFlatlist;
     const flatlistRef = useRef<FlatList>(null);
     const translationY = useSharedValue(0);
-    const scrollHandler = useAnimatedScrollHandler((event) => {
+    const scrollHandler = useAnimatedScrollHandler(event => {
         translationY.value = event.contentOffset.y + 0;
     });
 
@@ -85,7 +84,7 @@ const Picker: React.FC<PickerProps> = ({
 
     const handleFlatlistScroll = useCallback(
         (title: string) => {
-            const index = items.findIndex((item) => item.title === title);
+            const index = items.findIndex(item => item.title === title);
             if (index === -1) return;
             const offset = itemHeight * index;
             if (offset < 0) return;
@@ -113,7 +112,7 @@ const Picker: React.FC<PickerProps> = ({
             highestMeasuredFrameIndex: number;
             averageItemLength: number;
         }) => {
-            await new Promise((resolve) => setTimeout(resolve, 200));
+            await new Promise(resolve => setTimeout(resolve, 200));
             flatlistRef.current?.scrollToIndex({
                 index: info.index,
                 animated: true,

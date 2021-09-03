@@ -8,9 +8,11 @@ import {
     useFocusEffect,
 } from "@react-navigation/core";
 import Animated, {
+    cancelAnimation,
     Easing,
     interpolate,
     useAnimatedStyle,
+    useDerivedValue,
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
@@ -82,6 +84,10 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const language = useSelector(getLanguageName);
     const dispatch = useAppDispatch();
     const [roleIsHidden, setRoleIsHidden] = useState(true);
+    const roleProgress = useDerivedValue(
+        () => withTiming(roleIsHidden ? 0 : 1),
+        [roleIsHidden],
+    );
     const [roleDisplayed, setRoleDisplayed] = useState(false);
     const [modifiedPlayers, setModifiedPlayers] = useState(
         players.map((pl, index) => ({
@@ -260,6 +266,21 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         };
     });
 
+    const roleStyles = useAnimatedStyle(() => {
+        const translateY = interpolate(roleProgress.value, [0, 1], [0, 50]);
+        return {
+            opacity: roleProgress.value,
+            transform: [{scaleY: roleProgress.value}, {translateY}],
+        };
+    }, [roleProgress.value]);
+    const guideTextStyles = useAnimatedStyle(() => {
+        const translateY = interpolate(roleProgress.value, [1, 0], [0, -50]);
+        return {
+            opacity: 1 - roleProgress.value,
+            transform: [{scaleY: 1 - roleProgress.value}, {translateY}],
+        };
+    }, [roleProgress.value]);
+
     return (
         <Container style={styles.container}>
             <Header
@@ -277,10 +298,14 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 width={(height * 15) / 100}
                                 marginTop="l"
                                 onPressIn={() => {
+                                    cancelAnimation(roleProgress);
                                     if (!roleDisplayed) setRoleDisplayed(true);
                                     setRoleIsHidden(false);
                                 }}
-                                onPressOut={() => setRoleIsHidden(true)}
+                                onPressOut={() => {
+                                    cancelAnimation(roleProgress);
+                                    setRoleIsHidden(true);
+                                }}
                                 marginBottom="l"
                                 variant="icon"
                                 icon={<Eye />}
@@ -288,9 +313,10 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 backgroundColor="secondBackground"
                             />
                             <Animatable deps={[roleIsHidden]}>
-                                {!roleIsHidden ? (
-                                    renderRole(selectedPlayer)
-                                ) : (
+                                <Animated.View style={roleStyles}>
+                                    {renderRole(selectedPlayer)}
+                                </Animated.View>
+                                <Animated.View style={guideTextStyles}>
                                     <AppText
                                         fontSize={normalize(20)}
                                         color="thirdText"
@@ -302,7 +328,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                             : translation.AssignRole
                                                   .seeRoleGuide}
                                     </AppText>
-                                )}
+                                </Animated.View>
                             </Animatable>
                         </Box>
                     </Animated.View>

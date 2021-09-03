@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useState} from "react";
-import {StyleSheet, Dimensions, BackHandler} from "react-native";
+import {StyleSheet, Dimensions, BackHandler, Vibration} from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CompositeNavigationProp,
@@ -62,7 +62,6 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
     const setupTime = useSelector(getTime);
     const [time, setTime] = useState(setupTime * 1000);
     const timeAnimated = useDerivedValue(() => {
-        console.log(time / (setupTime * 1000));
         return withTiming(time / (setupTime * 1000), {duration: 1000});
     }, [time, setupTime]);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -94,6 +93,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
     useInterval(handleUpdate, isPlaying ? 1000 : null);
 
     const handleNext = useCallback(() => {
+        // Vibration.vibrate();
         navigation.navigate("Vote");
     }, [navigation]);
 
