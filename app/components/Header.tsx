@@ -41,13 +41,20 @@ const Header: React.FC<HeaderProps> = ({
                     <Box
                         flexDirection="row"
                         alignItems="center"
+                        height="100%"
                         justifyContent="space-between">
-                        <Pressable onPress={handlePress} hitSlop={40}>
-                            <Box marginEnd="m" zIndex={1}>
+                        <Pressable onPress={handlePress} hitSlop={10}>
+                            <Box
+                                marginEnd="m"
+                                zIndex={1}
+                                height="100%"
+                                alignItems="center"
+                                justifyContent="center">
                                 {icon}
                             </Box>
                         </Pressable>
                         <Box
+                            zIndex={-1}
                             width="100%"
                             alignItems="center"
                             position="absolute">

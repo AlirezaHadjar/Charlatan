@@ -11,7 +11,6 @@ import {useSelector} from "../../store/useSelector";
 import {useTranslation} from "../../hooks/translation";
 import {useTime} from "../../hooks/useTime";
 import Box from "../../theme/Box";
-import {requests} from "../../api/requests";
 
 const {width} = Dimensions.get("window");
 

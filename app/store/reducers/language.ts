@@ -11,7 +11,7 @@ const initialState: Language = {
 };
 
 const slice = createSlice({
-    name: "theme",
+    name: "language",
     initialState,
     reducers: {
         setLanguage: (language, {payload}: PayloadAction<LanguageName>) => {
