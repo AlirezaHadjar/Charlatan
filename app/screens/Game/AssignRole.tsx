@@ -10,6 +10,7 @@ import {
 import Animated, {
     Easing,
     interpolate,
+    runOnJS,
     useAnimatedStyle,
     useSharedValue,
     withTiming,
@@ -161,14 +162,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         },
         [location, renderCitizen, renderSpy, spiesIds],
     );
-    const handleNext = useCallback(() => {
-        transition.value = withTiming(
-            1,
-            {duration: 1000, easing: Easing.ease},
-            () => {
-                transition.value = 0;
-            },
-        );
+    const changePlayer = useCallback(() => {
         const clonedPlayers = [...modifiedPlayers];
         const index = clonedPlayers.indexOf(selectedPlayer);
         const isLast = index === clonedPlayers.length - 1;
@@ -177,7 +171,23 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         clonedPlayers[index + 1].selected = true;
         setRoleDisplayed(false);
         setModifiedPlayers(clonedPlayers);
-    }, [modifiedPlayers, navigation, selectedPlayer, transition.value]);
+    }, [modifiedPlayers, navigation, selectedPlayer]);
+    const handleNext = useCallback(() => {
+        transition.value = withTiming(
+            0.5,
+            {duration: 500, easing: Easing.ease},
+            () => {
+                runOnJS(changePlayer)();
+                transition.value = withTiming(
+                    1,
+                    {duration: 500, easing: Easing.ease},
+                    () => {
+                        transition.value = 0;
+                    },
+                );
+            },
+        );
+    }, [changePlayer, transition.value]);
 
     const renderButton = useCallback(() => {
         const index = modifiedPlayers.indexOf(selectedPlayer);
@@ -287,23 +297,20 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 title=""
                                 backgroundColor="secondBackground"
                             />
-                            <Animatable deps={[roleIsHidden]}>
-                                {!roleIsHidden ? (
-                                    renderRole(selectedPlayer)
-                                ) : (
-                                    <AppText
-                                        fontSize={normalize(20)}
-                                        color="thirdText"
-                                        variant="medium"
-                                        textAlign="center">
-                                        {roleDisplayed
-                                            ? translation.AssignRole
-                                                  .seeRoleGuideAgain
-                                            : translation.AssignRole
-                                                  .seeRoleGuide}
-                                    </AppText>
-                                )}
-                            </Animatable>
+                            {!roleIsHidden ? (
+                                renderRole(selectedPlayer)
+                            ) : (
+                                <AppText
+                                    fontSize={normalize(20)}
+                                    color="thirdText"
+                                    variant="medium"
+                                    textAlign="center">
+                                    {roleDisplayed
+                                        ? translation.AssignRole
+                                              .seeRoleGuideAgain
+                                        : translation.AssignRole.seeRoleGuide}
+                                </AppText>
+                            )}
                         </Box>
                     </Animated.View>
                 </Box>

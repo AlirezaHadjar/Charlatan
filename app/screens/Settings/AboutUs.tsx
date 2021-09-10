@@ -13,7 +13,7 @@ import {getLanguageName} from "../../store/reducers/language";
 
 const version = require("../../../package.json")?.version;
 
-const email = "charlatan@gmail.com";
+const email = "charlatan.game@gmail.com";
 
 const AboutUs: React.FC = () => {
     const translation = useTranslation();
