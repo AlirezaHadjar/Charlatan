@@ -13,7 +13,7 @@ import CustomBackdrop from "./CustomBackdrop";
 export interface BottomSheetProps {
     onClose: () => void;
     isVisible?: boolean;
-    children?: React.ReactElement;
+    children?: React.ReactElement[];
 }
 
 const {height} = Dimensions.get("window");

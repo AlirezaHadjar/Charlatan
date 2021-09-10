@@ -18,6 +18,7 @@ export interface ListProps {
     onChangeText?: (text: string, id: string) => void;
     onBlur?: (text: string, id: string) => void;
     endDisabled?: boolean;
+    enabled?: boolean;
     endDisableText?: string;
 }
 
@@ -31,6 +32,7 @@ const List: React.FC<ListProps> = ({
     onEndPress,
     onChangeText,
     onBlur,
+    enabled = true,
     endDisabled,
     endDisableText = "",
 }) => {
@@ -55,6 +57,7 @@ const List: React.FC<ListProps> = ({
                     const selected = selectedIds.includes(item.id);
                     return (
                         <ListItem
+                            enabled={enabled}
                             id={item.id}
                             name={item.name[language]}
                             index={index}

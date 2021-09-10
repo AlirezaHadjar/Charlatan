@@ -32,6 +32,11 @@ export interface Game {
     players: Player[];
     updatedAt: number;
 }
+export interface Guide {
+    id: string;
+    title: string;
+    description: string;
+}
 
 export interface Alert {
     id: string;

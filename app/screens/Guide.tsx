@@ -1,13 +1,10 @@
 import React from "react";
-import {Dimensions, ScrollView} from "react-native";
 
 import Container from "../components/Container";
 import Header from "../components/Header";
-import AppText from "../components/Text";
+import List from "../components/list/guide/List";
 import Box from "../theme/Box";
 import {useTranslation} from "../hooks/translation";
-
-const {height} = Dimensions.get("window");
 
 const Guide: React.FC = () => {
     const translation = useTranslation();
@@ -22,13 +19,12 @@ const Guide: React.FC = () => {
                     borderTopStartRadius="hero1"
                     padding="m"
                     flex={1}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                        <AppText
-                            lineHeight={(height * 3.8) / 100}
-                            variant="regular">
-                            {translation.Guide.text}
-                        </AppText>
-                    </ScrollView>
+                    <List
+                        items={translation.Guide.text.map((item, index) => ({
+                            ...item,
+                            id: index.toString(),
+                        }))}
+                    />
                 </Box>
             </Box>
         </Container>

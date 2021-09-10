@@ -26,7 +26,6 @@ import Plus from "../../assets/SVGs/Plus";
 import Check from "../../assets/SVGs/Check";
 import Box from "../../theme/Box";
 import Icon from "../../components/Icon";
-import {LISTITEM_HEIGHT} from "../../../SpyHunt";
 import {useTranslation} from "../../hooks/translation";
 import {useLocation} from "../../hooks/useLocation";
 import {defaultData} from "../../storage/default";
@@ -49,6 +48,7 @@ const Locations: React.FC = () => {
     const translation = useTranslation();
     const dispatch = useAppDispatch();
     const [query, setQuery] = useState("");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleEditLocation = useCallback(
         (text: string, id: string) => {
             dispatch(editLocation({id, name: {fa: text, en: text}}));
@@ -134,12 +134,13 @@ const Locations: React.FC = () => {
                         <List
                             items={locations}
                             end={itemCross}
-                            endDisabled={locations.length < 6}
+                            endDisabled={true}
                             onBlur={handleBlur}
                             endDisableText={
                                 translation.Locations.lengthBelowAlert
                             }
-                            onChangeText={handleEditLocation}
+                            // onChangeText={handleEditLocation}
+                            enabled={false}
                             onEndPress={handleRemoveLocation}
                         />
                     </Box>
@@ -156,7 +157,6 @@ const Locations: React.FC = () => {
                     onClose={handleBottomSheetClose}>
                     <Box
                         width="100%"
-                        height={LISTITEM_HEIGHT}
                         borderRadius="l"
                         justifyContent="center"
                         flexDirection={
@@ -175,6 +175,7 @@ const Locations: React.FC = () => {
                                 style={{
                                     fontFamily: "Kalameh Bold",
                                     fontWeight: "normal",
+                                    paddingVertical: 15,
                                     textAlign:
                                         languageName === "en"
                                             ? "left"
@@ -201,6 +202,7 @@ const Locations: React.FC = () => {
                             </Box>
                         </AppTouchable>
                     </Box>
+                    <Box height={50} />
                 </AppBottomSheet>
             </KeyboardAvoidingView>
         </Container>

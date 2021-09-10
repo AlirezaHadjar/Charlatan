@@ -1,12 +1,42 @@
 /* eslint-disable max-len */
+const sad = [
+    'In this game, there are two roles of "citizen" and "spy", each of which wins the game according to their goal.',
+    "For each round, a place is specified that only the citizens know about.",
+    "To win, citizens must try to find the spy or spies of the game and at the same time be careful not to reveal the place they have been told and, the spy must try to hide his role and guess what location the citizens were told.",
+    "In this game, no one knows about another role, not even the spies",
+];
+
+const dsa = [
+    "1) Role assignment: The phone goes hand in hand between players and everyone is told the role. If you are a citizen, in addition to the role, the place is also told.",
+    "2) Begining of the game: The main part of the game is this stage, each player knows his role and everyone should win the game according to their goal. At this stage of the game a timer starts, citizens should find the spy by discussing, asking questions or doubting each other, and the spy should try not to reveal himself, keep himself away from the accusation. And from the conversations, try to figure out the place that was told to the citizens",
+    "3) Voting: After the timer is over, the voting starts and everyone can vote for one or more people as spies according to the conversations that took place in the previous stage and their doubts about the people, the spies themselves can also vote.",
+    "4) Result: Whoever gets the most votes is a loser, if that person is a spy, the citizens win and if that person is a citizen, the spy wins.",
+    "5) Extra chance for the spy: If the citizen gets the most votes and the spy wins, the game is over, but if the spy gets the most votes, he is given another chance.",
+    "If he can guess the location of the game regardless of the voting result, the spy will win the game, otherwise the citizens will win and the game will end.",
+];
+
 const Guide = {
     header: "Guide",
-    text: `People in this game are divided into two categories: spy and citizen.
-    For each game, a place is specified that only the citizens know about.
-    Citizen's goal: The citizen should try to find the spy of the game, but at the same time not reveal the location of the game.
-    Spy target: The spy must keep his identity secret and try to guess the location of the game.
-    Game process:
-    1. First of all, the phone must goes hand in hand between players, so everyone understand their role. When you get the phone, you are spy or citizen, if you are a citizen, you also can see the specified place. (Note that
+    text: [
+        {
+            title: "How to play",
+            description: sad.join("\n"),
+        },
+        {
+            title: "Process of the game",
+            description: dsa.join("\n"),
+        },
+    ],
+};
+export default Guide;
+
+/*
+`People in this game are divided into two categories: spy and citizen.
+For each game, a place is specified that only the citizens know about.
+Citizen's goal: The citizen should try to find the spy of the game, but at the same time not reveal the location of the game.
+Spy target: The spy must keep his identity secret and try to guess the location of the game.
+Game process:
+1. First of all, the phone must goes hand in hand between players, so everyone understand their role. When you get the phone, you are spy or citizen, if you are a citizen, you also can see the specified place. (Note that
     No one knows other people's role!
     2. After announcing the roles, the game timer is activated and the most important part of the game starts. Meanwhile people have to try to accomplish their goals.
     This means that the citizens of the game should not and should not trust anyone in the first place.
@@ -18,6 +48,6 @@ const Guide = {
     If the person who gets the most votes is a spy, the citizens will win, otherwise the spies.
     Special point for spies: After voting, the identity of the spies will be revealed and the phone is given to them. If they can guess the location of the game, they will win regardless of the result of votes. So citizens should be careful not to reveal the location of game.
     Enjoy the game. 😉`,
-};
+    */
+
 // Point for citizens: During the game, you will be given questions that you can use if you do not have a question.
-export default Guide;

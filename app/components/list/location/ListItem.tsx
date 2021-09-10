@@ -23,6 +23,7 @@ export interface ListItemProps {
     onBlur?: (text: string, id: string) => void;
     backgroundColor: keyof typeof theme["colors"];
     endDisabled: boolean;
+    enabled: boolean;
     endDisableText: string;
 }
 
@@ -42,6 +43,7 @@ const ListItem: React.FC<ListItemProps> = ({
     id,
     end,
     index,
+    enabled = true,
     name,
     onEndPress,
     onChangeText,
@@ -72,7 +74,7 @@ const ListItem: React.FC<ListItemProps> = ({
 
     return (
         <AppTouchable
-            enabled={onChangeText ? false : true}
+            enabled={onChangeText ? false : true && enabled}
             disabled={endDisabled}
             disableText={endDisableText}
             onPress={() => {

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {StyleSheet, TouchableOpacity} from "react-native";
 import Animated, {
     useAnimatedStyle,
@@ -41,19 +41,27 @@ const languages: (keyof typeof languageDatas)[] = Object.keys(
 
 const Language: React.FC = ({}) => {
     const translation = useTranslation();
-    const language = useSelector(getLanguageName);
+    const languageState = useSelector(getLanguageName);
+    const [language, setLanguageState] = useState(languageState);
     const translationY = useSharedValue(-HEIGHT);
-    useLanguage(language);
     const dispatch = useAppDispatch();
+
+    useLanguage(language);
+
+    useEffect(() => {
+        dispatch(setLanguage(language));
+    }, [dispatch, language]);
+
     useEffect(() => {
         const height = findHeight(language, languages);
         translationY.value = withSpring(height);
     }, [language, translationY.value]);
+
     const animatedStyles = useAnimatedStyle(() => {
         return {
             transform: [{translateY: translationY.value}],
         };
-    });
+    }, [translationY.value]);
 
     const flexDirection = language === "en" ? "row" : "row-reverse";
     const paddingStart = language === "en" ? undefined : "m";
@@ -70,7 +78,7 @@ const Language: React.FC = ({}) => {
                     {languages.map(language => (
                         <TouchableOpacity
                             key={language}
-                            onPress={() => dispatch(setLanguage(language))}>
+                            onPress={() => setLanguageState(language)}>
                             <Box
                                 width="100%"
                                 height={HEIGHT}

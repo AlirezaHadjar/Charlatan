@@ -199,7 +199,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             }
                             style={{
                                 width: "100%",
-                                fontSize: normalize(25),
+                                fontSize: normalize(21),
                                 fontFamily: "Kalameh Bold",
                                 fontWeight: "normal",
                                 height: "100%",

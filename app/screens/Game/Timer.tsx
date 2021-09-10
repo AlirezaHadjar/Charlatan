@@ -183,7 +183,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                                 : "secondBackground"
                         }
                         fontSize={normalize(
-                            80,
+                            70,
                         )}>{`${minutes} : ${seconds}`}</AppText>
                 </CircularProgressbar>
                 {time > 0 ? (

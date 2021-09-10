@@ -7,16 +7,17 @@ const PIXEL_RATIO = PixelRatio.get();
 
 const pixelRatio = PIXEL_RATIO > 2.5 ? 2.7 : PIXEL_RATIO;
 
-const heightScale = SCREEN_HEIGHT / 750;
-// console.log("Ratio", pixelRatio / 2 < 1, pixelRatio, Platform.OS);
-const pixelDensityScale = pixelRatio / 2 < 1.3 ? 1.3 : pixelRatio / 2;
+const heightScale = SCREEN_HEIGHT / 1334;
+const ratioScale = PIXEL_RATIO / 2;
+// const pixelDensityScale = pixelRatio / 2 < 1.3 ? 1.3 : pixelRatio / 2;
 
 const normalize: (size: number) => number = size => {
-    const newSize = (size * heightScale) / pixelDensityScale;
+    const scale = heightScale / ratioScale;
+    const newSize = size * scale;
 
-    const fontSize = Math.round(PixelRatio.roundToNearestPixel(newSize));
+    const fontSize = Math.round(PixelRatio.roundToNearestPixel(size));
     if (Platform.OS === "ios") return fontSize - 2;
-    return fontSize;
+    return fontSize * 0.875;
 };
 
 export default normalize;

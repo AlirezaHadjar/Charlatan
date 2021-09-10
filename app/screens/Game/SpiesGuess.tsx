@@ -27,7 +27,6 @@ import {
 import {useSelector} from "../../store/useSelector";
 import Box from "../../theme/Box";
 import normalize from "../../utils/normalizer";
-import Check from "../../assets/SVGs/Check";
 import BackCross from "../../assets/SVGs/BackCross";
 import Play from "../../assets/SVGs/Play";
 import {Guess as GuessType, Winners} from "../../types";
@@ -51,7 +50,7 @@ export type SpiesGuessProps = {
     route: RouteProp<AppRoute, "Main">;
 };
 
-const {width, height} = Dimensions.get("window");
+const {width} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     container: {},

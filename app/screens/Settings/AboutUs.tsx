@@ -13,6 +13,8 @@ import {getLanguageName} from "../../store/reducers/language";
 
 const version = require("../../../package.json")?.version;
 
+const email = "charlatan@gmail.com";
+
 const AboutUs: React.FC = () => {
     const translation = useTranslation();
     const language = useSelector(getLanguageName);
@@ -55,7 +57,10 @@ const AboutUs: React.FC = () => {
                         backgroundColor="thirdBackground">
                         <Box flex={1}>
                             {data.map(person => (
-                                <Box alignItems={alignItems} marginBottom="m">
+                                <Box
+                                    alignItems={alignItems}
+                                    marginBottom="m"
+                                    key={person.name}>
                                     <Box>
                                         <AppText fontSize={normalize(26)}>
                                             {person.title}:
@@ -85,7 +90,12 @@ const AboutUs: React.FC = () => {
                                     marginStart={marginStart}>
                                     <Email />
                                 </Box>
-                                <AppText>charlatan@gmail.com</AppText>
+                                <TouchableOpacity
+                                    onPress={() => handleEmail(email)}>
+                                    <AppText textDecorationLine="underline">
+                                        {email}
+                                    </AppText>
+                                </TouchableOpacity>
                             </Box>
                         </Box>
                         <Box alignSelf="center">
