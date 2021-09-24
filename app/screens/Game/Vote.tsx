@@ -203,7 +203,7 @@ const Vote: React.FC<VoteProps> = ({navigation}) => {
             <Button
                 disabled={isDisabled}
                 fontSize={normalize(18)}
-                disableText={`باید ${spiesIds.length} جاسوس را رو انتخاب کنی`}
+                disableText={translation.Vote.spiesLengthError(spiesIds.length)}
                 variant="simple"
                 title={
                     isLast

@@ -38,7 +38,9 @@ import AppBottomSheet from "../../components/BottomSheet";
 const {height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        paddingBottom: 20,
+    },
 });
 
 const Locations: React.FC = () => {
@@ -144,15 +146,15 @@ const Locations: React.FC = () => {
                             onEndPress={handleRemoveLocation}
                         />
                     </Box>
-                    <Box alignItems="flex-end">
+                    {/* <Box alignItems="flex-end">
                         <Icon
                             icon={<Plus />}
                             backgroundColor="secondBackground"
                             onPress={handlePlusPress}
                         />
-                    </Box>
+                    </Box> */}
                 </Box>
-                <AppBottomSheet
+                {/* <AppBottomSheet
                     isVisible={bottomSheetVisible}
                     onClose={handleBottomSheetClose}>
                     <Box
@@ -203,7 +205,7 @@ const Locations: React.FC = () => {
                         </AppTouchable>
                     </Box>
                     <Box height={50} />
-                </AppBottomSheet>
+                </AppBottomSheet> */}
             </KeyboardAvoidingView>
         </Container>
     );

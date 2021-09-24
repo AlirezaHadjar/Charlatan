@@ -13,6 +13,7 @@ const SelectGame = {
     spiesUpperBound: "تعداد جاسوس ها باید حداکثر ۱/۳ بازیکن ها باشه",
     spiesLowerBound: "تعداد جاسپس ها باید حداقل یکی باشه",
     startOver: "شروع مجدد",
+    start: "شروع",
     continue: "ادامه",
     deleteGameAssurement: "مطمئنی می خوای بازی رو حذف کنی؟",
     yes: "اره",

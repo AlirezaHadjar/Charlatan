@@ -35,7 +35,7 @@ const Separator: React.FC<SeparatorProps> = ({
         },
     });
     return (
-        <Box justifyContent="center" marginVertical="s">
+        <Box justifyContent="center">
             <Svg
                 width={width}
                 height={stroke}

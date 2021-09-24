@@ -149,6 +149,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         dispatch(
             editGame({
                 currentRoundIndex: selectedGame.currentRoundIndex + 1,
+                isNew: false,
                 id: selectedGame.id,
             }),
         );

@@ -4,6 +4,7 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     Platform,
+    StyleSheet,
 } from "react-native";
 import {useDispatch} from "react-redux";
 import {TextInput} from "react-native-gesture-handler";
@@ -32,6 +33,14 @@ import AppBottomSheet from "../../components/BottomSheet";
 import ItemCross from "../../components/ItemCross";
 
 const {width} = Dimensions.get("window");
+
+const isSmallScreen = width < 380;
+
+const styles = StyleSheet.create({
+    container: {
+        paddingBottom: isSmallScreen ? 35 : 0,
+    },
+});
 
 const Players: React.FC = () => {
     const players = useSelector(getPlayers);
@@ -99,7 +108,7 @@ const Players: React.FC = () => {
         setBottomSheetVisible(false);
     }, []);
     return (
-        <Container>
+        <Container style={styles.container}>
             <Header screenName={translation.Players.header} />
             {players.length === 0 && renderEmptyPlayers()}
             <KeyboardAvoidingView

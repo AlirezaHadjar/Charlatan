@@ -110,12 +110,12 @@ const ListItem: React.FC<ListItemProps> = ({
                     backgroundColor={onlyResult ? "cardGrey" : "cardBackground"}
                 />
                 {!onlyResult && (
-                    <>
+                    <Box flex={0.2} alignItems="center" justifyContent="center">
                         <Box
                             width="100%"
-                            flex={0.15}
                             alignItems="center"
-                            justifyContent="center">
+                            justifyContent="center"
+                            flex={1}>
                             <AppText
                                 color="fourthText"
                                 variant="bold"
@@ -129,7 +129,7 @@ const ListItem: React.FC<ListItemProps> = ({
                                 `${remainingRounds} ${translation.components.GameList.roundRemaining}`
                             }
                         />
-                    </>
+                    </Box>
                 )}
                 <Box flex={1}>
                     <FlatList

@@ -25,9 +25,8 @@ const BOX_HEIGHT = (height * 56) / 100;
 const BOX_WIDTH = (width * 73) / 100;
 const MARGIN = (width * 3) / 100;
 
-const AnimatedFlatList = Animated.createAnimatedComponent<
-    Readonly<FlatListProps<Game>>
->(FlatList);
+const AnimatedFlatList =
+    Animated.createAnimatedComponent<Readonly<FlatListProps<Game>>>(FlatList);
 
 const List: React.FC<ListProps> = ({items, onPress}) => {
     const offsetX = useSharedValue(0);

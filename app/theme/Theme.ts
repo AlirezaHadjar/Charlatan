@@ -57,6 +57,7 @@ const theme = createTheme({
     },
     spacing: {
         ss: normalize(4),
+        ms: normalize(8),
         s: normalize(10),
         m: normalize(20),
         ml: normalize(20),

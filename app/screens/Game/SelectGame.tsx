@@ -64,6 +64,8 @@ export type SelectGameProps = {
     route: RouteProp<AppRoute, "Main">;
 };
 
+const ICON_SIZE = (height * 6.8) / 100;
+
 const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     const dispatch = useAppDispatch();
     const games = useSelector(getGames);
@@ -187,7 +189,8 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         borderRadius="hero2"
                         borderWidth={3}
                         borderColor="cardIndicator"
-                        height={(height * 8) / 100}
+                        marginVertical="s"
+                        paddingHorizontal="m"
                         backgroundColor="contrast">
                         <TextInput
                             value={selectedGame.name}
@@ -202,7 +205,6 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                                 fontSize: normalize(21),
                                 fontFamily: "Kalameh Bold",
                                 fontWeight: "normal",
-                                height: "100%",
                                 textAlign: "center",
                             }}
                         />
@@ -260,14 +262,13 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         paddingVertical="m"
                         flexDirection="row"
                         alignItems="center">
-                        <AppText fontSize={normalize(23)}>
+                        <AppText fontSize={normalize(23)} variant="bold">
                             {translation.SelectGame.RoundsLength}
                         </AppText>
                         <Box flex={1} />
                         <Box
-                            height={(height * 5) / 100}
-                            borderRadius="hero1"
-                            paddingHorizontal="s"
+                            borderRadius="sl"
+                            padding="ms"
                             width={(width * 40) / 100}
                             flexDirection="row"
                             alignItems="center"
@@ -282,16 +283,16 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                                     handleConfigChange("round", "sub")
                                 }>
                                 <Box
-                                    height={(height * 4) / 100}
-                                    width={(height * 4) / 100}
+                                    height={ICON_SIZE}
+                                    width={ICON_SIZE}
                                     alignItems="center"
                                     justifyContent="center"
-                                    borderRadius="hero1"
+                                    borderRadius="xl"
                                     backgroundColor="buttonPrimary">
-                                    <Minus color="fourthText" />
+                                    <Minus color="buttonTertiary" />
                                 </Box>
                             </AppTouchable>
-                            <AppText variant="bold" fontSize={normalize(25)}>
+                            <AppText variant="bold" fontSize={normalize(30)}>
                                 {selectedGame.rounds.length}
                             </AppText>
                             <AppTouchable
@@ -303,13 +304,13 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                                     handleConfigChange("round", "add")
                                 }>
                                 <Box
-                                    height={(height * 4) / 100}
-                                    width={(height * 4) / 100}
+                                    height={ICON_SIZE}
+                                    width={ICON_SIZE}
                                     alignItems="center"
                                     justifyContent="center"
-                                    borderRadius="hero1"
+                                    borderRadius="xl"
                                     backgroundColor="buttonPrimary">
-                                    <Plus color="fourthText" />
+                                    <Plus color="buttonTertiary" />
                                 </Box>
                             </AppTouchable>
                         </Box>
@@ -318,19 +319,18 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         paddingVertical="m"
                         flexDirection="row"
                         alignItems="center">
-                        <AppText fontSize={normalize(23)}>
+                        <AppText fontSize={normalize(23)} variant="bold">
                             {translation.SelectGame.SpiesLength}
                         </AppText>
                         <Box flex={1} />
                         <Box
-                            height={(height * 5) / 100}
-                            borderRadius="hero1"
-                            paddingHorizontal="s"
+                            borderRadius="sl"
+                            padding="ms"
                             width={(width * 40) / 100}
                             flexDirection="row"
                             alignItems="center"
                             justifyContent="space-between"
-                            backgroundColor="buttonTertiary">
+                            backgroundColor="fourthText">
                             <AppTouchable
                                 disableText={
                                     translation.SelectGame.spiesLowerBound
@@ -340,16 +340,16 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                                     handleConfigChange("spy", "sub")
                                 }>
                                 <Box
-                                    height={(height * 4) / 100}
-                                    width={(height * 4) / 100}
+                                    height={ICON_SIZE}
+                                    width={ICON_SIZE}
                                     alignItems="center"
                                     justifyContent="center"
-                                    borderRadius="hero1"
+                                    borderRadius="xl"
                                     backgroundColor="buttonPrimary">
                                     <Minus color="fourthText" />
                                 </Box>
                             </AppTouchable>
-                            <AppText variant="bold" fontSize={normalize(25)}>
+                            <AppText variant="bold" fontSize={normalize(30)}>
                                 {selectedGame.spiesLength}
                             </AppText>
                             <AppTouchable
@@ -364,11 +364,11 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                                     handleConfigChange("spy", "add")
                                 }>
                                 <Box
-                                    height={(height * 4) / 100}
-                                    width={(height * 4) / 100}
+                                    height={ICON_SIZE}
+                                    width={ICON_SIZE}
                                     alignItems="center"
                                     justifyContent="center"
-                                    borderRadius="hero1"
+                                    borderRadius="xl"
                                     backgroundColor="buttonPrimary">
                                     <Plus color="fourthText" />
                                 </Box>
@@ -376,9 +376,15 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         </Box>
                     </Box>
                 </Box>
-                <Box flexDirection="row" justifyContent="space-between">
+                <Box
+                    flexDirection={selectedGame.isNew ? "row-reverse" : "row"}
+                    justifyContent="space-between">
                     <Button
-                        title={translation.SelectGame.startOver}
+                        title={
+                            translation.SelectGame[
+                                selectedGame.isNew ? "start" : "startOver"
+                            ]
+                        }
                         backgroundColor="transparent"
                         fontSize={normalize(18)}
                         disabled={selectedGame.rounds.length < 1}
@@ -392,7 +398,11 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         }}
                         width={(width * 40) / 100}
                         height={(height * 8) / 100}>
-                        <Refresh scale={1} />
+                        {!selectedGame.isNew ? (
+                            <Refresh scale={1} />
+                        ) : (
+                            <Play scale={0.4} />
+                        )}
                     </Button>
                     {selectedGame.currentRoundIndex <
                         selectedGame.rounds.length &&

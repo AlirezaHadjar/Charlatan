@@ -13,6 +13,7 @@ const SelectGame = {
     spiesLowerBound: "Spies Length Should be at Least 1.",
     roundsUpperBound: "Rounds Can't be more then 10",
     startOver: "Start Over",
+    start: "Start",
     deleteGameAssurement: "Are You Sure You Want to Delete the Game?",
     continue: "Continue",
     yes: "Yes",

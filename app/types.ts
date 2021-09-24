@@ -31,6 +31,7 @@ export interface Game {
     rounds: Round[];
     players: Player[];
     updatedAt: number;
+    isNew?: boolean;
 }
 export interface Guide {
     id: string;

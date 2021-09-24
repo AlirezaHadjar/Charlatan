@@ -178,6 +178,7 @@ const slice = createSlice({
                 rounds: [],
                 spiesLength: 1,
                 updatedAt: Date.now(),
+                isNew: true,
             });
         },
         removeLocation: (data, {payload: id}: PayloadAction<string>) => {
