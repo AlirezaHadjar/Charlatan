@@ -58,6 +58,7 @@ const List: React.FC<ListProps> = ({items, onPress}) => {
                 data={items}
                 scrollEventThrottle={16}
                 onScroll={scrollHandler}
+                overScrollMode="never"
                 snapToInterval={wholeWidth}
                 pagingEnabled
                 horizontal

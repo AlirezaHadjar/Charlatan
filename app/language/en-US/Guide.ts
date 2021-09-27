@@ -15,6 +15,18 @@ const dsa = [
     "If he can guess the location of the game regardless of the voting result, the spy will win the game, otherwise the citizens will win and the game will end.",
 ];
 
+const score = [
+    "1) If spies win the round:",
+    "1. spy who guesses the location correctly gets 3 points",
+    "2. spy who doesn't guess the location correctly gets 2 points",
+    "3. citizen who guesses the spy correctly gets 1 point",
+    "4. citizen who doesn't guess the spy correctly gets doesn't get any point",
+    "2) If citizens win the round:",
+    "1. spy doesn't get any point",
+    "2. citizen who guesses the spy correctly gets 2 point",
+    "3. citizen who doesn't guess the spy correctly gets 1 point",
+];
+
 const Guide = {
     header: "Guide",
     text: [
@@ -25,6 +37,10 @@ const Guide = {
         {
             title: "Process of the game",
             description: dsa.join("\n"),
+        },
+        {
+            title: "The scoring process of each round",
+            description: score.join("\n"),
         },
     ],
 };

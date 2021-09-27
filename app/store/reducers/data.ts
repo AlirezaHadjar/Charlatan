@@ -8,6 +8,7 @@ const newRound: Round = {
     selectedLocationId: "",
     spiesIds: [],
     spiesWhoGuessedCorrectlyIds: [],
+    citizensWhoGuessedCorrectlyIds: [],
     votingResult: [],
     winner: Winners.Citizens,
 };
@@ -128,6 +129,18 @@ const slice = createSlice({
                     };
                 });
             }
+            activeGame.players = activeGame.players.map(player => {
+                if (
+                    !activeRound.citizensWhoGuessedCorrectlyIds.includes(
+                        player.id,
+                    )
+                )
+                    return player;
+                return {
+                    ...player,
+                    score: player.score + 1,
+                };
+            });
         },
         resetScores: (data, _action: PayloadAction<undefined>) => {
             const activeGameIndex = data.games.findIndex(

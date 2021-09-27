@@ -21,6 +21,7 @@ export interface Round {
     winner: Winner;
     votingResult: VotingResult[];
     spiesWhoGuessedCorrectlyIds: string[];
+    citizensWhoGuessedCorrectlyIds: string[];
 }
 
 export interface Game {
