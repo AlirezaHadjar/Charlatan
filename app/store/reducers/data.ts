@@ -103,20 +103,24 @@ const slice = createSlice({
             );
             if (activeGameIndex === -1) return;
             const activeGame = data.games[activeGameIndex];
+            const clonedPlayers = [...activeGame.players];
             const activeRound = activeGame.rounds[activeGame.currentRoundIndex];
             const {winner} = activeRound;
             if (winner === Winners.Citizens) {
-                activeGame.players = activeGame.players.map(player => {
+                activeGame.players = activeGame.players.map((player, i) => {
                     if (activeRound.spiesIds.includes(player.id)) return player;
+                    const previousScore = clonedPlayers[i].score;
                     return {
                         ...player,
+                        previousScore,
                         score: player.score + 1,
                     };
                 });
             } else {
-                activeGame.players = activeGame.players.map(player => {
+                activeGame.players = activeGame.players.map((player, i) => {
                     if (!activeRound.spiesIds.includes(player.id))
                         return player;
+                    const previousScore = clonedPlayers[i].score;
                     const score =
                         activeRound.spiesWhoGuessedCorrectlyIds.includes(
                             player.id,
@@ -125,19 +129,22 @@ const slice = createSlice({
                             : 2;
                     return {
                         ...player,
+                        previousScore,
                         score: player.score + score,
                     };
                 });
             }
-            activeGame.players = activeGame.players.map(player => {
+            activeGame.players = activeGame.players.map((player, i) => {
                 if (
                     !activeRound.citizensWhoGuessedCorrectlyIds.includes(
                         player.id,
                     )
                 )
                     return player;
+                const previousScore = clonedPlayers[i].score;
                 return {
                     ...player,
+                    previousScore,
                     score: player.score + 1,
                 };
             });
@@ -152,6 +159,7 @@ const slice = createSlice({
                 player => ({
                     ...player,
                     score: 0,
+                    previousScore: 0,
                 }),
             );
         },

@@ -125,7 +125,8 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
             if (!selectedGame) return;
             const players = [...selectedGame.players];
             const playerIndex = players.findIndex(player => player.id === id);
-            if (playerIndex === -1) players.push({id, score: 0});
+            if (playerIndex === -1)
+                players.push({id, score: 0, previousScore: 0});
             else players.splice(playerIndex, 1);
             dispatch(
                 editGame({

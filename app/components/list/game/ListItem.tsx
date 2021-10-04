@@ -14,6 +14,8 @@ import {Game, Player as PlayerType, User} from "../../../types";
 import normalize from "../../../utils/normalizer";
 import {useTranslation} from "../../../hooks/translation";
 import AppText from "../../Text";
+import {getLanguageName} from "../../../store/reducers/language";
+import {useSelector} from "../../../store/useSelector";
 
 import Separator from "./Separator";
 
@@ -52,6 +54,7 @@ const ListItem: React.FC<ListItemProps> = ({
 }) => {
     const theme = useTheme<ThemeType>();
     const translation = useTranslation();
+    const language = useSelector(getLanguageName);
     const remainingRounds = useMemo(
         () => item.rounds.length - item.currentRoundIndex,
         [item.currentRoundIndex, item.rounds.length],
@@ -96,6 +99,21 @@ const ListItem: React.FC<ListItemProps> = ({
         if (index === 2) return "bronze";
         return "badRank";
     };
+
+    const getScore = ({score, previousScore}: PlayerType) => {
+        if (!onlyResult) return score;
+        if (
+            previousScore === score ||
+            previousScore > score ||
+            previousScore === undefined
+        )
+            return score;
+        const diff = score - previousScore;
+        return `(${previousScore} + ${diff})  ${score}`;
+    };
+
+    const alignItems = language === "en" ? "flex-start" : "flex-end";
+    const flexDirection = language === "en" ? "row" : "row-reverse";
 
     return (
         <Pressable
@@ -146,9 +164,9 @@ const ListItem: React.FC<ListItemProps> = ({
                                     width="100%"
                                     marginBottom="s"
                                     justifyContent="space-between"
-                                    flexDirection="row"
+                                    flexDirection={flexDirection}
                                     alignItems="center">
-                                    <Box flex={1} alignItems="flex-start">
+                                    <Box alignItems={alignItems}>
                                         <AppText
                                             variant="bold"
                                             fontSize={normalize(18)}
@@ -174,19 +192,19 @@ const ListItem: React.FC<ListItemProps> = ({
                                 paddingHorizontal="l"
                                 width="100%"
                                 justifyContent="space-between"
-                                flexDirection="row"
+                                flexDirection={flexDirection}
                                 alignItems="center">
                                 <Player />
                                 <Box
                                     flex={1}
                                     marginHorizontal="m"
-                                    alignItems="flex-start">
+                                    alignItems={alignItems}>
                                     <AppText
                                         variant="bold"
                                         fontSize={normalize(22)}
                                         color={handleColor(index)}>
                                         {`${index + 1}.  `}
-                                        {getPlayerName(users, item).en}
+                                        {getPlayerName(users, item)[language]}
                                     </AppText>
                                 </Box>
                                 <AppText
@@ -195,7 +213,7 @@ const ListItem: React.FC<ListItemProps> = ({
                                     color={
                                         onlyResult ? "silver" : "fourthText"
                                     }>
-                                    {item.score}
+                                    {getScore(item)}
                                 </AppText>
                             </Box>
                         )}

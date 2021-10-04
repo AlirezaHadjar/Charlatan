@@ -63,6 +63,7 @@ export interface User {
 
 export interface Player {
     score: number;
+    previousScore: number;
     id: string;
 }
 
