@@ -8,10 +8,12 @@ import {
     useFocusEffect,
 } from "@react-navigation/core";
 import Animated, {
+    cancelAnimation,
     Easing,
     interpolate,
     runOnJS,
     useAnimatedStyle,
+    useDerivedValue,
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
@@ -83,6 +85,10 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const language = useSelector(getLanguageName);
     const dispatch = useAppDispatch();
     const [roleIsHidden, setRoleIsHidden] = useState(true);
+    const roleProgress = useDerivedValue(
+        () => withTiming(roleIsHidden ? 0 : 1),
+        [roleIsHidden],
+    );
     const [roleDisplayed, setRoleDisplayed] = useState(false);
     const [modifiedPlayers, setModifiedPlayers] = useState(
         players.map((pl, index) => ({
@@ -127,7 +133,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                         fontSize={normalize(30)}
                         color="thirdText"
                         variant="semiBold">
-                        {location.name[language]}
+                        {location?.name?.[language]}
                     </AppText>
                 </Box>
             </Box>
@@ -270,6 +276,23 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         };
     });
 
+    const roleStyles = useAnimatedStyle(() => {
+        const height = roleProgress.value === 1 ? undefined : 50;
+        return {
+            height,
+            opacity: roleProgress.value,
+            transform: [{scaleY: roleProgress.value}],
+        };
+    }, [roleProgress.value]);
+    const guideTextStyles = useAnimatedStyle(() => {
+        const height = roleProgress.value === 0 ? undefined : 50;
+        return {
+            height,
+            opacity: 1 - roleProgress.value,
+            transform: [{scaleY: 1 - roleProgress.value}],
+        };
+    }, [roleProgress.value]);
+
     return (
         <Container style={styles.container}>
             <Header
@@ -287,30 +310,38 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 width={(height * 15) / 100}
                                 marginTop="l"
                                 onPressIn={() => {
+                                    cancelAnimation(roleProgress);
                                     if (!roleDisplayed) setRoleDisplayed(true);
                                     setRoleIsHidden(false);
                                 }}
-                                onPressOut={() => setRoleIsHidden(true)}
+                                onPressOut={() => {
+                                    cancelAnimation(roleProgress);
+                                    setRoleIsHidden(true);
+                                }}
                                 marginBottom="l"
                                 variant="icon"
                                 icon={<Eye />}
                                 title=""
                                 backgroundColor="secondBackground"
                             />
-                            {!roleIsHidden ? (
-                                renderRole(selectedPlayer)
-                            ) : (
-                                <AppText
-                                    fontSize={normalize(20)}
-                                    color="thirdText"
-                                    variant="medium"
-                                    textAlign="center">
-                                    {roleDisplayed
-                                        ? translation.AssignRole
-                                              .seeRoleGuideAgain
-                                        : translation.AssignRole.seeRoleGuide}
-                                </AppText>
-                            )}
+                            <Animatable deps={[roleIsHidden]}>
+                                <Animated.View style={roleStyles}>
+                                    {renderRole(selectedPlayer)}
+                                </Animated.View>
+                                <Animated.View style={guideTextStyles}>
+                                    <AppText
+                                        fontSize={normalize(20)}
+                                        color="thirdText"
+                                        variant="medium"
+                                        textAlign="center">
+                                        {roleDisplayed
+                                            ? translation.AssignRole
+                                                  .seeRoleGuideAgain
+                                            : translation.AssignRole
+                                                  .seeRoleGuide}
+                                    </AppText>
+                                </Animated.View>
+                            </Animatable>
                         </Box>
                     </Animated.View>
                 </Box>
