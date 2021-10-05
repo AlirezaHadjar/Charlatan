@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef} from "react";
 import {useDispatch} from "react-redux";
 import {AppState, Dimensions} from "react-native";
 
@@ -27,31 +27,44 @@ const renderMinutesPickerItems = () => {
     return minutes;
 };
 
+class TimeClass {
+    time: number;
+    constructor(val: number) {
+        this.time = val;
+    }
+    get() {
+        return this.time;
+    }
+    set(val) {
+        console.log(val);
+        this.time = val;
+    }
+}
+
 const Time: React.FC = () => {
-    const time = useSelector(getTime);
-    const [timeState, setTimeState] = useState(time);
     const translation = useTranslation();
+    const time = useSelector(getTime);
+    const timeRef = useRef(new TimeClass(time));
     const dispatch = useDispatch();
     const [saveTime] = useTime();
 
     const minutes = useMemo(() => {
-        const res = Math.floor(timeState / 60);
+        const res = Math.floor(time / 60);
         return `${res}`;
-    }, [timeState]);
+    }, [time]);
 
     const seconds = useMemo(() => {
-        const res = Math.floor(timeState % 60);
+        const res = Math.floor(time % 60);
         return `${res}`;
-    }, [timeState]);
+    }, [time]);
 
     const handleStateChange = useCallback(() => {
-        saveTime(timeState);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        const time = timeRef.current.get();
+        saveTime(time);
+    }, [saveTime]);
 
     useEffect(() => {
         AppState.addEventListener("change", handleStateChange);
-
         return () => {
             AppState.removeEventListener("change", handleStateChange);
             handleStateChange();
@@ -59,15 +72,16 @@ const Time: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-        if (time === timeState) return;
-        dispatch(setTime(timeState));
-    }, [timeState, time, dispatch]);
-
-    const handleSelect = useCallback((min: string, sec: string) => {
-        const newTime = +min * 60 + +sec;
-        setTimeState(newTime);
-    }, []);
+    const handleSelect = useCallback(
+        (min: string, sec: string) => {
+            const newTime = +min * 60 + +sec;
+            const oldTime = timeRef.current.get();
+            if (oldTime === newTime) return;
+            dispatch(setTime(newTime));
+            timeRef.current.set(newTime);
+        },
+        [dispatch],
+    );
 
     const handleMinutesSelect = useCallback(
         min => handleSelect(min, seconds),

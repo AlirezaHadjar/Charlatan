@@ -12,6 +12,7 @@ import Animated, {
     interpolate,
     runOnJS,
     useAnimatedStyle,
+    useDerivedValue,
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
@@ -94,6 +95,14 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const selectedPlayer = useMemo(() => {
         return modifiedPlayers.find(pl => pl.selected);
     }, [modifiedPlayers]);
+
+    const isLast = useMemo(() => {
+        const index = modifiedPlayers.indexOf(selectedPlayer);
+        const isLast = index === modifiedPlayers.length - 1;
+        return isLast;
+    }, [modifiedPlayers, selectedPlayer]);
+
+    const isLastAnimated = useDerivedValue(() => isLast, [isLast]);
 
     const transition = useSharedValue(0);
 
@@ -178,6 +187,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             {duration: 500, easing: Easing.ease},
             () => {
                 runOnJS(changePlayer)();
+                if (isLastAnimated.value) return;
                 transition.value = withTiming(
                     1,
                     {duration: 500, easing: Easing.ease},
@@ -187,7 +197,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 );
             },
         );
-    }, [changePlayer, transition.value]);
+    }, [changePlayer, isLastAnimated.value, transition.value]);
 
     const renderButton = useCallback(() => {
         const index = modifiedPlayers.indexOf(selectedPlayer);

@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {BottomSheetFlatList} from "@gorhom/bottom-sheet";
-import React, {memo, useCallback, useEffect, useMemo} from "react";
+import React, {memo, useCallback, useEffect, useMemo, useRef} from "react";
 import {
     FlatList,
     NativeScrollEvent,
@@ -10,9 +8,6 @@ import {
 } from "react-native";
 import Animated, {
     runOnJS,
-    runOnUI,
-    scrollTo,
-    useAnimatedRef,
     useAnimatedScrollHandler,
     useSharedValue,
 } from "react-native-reanimated";
@@ -70,7 +65,7 @@ const Picker: React.FC<PickerProps> = ({
     const AnimatedFlatlist = isInBottomSheet
         ? BottomSheetAnimatedFlatlist
         : NormalAnimatedFlatlist;
-    const flatlistRef = useAnimatedRef<FlatList>();
+    const flatlistRef = useRef<FlatList>(null);
     const translationY = useSharedValue(0);
     const lastY = useSharedValue(0);
     const scrollHandler = useAnimatedScrollHandler(event => {
@@ -113,10 +108,9 @@ const Picker: React.FC<PickerProps> = ({
             if (index === -1) return;
             const offset = itemHeight * index;
             if (offset < 0) return;
-            //@ts-ignore
-            runOnUI(scrollTo)(flatlistRef, 0, offset, true);
+            flatlistRef.current.scrollToOffset({offset, animated: true});
         },
-        [flatlistRef, itemHeight, items],
+        [itemHeight, items],
     );
 
     useEffect(() => {
@@ -140,10 +134,12 @@ const Picker: React.FC<PickerProps> = ({
             averageItemLength: number;
         }) => {
             await new Promise(resolve => setTimeout(resolve, 200));
-            //@ts-ignore
-            runOnUI(scrollTo)(flatlistRef, 0, info.index * itemHeight, true);
+            flatlistRef.current.scrollToOffset({
+                offset: info.index * itemHeight,
+                animated: true,
+            });
         },
-        [flatlistRef, itemHeight],
+        [itemHeight],
     );
 
     const handleScrollEnd = useCallback(

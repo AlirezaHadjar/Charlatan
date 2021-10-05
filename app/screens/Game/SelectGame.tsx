@@ -12,6 +12,7 @@ import {
     TextInput,
     TouchableOpacity,
 } from "react-native";
+import {useTheme} from "@shopify/restyle";
 
 import {useGames} from "../../hooks/games";
 import Container from "../../components/Container";
@@ -51,6 +52,7 @@ import Plus from "../../assets/SVGs/Plus";
 import {setAlert} from "../../store/reducers/alert";
 import {Stage} from "../../types";
 import ItemCheck from "../../components/ItemCheck";
+import {ThemeType} from "../../theme/Theme";
 
 const {width, height} = Dimensions.get("window");
 
@@ -67,6 +69,7 @@ export type SelectGameProps = {
 const ICON_SIZE = (height * 6.8) / 100;
 
 const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
+    const theme = useTheme<ThemeType>();
     const dispatch = useAppDispatch();
     const games = useSelector(getGames);
     const translation = useTranslation();
@@ -203,6 +206,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             }
                             style={{
                                 width: "100%",
+                                color: theme.colors.fourthText,
                                 fontSize: normalize(21),
                                 fontFamily: "Kalameh Bold",
                                 fontWeight: "normal",
@@ -240,7 +244,9 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
         handleSelectPlayer,
         players,
         selectedGame,
-        translation.SelectGame,
+        theme.colors.fourthText,
+        translation.SelectGame.nextButtonTitle,
+        translation.SelectGame.playersLowerBound,
     ]);
 
     const handleConfigChange = (type: "round" | "spy", mode: "add" | "sub") => {
