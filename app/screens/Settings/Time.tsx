@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {AppState, Dimensions} from "react-native";
 
@@ -29,22 +29,23 @@ const renderMinutesPickerItems = () => {
 
 const Time: React.FC = () => {
     const time = useSelector(getTime);
+    const [timeState, setTimeState] = useState(time);
     const translation = useTranslation();
     const dispatch = useDispatch();
     const [saveTime] = useTime();
 
     const minutes = useMemo(() => {
-        const res = Math.floor(time / 60);
+        const res = Math.floor(timeState / 60);
         return `${res}`;
-    }, [time]);
+    }, [timeState]);
 
     const seconds = useMemo(() => {
-        const res = Math.floor(time % 60);
+        const res = Math.floor(timeState % 60);
         return `${res}`;
-    }, [time]);
+    }, [timeState]);
 
     const handleStateChange = useCallback(() => {
-        saveTime(time);
+        saveTime(timeState);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -58,12 +59,23 @@ const Time: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleSelect = useCallback(
-        (min: string, sec: string) => {
-            const newTime = +min * 60 + +sec;
-            dispatch(setTime(newTime));
-        },
-        [dispatch],
+    useEffect(() => {
+        if (time === timeState) return;
+        dispatch(setTime(timeState));
+    }, [timeState, time, dispatch]);
+
+    const handleSelect = useCallback((min: string, sec: string) => {
+        const newTime = +min * 60 + +sec;
+        setTimeState(newTime);
+    }, []);
+
+    const handleMinutesSelect = useCallback(
+        min => handleSelect(min, seconds),
+        [handleSelect, seconds],
+    );
+    const handleSecondsSelect = useCallback(
+        sec => handleSelect(minutes, sec),
+        [handleSelect, minutes],
     );
 
     return (
@@ -79,10 +91,11 @@ const Time: React.FC = () => {
                                     items={renderMinutesPickerItems()}
                                     itemWidth={(width * 35) / 100}
                                     initialTitle={minutes}
-                                    onSelect={min => handleSelect(min, seconds)}
+                                    onSelect={handleMinutesSelect}
                                 />
                             ),
-                            [handleSelect, minutes, seconds],
+                            // eslint-disable-next-line react-hooks/exhaustive-deps
+                            [handleMinutesSelect],
                         )}
                     </Box>
                     <Box flex={1} alignItems="center">
@@ -93,10 +106,11 @@ const Time: React.FC = () => {
                                     items={renderSecondsPickerItems()}
                                     itemWidth={(width * 35) / 100}
                                     initialTitle={seconds}
-                                    onSelect={sec => handleSelect(minutes, sec)}
+                                    onSelect={handleSecondsSelect}
                                 />
                             ),
-                            [handleSelect, minutes, seconds],
+                            // eslint-disable-next-line react-hooks/exhaustive-deps
+                            [handleSecondsSelect],
                         )}
                     </Box>
                 </Box>
