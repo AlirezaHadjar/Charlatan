@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useState} from "react";
-import {StyleSheet, Dimensions, BackHandler} from "react-native";
+import {StyleSheet, Dimensions, BackHandler, Vibration} from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
     CompositeNavigationProp,
@@ -87,7 +87,10 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
     const handleUpdate = useCallback(() => {
         const newTime = time - 1000;
         setTime(newTime);
-        if (Math.floor(newTime / 1000) === 0) setIsPlaying(false);
+        if (Math.floor(newTime / 1000) === 0) {
+            setIsPlaying(false);
+            Vibration.vibrate(1000);
+        }
     }, [time]);
 
     useInterval(handleUpdate, isPlaying ? 1000 : null);
