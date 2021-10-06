@@ -1,6 +1,5 @@
 import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
-import {TransitionSpec} from "@react-navigation/stack/lib/typescript/src/types";
 
 import Main from "../screens/Main";
 import Test from "../screens/Test";
@@ -15,6 +14,7 @@ import AboutUs from "../screens/Settings/AboutUs";
 import Language from "../screens/Settings/Language";
 
 import GameNavigator, {GameRoutes} from "./GameNavigator";
+import {screenOptions} from "./config";
 
 export type AppRoute = {
     Settings: undefined;
@@ -37,25 +37,8 @@ export type RouteName = keyof Routes;
 
 const Stack = createStackNavigator<AppRoute>();
 
-const transitionSpec: TransitionSpec = {
-    animation: "timing",
-    config: {duration: 200},
-};
-
 const AppNavigator: React.FC = () => (
-    <Stack.Navigator
-        headerMode="none"
-        initialRouteName="Main"
-        screenOptions={() => ({
-            transitionSpec: {
-                open: transitionSpec,
-                close: transitionSpec,
-            },
-            gestureEnabled: false,
-            cardStyleInterpolator: ({current: {progress: opacity}}) => ({
-                cardStyle: {opacity},
-            }),
-        })}>
+    <Stack.Navigator initialRouteName="Main" screenOptions={screenOptions}>
         <Stack.Screen component={Main} name="Main" />
         <Stack.Screen component={Settings} name="Settings" />
         <Stack.Screen component={Guide} name="Guide" />
