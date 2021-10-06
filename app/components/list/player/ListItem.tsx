@@ -77,7 +77,7 @@ const ListItem: React.FC<ListItemProps> = ({
                     marginVertical="s"
                     paddingHorizontal="m"
                     backgroundColor={backgroundColor}
-                    flexDirection={language === "en" ? "row" : "row-reverse"}
+                    flexDirection="row"
                     alignItems="center"
                     borderRadius="l">
                     <Box justifyContent="center" height="100%">
@@ -109,8 +109,7 @@ const ListItem: React.FC<ListItemProps> = ({
                         <Box
                             justifyContent="center"
                             height="100%"
-                            marginEnd={language === "en" ? undefined : "s"}
-                            marginStart={language === "en" ? "s" : undefined}>
+                            marginStart="s">
                             {end}
                         </Box>
                     </AppTouchable>

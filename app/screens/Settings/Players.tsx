@@ -144,9 +144,7 @@ const Players: React.FC = () => {
                     width="100%"
                     borderRadius="l"
                     justifyContent="center"
-                    flexDirection={
-                        languageName === "en" ? "row" : "row-reverse"
-                    }
+                    flexDirection="row"
                     paddingHorizontal="m"
                     alignItems="center"
                     borderWidth={1}>

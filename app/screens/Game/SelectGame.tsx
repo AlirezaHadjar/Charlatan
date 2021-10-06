@@ -38,7 +38,7 @@ import {
     resetScores,
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
-import Box from "../../theme/Box";
+import Box, {RotatedBox} from "../../theme/Box";
 import {useAppDispatch} from "../../store/configureStore";
 import Button from "../../components/Button";
 import {useTranslation} from "../../hooks/translation";
@@ -235,7 +235,9 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                     backgroundColor="secondBackground"
                     height={(width * 15) / 100}
                     width={(width * 31) / 100}>
-                    <Play scale={0.4} />
+                    <RotatedBox>
+                        <Play scale={0.4} />
+                    </RotatedBox>
                 </Button>
             </Box>
         );
@@ -408,7 +410,9 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         {!selectedGame.isNew ? (
                             <Refresh scale={1} />
                         ) : (
-                            <Play scale={0.4} />
+                            <RotatedBox>
+                                <Play scale={0.4} />
+                            </RotatedBox>
                         )}
                     </Button>
                     {selectedGame.currentRoundIndex <
@@ -424,7 +428,9 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                                 fontSize={normalize(18)}
                                 width={(width * 40) / 100}
                                 height={(height * 8) / 100}>
-                                <Play scale={0.4} />
+                                <RotatedBox>
+                                    <Play scale={0.4} />
+                                </RotatedBox>
                             </Button>
                         )}
                 </Box>

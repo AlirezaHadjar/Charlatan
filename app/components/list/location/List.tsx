@@ -7,6 +7,7 @@ import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
 import {ThemeType} from "../../../theme/Theme";
 import {Location} from "../../../types";
+import AppFlatList from "../../FlatList";
 
 import ListItem from "./ListItem";
 
@@ -40,7 +41,7 @@ const List: React.FC<ListProps> = ({
     const {spacing} = useTheme<ThemeType>();
     return (
         <Box width="100%" marginBottom="m">
-            <FlatList
+            <AppFlatList
                 showsVerticalScrollIndicator={false}
                 data={items}
                 removeClippedSubviews={false}

@@ -25,7 +25,7 @@ import {
     setGameResult,
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
-import Box from "../../theme/Box";
+import Box, {RotatedBox} from "../../theme/Box";
 import normalize from "../../utils/normalizer";
 import BackCross from "../../assets/SVGs/BackCross";
 import Play from "../../assets/SVGs/Play";
@@ -187,9 +187,9 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
                 opacity={isDisabled ? 0.5 : 1}
                 height={(width * 15) / 100}
                 width={(width * 31) / 100}>
-                <Box flex={0.5}>
+                <RotatedBox flex={0.5}>
                     <Play scale={0.4} />
-                </Box>
+                </RotatedBox>
             </Button>
         );
     }, [

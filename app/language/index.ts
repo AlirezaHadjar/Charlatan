@@ -1,3 +1,5 @@
+import {LanguageName} from "../types";
+
 import {en} from "./en-US/index";
 import {fa} from "./fa-IR/index";
 
@@ -6,4 +8,4 @@ export const languageDatas = {
     fa,
 };
 
-export type LanguageData = typeof languageDatas[keyof typeof languageDatas];
+export const rtlLanguages: LanguageName[] = ["fa"];

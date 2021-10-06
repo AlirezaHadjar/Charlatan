@@ -7,6 +7,7 @@ import Animated, {
 
 import Box from "../../../theme/Box";
 import {Guide} from "../../../types";
+import AppFlatList from "../../FlatList";
 import {ListIndicator} from "../ListIndicator";
 
 import ListItem from "./ListItem";
@@ -23,7 +24,9 @@ const BOX_WIDTH = (width * 90) / 100;
 const MARGIN = (width * 3) / 100;
 
 const AnimatedFlatList =
-    Animated.createAnimatedComponent<Readonly<FlatListProps<Guide>>>(FlatList);
+    Animated.createAnimatedComponent<Readonly<FlatListProps<Guide>>>(
+        AppFlatList,
+    );
 
 const List: React.FC<ListProps> = ({items}) => {
     const offsetX = useSharedValue(0);
