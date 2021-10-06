@@ -1,10 +1,13 @@
-import {BottomSheetModal, BottomSheetView} from "@gorhom/bottom-sheet";
+import {
+    BottomSheetModal,
+    BottomSheetView,
+    useBottomSheetDynamicSnapPoints,
+} from "@gorhom/bottom-sheet";
 import React, {useCallback, useEffect, useMemo, useRef, memo} from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {useFocusEffect} from "@react-navigation/core";
 import {useTheme} from "@shopify/restyle";
-import {Dimensions, BackHandler, LayoutChangeEvent} from "react-native";
-import {useSharedValue} from "react-native-reanimated";
+import {BackHandler} from "react-native";
 
 import {ThemeType} from "../theme/Theme";
 
@@ -16,14 +19,11 @@ export interface BottomSheetProps {
     children?: React.ReactElement[];
 }
 
-const {height} = Dimensions.get("window");
-
 const AppBottomSheet: React.FC<BottomSheetProps> = ({
     onClose,
     isVisible = false,
     children,
 }) => {
-    const containerHeight = useSharedValue(0);
     const sheet = useRef<BottomSheetModal>(null);
     const theme = useTheme<ThemeType>();
 
@@ -36,10 +36,6 @@ const AppBottomSheet: React.FC<BottomSheetProps> = ({
         }
     }, [isVisible]);
 
-    const snapPoints = useMemo(
-        () => [Math.max((height * 15) / 100, containerHeight.value)],
-        [containerHeight.value],
-    );
     const handleBackButtonPress = useCallback(() => {
         onClose();
         return true;
@@ -58,18 +54,19 @@ const AppBottomSheet: React.FC<BottomSheetProps> = ({
                 );
         }, [handleBackButtonPress, isVisible]),
     );
-    const handleOnLayout: (event: LayoutChangeEvent) => void = useCallback(
-        ({
-            nativeEvent: {
-                layout: {height},
-            },
-        }) => {
-            containerHeight.value = height;
-        },
-        [containerHeight.value],
-    );
+    const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
+    const {
+        animatedHandleHeight,
+        animatedSnapPoints,
+        animatedContentHeight,
+        handleContentLayout,
+    } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
+
     return (
         <BottomSheetModal
+            snapPoints={animatedSnapPoints}
+            handleHeight={animatedHandleHeight}
+            contentHeight={animatedContentHeight}
             index={0}
             onDismiss={onClose}
             onChange={index => index === -1 && onClose()}
@@ -81,10 +78,9 @@ const AppBottomSheet: React.FC<BottomSheetProps> = ({
                     style={props.style}
                 />
             )}
-            ref={sheet}
-            snapPoints={snapPoints}>
+            ref={sheet}>
             <BottomSheetView
-                onLayout={handleOnLayout}
+                onLayout={handleContentLayout}
                 style={{padding: theme.spacing.m}}>
                 {children}
             </BottomSheetView>
