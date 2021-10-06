@@ -18,7 +18,7 @@ import AppNavigator, {AppRoute} from "./AppNavigator";
 
 const ThemeNavigator: React.FC = () => {
     // const themeIsDark = useSelector(getIsThemeDark);
-    const navigationRef = useRef<NavigationContainerRef>(null);
+    const navigationRef = useRef<NavigationContainerRef<AppRoute>>(null);
     const routeNameRef = useRef<string>();
     const {setNativeAd} = useAdKey();
     const {isDark} = useDarkTheme();
