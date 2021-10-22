@@ -7,6 +7,8 @@ import Vote from "../screens/Game/Vote";
 import Result from "../screens/Game/Result";
 import SpiesGuess from "../screens/Game/SpiesGuess";
 
+import {screenOptions} from "./config";
+
 export type GameRoutes = {
     AssignRole: undefined;
     Timer: undefined;
@@ -19,17 +21,8 @@ const Stack = createStackNavigator<GameRoutes>();
 
 const GameNavigator: React.FC = () => (
     <Stack.Navigator
-        headerMode="none"
         initialRouteName="AssignRole"
-        screenOptions={() => ({
-            transitionSpec: {
-                open: {animation: "timing", config: {duration: 200}},
-                close: {animation: "timing", config: {duration: 200}},
-            },
-            cardStyleInterpolator: ({current: {progress}}) => ({
-                cardStyle: {opacity: progress},
-            }),
-        })}>
+        screenOptions={screenOptions}>
         <Stack.Screen component={AssignRole} name="AssignRole" />
         <Stack.Screen component={Timer} name="Timer" />
         <Stack.Screen component={Vote} name="Vote" />

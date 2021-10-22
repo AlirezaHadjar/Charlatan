@@ -8,6 +8,7 @@ export const useTime = () => {
 
     const saveTime = useCallback(
         (newTime: number) => {
+            console.log("Saving time: " + newTime);
             if (storageTime === newTime) return;
             AsyncStorage.setItem(storageKeys.time, JSON.stringify(newTime));
             setStorageTime(newTime);

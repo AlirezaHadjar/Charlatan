@@ -11,6 +11,8 @@ target 'Charlatan' do
     :hermes_enabled => true
   )
 
+  pod 'RNReactNativeHapticFeedback', :path => '../node_modules/react-native-haptic-feedback'
+
   target 'CharlatanTests' do
     inherit! :complete
   end
