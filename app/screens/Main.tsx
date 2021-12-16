@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {Dimensions} from "react-native";
 import {useTheme} from "@shopify/restyle";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {
@@ -34,9 +33,6 @@ export type MainProps = {
     navigation: NavigationProps;
     route: RouteProp<AppRoute, "Main">;
 };
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const {height, width} = Dimensions.get("window");
 
 const Main: React.FC<MainProps> = ({navigation}) => {
     const theme = useTheme<ThemeType>();
