@@ -1,12 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {useTheme} from "@shopify/restyle";
 import {TextInput} from "react-native";
-import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    interpolate,
-    withTiming,
-} from "react-native-reanimated";
+import Animated, {FadeInDown} from "react-native-reanimated";
 
 import {LISTITEM_HEIGHT} from "../../../../SpyHunt";
 import {getLanguageName} from "../../../store/reducers/language";
@@ -45,22 +40,6 @@ const ListItem: React.FC<ListItemProps> = ({
 }) => {
     const theme = useTheme<ThemeType>();
     const language = useSelector(getLanguageName);
-    const progress = useSharedValue(0);
-
-    const animatedStyles = useAnimatedStyle(() => {
-        const opacity = interpolate(progress.value, [0, 1], [0.5, 1]);
-        const translateY = interpolate(progress.value, [0, 1], [30, 0]);
-        const scaleY = interpolate(progress.value, [0, 1], [0.7, 1]);
-        return {
-            opacity,
-            transform: [{translateY}, {scaleY}],
-        };
-    }, [progress]);
-
-    useEffect(() => {
-        progress.value = 0;
-        progress.value = withTiming(1, {duration: 200 + index * 200});
-    }, [index, progress]);
 
     return (
         <AppTouchable
@@ -70,7 +49,10 @@ const ListItem: React.FC<ListItemProps> = ({
             onPress={() => {
                 if (onEndPress) onEndPress(id);
             }}>
-            <Animated.View style={animatedStyles}>
+            <Animated.View
+                entering={FadeInDown.duration(200)
+                    .springify()
+                    .delay(200 * index)}>
                 <Box
                     width="100%"
                     height={LISTITEM_HEIGHT}
