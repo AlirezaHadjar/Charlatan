@@ -135,7 +135,7 @@ const SpiesGuess: React.FC<SpiesGuessProps> = ({navigation}) => {
         const spiesWhoGuessedCorrectlyIds = guessesWhichWereCorrect.map(
             guess => guess.guesserId,
         );
-        if (guessedIds.includes(location.id))
+        if (guessedIds.includes(location?.id))
             dispatch(
                 setGameResult({
                     gameId: selectedGame.id,

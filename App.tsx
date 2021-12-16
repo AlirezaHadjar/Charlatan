@@ -2,6 +2,7 @@ import "react-native-gesture-handler";
 import React, {useCallback, useEffect, useState} from "react";
 import {I18nManager} from "react-native";
 import {Provider} from "react-redux";
+import {enableFreeze} from "react-native-screens";
 
 import {store} from "./app/store/getStore";
 import {fetchData} from "./app/utils/fetchData";
@@ -27,6 +28,9 @@ const App: React.FC = ({}) => {
     useEffect(() => {
         fetch();
     }, [fetch]);
+    useEffect(() => {
+        enableFreeze(true);
+    }, []);
     return (
         <Provider store={myStore}>
             <AdProvider>

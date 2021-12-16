@@ -56,7 +56,6 @@ const Language: React.FC = ({}) => {
         const height = findHeight(language, languages);
         translationY.value = withSpring(height);
     }, [language, translationY.value]);
-
     const animatedStyles = useAnimatedStyle(() => {
         return {
             transform: [{translateY: translationY.value}],

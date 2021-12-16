@@ -1,7 +1,9 @@
 import {BoxProps} from "@shopify/restyle";
 import React, {useEffect} from "react";
 import Animated, {
+    FadeInDown,
     interpolate,
+    Layout,
     useAnimatedStyle,
     useSharedValue,
     withTiming,
@@ -21,30 +23,16 @@ export interface AnimatableProps extends BoxProps<ThemeType> {
 
 const Animatable: React.FC<AnimatableProps> = ({
     children,
-    duration = 1000,
-    relocation = 10,
-    deps,
+    duration,
     ...rest
 }) => {
-    const progress = useSharedValue(0);
-    useEffect(() => {
-        progress.value = 0;
-        progress.value = withTiming(1, {duration: 200}, isFinished => {
-            if (isFinished) progress.value = withTiming(1, {duration});
-        });
-    }, [duration, progress, deps]);
-
-    const styles = useAnimatedStyle(() => {
-        const opacity = interpolate(progress.value, [0, 1], [0.5, 1]);
-        const translateY = interpolate(progress.value, [0, 1], [relocation, 0]);
-        return {
-            opacity,
-            transform: [{translateY}],
-        };
-    }, []);
     return (
         <Box {...rest}>
-            <Animated.View style={styles}>{children}</Animated.View>
+            <Animated.View
+                layout={Layout.duration(duration).springify()}
+                entering={FadeInDown.duration(duration).springify()}>
+                {children}
+            </Animated.View>
         </Box>
     );
 };
