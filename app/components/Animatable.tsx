@@ -30,8 +30,7 @@ const Animatable: React.FC<AnimatableProps> = ({
         <Box {...rest}>
             <Animated.View
                 layout={Layout.duration(duration).springify()}
-                entering={FadeInDown.duration(duration).springify()}
-                exiting={FadeInDown.duration(duration).springify()}>
+                entering={FadeInDown.duration(duration).springify()}>
                 {children}
             </Animated.View>
         </Box>

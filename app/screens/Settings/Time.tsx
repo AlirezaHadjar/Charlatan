@@ -64,9 +64,12 @@ const Time: React.FC = () => {
     }, [saveTime]);
 
     useEffect(() => {
-        AppState.addEventListener("change", handleStateChange);
+        const subscription = AppState.addEventListener(
+            "change",
+            handleStateChange,
+        );
         return () => {
-            AppState.removeEventListener("change", handleStateChange);
+            subscription.remove();
             handleStateChange();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
