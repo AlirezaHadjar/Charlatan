@@ -35,8 +35,7 @@ class TimeClass {
     get() {
         return this.time;
     }
-    set(val) {
-        console.log(val);
+    set(val: number) {
         this.time = val;
     }
 }

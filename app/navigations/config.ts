@@ -5,7 +5,7 @@ import {
 
 const transitionSpec: TransitionSpec = {
     animation: "timing",
-    config: {duration: 200},
+    config: {duration: 300},
 };
 
 export const screenOptions: StackNavigationOptions = {

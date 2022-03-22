@@ -31,6 +31,7 @@ import {getLanguageName} from "../../store/reducers/language";
 import AppTouchable from "../../components/Touchable";
 import AppBottomSheet from "../../components/BottomSheet";
 import ItemCross from "../../components/ItemCross";
+import Animated, {Layout} from "react-native-reanimated";
 
 const {width} = Dimensions.get("window");
 
@@ -115,7 +116,7 @@ const Players: React.FC = () => {
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 style={{flex: 1}}>
                 <Box paddingHorizontal="m" flex={1} paddingBottom="m">
-                    <Box flex={1}>
+                    <Animated.View style={{flex: 1}} layout={Layout}>
                         <List
                             items={players}
                             end={<ItemCross disabled={players.length <= 3} />}
@@ -127,7 +128,7 @@ const Players: React.FC = () => {
                             onBlur={handleBlur}
                             onEndPress={handleRemovePlayer}
                         />
-                    </Box>
+                    </Animated.View>
                     <Box alignItems="flex-end">
                         <Icon
                             icon={<Plus />}

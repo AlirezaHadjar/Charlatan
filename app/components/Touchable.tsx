@@ -4,16 +4,19 @@ import {
     TouchableOpacity,
     TouchableOpacityProps,
 } from "react-native";
+import Animated, {AnimateProps} from "react-native-reanimated";
 
 import {useAppDispatch} from "../store/configureStore";
 import {setAlert} from "../store/reducers/alert";
 
-export interface TouchableProps extends TouchableOpacityProps {
+export interface TouchableProps extends AnimateProps<TouchableOpacityProps> {
     disableText?: string;
     enabled?: boolean;
     disabled?: boolean;
     onPress?: (event: GestureResponderEvent) => void;
 }
+
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 const AppTouchable: React.FC<TouchableProps> = ({
     children,
@@ -37,12 +40,12 @@ const AppTouchable: React.FC<TouchableProps> = ({
     );
 
     return (
-        <TouchableOpacity
+        <AnimatedTouchable
             onPress={e => handlePress(e)}
             {...props}
             disabled={!enabled}>
             {children}
-        </TouchableOpacity>
+        </AnimatedTouchable>
     );
 };
 

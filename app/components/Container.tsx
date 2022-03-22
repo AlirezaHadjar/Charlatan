@@ -1,7 +1,7 @@
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {BoxProps, useTheme} from "@shopify/restyle";
 import React from "react";
-import {StyleProp, StyleSheet, ViewProps} from "react-native";
+import {StyleProp, StyleSheet, ViewStyle} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 
 import Spy from "../assets/SVGs/Spy";
@@ -10,7 +10,7 @@ import {ThemeType} from "../theme/Theme";
 
 export interface Props extends BoxProps<ThemeType> {
     hasIcon?: boolean;
-    style?: StyleProp<ViewProps>;
+    style?: StyleProp<ViewStyle>;
 }
 
 const Container: React.FC<Props> = ({

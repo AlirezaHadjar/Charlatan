@@ -1,6 +1,13 @@
 import {useTheme} from "@shopify/restyle";
 import React from "react";
-import {Dimensions, Platform, StyleSheet, TextInput} from "react-native";
+import {
+    Dimensions,
+    Platform,
+    StyleProp,
+    StyleSheet,
+    TextInput,
+    ViewStyle,
+} from "react-native";
 import Animated, {FadeInDown} from "react-native-reanimated";
 
 import Box from "../../../theme/Box";
@@ -17,9 +24,10 @@ export interface ListItemProps {
     onChangeText?: (text: string, id: string) => void;
     onBlur?: (text: string, id: string) => void;
     backgroundColor: keyof typeof theme["colors"];
-    endDisabled: boolean;
+    endDisabled?: boolean;
     enabled: boolean;
     endDisableText: string;
+    containerStyle?: StyleProp<ViewStyle>;
 }
 
 const {width} = Dimensions.get("window");
@@ -46,6 +54,7 @@ const ListItem: React.FC<ListItemProps> = ({
     backgroundColor,
     endDisabled,
     endDisableText,
+    containerStyle,
 }) => {
     const theme = useTheme<ThemeType>();
 
@@ -58,6 +67,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 if (onEndPress) onEndPress(id);
             }}>
             <Animated.View
+                style={containerStyle}
                 entering={FadeInDown.duration(200)
                     .springify()
                     .delay(100 * index)}>
@@ -65,7 +75,6 @@ const ListItem: React.FC<ListItemProps> = ({
                     width={BOX_SIZE}
                     height={BOX_SIZE}
                     marginVertical="s"
-                    marginStart="s"
                     backgroundColor={backgroundColor}
                     alignItems="center"
                     borderRadius="l">
@@ -82,7 +91,7 @@ const ListItem: React.FC<ListItemProps> = ({
                             maxLength={15}
                             editable={onChangeText ? true : false}
                             style={{
-                                paddingTop: Platform.OS === "ios" ? "45%" : 0,
+                                paddingTop: Platform.OS === "ios" ? "40%" : 0,
                                 fontFamily: "Kalameh Bold",
                                 fontSize: normalize(18),
                                 fontWeight: "normal",
