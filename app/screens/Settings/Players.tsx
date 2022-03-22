@@ -7,7 +7,6 @@ import {
     StyleSheet,
 } from "react-native";
 import {useDispatch} from "react-redux";
-import {TextInput} from "react-native-gesture-handler";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -32,6 +31,7 @@ import AppTouchable from "../../components/Touchable";
 import AppBottomSheet from "../../components/BottomSheet";
 import ItemCross from "../../components/ItemCross";
 import Animated, {Layout} from "react-native-reanimated";
+import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 
 const {width} = Dimensions.get("window");
 
@@ -152,7 +152,7 @@ const Players: React.FC = () => {
                     alignItems="center"
                     borderWidth={1}>
                     <Box flex={1}>
-                        <TextInput
+                        <BottomSheetTextInput
                             maxLength={15}
                             placeholder={
                                 translation.Players

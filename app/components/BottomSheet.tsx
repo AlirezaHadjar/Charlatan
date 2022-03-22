@@ -67,6 +67,7 @@ const AppBottomSheet: React.FC<BottomSheetProps> = ({
             snapPoints={animatedSnapPoints}
             handleHeight={animatedHandleHeight}
             contentHeight={animatedContentHeight}
+            keyboardBehavior="interactive"
             index={0}
             onDismiss={onClose}
             onChange={index => index === -1 && onClose()}
