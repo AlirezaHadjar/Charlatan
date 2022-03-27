@@ -44,8 +44,6 @@ import Button from "../../components/Button";
 import {useTranslation} from "../../hooks/translation";
 import normalize from "../../utils/normalizer";
 import Trash from "../../assets/SVGs/Trash";
-import AppTouchable from "../../components/Touchable";
-import Minus from "../../assets/SVGs/Minus";
 import Play from "../../assets/SVGs/Play";
 import Refresh from "../../assets/SVGs/Refresh";
 import Plus from "../../assets/SVGs/Plus";
@@ -53,6 +51,7 @@ import {setAlert} from "../../store/reducers/alert";
 import {Stage} from "../../types";
 import ItemCheck from "../../components/ItemCheck";
 import {ThemeType} from "../../theme/Theme";
+import DigitControl from "../../components/DigitControl";
 
 const {width, height} = Dimensions.get("window");
 
@@ -65,8 +64,6 @@ export type SelectGameProps = {
     navigation: NavigationProps;
     route: RouteProp<AppRoute, "Main">;
 };
-
-const ICON_SIZE = (height * 6.8) / 100;
 
 const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     const theme = useTheme<ThemeType>();
@@ -250,6 +247,8 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     ]);
 
     const handleConfigChange = (type: "round" | "spy", mode: "add" | "sub") => {
+        if (!selectedGame) return;
+
         if (type === "round") {
             dispatch(editRound({gameId: selectedGame.id, mode}));
             return;
@@ -273,54 +272,23 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             {translation.SelectGame.RoundsLength}
                         </AppText>
                         <Box flex={1} />
-                        <Box
-                            borderRadius="sl"
-                            padding="ms"
-                            width={(width * 40) / 100}
-                            flexDirection="row"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            backgroundColor="buttonTertiary">
-                            <AppTouchable
-                                disableText={
-                                    translation.SelectGame.roundsNotEnough
-                                }
-                                disabled={selectedGame.rounds.length <= 1}
-                                onPress={() =>
-                                    handleConfigChange("round", "sub")
-                                }>
-                                <Box
-                                    height={ICON_SIZE}
-                                    width={ICON_SIZE}
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius="xl"
-                                    backgroundColor="buttonPrimary">
-                                    <Minus color="buttonTertiary" />
-                                </Box>
-                            </AppTouchable>
-                            <AppText variant="bold" fontSize={normalize(30)}>
-                                {selectedGame.rounds.length}
-                            </AppText>
-                            <AppTouchable
-                                disableText={
-                                    translation.SelectGame.roundsUpperBound
-                                }
-                                disabled={selectedGame.rounds.length >= 10}
-                                onPress={() =>
-                                    handleConfigChange("round", "add")
-                                }>
-                                <Box
-                                    height={ICON_SIZE}
-                                    width={ICON_SIZE}
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius="xl"
-                                    backgroundColor="buttonPrimary">
-                                    <Plus color="buttonTertiary" />
-                                </Box>
-                            </AppTouchable>
-                        </Box>
+                        <DigitControl
+                            value={selectedGame.rounds.length}
+                            decrementDisableText={
+                                translation.SelectGame.roundsNotEnough
+                            }
+                            incrementDisableText={
+                                translation.SelectGame.roundsUpperBound
+                            }
+                            decrementDisabled={selectedGame.rounds.length <= 1}
+                            incrementDisabled={selectedGame.rounds.length >= 10}
+                            onDecrementPress={() =>
+                                handleConfigChange("round", "sub")
+                            }
+                            onIncrementPress={() =>
+                                handleConfigChange("round", "add")
+                            }
+                        />
                     </Box>
                     <Box
                         paddingVertical="m"
@@ -330,57 +298,27 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             {translation.SelectGame.SpiesLength}
                         </AppText>
                         <Box flex={1} />
-                        <Box
-                            borderRadius="sl"
-                            padding="ms"
-                            width={(width * 40) / 100}
-                            flexDirection="row"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            backgroundColor="fourthText">
-                            <AppTouchable
-                                disableText={
-                                    translation.SelectGame.spiesLowerBound
-                                }
-                                disabled={selectedGame.spiesLength <= 1}
-                                onPress={() =>
-                                    handleConfigChange("spy", "sub")
-                                }>
-                                <Box
-                                    height={ICON_SIZE}
-                                    width={ICON_SIZE}
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius="xl"
-                                    backgroundColor="buttonPrimary">
-                                    <Minus color="fourthText" />
-                                </Box>
-                            </AppTouchable>
-                            <AppText variant="bold" fontSize={normalize(30)}>
-                                {selectedGame.spiesLength}
-                            </AppText>
-                            <AppTouchable
-                                disableText={
-                                    translation.SelectGame.spiesUpperBound
-                                }
-                                disabled={
-                                    selectedGame.spiesLength >=
-                                    Math.floor(selectedGame.players.length / 3)
-                                }
-                                onPress={() =>
-                                    handleConfigChange("spy", "add")
-                                }>
-                                <Box
-                                    height={ICON_SIZE}
-                                    width={ICON_SIZE}
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius="xl"
-                                    backgroundColor="buttonPrimary">
-                                    <Plus color="fourthText" />
-                                </Box>
-                            </AppTouchable>
-                        </Box>
+                        <DigitControl
+                            backgroundColor="fourthText"
+                            value={selectedGame.spiesLength}
+                            decrementDisableText={
+                                translation.SelectGame.spiesLowerBound
+                            }
+                            incrementDisableText={
+                                translation.SelectGame.spiesUpperBound
+                            }
+                            decrementDisabled={selectedGame.spiesLength <= 1}
+                            incrementDisabled={
+                                selectedGame.spiesLength >=
+                                Math.floor(selectedGame.players.length / 3)
+                            }
+                            onDecrementPress={() =>
+                                handleConfigChange("spy", "sub")
+                            }
+                            onIncrementPress={() =>
+                                handleConfigChange("spy", "add")
+                            }
+                        />
                     </Box>
                 </Box>
                 <Box
@@ -444,17 +382,21 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     }, [GameContent, SelectContent, activeGameId]);
 
     const handleDelete = () => {
+        if (!selectedGame) return;
+
+        dispatch(setActiveGameId(""));
+        dispatch(deleteGame(selectedGame.id));
+    };
+
+    const handleDeletePress = () => {
         dispatch(
             setAlert({
-                id: Date.now.toString(),
                 text: translation.SelectGame.deleteGameAssurement,
                 acceptButtonText: translation.SelectGame.yes,
                 cancelButtonText: translation.SelectGame.no,
+                id: Date.now.toString(),
+                onAccept: handleDelete,
                 variant: "ask",
-                onAccept: () => {
-                    dispatch(setActiveGameId(""));
-                    dispatch(deleteGame(selectedGame.id));
-                },
             }),
         );
     };
@@ -466,7 +408,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                 onBackPress={handBackPress}
                 end={
                     selectedGame && (
-                        <TouchableOpacity onPress={handleDelete}>
+                        <TouchableOpacity onPress={handleDeletePress}>
                             <Trash />
                         </TouchableOpacity>
                     )
