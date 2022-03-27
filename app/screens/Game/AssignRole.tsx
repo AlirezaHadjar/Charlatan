@@ -10,6 +10,8 @@ import {
 import Animated, {
     cancelAnimation,
     Easing,
+    FlipInXDown,
+    FlipInXUp,
     interpolate,
     runOnJS,
     useAnimatedStyle,
@@ -286,19 +288,17 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     });
 
     const roleStyles = useAnimatedStyle(() => {
-        const height = roleProgress.value === 1 ? undefined : 50;
+        const height = roleProgress.value === 1 ? 100 : 50;
         return {
             height,
             opacity: roleProgress.value,
-            transform: [{scaleY: roleProgress.value}],
         };
     }, [roleProgress.value]);
     const guideTextStyles = useAnimatedStyle(() => {
-        const height = roleProgress.value === 0 ? undefined : 50;
+        const height = roleProgress.value === 0 ? 50 : 0;
         return {
             height,
             opacity: 1 - roleProgress.value,
-            transform: [{scaleY: 1 - roleProgress.value}],
         };
     }, [roleProgress.value]);
 
@@ -334,10 +334,15 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 backgroundColor="secondBackground"
                             />
                             <Animatable deps={[roleIsHidden]}>
-                                <Animated.View style={roleStyles}>
+                                <Animated.View
+                                    style={roleStyles}
+                                    key={roleIsHidden ? 0 : 1}
+                                    entering={FlipInXDown.springify()}>
                                     {renderRole(selectedPlayer)}
                                 </Animated.View>
-                                <Animated.View style={guideTextStyles}>
+                                <Animated.View
+                                    entering={FlipInXUp.springify()}
+                                    style={guideTextStyles}>
                                     <AppText
                                         fontSize={normalize(20)}
                                         color="thirdText"

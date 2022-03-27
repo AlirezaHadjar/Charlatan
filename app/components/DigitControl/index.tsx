@@ -1,13 +1,7 @@
 import {useTheme} from "@shopify/restyle";
 import React from "react";
 import {Dimensions} from "react-native";
-import Animated, {
-    FlipInXDown,
-    FlipInXUp,
-    FlipOutEasyX,
-    FlipOutXDown,
-    FlipOutXUp,
-} from "react-native-reanimated";
+import Animated, {FlipInXDown, FlipInXUp} from "react-native-reanimated";
 import MinusIcon from "../../assets/SVGs/Minus";
 import PlusIcon from "../../assets/SVGs/Plus";
 import usePrevious from "../../hooks/previous";
@@ -29,7 +23,7 @@ interface DigitControlProps {
     backgroundColor?: keyof ThemeType["colors"];
 }
 
-const {height, width} = Dimensions.get("window");
+const {height} = Dimensions.get("window");
 const ICON_SIZE = (height * 5) / 100;
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
