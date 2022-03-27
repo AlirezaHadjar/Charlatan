@@ -52,6 +52,7 @@ import {Stage} from "../../types";
 import ItemCheck from "../../components/ItemCheck";
 import {ThemeType} from "../../theme/Theme";
 import DigitControl from "../../components/DigitControl";
+import AppInput from "../../components/AppInput";
 
 const {width, height} = Dimensions.get("window");
 
@@ -193,7 +194,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         marginVertical="s"
                         paddingHorizontal="m"
                         backgroundColor="contrast">
-                        <TextInput
+                        <AppInput
                             value={selectedGame.name}
                             autoCapitalize="words"
                             onChangeText={text =>
@@ -202,12 +203,9 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                                 )
                             }
                             style={{
-                                width: "100%",
-                                color: theme.colors.fourthText,
-                                fontSize: normalize(21),
-                                fontFamily: "Kalameh Bold",
-                                fontWeight: "normal",
                                 textAlign: "center",
+                                fontSize: normalize(21),
+                                color: theme.colors.fourthText,
                             }}
                         />
                     </Box>

@@ -15,6 +15,7 @@ import Box from "../../../theme/Box";
 import theme, {ThemeType} from "../../../theme/Theme";
 import normalize from "../../../utils/normalizer";
 import AppTouchable from "../../Touchable";
+import AppInput from "../../AppInput";
 
 export interface ListItemProps {
     id: string;
@@ -69,16 +70,12 @@ const ListItem: React.FC<ListItemProps> = ({
                 alignItems="center"
                 borderRadius="l">
                 <Box justifyContent="center" height="100%">
-                    <TextInput
-                        maxLength={15}
+                    <AppInput
                         onBlur={() => onBlur && onBlur(name, id)}
                         value={name}
                         pointerEvents={onChangeText ? "auto" : "none"}
                         editable={onChangeText ? true : false}
                         style={{
-                            fontFamily: "Kalameh Bold",
-                            fontWeight: "normal",
-                            fontSize: normalize(18),
                             color: theme.colors[textColor],
                         }}
                         onChangeText={text =>

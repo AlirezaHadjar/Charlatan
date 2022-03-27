@@ -1,4 +1,5 @@
 import {createTheme} from "@shopify/restyle";
+import {Fonts} from "../constants/fonts";
 
 import normalize from "../utils/normalizer";
 
@@ -81,22 +82,22 @@ const theme = createTheme({
     textVariants: {
         regular: {
             color: "secondText",
-            fontFamily: "Kalameh Regular",
+            fontFamily: Fonts.regular,
             fontSize: normalize(18),
         },
         semiBold: {
             color: "secondText",
-            fontFamily: "Kalameh Regular",
+            fontFamily: Fonts.regular,
             fontSize: normalize(18),
         },
         medium: {
             color: "secondText",
-            fontFamily: "Kalameh Bold",
+            fontFamily: Fonts.bold,
             fontSize: normalize(18),
         },
         bold: {
             color: "secondText",
-            fontFamily: "Kalameh Bold",
+            fontFamily: Fonts.bold,
             fontSize: normalize(18),
         },
     },

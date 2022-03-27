@@ -33,3 +33,7 @@ export const getLanguageData = createSelector(
     (state: AppState) => state.entities.language,
     (language: Language) => language.data,
 );
+export const getIsRTL = createSelector(
+    (state: AppState) => state.entities.language,
+    (language: Language) => language.name === "fa",
+);
