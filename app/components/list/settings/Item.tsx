@@ -4,7 +4,7 @@ import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import Box from "../../../theme/Box";
-import {LISTITEM_HEIGHT} from "../../../../SpyHunt";
+import {LISTITEM_HEIGHT} from "../../../../Constants";
 import AppText from "../../Text";
 import Chevron from "../../../assets/SVGs/Chevron";
 import {AppRoute} from "../../../navigations/AppNavigator";

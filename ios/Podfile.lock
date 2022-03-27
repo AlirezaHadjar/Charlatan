@@ -367,7 +367,7 @@ PODS:
     - React-Core
   - RNCMaskedView (0.2.6):
     - React-Core
-  - RNGestureHandler (1.10.3):
+  - RNGestureHandler (2.3.2):
     - React-Core
   - RNReactNativeHapticFeedback (1.13.1):
     - React-Core
@@ -625,7 +625,7 @@ SPEC CHECKSUMS:
   ReactCommon: 07d0c460b9ba9af3eaf1b8f5abe7daaad28c9c4e
   RNCAsyncStorage: 4efdcd2f7378421b29467c9de58f43552b60cf5b
   RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
-  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNGestureHandler: 6e757e487a4834e7280e98e9bac66d2d9c575e9c
   RNReactNativeHapticFeedback: 4085973f5a38b40d3c6793a3ee5724773eae045e
   RNReanimated: 190b6930d5d94832061278e1070bbe313e50c830
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19

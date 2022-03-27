@@ -8,7 +8,7 @@ import {
     SlideOutLeft,
 } from "react-native-reanimated";
 
-import {LISTITEM_HEIGHT} from "../../../../SpyHunt";
+import {LISTITEM_HEIGHT} from "../../../../Constants";
 import {getLanguageName} from "../../../store/reducers/language";
 import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";

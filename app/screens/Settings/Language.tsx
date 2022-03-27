@@ -9,7 +9,7 @@ import Animated, {
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import Box from "../../theme/Box";
-import {LISTITEM_HEIGHT} from "../../../SpyHunt";
+import {LISTITEM_HEIGHT} from "../../../Constants";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {useSelector} from "../../store/useSelector";

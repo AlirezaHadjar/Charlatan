@@ -27,5 +27,5 @@ function SvgComponent({scale = 1, color = "buttonPrimary"}: Props) {
     );
 }
 
-const MemoSvgComponent = React.memo(SvgComponent);
-export default MemoSvgComponent;
+const MinusIcon = React.memo(SvgComponent);
+export default MinusIcon;

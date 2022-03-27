@@ -1,7 +1,7 @@
 import {BottomSheetBackdropProps} from "@gorhom/bottom-sheet";
 import React, {useMemo} from "react";
 import {ViewProps} from "react-native";
-import {State, TapGestureHandler} from "react-native-gesture-handler";
+import {Gesture, GestureDetector} from "react-native-gesture-handler";
 import Animated, {
     Extrapolate,
     interpolate,
@@ -39,16 +39,15 @@ const CustomBackdrop = ({animatedIndex, style, onPress}: Props) => {
         return {pointerEvents: touchable ? "auto" : "none"};
     }, [animatedIndex]);
 
+    const gestureHandler = Gesture.Tap().onEnd(onPress);
+
     return (
-        <TapGestureHandler
-            onHandlerStateChange={(p) => {
-                if (p.nativeEvent.state === State.END) onPress();
-            }}>
+        <GestureDetector gesture={gestureHandler}>
             <Animated.View
                 animatedProps={{...props}}
                 style={[containerStyle, animatedOpacity]}
             />
-        </TapGestureHandler>
+        </GestureDetector>
     );
 };
 

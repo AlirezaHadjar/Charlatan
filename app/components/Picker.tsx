@@ -15,7 +15,7 @@ import ReactNativeHapticFeedback, {
     HapticFeedbackTypes,
 } from "react-native-haptic-feedback";
 
-import {ITEM_HEIGHT, ITEM_WIDTH} from "../../SpyHunt";
+import {ITEM_HEIGHT, ITEM_WIDTH} from "../../Constants";
 import Box from "../theme/Box";
 
 const options = {
