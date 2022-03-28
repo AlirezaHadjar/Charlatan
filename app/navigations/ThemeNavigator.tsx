@@ -59,16 +59,14 @@ const ThemeNavigator: React.FC = () => {
                 barStyle={statusBarText}
                 showHideTransition="fade"
             />
-            <SafeAreaProvider>
-                <NavigationContainer
-                    theme={MyTheme}
-                    ref={navigationRef}
-                    onReady={handleReady}
-                    onStateChange={handleChange}>
-                    <AppNavigator />
-                </NavigationContainer>
-                <Alert />
-            </SafeAreaProvider>
+            <NavigationContainer
+                theme={MyTheme}
+                ref={navigationRef}
+                onReady={handleReady}
+                onStateChange={handleChange}>
+                <AppNavigator />
+            </NavigationContainer>
+            <Alert />
         </ThemeProvider>
     );
 };

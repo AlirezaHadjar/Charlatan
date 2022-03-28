@@ -26,7 +26,9 @@ export type ResultProps = GameNavigatorStackProps<"Result">;
 const {width, height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        paddingBottom: 0,
+    },
 });
 
 const BOX_HEIGHT = (height * 30) / 100;

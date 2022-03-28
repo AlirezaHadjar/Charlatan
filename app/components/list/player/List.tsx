@@ -38,9 +38,9 @@ const List: React.FC<ListProps> = ({
     const theme = useTheme<ThemeType>();
     return (
         <ScrollView
+            style={{flex: 1}}
             contentContainerStyle={{
                 paddingBottom: theme.spacing.m,
-                flex: 1,
             }}>
             {items.map((item, index) => {
                 const End = end?.type;
