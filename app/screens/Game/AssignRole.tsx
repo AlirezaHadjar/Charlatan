@@ -40,12 +40,11 @@ import {Location, User} from "../../types";
 import Pin from "../../assets/SVGs/Pin";
 import BackCross from "../../assets/SVGs/BackCross";
 import {useAppDispatch} from "../../store/configureStore";
-import {AppRoute} from "../../navigations/AppNavigator";
-import {GameRoutes} from "../../navigations/GameNavigator";
 import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import Animatable from "../../components/Animatable";
+import {GameNavigatorStackProps} from "../../navigations/types";
 
 const {width, height} = Dimensions.get("window");
 
@@ -53,15 +52,7 @@ const styles = StyleSheet.create({
     container: {},
 });
 
-type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<GameRoutes, "AssignRole">,
-    StackNavigationProp<AppRoute>
->;
-
-export type AssignRoleProps = {
-    navigation: NavigationProps;
-    route: RouteProp<AppRoute, "Main">;
-};
+export type AssignRoleProps = GameNavigatorStackProps<"AssignRole">;
 
 const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const activeGameId = useSelector(getActiveGameId);
@@ -261,7 +252,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     );
     const selectedPlayerName = useMemo(
         () => (
-            <Animatable deps={[selectedPlayer]}>
+            <Animatable>
                 <AppText fontSize={normalize(40)} variant="semiBold">
                     {selectedPlayer.name[language]}
                 </AppText>

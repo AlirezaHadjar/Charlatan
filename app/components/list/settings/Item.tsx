@@ -7,16 +7,16 @@ import Box from "../../../theme/Box";
 import {LISTITEM_HEIGHT} from "../../../../Constants";
 import AppText from "../../Text";
 import Chevron from "../../../assets/SVGs/Chevron";
-import {AppRoute} from "../../../navigations/AppNavigator";
 import {getLanguageName} from "../../../store/reducers/language";
 import {useSelector} from "../../../store/useSelector";
+import {RootStackParamList} from "../../../navigations/types";
 
 export interface ItemProps {
     icon: JSX.Element;
     title: string;
-    screen: keyof AppRoute;
+    screen: keyof RootStackParamList;
 }
-type Screen = StackNavigationProp<AppRoute>;
+type Screen = StackNavigationProp<RootStackParamList>;
 
 const styles = StyleSheet.create({
     container: {

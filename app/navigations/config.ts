@@ -14,7 +14,6 @@ export const screenOptions: StackNavigationOptions = {
         open: transitionSpec,
         close: transitionSpec,
     },
-    gestureEnabled: false,
     cardStyleInterpolator: ({current: {progress: opacity}}) => ({
         cardStyle: {opacity},
     }),

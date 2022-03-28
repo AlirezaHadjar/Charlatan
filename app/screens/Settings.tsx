@@ -10,8 +10,8 @@ import Pin from "../assets/SVGs/Pin";
 import Clock from "../assets/SVGs/Clock";
 import Person from "../assets/SVGs/Person";
 import Language from "../assets/SVGs/Language";
-import {AppRoute} from "../navigations/AppNavigator";
 import {useTranslation} from "../hooks/translation";
+import {RootStackParamList} from "../navigations/types";
 
 const styles = StyleSheet.create({
     container: {},
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 interface Data {
     title: string;
     icon: JSX.Element;
-    screen: keyof AppRoute;
+    screen: keyof RootStackParamList;
 }
 
 interface Section {

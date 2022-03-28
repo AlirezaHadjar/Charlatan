@@ -1,12 +1,7 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-    CompositeNavigationProp,
-    RouteProp,
-    useFocusEffect,
-} from "@react-navigation/core";
-import {StackNavigationProp} from "@react-navigation/stack";
+import {useFocusEffect} from "@react-navigation/core";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -25,8 +20,6 @@ import BackCross from "../../assets/SVGs/BackCross";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {User, Vote as VoteType, VotingResult, Winners} from "../../types";
-import {GameRoutes} from "../../navigations/GameNavigator";
-import {AppRoute} from "../../navigations/AppNavigator";
 import Button from "../../components/Button";
 import Play from "../../assets/SVGs/Play";
 import {useAppDispatch} from "../../store/configureStore";
@@ -35,16 +28,9 @@ import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import {useGames} from "../../hooks/games";
 import ItemCheck from "../../components/ItemCheck";
+import {GameNavigatorStackProps} from "../../navigations/types";
 
-type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<GameRoutes, "AssignRole">,
-    StackNavigationProp<AppRoute>
->;
-
-export type VoteProps = {
-    navigation: NavigationProps;
-    route: RouteProp<AppRoute, "Main">;
-};
+export type VoteProps = GameNavigatorStackProps<"Vote">;
 
 const {width} = Dimensions.get("window");
 

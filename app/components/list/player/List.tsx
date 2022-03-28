@@ -37,7 +37,11 @@ const List: React.FC<ListProps> = ({
     const language = useSelector(getLanguageName);
     const theme = useTheme<ThemeType>();
     return (
-        <ScrollView contentContainerStyle={{paddingBottom: theme.spacing.m}}>
+        <ScrollView
+            contentContainerStyle={{
+                paddingBottom: theme.spacing.m,
+                flex: 1,
+            }}>
             {items.map((item, index) => {
                 const End = end?.type;
                 const selected = selectedIds.includes(item.id);

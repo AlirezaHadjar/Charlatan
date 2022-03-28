@@ -8,21 +8,14 @@ import Result from "../screens/Game/Result";
 import SpiesGuess from "../screens/Game/SpiesGuess";
 
 import {screenOptions} from "./config";
+import {GameNavigatorParamList} from "./types";
 
-export type GameRoutes = {
-    AssignRole: undefined;
-    Timer: undefined;
-    Vote: undefined;
-    SpiesGuess: undefined;
-    Result: undefined;
-};
-
-const Stack = createStackNavigator<GameRoutes>();
+const Stack = createStackNavigator<GameNavigatorParamList>();
 
 const GameNavigator: React.FC = () => (
     <Stack.Navigator
         initialRouteName="AssignRole"
-        screenOptions={screenOptions}>
+        screenOptions={{...screenOptions, gestureEnabled: false}}>
         <Stack.Screen component={AssignRole} name="AssignRole" />
         <Stack.Screen component={Timer} name="Timer" />
         <Stack.Screen component={Vote} name="Vote" />

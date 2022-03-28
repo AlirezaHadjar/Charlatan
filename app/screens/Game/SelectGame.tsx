@@ -1,17 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-    CompositeNavigationProp,
-    RouteProp,
-    useFocusEffect,
-} from "@react-navigation/core";
-import {StackNavigationProp} from "@react-navigation/stack";
+import {useFocusEffect} from "@react-navigation/core";
 import React, {useCallback, useMemo, useState} from "react";
-import {
-    BackHandler,
-    Dimensions,
-    TextInput,
-    TouchableOpacity,
-} from "react-native";
+import {BackHandler, Dimensions, TouchableOpacity} from "react-native";
 import {useTheme} from "@shopify/restyle";
 
 import {useGames} from "../../hooks/games";
@@ -20,8 +10,6 @@ import Header from "../../components/Header";
 import GameList from "../../components/list/game/List";
 import UserList from "../../components/list/player/List";
 import AppText from "../../components/Text";
-import {AppRoute} from "../../navigations/AppNavigator";
-import {GameRoutes} from "../../navigations/GameNavigator";
 import {
     getPlayers,
     getGames,
@@ -53,18 +41,11 @@ import ItemCheck from "../../components/ItemCheck";
 import {ThemeType} from "../../theme/Theme";
 import DigitControl from "../../components/DigitControl";
 import AppInput from "../../components/AppInput";
+import {RootStackProps} from "../../navigations/types";
 
 const {width, height} = Dimensions.get("window");
 
-type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<AppRoute, "SelectGame">,
-    StackNavigationProp<GameRoutes>
->;
-
-export type SelectGameProps = {
-    navigation: NavigationProps;
-    route: RouteProp<AppRoute, "Main">;
-};
+export type SelectGameProps = RootStackProps<"SelectGame">;
 
 const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
     const theme = useTheme<ThemeType>();
@@ -209,7 +190,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                             }}
                         />
                     </Box>
-                    <Box paddingVertical="m">
+                    <Box paddingVertical="m" flex={1}>
                         <UserList
                             items={players}
                             selectedIds={selectedIds}

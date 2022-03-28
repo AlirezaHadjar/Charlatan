@@ -1,17 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-    CommonActions,
-    CompositeNavigationProp,
-    RouteProp,
-    useFocusEffect,
-} from "@react-navigation/core";
-import {StackNavigationProp} from "@react-navigation/stack";
+import {CommonActions, useFocusEffect} from "@react-navigation/core";
 import React, {useCallback} from "react";
 
 import Container from "../../components/Container";
 import {useTranslation} from "../../hooks/translation";
-import {AppRoute} from "../../navigations/AppNavigator";
-import {GameRoutes} from "../../navigations/GameNavigator";
+import {RootStackProps} from "../../navigations/types";
 import {useAppDispatch} from "../../store/configureStore";
 import {setAlert} from "../../store/reducers/alert";
 import {
@@ -23,15 +16,7 @@ import {
 import {useSelector} from "../../store/useSelector";
 import {LanguageData, User, Location} from "../../types";
 
-type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<AppRoute, "StartGame">,
-    StackNavigationProp<GameRoutes>
->;
-
-export type StartGameProps = {
-    navigation: NavigationProps;
-    route: RouteProp<AppRoute, "Main">;
-};
+export type StartGameProps = RootStackProps<"StartGame">;
 
 const StartGame: React.FC<StartGameProps> = ({navigation}) => {
     const dispatch = useAppDispatch();
@@ -94,7 +79,7 @@ const StartGame: React.FC<StartGameProps> = ({navigation}) => {
                     index: routes.length - 1,
                 });
             });
-            navigation.navigate("GameNavigator");
+            navigation.navigate("GameNavigator", {screen: "AssignRole"});
         }, [
             dispatch,
             isValid,
