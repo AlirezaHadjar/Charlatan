@@ -1,29 +1,18 @@
 import {BoxProps} from "@shopify/restyle";
-import React, {useEffect} from "react";
-import Animated, {
-    FadeInDown,
-    interpolate,
-    Layout,
-    useAnimatedStyle,
-    useSharedValue,
-    withTiming,
-} from "react-native-reanimated";
+import React from "react";
+import Animated, {FadeInDown, Layout} from "react-native-reanimated";
 
 import Box from "../theme/Box";
 import {ThemeType} from "../theme/Theme";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type DependencyList = ReadonlyArray<any>;
-
 export interface AnimatableProps extends BoxProps<ThemeType> {
     duration?: number;
     relocation?: number;
-    deps?: DependencyList;
 }
 
 const Animatable: React.FC<AnimatableProps> = ({
     children,
-    duration,
+    duration = 200,
     ...rest
 }) => {
     return (

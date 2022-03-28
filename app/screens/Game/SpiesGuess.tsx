@@ -1,12 +1,7 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
-import {StackNavigationProp} from "@react-navigation/stack";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-    CompositeNavigationProp,
-    RouteProp,
-    useFocusEffect,
-} from "@react-navigation/core";
+import {useFocusEffect} from "@react-navigation/core";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -30,8 +25,6 @@ import normalize from "../../utils/normalizer";
 import BackCross from "../../assets/SVGs/BackCross";
 import Play from "../../assets/SVGs/Play";
 import {Guess as GuessType, Winners} from "../../types";
-import {GameRoutes} from "../../navigations/GameNavigator";
-import {AppRoute} from "../../navigations/AppNavigator";
 import Button from "../../components/Button";
 import {useAppDispatch} from "../../store/configureStore";
 import {useTranslation} from "../../hooks/translation";
@@ -39,16 +32,9 @@ import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import {useGames} from "../../hooks/games";
 import ItemCheck from "../../components/ItemCheck";
+import {GameNavigatorStackProps} from "../../navigations/types";
 
-type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<GameRoutes, "AssignRole">,
-    StackNavigationProp<AppRoute>
->;
-
-export type SpiesGuessProps = {
-    navigation: NavigationProps;
-    route: RouteProp<AppRoute, "Main">;
-};
+export type SpiesGuessProps = GameNavigatorStackProps<"SpiesGuess">;
 
 const {width} = Dimensions.get("window");
 

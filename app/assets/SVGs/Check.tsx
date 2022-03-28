@@ -27,5 +27,5 @@ function SvgComponent({scale = 1, color = "buttonDisabled"}: Props) {
     );
 }
 
-const MemoSvgComponent = React.memo(SvgComponent);
-export default MemoSvgComponent;
+const CheckIcon = React.memo(SvgComponent);
+export default CheckIcon;

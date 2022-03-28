@@ -14,11 +14,13 @@ import {useDarkTheme} from "../contexts/ThemeContext";
 import {useAd} from "../hooks/ad";
 import {useAdKey} from "../contexts/AdContext";
 
-import AppNavigator, {AppRoute} from "./AppNavigator";
+import AppNavigator from "./AppNavigator";
+import {RootStackParamList} from "./types";
 
 const ThemeNavigator: React.FC = () => {
     // const themeIsDark = useSelector(getIsThemeDark);
-    const navigationRef = useRef<NavigationContainerRef<AppRoute>>(null);
+    const navigationRef =
+        useRef<NavigationContainerRef<RootStackParamList>>(null);
     const routeNameRef = useRef<string>();
     const {setNativeAd} = useAdKey();
     const {isDark} = useDarkTheme();
@@ -39,16 +41,16 @@ const ThemeNavigator: React.FC = () => {
     };
     const handleChange = () => {
         const previousRouteName = routeNameRef.current;
-        const currentRouteName = navigationRef.current.getCurrentRoute().name;
+        const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
 
         if (previousRouteName !== currentRouteName)
-            setScreenName(currentRouteName as keyof AppRoute);
+            setScreenName(currentRouteName as keyof RootStackParamList);
 
         routeNameRef.current = currentRouteName;
     };
 
     const handleReady = () =>
-        (routeNameRef.current = navigationRef.current.getCurrentRoute().name);
+        (routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name);
 
     return (
         <ThemeProvider theme={appTheme}>
@@ -57,16 +59,14 @@ const ThemeNavigator: React.FC = () => {
                 barStyle={statusBarText}
                 showHideTransition="fade"
             />
-            <SafeAreaProvider>
-                <NavigationContainer
-                    theme={MyTheme}
-                    ref={navigationRef}
-                    onReady={handleReady}
-                    onStateChange={handleChange}>
-                    <AppNavigator />
-                </NavigationContainer>
-                <Alert />
-            </SafeAreaProvider>
+            <NavigationContainer
+                theme={MyTheme}
+                ref={navigationRef}
+                onReady={handleReady}
+                onStateChange={handleChange}>
+                <AppNavigator />
+            </NavigationContainer>
+            <Alert />
         </ThemeProvider>
     );
 };

@@ -1,12 +1,11 @@
 import {useEffect, useRef} from "react";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const usePrevious = (value: any) => {
-    const ref = useRef();
+export default function usePrevious<T>(value: T): T | undefined {
+    const ref = useRef<T>();
+
     useEffect(() => {
         ref.current = value;
-    });
-    return ref.current;
-};
+    }, [value]);
 
-export default usePrevious;
+    return ref.current;
+}

@@ -3,7 +3,9 @@ import {useCallback, useState} from "react";
 
 import {storageKeys} from "../storage/keys";
 
-export const useTime = () => {
+type UseTime = () => [(newTime: number) => void];
+
+export const useTime: UseTime = () => {
     const [storageTime, setStorageTime] = useState<number>(0);
 
     const saveTime = useCallback(

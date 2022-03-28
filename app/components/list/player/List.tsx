@@ -1,9 +1,10 @@
+import {useTheme} from "@shopify/restyle";
 import React from "react";
-import {FlatList} from "react-native";
+import {ScrollView} from "react-native";
 
 import {getLanguageName} from "../../../store/reducers/language";
 import {useSelector} from "../../../store/useSelector";
-import Box from "../../../theme/Box";
+import {ThemeType} from "../../../theme/Theme";
 import {User} from "../../../types";
 
 import ListItem from "./ListItem";
@@ -34,38 +35,38 @@ const List: React.FC<ListProps> = ({
     endDisableText = "",
 }) => {
     const language = useSelector(getLanguageName);
+    const theme = useTheme<ThemeType>();
     return (
-        <Box width="100%" marginBottom="m">
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={items}
-                removeClippedSubviews={false}
-                keyExtractor={(item, index) => item.id.toString() + index}
-                renderItem={({item, index}) => {
-                    const End = end?.type;
-                    const selected = selectedIds.includes(item.id);
-                    return (
-                        <ListItem
-                            id={item.id}
-                            index={index}
-                            name={item.name[language]}
-                            end={<End selected={selected} />}
-                            endDisabled={endDisabled}
-                            onBlur={onBlur}
-                            endDisableText={endDisableText}
-                            onEndPress={onEndPress}
-                            onChangeText={onChangeText}
-                            textColor={
-                                selected ? "buttonPrimary" : "buttonSecondary"
-                            }
-                            backgroundColor={
-                                selected ? "buttonSecondary" : "buttonPrimary"
-                            }
-                        />
-                    );
-                }}
-            />
-        </Box>
+        <ScrollView
+            style={{flex: 1}}
+            contentContainerStyle={{
+                paddingBottom: theme.spacing.m,
+            }}>
+            {items.map((item, index) => {
+                const End = end?.type;
+                const selected = selectedIds.includes(item.id);
+                return (
+                    <ListItem
+                        id={item.id}
+                        key={item.id.toString()}
+                        index={index}
+                        name={item.name[language]}
+                        end={<End selected={selected} />}
+                        endDisabled={endDisabled}
+                        onBlur={onBlur}
+                        endDisableText={endDisableText}
+                        onEndPress={onEndPress}
+                        onChangeText={onChangeText}
+                        textColor={
+                            selected ? "buttonPrimary" : "buttonSecondary"
+                        }
+                        backgroundColor={
+                            selected ? "buttonSecondary" : "buttonPrimary"
+                        }
+                    />
+                );
+            })}
+        </ScrollView>
     );
 };
 

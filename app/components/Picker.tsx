@@ -15,7 +15,7 @@ import ReactNativeHapticFeedback, {
     HapticFeedbackTypes,
 } from "react-native-haptic-feedback";
 
-import {ITEM_HEIGHT, ITEM_WIDTH} from "../../SpyHunt";
+import {ITEM_HEIGHT, ITEM_WIDTH} from "../../Constants";
 import Box from "../theme/Box";
 
 const options = {
@@ -73,7 +73,7 @@ const Picker: React.FC<PickerProps> = ({
         const diff = Math.abs(lastY.value - event.contentOffset.y);
         if (diff > itemHeight) {
             lastY.value = event.contentOffset.y;
-            const isFastScrolling = event.velocity.y > 2;
+            const isFastScrolling = (event.velocity?.y || 0) > 2;
             const hapticType: HapticFeedbackTypes = isFastScrolling
                 ? "impactLight"
                 : "impactMedium";
@@ -108,7 +108,7 @@ const Picker: React.FC<PickerProps> = ({
             if (index === -1) return;
             const offset = itemHeight * index;
             if (offset < 0) return;
-            flatlistRef.current.scrollToOffset({offset, animated: true});
+            flatlistRef.current?.scrollToOffset({offset, animated: true});
         },
         [itemHeight, items],
     );
@@ -134,7 +134,7 @@ const Picker: React.FC<PickerProps> = ({
             averageItemLength: number;
         }) => {
             await new Promise(resolve => setTimeout(resolve, 200));
-            flatlistRef.current.scrollToOffset({
+            flatlistRef.current?.scrollToOffset({
                 offset: info.index * itemHeight,
                 animated: true,
             });
@@ -148,8 +148,8 @@ const Picker: React.FC<PickerProps> = ({
             let index = Math.round(offset / itemHeight);
             if (index < 0) index = 0;
             else if (index >= items.length) index = items.length - 1;
-            const {title} = items[index];
-            onSelect && onSelect(title, "normal");
+            const {title} = items[index] as ItemType;
+            onSelect?.(title, "normal");
         },
         [itemHeight, items, onSelect],
     );
@@ -170,6 +170,7 @@ const Picker: React.FC<PickerProps> = ({
                     initialScrollIndex={0}
                     showsVerticalScrollIndicator={false}
                     snapToInterval={itemHeight}
+                    //@ts-ignore
                     ref={flatlistRef}
                     removeClippedSubviews
                     contentContainerStyle={styles.flatlist}

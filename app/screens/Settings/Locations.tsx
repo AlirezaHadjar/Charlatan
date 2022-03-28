@@ -32,8 +32,6 @@ import {defaultData} from "../../storage/default";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {getLanguageName} from "../../store/reducers/language";
-import AppTouchable from "../../components/Touchable";
-import AppBottomSheet from "../../components/BottomSheet";
 
 const {height} = Dimensions.get("window");
 
@@ -46,10 +44,8 @@ const styles = StyleSheet.create({
 const Locations: React.FC = () => {
     const locations = useSelector(getLocations);
     const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
-    const languageName = useSelector(getLanguageName);
     const translation = useTranslation();
     const dispatch = useAppDispatch();
-    const [query, setQuery] = useState("");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleEditLocation = useCallback(
         (text: string, id: string) => {
@@ -71,12 +67,14 @@ const Locations: React.FC = () => {
         [handleRemoveLocation],
     );
 
-    const handleAddLocation = useCallback(() => {
-        dispatch(addLocation({fa: query, en: query}));
-        setQuery("");
-        Keyboard.dismiss();
-        setBottomSheetVisible(false);
-    }, [dispatch, query]);
+    const handleAddLocation = useCallback(
+        (name: string) => {
+            dispatch(addLocation({fa: name, en: name}));
+            Keyboard.dismiss();
+            setBottomSheetVisible(false);
+        },
+        [dispatch],
+    );
     const itemCross = useMemo(
         () => (
             <Box
@@ -154,58 +152,13 @@ const Locations: React.FC = () => {
                         />
                     </Box> */}
                 </Box>
-                {/* <AppBottomSheet
-                    isVisible={bottomSheetVisible}
-                    onClose={handleBottomSheetClose}>
-                    <Box
-                        width="100%"
-                        borderRadius="l"
-                        justifyContent="center"
-                        flexDirection={
-                            languageName === "en" ? "row" : "row-reverse"
-                        }
-                        paddingHorizontal="m"
-                        alignItems="center"
-                        borderWidth={1}>
-                        <Box flex={1}>
-                            <TextInput
-                                maxLength={15}
-                                placeholder={
-                                    translation.Locations
-                                        .addLocationTextInputPlaceholder
-                                }
-                                style={{
-                                    fontFamily: "Kalameh Bold",
-                                    fontWeight: "normal",
-                                    paddingVertical: 15,
-                                    textAlign:
-                                        languageName === "en"
-                                            ? "left"
-                                            : "right",
-                                }}
-                                value={query}
-                                onChangeText={text => setQuery(text)}
-                            />
-                        </Box>
-                        <AppTouchable
-                            disabled={query.trim() === ""}
-                            disableText={
-                                translation.Locations.addTextInputAlert
-                            }
-                            onPress={handleAddLocation}>
-                            <Box
-                                width={30}
-                                height={30}
-                                alignItems="center"
-                                justifyContent="center"
-                                borderRadius="m"
-                                backgroundColor="secondBackground">
-                                <Check />
-                            </Box>
-                        </AppTouchable>
-                    </Box>
-                    <Box height={50} />
-                </AppBottomSheet> */}
+                {/* <InputSheet
+                isVisible={bottomSheetVisible}
+                onClose={handleBottomSheetClose}
+                onSubmit={handleAddLocation}
+                disableText={translation.Locations.addTextInputAlert}
+                placeholder={translation.Locations.addLocationTextInputPlaceholder}
+            /> */}
             </KeyboardAvoidingView>
         </Container>
     );

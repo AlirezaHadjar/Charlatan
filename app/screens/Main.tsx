@@ -1,12 +1,6 @@
 import React, {useEffect} from "react";
-import {Dimensions} from "react-native";
 import {useTheme} from "@shopify/restyle";
-import {StackNavigationProp} from "@react-navigation/stack";
-import {
-    CompositeNavigationProp,
-    RouteProp,
-    useFocusEffect,
-} from "@react-navigation/native";
+import {useFocusEffect} from "@react-navigation/native";
 
 import Box from "../theme/Box";
 import AppText from "../components/Text";
@@ -17,26 +11,14 @@ import Cog from "../assets/SVGs/Cog";
 import Question from "../assets/SVGs/Question";
 import Icon from "../components/Icon";
 import {ThemeType} from "../theme/Theme";
-import {AppRoute} from "../navigations/AppNavigator";
-import {GameRoutes} from "../navigations/GameNavigator";
 import {useTranslation} from "../hooks/translation";
 import {useAppDispatch} from "../store/configureStore";
 import {resetGame, setActiveGameId} from "../store/reducers/data";
 import AnimatedContainer from "../components/AnimatedContainer";
 import Animatable from "../components/Animatable";
+import {RootStackProps} from "../navigations/types";
 
-type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<AppRoute, "Main">,
-    StackNavigationProp<GameRoutes>
->;
-
-export type MainProps = {
-    navigation: NavigationProps;
-    route: RouteProp<AppRoute, "Main">;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const {height, width} = Dimensions.get("window");
+export type MainProps = RootStackProps<"Main">;
 
 const Main: React.FC<MainProps> = ({navigation}) => {
     const theme = useTheme<ThemeType>();

@@ -7,7 +7,6 @@ import {
     StyleSheet,
 } from "react-native";
 import {useDispatch} from "react-redux";
-import {TextInput} from "react-native-gesture-handler";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -23,14 +22,12 @@ import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import Icon from "../../components/Icon";
 import Plus from "../../assets/SVGs/Plus";
-import Check from "../../assets/SVGs/Check";
 import List from "../../components/list/player/List";
 import {useTranslation} from "../../hooks/translation";
 import {usePlayer} from "../../hooks/usePlayer";
-import {getLanguageName} from "../../store/reducers/language";
-import AppTouchable from "../../components/Touchable";
-import AppBottomSheet from "../../components/BottomSheet";
 import ItemCross from "../../components/ItemCross";
+import Animated, {Layout} from "react-native-reanimated";
+import InputSheet from "../../components/InputSheet";
 
 const {width} = Dimensions.get("window");
 
@@ -45,10 +42,8 @@ const styles = StyleSheet.create({
 const Players: React.FC = () => {
     const players = useSelector(getPlayers);
     const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
-    const languageName = useSelector(getLanguageName);
     const translation = useTranslation();
     const dispatch = useDispatch();
-    const [query, setQuery] = useState("");
 
     usePlayer(players);
 
@@ -95,11 +90,13 @@ const Players: React.FC = () => {
         },
         [handleRemovePlayer],
     );
-    const handleAddPlayer = useCallback(() => {
-        dispatch(addPlayer({en: query, fa: query}));
-        setQuery("");
-        setBottomSheetVisible(false);
-    }, [dispatch, query]);
+    const handleAddPlayer = useCallback(
+        (name: string) => {
+            dispatch(addPlayer({en: name, fa: name}));
+            setBottomSheetVisible(false);
+        },
+        [dispatch],
+    );
     const handlePlusPress = useCallback(() => {
         setBottomSheetVisible(true);
     }, []);
@@ -115,7 +112,7 @@ const Players: React.FC = () => {
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 style={{flex: 1}}>
                 <Box paddingHorizontal="m" flex={1} paddingBottom="m">
-                    <Box flex={1}>
+                    <Animated.View style={{flex: 1}} layout={Layout}>
                         <List
                             items={players}
                             end={<ItemCross disabled={players.length <= 3} />}
@@ -127,7 +124,7 @@ const Players: React.FC = () => {
                             onBlur={handleBlur}
                             onEndPress={handleRemovePlayer}
                         />
-                    </Box>
+                    </Animated.View>
                     <Box alignItems="flex-end">
                         <Icon
                             icon={<Plus />}
@@ -137,53 +134,13 @@ const Players: React.FC = () => {
                     </Box>
                 </Box>
             </KeyboardAvoidingView>
-            <AppBottomSheet
+            <InputSheet
                 isVisible={bottomSheetVisible}
-                onClose={handleBottomSheetClose}>
-                <Box
-                    width="100%"
-                    borderRadius="l"
-                    justifyContent="center"
-                    flexDirection="row"
-                    paddingHorizontal="m"
-                    alignItems="center"
-                    borderWidth={1}>
-                    <Box flex={1}>
-                        <TextInput
-                            maxLength={15}
-                            placeholder={
-                                translation.Players
-                                    .addPlayerTextInputPlaceholder
-                            }
-                            style={{
-                                fontFamily: "Kalameh Bold",
-                                fontWeight: "normal",
-                                paddingVertical: 15,
-                                width: "100%",
-                                textAlign:
-                                    languageName === "en" ? "left" : "right",
-                            }}
-                            value={query}
-                            onChangeText={text => setQuery(text)}
-                        />
-                    </Box>
-                    <AppTouchable
-                        onPress={handleAddPlayer}
-                        disabled={query.trim() === ""}
-                        disableText={translation.Players.addTextInputAlert}>
-                        <Box
-                            width={30}
-                            height={30}
-                            alignItems="center"
-                            justifyContent="center"
-                            borderRadius="m"
-                            backgroundColor="mainTextColor">
-                            <Check />
-                        </Box>
-                    </AppTouchable>
-                </Box>
-                <Box height={50} />
-            </AppBottomSheet>
+                onClose={handleBottomSheetClose}
+                onSubmit={handleAddPlayer}
+                disableText={translation.Players.addTextInputAlert}
+                placeholder={translation.Players.addPlayerTextInputPlaceholder}
+            />
         </Container>
     );
 };

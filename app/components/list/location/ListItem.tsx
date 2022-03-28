@@ -1,11 +1,18 @@
 import {useTheme} from "@shopify/restyle";
-import React from "react";
-import {Dimensions, Platform, StyleSheet, TextInput} from "react-native";
+import React, {useMemo} from "react";
+import {
+    Dimensions,
+    StyleProp,
+    StyleSheet,
+    TextStyle,
+    ViewStyle,
+} from "react-native";
 import Animated, {FadeInDown} from "react-native-reanimated";
 
 import Box from "../../../theme/Box";
 import theme, {ThemeType} from "../../../theme/Theme";
-import normalize from "../../../utils/normalizer";
+import {isNil} from "../../../utils/nil";
+import AppInput from "../../AppInput";
 import AppTouchable from "../../Touchable";
 
 export interface ListItemProps {
@@ -17,9 +24,10 @@ export interface ListItemProps {
     onChangeText?: (text: string, id: string) => void;
     onBlur?: (text: string, id: string) => void;
     backgroundColor: keyof typeof theme["colors"];
-    endDisabled: boolean;
+    endDisabled?: boolean;
     enabled: boolean;
     endDisableText: string;
+    containerStyle?: StyleProp<ViewStyle>;
 }
 
 const {width} = Dimensions.get("window");
@@ -46,8 +54,20 @@ const ListItem: React.FC<ListItemProps> = ({
     backgroundColor,
     endDisabled,
     endDisableText,
+    containerStyle,
 }) => {
     const theme = useTheme<ThemeType>();
+
+    const style: StyleProp<TextStyle> = useMemo(
+        () => ({
+            paddingTop: 0,
+            paddingBottom: 0,
+            textAlign: "center",
+            textAlignVertical: "top",
+            color: theme.colors.thirdText,
+        }),
+        [theme.colors.thirdText],
+    );
 
     return (
         <AppTouchable
@@ -58,6 +78,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 if (onEndPress) onEndPress(id);
             }}>
             <Animated.View
+                style={containerStyle}
                 entering={FadeInDown.duration(200)
                     .springify()
                     .delay(100 * index)}>
@@ -65,7 +86,6 @@ const ListItem: React.FC<ListItemProps> = ({
                     width={BOX_SIZE}
                     height={BOX_SIZE}
                     marginVertical="s"
-                    marginStart="s"
                     backgroundColor={backgroundColor}
                     alignItems="center"
                     borderRadius="l">
@@ -74,22 +94,13 @@ const ListItem: React.FC<ListItemProps> = ({
                         flex={1}
                         height="100%"
                         width="100%">
-                        <TextInput
+                        <AppInput
                             multiline
-                            onBlur={() => onBlur && onBlur(name, id)}
                             value={name}
+                            style={style}
+                            editable={!isNil(onChangeText)}
+                            onBlur={() => onBlur && onBlur(name, id)}
                             pointerEvents={onChangeText ? "auto" : "none"}
-                            maxLength={15}
-                            editable={onChangeText ? true : false}
-                            style={{
-                                paddingTop: Platform.OS === "ios" ? "45%" : 0,
-                                fontFamily: "Kalameh Bold",
-                                fontSize: normalize(18),
-                                fontWeight: "normal",
-                                color: theme.colors.thirdText,
-                                flex: 1,
-                                textAlign: "center",
-                            }}
                             onChangeText={text =>
                                 onChangeText && onChangeText(text, id)
                             }

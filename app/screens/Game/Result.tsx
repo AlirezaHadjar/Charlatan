@@ -1,12 +1,7 @@
 import React, {useCallback, useMemo} from "react";
 import {BackHandler, Dimensions, StyleSheet} from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-    CompositeNavigationProp,
-    RouteProp,
-    useFocusEffect,
-} from "@react-navigation/core";
-import {StackNavigationProp} from "@react-navigation/stack";
+import {useFocusEffect} from "@react-navigation/core";
 import {useSharedValue} from "react-native-reanimated";
 
 import Container from "../../components/Container";
@@ -22,25 +17,18 @@ import {Round, Winners} from "../../types";
 import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {useTranslation} from "../../hooks/translation";
-import {GameRoutes} from "../../navigations/GameNavigator";
 import GameBoard from "../../components/list/game/ListItem";
-import {AppRoute} from "../../navigations/AppNavigator";
 import Button from "../../components/Button";
+import {GameNavigatorStackProps} from "../../navigations/types";
 
-type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<GameRoutes, "AssignRole">,
-    StackNavigationProp<AppRoute>
->;
-
-export type ResultProps = {
-    navigation: NavigationProps;
-    route: RouteProp<AppRoute, "Main">;
-};
+export type ResultProps = GameNavigatorStackProps<"Result">;
 
 const {width, height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        paddingBottom: 0,
+    },
 });
 
 const BOX_HEIGHT = (height * 30) / 100;

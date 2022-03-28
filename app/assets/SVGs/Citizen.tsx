@@ -1,16 +1,21 @@
 /* eslint-disable max-len */
 import {useTheme} from "@shopify/restyle";
 import * as React from "react";
+import {Dimensions} from "react-native";
 import Svg, {G, Path, Circle, Rect} from "react-native-svg";
 
 import {ThemeType} from "../../theme/Theme";
 
-interface Props {
-    scale?: number;
-}
+const {width: SCREEN_WIDTH} = Dimensions.get("window");
+
+const DEFAULT_WIDTH = 360;
+const DEFAULT_HEIGHT = 360.475;
+const SCALE = Math.min(SCREEN_WIDTH / DEFAULT_WIDTH, 500);
 
 function SvgComponent() {
     const theme = useTheme<ThemeType>();
+    const width = React.useMemo(() => SCALE * DEFAULT_WIDTH, [SCALE]);
+    const height = React.useMemo(() => SCALE * DEFAULT_HEIGHT, [SCALE]);
     const color = {
         primary: theme.colors.characterPrimary,
         secondary: "#002741",
@@ -23,7 +28,10 @@ function SvgComponent() {
         skinDark: "#ed9f9d",
     };
     return (
-        <Svg width={360} height={360.475}>
+        <Svg
+            width={width}
+            height={height}
+            viewBox={`0 0 ${DEFAULT_WIDTH} ${DEFAULT_HEIGHT}`}>
             <G data-name="Group 23">
                 <Path data-name="Rectangle 1" d="M0 0h359.98v359.98H0z" />
                 <G data-name="Group 12">

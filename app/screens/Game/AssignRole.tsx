@@ -10,6 +10,8 @@ import {
 import Animated, {
     cancelAnimation,
     Easing,
+    FlipInXDown,
+    FlipInXUp,
     interpolate,
     runOnJS,
     useAnimatedStyle,
@@ -38,12 +40,11 @@ import {Location, User} from "../../types";
 import Pin from "../../assets/SVGs/Pin";
 import BackCross from "../../assets/SVGs/BackCross";
 import {useAppDispatch} from "../../store/configureStore";
-import {AppRoute} from "../../navigations/AppNavigator";
-import {GameRoutes} from "../../navigations/GameNavigator";
 import {useTranslation} from "../../hooks/translation";
 import {getLanguageName} from "../../store/reducers/language";
 import {setAlert} from "../../store/reducers/alert";
 import Animatable from "../../components/Animatable";
+import {GameNavigatorStackProps} from "../../navigations/types";
 
 const {width, height} = Dimensions.get("window");
 
@@ -51,15 +52,7 @@ const styles = StyleSheet.create({
     container: {},
 });
 
-type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<GameRoutes, "AssignRole">,
-    StackNavigationProp<AppRoute>
->;
-
-export type AssignRoleProps = {
-    navigation: NavigationProps;
-    route: RouteProp<AppRoute, "Main">;
-};
+export type AssignRoleProps = GameNavigatorStackProps<"AssignRole">;
 
 const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     const activeGameId = useSelector(getActiveGameId);
@@ -261,7 +254,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     );
     const selectedPlayerName = useMemo(
         () => (
-            <Animatable deps={[selectedPlayer]}>
+            <Animatable>
                 <AppText fontSize={normalize(40)} variant="semiBold">
                     {selectedPlayer.name[language]}
                 </AppText>
@@ -288,19 +281,17 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     });
 
     const roleStyles = useAnimatedStyle(() => {
-        const height = roleProgress.value === 1 ? undefined : 50;
+        const height = roleProgress.value === 1 ? 100 : 50;
         return {
             height,
             opacity: roleProgress.value,
-            transform: [{scaleY: roleProgress.value}],
         };
     }, [roleProgress.value]);
     const guideTextStyles = useAnimatedStyle(() => {
-        const height = roleProgress.value === 0 ? undefined : 50;
+        const height = roleProgress.value === 0 ? 50 : 0;
         return {
             height,
             opacity: 1 - roleProgress.value,
-            transform: [{scaleY: 1 - roleProgress.value}],
         };
     }, [roleProgress.value]);
 
@@ -336,10 +327,15 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 backgroundColor="secondBackground"
                             />
                             <Animatable deps={[roleIsHidden]}>
-                                <Animated.View style={roleStyles}>
+                                <Animated.View
+                                    style={roleStyles}
+                                    key={roleIsHidden ? 0 : 1}
+                                    entering={FlipInXDown.springify()}>
                                     {renderRole(selectedPlayer)}
                                 </Animated.View>
-                                <Animated.View style={guideTextStyles}>
+                                <Animated.View
+                                    entering={FlipInXUp.springify()}
+                                    style={guideTextStyles}>
                                     <AppText
                                         fontSize={normalize(20)}
                                         color="thirdText"

@@ -5,7 +5,7 @@ import {
 
 const transitionSpec: TransitionSpec = {
     animation: "timing",
-    config: {duration: 200},
+    config: {duration: 300},
 };
 
 export const screenOptions: StackNavigationOptions = {
@@ -14,7 +14,6 @@ export const screenOptions: StackNavigationOptions = {
         open: transitionSpec,
         close: transitionSpec,
     },
-    gestureEnabled: false,
     cardStyleInterpolator: ({current: {progress: opacity}}) => ({
         cardStyle: {opacity},
     }),

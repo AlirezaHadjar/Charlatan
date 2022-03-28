@@ -1,13 +1,8 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler, Vibration} from "react-native";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-    CompositeNavigationProp,
-    RouteProp,
-    useFocusEffect,
-} from "@react-navigation/core";
+import {useFocusEffect} from "@react-navigation/core";
 import {useDerivedValue, withTiming} from "react-native-reanimated";
-import {StackNavigationProp} from "@react-navigation/stack";
 
 import Header from "../../components/Header";
 import Container from "../../components/Container";
@@ -20,23 +15,14 @@ import AppText from "../../components/Text";
 import normalize from "../../utils/normalizer";
 import {useSelector} from "../../store/useSelector";
 import {getTime, resetGame} from "../../store/reducers/data";
-import {AppRoute} from "../../navigations/AppNavigator";
-import {GameRoutes} from "../../navigations/GameNavigator";
 import {useAppDispatch} from "../../store/configureStore";
 import {useTranslation} from "../../hooks/translation";
 import {setAlert} from "../../store/reducers/alert";
 import {useInterval} from "../../hooks/interval";
 import CircularProgressbar from "../../components/CircularProgressbar";
+import {GameNavigatorStackProps} from "../../navigations/types";
 
-type NavigationProps = CompositeNavigationProp<
-    StackNavigationProp<GameRoutes, "AssignRole">,
-    StackNavigationProp<AppRoute>
->;
-
-export type TimerProps = {
-    navigation: NavigationProps;
-    route: RouteProp<AppRoute, "Main">;
-};
+export type TimerProps = GameNavigatorStackProps<"Timer">;
 
 const {height, width} = Dimensions.get("window");
 const VISIBLE_TIPS = 3;

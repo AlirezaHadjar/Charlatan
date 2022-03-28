@@ -4,19 +4,17 @@ import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import Box, {RotatedBox} from "../../../theme/Box";
-import {LISTITEM_HEIGHT} from "../../../../SpyHunt";
+import {LISTITEM_HEIGHT} from "../../../../Constants";
 import AppText from "../../Text";
 import Chevron from "../../../assets/SVGs/Chevron";
-import {AppRoute} from "../../../navigations/AppNavigator";
-import {getLanguageName} from "../../../store/reducers/language";
-import {useSelector} from "../../../store/useSelector";
+import {RootStackParamList} from "../../../navigations/types";
 
 export interface ItemProps {
     icon: JSX.Element;
     title: string;
-    screen: keyof AppRoute;
+    screen: keyof RootStackParamList;
 }
-type Screen = StackNavigationProp<AppRoute>;
+type Screen = StackNavigationProp<RootStackParamList>;
 
 const styles = StyleSheet.create({
     container: {
@@ -26,7 +24,6 @@ const styles = StyleSheet.create({
 
 const Item: React.FC<ItemProps> = ({icon, title, screen}) => {
     const navigation = useNavigation<Screen>();
-    const language = useSelector(getLanguageName);
     return (
         <TouchableOpacity onPress={() => navigation.navigate(screen)}>
             <Box

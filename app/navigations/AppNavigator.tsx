@@ -13,29 +13,11 @@ import Settings from "../screens/Settings";
 import AboutUs from "../screens/Settings/AboutUs";
 import Language from "../screens/Settings/Language";
 
-import GameNavigator, {GameRoutes} from "./GameNavigator";
+import GameNavigator from "./GameNavigator";
 import {screenOptions} from "./config";
+import {RootStackParamList} from "./types";
 
-export type AppRoute = {
-    Settings: undefined;
-    Main: undefined;
-    Test: undefined;
-    Guide: undefined;
-    Players: undefined;
-    Time: undefined;
-    Locations: undefined;
-    GameNavigator: undefined;
-    SelectGame: undefined;
-    StartGame: undefined;
-    AboutUs: undefined;
-    Language: undefined;
-};
-
-interface Routes extends AppRoute, GameRoutes {}
-
-export type RouteName = keyof Routes;
-
-const Stack = createStackNavigator<AppRoute>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => (
     <Stack.Navigator initialRouteName="Main" screenOptions={screenOptions}>
@@ -45,10 +27,22 @@ const AppNavigator: React.FC = () => (
         <Stack.Screen component={Test} name="Test" />
         <Stack.Screen component={Players} name="Players" />
         <Stack.Screen component={Time} name="Time" />
-        <Stack.Screen component={SelectGame} name="SelectGame" />
-        <Stack.Screen component={StartGame} name="StartGame" />
+        <Stack.Screen
+            component={SelectGame}
+            name="SelectGame"
+            options={{gestureEnabled: false}}
+        />
+        <Stack.Screen
+            component={StartGame}
+            name="StartGame"
+            options={{gestureEnabled: false}}
+        />
         <Stack.Screen component={Locations} name="Locations" />
-        <Stack.Screen component={GameNavigator} name="GameNavigator" />
+        <Stack.Screen
+            component={GameNavigator}
+            name="GameNavigator"
+            options={{gestureEnabled: false}}
+        />
         <Stack.Screen component={AboutUs} name="AboutUs" />
         <Stack.Screen component={Language} name="Language" />
     </Stack.Navigator>
