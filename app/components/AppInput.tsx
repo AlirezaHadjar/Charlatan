@@ -3,7 +3,7 @@ import {useTheme} from "@shopify/restyle";
 import React, {forwardRef, useImperativeHandle, useMemo, useRef} from "react";
 import {TextInput, TextInputProps, TextStyle, StyleProp} from "react-native";
 import {Fonts} from "../constants/fonts";
-import {getIsRTL} from "../store/reducers/language";
+import {getLanguageRTL} from "../store/reducers/language";
 import {useSelector} from "../store/useSelector";
 import {ThemeType} from "../theme/Theme";
 import normalize from "../utils/normalizer";
@@ -19,7 +19,7 @@ export interface AppInputRef {
 const AppInput = forwardRef<AppInputRef, AppInputProps>(
     ({style, isInBottomSheet, ...props}, ref) => {
         const Input = isInBottomSheet ? BottomSheetTextInput : TextInput;
-        const isRTL = useSelector(getIsRTL);
+        const isRTL = useSelector(getLanguageRTL);
         const inputRef = useRef<TextInput>(null);
         const {spacing, colors} = useTheme<ThemeType>();
 

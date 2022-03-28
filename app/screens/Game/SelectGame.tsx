@@ -42,12 +42,14 @@ import {ThemeType} from "../../theme/Theme";
 import DigitControl from "../../components/DigitControl";
 import AppInput from "../../components/AppInput";
 import {RootStackProps} from "../../navigations/types";
+import {getLanguageRTL} from "../../store/reducers/language";
 
 const {width, height} = Dimensions.get("window");
 
 export type SelectGameProps = RootStackProps<"SelectGame">;
 
 const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
+    const isRTL = useSelector(getLanguageRTL);
     const theme = useTheme<ThemeType>();
     const dispatch = useAppDispatch();
     const games = useSelector(getGames);
@@ -143,8 +145,8 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                     </Box>
                 )}
                 <Button
-                    alignSelf="flex-end"
-                    marginEnd="m"
+                    alignSelf={isRTL ? "flex-start" : "flex-end"}
+                    marginRight="m"
                     fontSize={normalize(18)}
                     reverse
                     variant="simple"
@@ -201,7 +203,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                 </Box>
                 <Box flex={1} />
                 <Button
-                    alignSelf="flex-end"
+                    alignSelf={isRTL ? "flex-start" : "flex-end"}
                     fontSize={normalize(18)}
                     variant="simple"
                     title={translation.SelectGame.nextButtonTitle}

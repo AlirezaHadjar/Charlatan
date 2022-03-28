@@ -146,7 +146,7 @@ const Alert: React.FC = () => {
                         textAlign="center">
                         {alert.text}
                     </AppText>
-                    <Box flexDirection="row" marginTop="s">
+                    <Box flexDirection="row-reverse" marginTop="s">
                         <TouchableOpacity
                             style={styles.askButton}
                             onPress={() => handlePress(alert, handleAccept)}>

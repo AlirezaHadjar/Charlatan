@@ -1,7 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import CheckIcon from "../assets/SVGs/Check";
-import {getIsRTL} from "../store/reducers/language";
-import {useSelector} from "../store/useSelector";
 import Box from "../theme/Box";
 import AppInput, {AppInputRef} from "./AppInput";
 import AppBottomSheet, {BottomSheetProps} from "./BottomSheet";
@@ -22,7 +20,6 @@ const InputSheet: React.FC<InputSheetProps> = ({
     const inputRef = useRef<AppInputRef>(null);
     const [query, setQuery] = useState("");
     const disabled = query.trim() === "";
-    const isRTL = useSelector(getIsRTL);
 
     const handleSubmit = () => {
         if (disabled) return;
@@ -46,7 +43,7 @@ const InputSheet: React.FC<InputSheetProps> = ({
                 alignItems="center"
                 paddingHorizontal="m"
                 justifyContent="center"
-                flexDirection={isRTL ? "row-reverse" : "row"}>
+                flexDirection={"row"}>
                 <Box flex={1}>
                     <AppInput
                         value={query}
