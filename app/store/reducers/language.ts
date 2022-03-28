@@ -1,13 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createSelector} from "reselect";
 
-import {languageDatas} from "../../language";
+import {languageDatas, rtlLanguages} from "../../language";
 import {Language, LanguageName} from "../../types";
 import {AppState} from "../reducer";
 
 const initialState: Language = {
     name: "en",
     data: languageDatas.en,
+    isRTL: false,
 };
 
 const slice = createSlice({
@@ -15,8 +16,10 @@ const slice = createSlice({
     initialState,
     reducers: {
         setLanguage: (language, {payload}: PayloadAction<LanguageName>) => {
+            const isRTL = rtlLanguages.includes(payload);
             language.name = payload;
             language.data = languageDatas[payload];
+            language.isRTL = isRTL;
         },
     },
 });
@@ -33,7 +36,7 @@ export const getLanguageData = createSelector(
     (state: AppState) => state.entities.language,
     (language: Language) => language.data,
 );
-export const getIsRTL = createSelector(
+export const getLanguageRTL = createSelector(
     (state: AppState) => state.entities.language,
-    (language: Language) => language.name === "fa",
+    (language: Language) => language.isRTL,
 );

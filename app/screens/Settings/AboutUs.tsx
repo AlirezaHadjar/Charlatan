@@ -32,11 +32,6 @@ const AboutUs: React.FC = () => {
         },
     ];
 
-    const alignItems = language === "en" ? "flex-start" : "flex-end";
-    const flexDirection = language === "en" ? "row" : "row-reverse";
-    const marginStart = language === "en" ? undefined : "m";
-    const marginEnd = language === "en" ? "m" : undefined;
-
     const handleEmail = async (email: string) => {
         const url = `mailto:${email}`;
 
@@ -58,7 +53,7 @@ const AboutUs: React.FC = () => {
                         <Box flex={1}>
                             {data.map(person => (
                                 <Box
-                                    alignItems={alignItems}
+                                    alignItems="flex-start"
                                     marginBottom="m"
                                     key={person.name}>
                                     <Box>
@@ -67,7 +62,7 @@ const AboutUs: React.FC = () => {
                                         </AppText>
                                     </Box>
                                     <Box
-                                        alignItems={alignItems}
+                                        alignItems="flex-start"
                                         marginVertical="s">
                                         <AppText>{person.name}</AppText>
                                         <TouchableOpacity
@@ -82,12 +77,10 @@ const AboutUs: React.FC = () => {
                                 </Box>
                             ))}
                             <Box
-                                flexDirection={flexDirection}
+                                flexDirection="row"
                                 alignItems="center"
                                 marginVertical="m">
-                                <Box
-                                    marginEnd={marginEnd}
-                                    marginStart={marginStart}>
+                                <Box marginEnd="m">
                                     <Email />
                                 </Box>
                                 <TouchableOpacity

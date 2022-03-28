@@ -1,11 +1,10 @@
 import {useTheme} from "@shopify/restyle";
 import React from "react";
-import {Dimensions, FlatList, View} from "react-native";
+import {Dimensions} from "react-native";
 import Animated from "react-native-reanimated";
 
 import {getLanguageName} from "../../../store/reducers/language";
 import {useSelector} from "../../../store/useSelector";
-import Box from "../../../theme/Box";
 import {ThemeType} from "../../../theme/Theme";
 import {Location} from "../../../types";
 

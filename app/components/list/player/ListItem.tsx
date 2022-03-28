@@ -1,6 +1,5 @@
 import React from "react";
 import {useTheme} from "@shopify/restyle";
-import {TextInput} from "react-native";
 import {
     Easing,
     Layout,
@@ -9,11 +8,8 @@ import {
 } from "react-native-reanimated";
 
 import {LISTITEM_HEIGHT} from "../../../../Constants";
-import {getLanguageName} from "../../../store/reducers/language";
-import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
 import theme, {ThemeType} from "../../../theme/Theme";
-import normalize from "../../../utils/normalizer";
 import AppTouchable from "../../Touchable";
 import AppInput from "../../AppInput";
 
@@ -45,7 +41,6 @@ const ListItem: React.FC<ListItemProps> = ({
     endDisableText,
 }) => {
     const theme = useTheme<ThemeType>();
-    const language = useSelector(getLanguageName);
 
     return (
         <AppTouchable
@@ -66,7 +61,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 marginVertical="s"
                 paddingHorizontal="m"
                 backgroundColor={backgroundColor}
-                flexDirection={language === "en" ? "row" : "row-reverse"}
+                flexDirection={"row"}
                 alignItems="center"
                 borderRadius="l">
                 <Box justifyContent="center" height="100%">
@@ -94,8 +89,7 @@ const ListItem: React.FC<ListItemProps> = ({
                     <Box
                         justifyContent="center"
                         height="100%"
-                        marginEnd={language === "en" ? undefined : "s"}
-                        marginStart={language === "en" ? "s" : undefined}>
+                        marginStart={"s"}>
                         {end}
                     </Box>
                 </AppTouchable>

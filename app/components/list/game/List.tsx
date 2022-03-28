@@ -5,11 +5,13 @@ import Animated, {
     useSharedValue,
 } from "react-native-reanimated";
 
+import {useRTL} from "../../../hooks/isRTL";
 import {getPlayers} from "../../../store/reducers/data";
 import {useSelector} from "../../../store/useSelector";
 import Box from "../../../theme/Box";
 import {Game} from "../../../types";
 import {ListIndicator} from "../ListIndicator";
+import AppFlatList from "../../FlatList";
 
 import ListItem from "./ListItem";
 
@@ -24,14 +26,23 @@ const CONTAINER_WIDTH = width;
 const BOX_HEIGHT = (height * 56) / 100;
 const BOX_WIDTH = (width * 73) / 100;
 const MARGIN = (width * 3) / 100;
+const wholeWidth = BOX_WIDTH + 2 * MARGIN;
 
 const AnimatedFlatList =
-    Animated.createAnimatedComponent<Readonly<FlatListProps<Game>>>(FlatList);
+    Animated.createAnimatedComponent<Readonly<FlatListProps<Game>>>(
+        AppFlatList,
+    );
+
+const styles = StyleSheet.create({
+    flatlist: {
+        paddingHorizontal: CONTAINER_WIDTH / 2 - BOX_WIDTH / 2 - MARGIN,
+    },
+});
 
 const List: React.FC<ListProps> = ({items, onPress}) => {
+    const isRTL = useRTL();
     const offsetX = useSharedValue(0);
     const users = useSelector(getPlayers);
-    const wholeWidth = BOX_WIDTH + 2 * MARGIN;
 
     const scrollHandler = useAnimatedScrollHandler(
         {
@@ -44,11 +55,6 @@ const List: React.FC<ListProps> = ({items, onPress}) => {
         [],
     );
 
-    const styles = StyleSheet.create({
-        flatlist: {
-            paddingHorizontal: CONTAINER_WIDTH / 2 - BOX_WIDTH / 2 - MARGIN,
-        },
-    });
     return (
         <Box
             width={CONTAINER_WIDTH}
@@ -60,6 +66,7 @@ const List: React.FC<ListProps> = ({items, onPress}) => {
                 data={items}
                 scrollEventThrottle={16}
                 onScroll={scrollHandler}
+                inverted={isRTL}
                 overScrollMode="never"
                 snapToInterval={wholeWidth}
                 pagingEnabled

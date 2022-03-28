@@ -115,6 +115,7 @@ export type LanguageData = typeof languageDatas[keyof typeof languageDatas];
 export interface Language {
     name: LanguageName;
     data: LanguageData;
+    isRTL: boolean;
 }
 
 export interface PickerRef {

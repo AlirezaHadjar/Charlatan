@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import {Dimensions, StyleSheet, View, ScrollView} from "react-native";
 import Animated, {
@@ -5,6 +7,8 @@ import Animated, {
     useAnimatedRef,
     useDerivedValue,
 } from "react-native-reanimated";
+
+import AppFlatList from "../../FlatList";
 
 import ListItem from "./ListItem";
 
@@ -24,8 +28,9 @@ const List: React.FC<Props> = ({
     itemWidth = width,
     maxWidth = (width * 40) / 100,
 }) => {
-    const aref = useAnimatedRef<ScrollView>();
+    const aref = useAnimatedRef<AppFlatList>();
     useDerivedValue(() => {
+        //@ts-ignore
         scrollTo(aref, Math.ceil(offsetX.value / itemWidth) * SIZE, 0, true);
     }, [offsetX.value]);
     const styles = StyleSheet.create({
@@ -39,22 +44,22 @@ const List: React.FC<Props> = ({
 
     return (
         <View style={styles.container}>
-            <ScrollView
+            <AppFlatList
                 horizontal
                 ref={aref}
                 showsHorizontalScrollIndicator={false}
-                scrollEnabled={false}>
-                {new Array(itemsLength).fill(0).map((_, index) => {
-                    return (
-                        <ListItem
-                            key={index}
-                            index={index}
-                            itemWidth={itemWidth}
-                            offsetX={offsetX}
-                        />
-                    );
-                })}
-            </ScrollView>
+                keyExtractor={(_, index) => index.toString()}
+                scrollEnabled={false}
+                data={new Array(itemsLength).fill(0)}
+                renderItem={({index}) => (
+                    <ListItem
+                        key={index}
+                        index={index}
+                        itemWidth={itemWidth}
+                        offsetX={offsetX}
+                    />
+                )}
+            />
         </View>
     );
 };

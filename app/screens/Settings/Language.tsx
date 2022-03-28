@@ -62,10 +62,6 @@ const Language: React.FC = ({}) => {
         };
     }, [translationY.value]);
 
-    const flexDirection = language === "en" ? "row" : "row-reverse";
-    const paddingStart = language === "en" ? undefined : "m";
-    const paddingEnd = language === "en" ? "m" : undefined;
-
     return (
         <Container style={styles.container}>
             <Header screenName={translation.Language.title} />
@@ -82,11 +78,9 @@ const Language: React.FC = ({}) => {
                                 width="100%"
                                 height={HEIGHT}
                                 paddingHorizontal="m"
-                                flexDirection={flexDirection}
+                                flexDirection="row"
                                 alignItems="center">
-                                <Box
-                                    paddingStart={paddingStart}
-                                    paddingEnd={paddingEnd}>
+                                <Box paddingEnd="m">
                                     {getLanguageFlag(language)}
                                 </Box>
                                 <AppText fontSize={normalize(26)}>

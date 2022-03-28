@@ -1,8 +1,7 @@
 import {TextProps} from "@shopify/restyle";
 import React from "react";
 
-import {getLanguageName} from "../store/reducers/language";
-import {useSelector} from "../store/useSelector";
+import {useRTL} from "../hooks/isRTL";
 import Text from "../theme/StyledText";
 import {ThemeType} from "../theme/Theme";
 
@@ -17,8 +16,8 @@ const AppText: React.FC<Props> = ({
     textAlign,
     ...otherProps
 }) => {
-    const language = useSelector(getLanguageName);
-    const alignText = language === "en" ? "auto" : "right";
+    const isRTL = useRTL();
+    const alignText = isRTL ? "auto" : "right";
     return (
         <Text
             variant={variant}

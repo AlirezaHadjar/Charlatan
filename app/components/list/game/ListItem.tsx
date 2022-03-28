@@ -112,9 +112,6 @@ const ListItem: React.FC<ListItemProps> = ({
         return `(${previousScore} + ${diff})  ${score}`;
     };
 
-    const alignItems = language === "en" ? "flex-start" : "flex-end";
-    const flexDirection = language === "en" ? "row" : "row-reverse";
-
     return (
         <Pressable
             onPress={() => onPress && onPress(item.id)}
@@ -164,9 +161,9 @@ const ListItem: React.FC<ListItemProps> = ({
                                     width="100%"
                                     marginBottom="s"
                                     justifyContent="space-between"
-                                    flexDirection={flexDirection}
+                                    flexDirection="row"
                                     alignItems="center">
-                                    <Box alignItems={alignItems}>
+                                    <Box alignItems="flex-start">
                                         <AppText
                                             variant="bold"
                                             fontSize={normalize(18)}
@@ -192,13 +189,13 @@ const ListItem: React.FC<ListItemProps> = ({
                                 paddingHorizontal="l"
                                 width="100%"
                                 justifyContent="space-between"
-                                flexDirection={flexDirection}
+                                flexDirection="row"
                                 alignItems="center">
                                 <Player />
                                 <Box
                                     flex={1}
                                     marginHorizontal="m"
-                                    alignItems={alignItems}>
+                                    alignItems="flex-start">
                                     <AppText
                                         variant="bold"
                                         fontSize={normalize(22)}

@@ -7,7 +7,7 @@ import {useDerivedValue, withTiming} from "react-native-reanimated";
 import Header from "../../components/Header";
 import Container from "../../components/Container";
 import Button from "../../components/Button";
-import Box from "../../theme/Box";
+import Box, {RotatedBox} from "../../theme/Box";
 import Stop from "../../assets/SVGs/Stop";
 import BackCross from "../../assets/SVGs/BackCross";
 import Play from "../../assets/SVGs/Play";
@@ -200,7 +200,9 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                             backgroundColor="secondBackground"
                             height={(width * 20) / 100}
                             width={(width * 40) / 100}>
-                            <Play scale={0.4} />
+                            <RotatedBox>
+                                <Play scale={0.4} />
+                            </RotatedBox>
                         </Button>
                     </Box>
                 )}

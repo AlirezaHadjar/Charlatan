@@ -8,13 +8,15 @@ const transitionSpec: TransitionSpec = {
     config: {duration: 300},
 };
 
-export const screenOptions: StackNavigationOptions = {
-    headerShown: false,
-    transitionSpec: {
-        open: transitionSpec,
-        close: transitionSpec,
-    },
-    cardStyleInterpolator: ({current: {progress: opacity}}) => ({
-        cardStyle: {opacity},
-    }),
-};
+export const getScreenOptions: (isRTL: boolean) => StackNavigationOptions =
+    isRTL => ({
+        headerShown: false,
+        transitionSpec: {
+            open: transitionSpec,
+            close: transitionSpec,
+        },
+        gestureDirection: isRTL ? "horizontal-inverted" : "horizontal",
+        cardStyleInterpolator: ({current: {progress: opacity}}) => ({
+            cardStyle: {opacity},
+        }),
+    });

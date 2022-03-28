@@ -14,38 +14,45 @@ import AboutUs from "../screens/Settings/AboutUs";
 import Language from "../screens/Settings/Language";
 
 import GameNavigator from "./GameNavigator";
-import {screenOptions} from "./config";
+import {getScreenOptions} from "./config";
 import {RootStackParamList} from "./types";
+import {useSelector} from "../store/useSelector";
+import {getLanguageRTL} from "../store/reducers/language";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-const AppNavigator: React.FC = () => (
-    <Stack.Navigator initialRouteName="Main" screenOptions={screenOptions}>
-        <Stack.Screen component={Main} name="Main" />
-        <Stack.Screen component={Settings} name="Settings" />
-        <Stack.Screen component={Guide} name="Guide" />
-        <Stack.Screen component={Test} name="Test" />
-        <Stack.Screen component={Players} name="Players" />
-        <Stack.Screen component={Time} name="Time" />
-        <Stack.Screen
-            component={SelectGame}
-            name="SelectGame"
-            options={{gestureEnabled: false}}
-        />
-        <Stack.Screen
-            component={StartGame}
-            name="StartGame"
-            options={{gestureEnabled: false}}
-        />
-        <Stack.Screen component={Locations} name="Locations" />
-        <Stack.Screen
-            component={GameNavigator}
-            name="GameNavigator"
-            options={{gestureEnabled: false}}
-        />
-        <Stack.Screen component={AboutUs} name="AboutUs" />
-        <Stack.Screen component={Language} name="Language" />
-    </Stack.Navigator>
-);
+const AppNavigator: React.FC = () => {
+    const isRTL = useSelector(getLanguageRTL);
+    return (
+        <Stack.Navigator
+            initialRouteName="Main"
+            screenOptions={getScreenOptions(isRTL)}>
+            <Stack.Screen component={Main} name="Main" />
+            <Stack.Screen component={Settings} name="Settings" />
+            <Stack.Screen component={Guide} name="Guide" />
+            <Stack.Screen component={Test} name="Test" />
+            <Stack.Screen component={Players} name="Players" />
+            <Stack.Screen component={Time} name="Time" />
+            <Stack.Screen
+                component={SelectGame}
+                name="SelectGame"
+                options={{gestureEnabled: false}}
+            />
+            <Stack.Screen
+                component={StartGame}
+                name="StartGame"
+                options={{gestureEnabled: false}}
+            />
+            <Stack.Screen component={Locations} name="Locations" />
+            <Stack.Screen
+                component={GameNavigator}
+                name="GameNavigator"
+                options={{gestureEnabled: false}}
+            />
+            <Stack.Screen component={AboutUs} name="AboutUs" />
+            <Stack.Screen component={Language} name="Language" />
+        </Stack.Navigator>
+    );
+};
 
 export default AppNavigator;

@@ -26,7 +26,7 @@ import {
     resetScores,
 } from "../../store/reducers/data";
 import {useSelector} from "../../store/useSelector";
-import Box from "../../theme/Box";
+import Box, {RotatedBox} from "../../theme/Box";
 import {useAppDispatch} from "../../store/configureStore";
 import Button from "../../components/Button";
 import {useTranslation} from "../../hooks/translation";
@@ -42,12 +42,14 @@ import {ThemeType} from "../../theme/Theme";
 import DigitControl from "../../components/DigitControl";
 import AppInput from "../../components/AppInput";
 import {RootStackProps} from "../../navigations/types";
+import {getLanguageRTL} from "../../store/reducers/language";
 
 const {width, height} = Dimensions.get("window");
 
 export type SelectGameProps = RootStackProps<"SelectGame">;
 
 const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
+    const isRTL = useSelector(getLanguageRTL);
     const theme = useTheme<ThemeType>();
     const dispatch = useAppDispatch();
     const games = useSelector(getGames);
@@ -143,8 +145,8 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                     </Box>
                 )}
                 <Button
-                    alignSelf="flex-end"
-                    marginEnd="m"
+                    alignSelf={isRTL ? "flex-start" : "flex-end"}
+                    marginRight="m"
                     fontSize={normalize(18)}
                     reverse
                     variant="simple"
@@ -201,7 +203,7 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                 </Box>
                 <Box flex={1} />
                 <Button
-                    alignSelf="flex-end"
+                    alignSelf={isRTL ? "flex-start" : "flex-end"}
                     fontSize={normalize(18)}
                     variant="simple"
                     title={translation.SelectGame.nextButtonTitle}
@@ -211,7 +213,9 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                     backgroundColor="secondBackground"
                     height={(width * 15) / 100}
                     width={(width * 31) / 100}>
-                    <Play scale={0.4} />
+                    <RotatedBox>
+                        <Play scale={0.4} />
+                    </RotatedBox>
                 </Button>
             </Box>
         );
@@ -325,7 +329,9 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                         {!selectedGame.isNew ? (
                             <Refresh scale={1} />
                         ) : (
-                            <Play scale={0.4} />
+                            <RotatedBox>
+                                <Play scale={0.4} />
+                            </RotatedBox>
                         )}
                     </Button>
                     {selectedGame.currentRoundIndex <
@@ -341,7 +347,9 @@ const SelectGame: React.FC<SelectGameProps> = ({navigation}) => {
                                 fontSize={normalize(18)}
                                 width={(width * 40) / 100}
                                 height={(height * 8) / 100}>
-                                <Play scale={0.4} />
+                                <RotatedBox>
+                                    <Play scale={0.4} />
+                                </RotatedBox>
                             </Button>
                         )}
                 </Box>

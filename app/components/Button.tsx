@@ -96,7 +96,7 @@ const Button: React.FC<ButtonProps> = ({
         const inside = (
             <Box
                 flexDirection={reverse ? "row-reverse" : "row"}
-                paddingStart={paddingIconText}
+                paddingLeft={paddingIconText}
                 alignItems="center">
                 {title !== "" && (
                     <Box alignItems="center" justifyContent="center" flex={1}>

@@ -25,7 +25,7 @@ import Play from "../../assets/SVGs/Play";
 import Eye from "../../assets/SVGs/Eye";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
-import Box from "../../theme/Box";
+import Box, {RotatedBox} from "../../theme/Box";
 import normalize from "../../utils/normalizer";
 import {useSelector} from "../../store/useSelector";
 import {
@@ -213,7 +213,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 backgroundColor="secondBackground"
                 height={(width * 15) / 100}
                 width={(width * 31) / 100}>
-                <Play scale={0.4} />
+                <RotatedBox>
+                    <Play scale={0.4} />
+                </RotatedBox>
             </Button>
         );
     }, [

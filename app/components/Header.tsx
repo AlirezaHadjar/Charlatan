@@ -4,7 +4,7 @@ import React, {useCallback} from "react";
 import {Dimensions, Pressable} from "react-native";
 
 import ArrowLeft from "../assets/SVGs/ArrowLeft";
-import Box from "../theme/Box";
+import Box, {RotatedBox} from "../theme/Box";
 import normalize from "../utils/normalizer";
 
 import Animatable from "./Animatable";
@@ -44,14 +44,14 @@ const Header: React.FC<HeaderProps> = ({
                         height="100%"
                         justifyContent="space-between">
                         <Pressable onPress={handlePress} hitSlop={10}>
-                            <Box
+                            <RotatedBox
                                 marginEnd="m"
                                 zIndex={1}
                                 height="100%"
                                 alignItems="center"
                                 justifyContent="center">
                                 {icon}
-                            </Box>
+                            </RotatedBox>
                         </Pressable>
                         <Box
                             zIndex={-1}
