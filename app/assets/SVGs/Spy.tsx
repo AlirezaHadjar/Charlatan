@@ -6,20 +6,16 @@ import Svg, {G, Path, Circle, Rect, Ellipse} from "react-native-svg";
 
 import {ThemeType} from "../../theme/Theme";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get("window");
+const {width: SCREEN_WIDTH} = Dimensions.get("window");
 
 const DEFAULT_WIDTH = 360;
 const DEFAULT_HEIGHT = 360.475;
+const SCALE = Math.min(SCREEN_WIDTH / DEFAULT_WIDTH, 500);
 
-interface Props {
-    scale?: number;
-}
-
-function SvgComponent({scale = 1}: Props) {
+function SvgComponent() {
     const theme = useTheme<ThemeType>();
-    const width = React.useMemo(() => scale * DEFAULT_WIDTH, [scale]);
-    const height = React.useMemo(() => scale * DEFAULT_HEIGHT, [scale]);
+    const width = React.useMemo(() => SCALE * DEFAULT_WIDTH, [SCALE]);
+    const height = React.useMemo(() => SCALE * DEFAULT_HEIGHT, [SCALE]);
     const color = {
         primary: theme.colors.characterPrimary,
         secondary: "#002741",
@@ -32,7 +28,10 @@ function SvgComponent({scale = 1}: Props) {
         skinDark: "#ed9f9d",
     };
     return (
-        <Svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        <Svg
+            width={width}
+            height={height}
+            viewBox={`0 0 ${DEFAULT_WIDTH} ${DEFAULT_HEIGHT}`}>
             <G data-name="Group 23">
                 <Path data-name="Rectangle 1" d="M0 0h359.98v359.98H0z" />
                 <G data-name="Group 12">
@@ -303,5 +302,5 @@ function SvgComponent({scale = 1}: Props) {
     );
 }
 
-const MemoSvgComponent = React.memo(SvgComponent);
-export default MemoSvgComponent;
+const SpyBackgroundIcon = React.memo(SvgComponent);
+export default SpyBackgroundIcon;
