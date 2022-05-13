@@ -18,15 +18,16 @@ import {getScreenOptions} from "./config";
 import {RootStackParamList} from "./types";
 import {useSelector} from "../store/useSelector";
 import {getLanguageRTL} from "../store/reducers/language";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
     const isRTL = useSelector(getLanguageRTL);
     return (
         <Stack.Navigator
             initialRouteName="Main"
-            screenOptions={getScreenOptions(isRTL)}>
+            screenOptions={{headerShown: false}}>
             <Stack.Screen component={Main} name="Main" />
             <Stack.Screen component={Settings} name="Settings" />
             <Stack.Screen component={Guide} name="Guide" />
