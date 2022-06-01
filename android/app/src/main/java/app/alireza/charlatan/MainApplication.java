@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import app.alireza.charlatan.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.facebook.react.modules.i18nmanager.I18nUtil;
 
 public class MainApplication extends Application implements ReactApplication {
 
