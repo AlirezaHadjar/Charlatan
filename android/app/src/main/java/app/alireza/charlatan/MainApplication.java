@@ -11,9 +11,6 @@ import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
 import app.alireza.charlatan.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
-import com.facebook.react.bridge.JSIModulePackage;
-import com.swmansion.reanimated.ReanimatedJSIModulePackage;
-import com.facebook.react.modules.i18nmanager.I18nUtil;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -38,15 +35,10 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
-
-        @Override
-        protected JSIModulePackage getJSIModulePackage() {
-          return new ReanimatedJSIModulePackage();
-        }
       };
 
   private final ReactNativeHost mNewArchitectureNativeHost =
-    new MainApplicationReactNativeHost(this);
+      new MainApplicationReactNativeHost(this);
 
   @Override
   public ReactNativeHost getReactNativeHost() {
@@ -64,7 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-
+    
     I18nUtil sharedI18nUtilInstance = I18nUtil.getInstance();
     sharedI18nUtilInstance.forceRTL(this,false);
     sharedI18nUtilInstance.allowRTL(this, false);

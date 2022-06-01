@@ -35,7 +35,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   RCTAppSetupPrepareApp(application);
   [[RCTI18nUtil sharedInstance] allowRTL:NO];
   [[RCTI18nUtil sharedInstance] forceRTL:NO];
-  
+
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
 #if RCT_NEW_ARCH_ENABLED
