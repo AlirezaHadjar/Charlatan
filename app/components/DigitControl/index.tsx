@@ -2,6 +2,7 @@ import {useTheme} from "@shopify/restyle";
 import React from "react";
 import {Dimensions} from "react-native";
 import Animated, {FlipInXDown, FlipInXUp} from "react-native-reanimated";
+
 import MinusIcon from "../../assets/SVGs/Minus";
 import PlusIcon from "../../assets/SVGs/Plus";
 import usePrevious from "../../hooks/previous";
@@ -80,7 +81,8 @@ const DigitControl: React.FC<DigitControlProps> = ({
                 entering={enteringAnimation}>
                 <AppText
                     variant="bold"
-                    fontSize={normalize(30)}
+                    textAlign="center"
+                    fontSize={normalize(25)}
                     color={backgroundColor}>
                     {value}
                 </AppText>

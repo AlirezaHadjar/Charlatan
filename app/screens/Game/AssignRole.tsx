@@ -1,12 +1,7 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler} from "react-native";
-import {StackNavigationProp} from "@react-navigation/stack";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-    CompositeNavigationProp,
-    RouteProp,
-    useFocusEffect,
-} from "@react-navigation/core";
+import {useFocusEffect} from "@react-navigation/core";
 import Animated, {
     cancelAnimation,
     Easing,
@@ -91,7 +86,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     );
 
     const selectedPlayer = useMemo(() => {
-        return modifiedPlayers.find(pl => pl.selected);
+        //TODO: Look into this and make it safer
+        return modifiedPlayers.find(pl => pl.selected)!;
     }, [modifiedPlayers]);
 
     const isLast = useMemo(() => {
@@ -118,7 +114,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         [translation.AssignRole.spy],
     );
     const renderCitizen = useCallback(
-        (location: Location) => (
+        (location?: Location) => (
             <Box alignItems="center">
                 <AppText
                     fontSize={normalize(75)}
@@ -164,7 +160,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     ]);
     const renderRole = useCallback(
         (player: User) => {
-            if (spiesIds.includes(player.id)) return renderSpy();
+            if (spiesIds.includes(player.id)) {
+                return renderSpy();
+            }
             return renderCitizen(location);
         },
         [location, renderCitizen, renderSpy, spiesIds],
@@ -173,9 +171,11 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         const clonedPlayers = [...modifiedPlayers];
         const index = clonedPlayers.indexOf(selectedPlayer);
         const isLast = index === clonedPlayers.length - 1;
-        if (isLast) return navigation.navigate("Timer");
+        if (isLast) {
+            return navigation.navigate("Timer");
+        }
         clonedPlayers.map(pl => (pl.selected = false));
-        clonedPlayers[index + 1].selected = true;
+        clonedPlayers[index + 1]!.selected = true;
         setRoleDisplayed(false);
         setModifiedPlayers(clonedPlayers);
     }, [modifiedPlayers, navigation, selectedPlayer]);
@@ -185,7 +185,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             {duration: 500, easing: Easing.ease},
             () => {
                 runOnJS(changePlayer)();
-                if (isLastAnimated.value) return;
+                if (isLastAnimated.value) {
+                    return;
+                }
                 transition.value = withTiming(
                     1,
                     {duration: 500, easing: Easing.ease},
@@ -195,6 +197,7 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                 );
             },
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [changePlayer, isLastAnimated.value, transition.value]);
 
     const renderButton = useCallback(() => {
@@ -313,7 +316,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 marginTop="l"
                                 onPressIn={() => {
                                     cancelAnimation(roleProgress);
-                                    if (!roleDisplayed) setRoleDisplayed(true);
+                                    if (!roleDisplayed) {
+                                        setRoleDisplayed(true);
+                                    }
                                     setRoleIsHidden(false);
                                 }}
                                 onPressOut={() => {
@@ -326,16 +331,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                 title=""
                                 backgroundColor="secondBackground"
                             />
-                            <Animatable deps={[roleIsHidden]}>
-                                <Animated.View
-                                    style={roleStyles}
-                                    key={roleIsHidden ? 0 : 1}
-                                    entering={FlipInXDown.springify()}>
-                                    {renderRole(selectedPlayer)}
-                                </Animated.View>
-                                <Animated.View
-                                    entering={FlipInXUp.springify()}
-                                    style={guideTextStyles}>
+
+                            {roleIsHidden ? (
+                                <Animated.View key="role1" layout={FlipInXDown}>
                                     <AppText
                                         fontSize={normalize(20)}
                                         color="thirdText"
@@ -348,7 +346,11 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                                   .seeRoleGuide}
                                     </AppText>
                                 </Animated.View>
-                            </Animatable>
+                            ) : (
+                                <Animated.View key="role1" layout={FlipInXUp}>
+                                    {renderRole(selectedPlayer)}
+                                </Animated.View>
+                            )}
                         </Box>
                     </Animated.View>
                 </Box>

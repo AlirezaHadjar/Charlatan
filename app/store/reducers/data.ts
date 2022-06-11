@@ -43,14 +43,18 @@ const slice = createSlice({
         },
         removePlayer: (data, {payload: id}: PayloadAction<string>) => {
             const index = data.players.findIndex(player => player.id === id);
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             data.players.splice(index, 1);
         },
         editPlayer: (data, {payload}: PayloadAction<Partial<User>>) => {
             const index = data.players.findIndex(
                 player => player.id === payload.id,
             );
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             data.players[index] = Object.assign(data.players[index], payload);
         },
         setActiveGameId: (data, {payload}: PayloadAction<string>) => {
@@ -63,8 +67,9 @@ const slice = createSlice({
             data.games[activeGameIndex].currentRoundIndex = 0;
             const roundsLength = data.games[activeGameIndex].rounds.length;
             data.games[activeGameIndex].rounds = [];
-            for (let i = 0; i < roundsLength; i++)
+            for (let i = 0; i < roundsLength; i++) {
                 data.games[activeGameIndex].rounds.push(newRound);
+            }
             data.games[activeGameIndex].updatedAt = Date.now();
         },
         startGame: (data, _action: PayloadAction<undefined>) => {
@@ -74,7 +79,9 @@ const slice = createSlice({
             const activeGameIndex = data.games.findIndex(
                 game => game.id === data.activeGameId,
             );
-            if (activeGameIndex === -1) return;
+            if (activeGameIndex === -1) {
+                return;
+            }
             data.games[activeGameIndex].players = data.games[
                 activeGameIndex
             ].players.filter(player => usersIds.includes(player.id));
@@ -101,14 +108,19 @@ const slice = createSlice({
             const activeGameIndex = data.games.findIndex(
                 game => game.id === data.activeGameId,
             );
-            if (activeGameIndex === -1) return;
-            const activeGame = data.games[activeGameIndex];
+            if (activeGameIndex === -1) {
+                return;
+            }
+            const activeGame = data.games[activeGameIndex]!;
             const clonedPlayers = [...activeGame.players];
-            const activeRound = activeGame.rounds[activeGame.currentRoundIndex];
+            const activeRound =
+                activeGame.rounds[activeGame.currentRoundIndex]!;
             const {winner} = activeRound;
             if (winner === Winners.Citizens) {
                 activeGame.players = activeGame.players.map((player, i) => {
-                    if (activeRound.spiesIds.includes(player.id)) return player;
+                    if (activeRound.spiesIds.includes(player.id)) {
+                        return player;
+                    }
                     const previousScore = clonedPlayers[i].score;
                     return {
                         ...player,
@@ -118,8 +130,9 @@ const slice = createSlice({
                 });
             } else {
                 activeGame.players = activeGame.players.map((player, i) => {
-                    if (!activeRound.spiesIds.includes(player.id))
+                    if (!activeRound.spiesIds.includes(player.id)) {
                         return player;
+                    }
                     const previousScore = clonedPlayers[i].score;
                     const score =
                         activeRound.spiesWhoGuessedCorrectlyIds.includes(
@@ -139,8 +152,9 @@ const slice = createSlice({
                     !activeRound.citizensWhoGuessedCorrectlyIds.includes(
                         player.id,
                     )
-                )
+                ) {
                     return player;
+                }
                 const previousScore = clonedPlayers[i].score;
                 return {
                     ...player,
@@ -153,7 +167,9 @@ const slice = createSlice({
             const activeGameIndex = data.games.findIndex(
                 game => game.id === data.activeGameId,
             );
-            if (activeGameIndex === -1) return;
+            if (activeGameIndex === -1) {
+                return;
+            }
             const activeGame = data.games[activeGameIndex];
             data.games[activeGameIndex].players = activeGame.players.map(
                 player => ({
@@ -206,14 +222,18 @@ const slice = createSlice({
             const index = data.locations.findIndex(
                 location => location.id === id,
             );
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             data.locations.splice(index, 1);
         },
         editLocation: (data, {payload}: PayloadAction<Partial<Location>>) => {
             const index = data.locations.findIndex(
                 location => location.id === payload.id,
             );
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             data.locations[index] = Object.assign(
                 data.locations[index],
                 payload,
@@ -221,7 +241,9 @@ const slice = createSlice({
         },
         editGame: (data, {payload}: PayloadAction<Partial<Game>>) => {
             const index = data.games.findIndex(game => game.id === payload.id);
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             for (const key in payload) {
                 data.games[index][key] = payload[key];
             }
@@ -229,7 +251,9 @@ const slice = createSlice({
         },
         deleteGame: (data, {payload}: PayloadAction<Partial<string>>) => {
             const index = data.games.findIndex(game => game.id === payload);
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             data.games.splice(index, 1);
         },
         editRound: (
@@ -239,13 +263,19 @@ const slice = createSlice({
             const index = data.games.findIndex(
                 game => game.id === payload.gameId,
             );
-            if (index === -1) return;
-            const {rounds} = data.games[index];
-            if (payload.mode === "add") {
-                if (rounds.length < 10) data.games[index].rounds.push(newRound);
+            if (index === -1) {
                 return;
             }
-            if (rounds.length > 1) data.games[index].rounds.splice(-1, 1);
+            const {rounds} = data.games[index];
+            if (payload.mode === "add") {
+                if (rounds.length < 10) {
+                    data.games[index].rounds.push(newRound);
+                }
+                return;
+            }
+            if (rounds.length > 1) {
+                data.games[index].rounds.splice(-1, 1);
+            }
             return;
         },
         editSpiesLength: (
@@ -255,7 +285,9 @@ const slice = createSlice({
             const index = data.games.findIndex(
                 game => game.id === payload.gameId,
             );
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             const {spiesLength} = data.games[index];
             if (payload.mode === "add") {
                 if (
@@ -267,7 +299,9 @@ const slice = createSlice({
                 }
                 return;
             }
-            if (spiesLength > 1) data.games[index].spiesLength--;
+            if (spiesLength > 1) {
+                data.games[index].spiesLength--;
+            }
             return;
         },
         setGameResult: (
@@ -277,7 +311,9 @@ const slice = createSlice({
             const index = data.games.findIndex(
                 game => game.id === payload.gameId,
             );
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             data.games[index].rounds[data.games[index].currentRoundIndex] =
                 Object.assign(
                     data.games[index].rounds[
