@@ -1,6 +1,8 @@
 import React, {useEffect, useRef, useState} from "react";
+
 import CheckIcon from "../assets/SVGs/Check";
 import Box from "../theme/Box";
+
 import AppInput, {AppInputRef} from "./AppInput";
 import AppBottomSheet, {BottomSheetProps} from "./BottomSheet";
 import AppTouchable from "./Touchable";

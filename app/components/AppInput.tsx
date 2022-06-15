@@ -2,6 +2,7 @@ import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import {useTheme} from "@shopify/restyle";
 import React, {forwardRef, useImperativeHandle, useMemo, useRef} from "react";
 import {TextInput, TextInputProps, TextStyle, StyleProp} from "react-native";
+
 import {Fonts} from "../constants/fonts";
 import {getLanguageRTL} from "../store/reducers/language";
 import {useSelector} from "../store/useSelector";
