@@ -33,11 +33,11 @@ const App: React.FC = ({}) => {
     }, []);
     return (
         <Provider store={myStore}>
-            <AdProvider>
-                <DarkThemeProvider>
-                    <ThemeNavigator />
-                </DarkThemeProvider>
-            </AdProvider>
+            {/* <AdProvider> */}
+            <DarkThemeProvider>
+                <ThemeNavigator />
+            </DarkThemeProvider>
+            {/* </AdProvider> */}
         </Provider>
     );
 };
