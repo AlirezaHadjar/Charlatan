@@ -45,7 +45,7 @@ GEM
 45	      public_suffix (~> 4.0)
 46	      typhoeus (~> 1.0)
 47	    cocoapods-deintegrate (1.0.5)
-48	    cocoapods-downloader (1.5.1)
+48	    cocoapods-downloader (1.6.2)
 49	    cocoapods-plugins (1.0.0)
 50	      nap
 51	    cocoapods-search (1.0.1)
@@ -54,7 +54,7 @@ GEM
 54	      netrc (~> 0.11)
 55	    cocoapods-try (1.2.0)
 56	    colored2 (3.1.2)
-57	    concurrent-ruby (1.1.9)
+57	    concurrent-ruby (1.1.10)
 58	    escape (0.0.4)
 59	    ethon (0.15.0)
 60	      ffi (>= 1.15.0)

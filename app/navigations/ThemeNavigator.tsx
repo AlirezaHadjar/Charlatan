@@ -22,9 +22,9 @@ const ThemeNavigator: React.FC = () => {
     const navigationRef =
         useRef<NavigationContainerRef<RootStackParamList>>(null);
     const routeNameRef = useRef<string>();
-    const {setNativeAd} = useAdKey();
+    // const {setNativeAd} = useAdKey();
     const {isDark} = useDarkTheme();
-    const {setScreenName} = useAd(setNativeAd);
+    // const {setScreenName} = useAd(setNativeAd);
 
     const appTheme = useMemo(() => (isDark ? theme : lightTheme), [isDark]);
     const statusBarText: StatusBarStyle = useMemo(
@@ -43,8 +43,8 @@ const ThemeNavigator: React.FC = () => {
         const previousRouteName = routeNameRef.current;
         const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
 
-        if (previousRouteName !== currentRouteName)
-            setScreenName(currentRouteName as keyof RootStackParamList);
+        // if (previousRouteName !== currentRouteName)
+        //     setScreenName(currentRouteName as keyof RootStackParamList);
 
         routeNameRef.current = currentRouteName;
     };

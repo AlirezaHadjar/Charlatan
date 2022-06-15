@@ -12,12 +12,12 @@ import SelectGame from "../screens/Game/SelectGame";
 import Settings from "../screens/Settings";
 import AboutUs from "../screens/Settings/AboutUs";
 import Language from "../screens/Settings/Language";
+import {useSelector} from "../store/useSelector";
+import {getLanguageRTL} from "../store/reducers/language";
 
 import GameNavigator from "./GameNavigator";
 import {getScreenOptions} from "./config";
 import {RootStackParamList} from "./types";
-import {useSelector} from "../store/useSelector";
-import {getLanguageRTL} from "../store/reducers/language";
 
 const Stack = createStackNavigator<RootStackParamList>();
 

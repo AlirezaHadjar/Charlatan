@@ -5,6 +5,7 @@ module.exports = {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-shadow": "off",
         "import/no-default-export": "off",
+        curly: "off",
         "@typescript-eslint/consistent-type-imports": "off",
     },
 };
