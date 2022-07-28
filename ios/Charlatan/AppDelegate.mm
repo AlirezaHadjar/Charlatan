@@ -5,6 +5,11 @@
 #import <React/RCTRootView.h>
 #import <React/RCTI18nUtil.h>
 
+#ifdef FB_SONARKIT_ENABLED
+#import <FlipperKit/FlipperClient.h>
+#import <FlipperPerformancePlugin.h>
+#endif
+
 #import <React/RCTAppSetupUtils.h>
 
 #if RCT_NEW_ARCH_ENABLED
@@ -32,6 +37,10 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  #ifdef FB_SONARKIT_ENABLED
+  FlipperClient *client = [FlipperClient sharedClient];
+  [client addPlugin:[FlipperPerformancePlugin new]];
+  #endif
   RCTAppSetupPrepareApp(application);
   [[RCTI18nUtil sharedInstance] allowRTL:NO];
   [[RCTI18nUtil sharedInstance] forceRTL:NO];

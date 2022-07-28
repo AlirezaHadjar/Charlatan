@@ -23,6 +23,7 @@ import com.facebook.react.ReactInstanceEventListener;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.modules.network.NetworkingModule;
+import tech.bam.rnperformance.flipper.RNPerfMonitorPlugin;
 import okhttp3.OkHttpClient;
 
 public class ReactNativeFlipper {
@@ -33,6 +34,7 @@ public class ReactNativeFlipper {
       client.addPlugin(new InspectorFlipperPlugin(context, DescriptorMapping.withDefaults()));
       client.addPlugin(new ReactFlipperPlugin());
       client.addPlugin(new DatabasesFlipperPlugin(context));
+      client.addPlugin(new RNPerfMonitorPlugin());
       client.addPlugin(new SharedPreferencesFlipperPlugin(context));
       client.addPlugin(CrashReporterPlugin.getInstance());
 

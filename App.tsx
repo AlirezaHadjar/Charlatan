@@ -3,12 +3,20 @@ import React, {useCallback, useEffect, useState} from "react";
 import {I18nManager} from "react-native";
 import {Provider} from "react-redux";
 import {enableFreeze} from "react-native-screens";
+import {connectToDevTools} from "react-devtools-core";
 
 import {store} from "./app/store/getStore";
 import {fetchData} from "./app/utils/fetchData";
 import ThemeNavigator from "./app/navigations/ThemeNavigator";
 import {DarkThemeProvider} from "./app/contexts/ThemeContext";
 import {AdProvider} from "./app/contexts/AdContext";
+
+if (__DEV__) {
+    connectToDevTools({
+        host: "localhost",
+        port: 8097,
+    });
+}
 
 const App: React.FC = ({}) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
