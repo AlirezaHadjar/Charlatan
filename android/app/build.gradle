@@ -1,5 +1,31 @@
 apply plugin: "com.android.application"
 
+def getPassword(String currentUser, String keyChain) {
+    def stdout = new ByteArrayOutputStream()
+    def stderr = new ByteArrayOutputStream()
+    if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
+        exec {
+            commandLine 'security', '-q', 'find-generic-password', '-a', currentUser, '-s', keyChain, '-w'
+            standardOutput = stdout
+            errorOutput = stderr
+            ignoreExitValue true
+        }
+    } else if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
+        exec {
+            // In order for this to work you need to store it:
+            // secret-tool store --label='mm' server mm user mm key mm-upload-key
+            commandLine 'secret-tool', 'lookup', 'server', currentUser, 'user', currentUser, 'key', keyChain
+            standardOutput = stdout
+            errorOutput = stderr
+            ignoreExitValue true
+        }
+    } else {
+        throw new GradleException('Unsupported OS! Only MacOSx and Linux are supported')
+    }
+    //noinspection GroovyAssignabilityCheck
+    stdout.toString().trim()
+}
+
 import com.android.build.OutputFile
 
 /**
@@ -218,12 +244,14 @@ android {
         }
     }
     signingConfigs {
+        def pass = getPassword("charlatan","charlatan-android-key")
+
         release {
             if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
                 storeFile file(MYAPP_UPLOAD_STORE_FILE)
-                storePassword MYAPP_UPLOAD_STORE_PASSWORD
                 keyAlias MYAPP_UPLOAD_KEY_ALIAS
-                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+                storePassword pass
+                keyPassword pass
             }
         }
         debug {
