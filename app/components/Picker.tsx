@@ -1,4 +1,4 @@
-import {BottomSheetFlatList} from "@gorhom/bottom-sheet";
+// import {BottomSheetFlatList} from "@gorhom/bottom-sheet";
 import React, {memo, useCallback, useEffect, useMemo, useRef} from "react";
 import {
     FlatList,
@@ -11,9 +11,9 @@ import Animated, {
     useAnimatedScrollHandler,
     useSharedValue,
 } from "react-native-reanimated";
-import ReactNativeHapticFeedback, {
-    HapticFeedbackTypes,
-} from "react-native-haptic-feedback";
+// import ReactNativeHapticFeedback, {
+//     HapticFeedbackTypes,
+// } from "react-native-haptic-feedback";
 
 import {ITEM_HEIGHT, ITEM_WIDTH} from "../../Constants";
 import Box from "../theme/Box";
@@ -43,8 +43,8 @@ export interface PickerProps {
 }
 
 const NormalAnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
-const BottomSheetAnimatedFlatlist =
-    Animated.createAnimatedComponent(BottomSheetFlatList);
+// const BottomSheetAnimatedFlatlist =
+//     Animated.createAnimatedComponent(BottomSheetFlatList);
 
 export const NUM = 3;
 
@@ -63,7 +63,7 @@ const Picker: React.FC<PickerProps> = ({
     maxWidth,
 }) => {
     const AnimatedFlatlist = isInBottomSheet
-        ? BottomSheetAnimatedFlatlist
+        ? NormalAnimatedFlatlist
         : NormalAnimatedFlatlist;
     const flatlistRef = useRef<FlatList>(null);
     const translationY = useSharedValue(0);
@@ -74,10 +74,10 @@ const Picker: React.FC<PickerProps> = ({
         if (diff > itemHeight) {
             lastY.value = event.contentOffset.y;
             const isFastScrolling = (event.velocity?.y || 0) > 2;
-            const hapticType: HapticFeedbackTypes = isFastScrolling
-                ? "impactLight"
-                : "impactMedium";
-            runOnJS(ReactNativeHapticFeedback.trigger)(hapticType, options);
+            // const hapticType: HapticFeedbackTypes = isFastScrolling
+            //     ? "impactLight"
+            //     : "impactMedium";
+            // runOnJS(ReactNativeHapticFeedback.trigger)(hapticType, options);
         }
     });
 

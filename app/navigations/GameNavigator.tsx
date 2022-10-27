@@ -1,18 +1,18 @@
 import React from "react";
-import {createStackNavigator} from "@react-navigation/stack";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
 import AssignRole from "../screens/Game/AssignRole";
 import Timer from "../screens/Game/Timer";
 import Vote from "../screens/Game/Vote";
 import Result from "../screens/Game/Result";
 import SpiesGuess from "../screens/Game/SpiesGuess";
-
-import {getScreenOptions} from "./config";
-import {GameNavigatorParamList} from "./types";
 import {useSelector} from "../store/useSelector";
 import {getLanguageRTL} from "../store/reducers/language";
 
-const Stack = createStackNavigator<GameNavigatorParamList>();
+import {getScreenOptions} from "./config";
+import {GameNavigatorParamList} from "./types";
+
+const Stack = createNativeStackNavigator<GameNavigatorParamList>();
 
 const GameNavigator: React.FC = () => {
     const isRTL = useSelector(getLanguageRTL);

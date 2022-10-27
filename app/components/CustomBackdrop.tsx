@@ -1,4 +1,4 @@
-import {BottomSheetBackdropProps} from "@gorhom/bottom-sheet";
+// import {BottomSheetBackdropProps} from "@gorhom/bottom-sheet";
 import React, {useMemo} from "react";
 import {ViewProps} from "react-native";
 import {Gesture, GestureDetector} from "react-native-gesture-handler";
@@ -9,7 +9,7 @@ import Animated, {
     useAnimatedStyle,
 } from "react-native-reanimated";
 
-interface Props extends BottomSheetBackdropProps {
+interface Props {
     onPress: () => void;
 }
 

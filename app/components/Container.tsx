@@ -1,4 +1,4 @@
-import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
+// import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {BoxProps, useTheme} from "@shopify/restyle";
 import React from "react";
 import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
@@ -32,18 +32,16 @@ const Container: React.FC<Props> = ({
         },
     });
     return (
-        <BottomSheetModalProvider>
-            <View style={[styles.container, style]}>
-                {hasIcon && (
-                    <Box position="absolute" bottom={0} alignSelf="center">
-                        <Spy />
-                    </Box>
-                )}
-                <Box width="100%" height="100%" {...props}>
-                    {children}
+        <View style={[styles.container, style]}>
+            {hasIcon && (
+                <Box position="absolute" bottom={0} alignSelf="center">
+                    <Spy />
                 </Box>
-            </View>
-        </BottomSheetModalProvider>
+            )}
+            <Box width="100%" height="100%" {...props}>
+                {children}
+            </Box>
+        </View>
     );
 };
 
