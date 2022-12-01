@@ -87,7 +87,7 @@ const Alert: React.FC = () => {
     );
     const handlePress = useCallback(
         (alert: AlertType, callback: (alert: AlertType) => void) => {
-            isExist.value = withTiming(0, {duration: 500}, isFinished => {
+            isExist.value = withTiming(0, {duration: 200}, isFinished => {
                 if (!isFinished) return;
             });
             setTimeout(() => runOnJS(wrapper)(alert, callback), 500);

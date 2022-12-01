@@ -40,10 +40,7 @@ const AppTouchable: React.FC<TouchableProps> = ({
     );
 
     return (
-        <AnimatedTouchable
-            onPress={e => handlePress(e)}
-            {...props}
-            disabled={!enabled}>
+        <AnimatedTouchable onPress={handlePress} {...props} disabled={!enabled}>
             {children}
         </AnimatedTouchable>
     );

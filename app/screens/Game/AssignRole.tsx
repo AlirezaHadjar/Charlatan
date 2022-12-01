@@ -143,14 +143,12 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         const text = isLast ? "" : translation.AssignRole.nextButtonGuide;
         return (
             <Box maxWidth="50%">
-                <Animatable>
-                    <AppText
-                        fontSize={normalize(16)}
-                        color="thirdText"
-                        variant="semiBold">
-                        {text}
-                    </AppText>
-                </Animatable>
+                <AppText
+                    fontSize={normalize(16)}
+                    color="thirdText"
+                    variant="semiBold">
+                    {text}
+                </AppText>
             </Box>
         );
     }, [
@@ -180,23 +178,24 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
         setModifiedPlayers(clonedPlayers);
     }, [modifiedPlayers, navigation, selectedPlayer]);
     const handleNext = useCallback(() => {
-        transition.value = withTiming(
-            0.5,
-            {duration: 500, easing: Easing.ease},
-            () => {
-                runOnJS(changePlayer)();
-                if (isLastAnimated.value) {
-                    return;
-                }
-                transition.value = withTiming(
-                    1,
-                    {duration: 500, easing: Easing.ease},
-                    () => {
-                        transition.value = 0;
-                    },
-                );
-            },
-        );
+        changePlayer();
+        // transition.value = withTiming(
+        //     0.5,
+        //     {duration: 200, easing: Easing.ease},
+        //     () => {
+        //         runOnJS(changePlayer)();
+        //         if (isLastAnimated.value) {
+        //             return;
+        //         }
+        //         transition.value = withTiming(
+        //             1,
+        //             {duration: 500, easing: Easing.ease},
+        //             () => {
+        //                 transition.value = 0;
+        //             },
+        //         );
+        //     },
+        // );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [changePlayer, isLastAnimated.value, transition.value]);
 
@@ -257,11 +256,9 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
     );
     const selectedPlayerName = useMemo(
         () => (
-            <Animatable>
-                <AppText fontSize={normalize(40)} variant="semiBold">
-                    {selectedPlayer.name[language]}
-                </AppText>
-            </Animatable>
+            <AppText fontSize={normalize(40)} variant="semiBold">
+                {selectedPlayer.name[language]}
+            </AppText>
         ),
         [language, selectedPlayer],
     );
@@ -278,8 +275,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
             [0, -50, 50, 0],
         );
         return {
-            opacity,
-            transform: [{translateX}],
+            opacity: 1,
+            // transform: [{translateX}],
         };
     });
 
@@ -333,7 +330,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                             />
 
                             {roleIsHidden ? (
-                                <Animated.View key="role1" layout={FlipInXDown}>
+                                <Animated.View>
+                                    {/*<Animated.View key="role1" layout={FlipInXDown}>*/}
                                     <AppText
                                         fontSize={normalize(20)}
                                         color="thirdText"
@@ -347,7 +345,8 @@ const Game: React.FC<AssignRoleProps> = ({navigation}) => {
                                     </AppText>
                                 </Animated.View>
                             ) : (
-                                <Animated.View key="role1" layout={FlipInXUp}>
+                                <Animated.View>
+                                    {/*Animated.View key="role1" layout={FlipInXUp}*/}
                                     {renderRole(selectedPlayer)}
                                 </Animated.View>
                             )}

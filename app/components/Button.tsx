@@ -7,12 +7,9 @@ import {
 import React, {useCallback} from "react";
 import {Dimensions, ViewStyle} from "react-native";
 import Animated, {
-    Easing,
     interpolate,
     useAnimatedStyle,
-    useDerivedValue,
     useSharedValue,
-    withSequence,
     withTiming,
 } from "react-native-reanimated";
 
@@ -46,6 +43,7 @@ export interface ButtonProps extends Props {
     onPress?: () => void;
     onPressIn?: () => void;
     onPressOut?: () => void;
+    duration?: number;
     fontSize?: number;
     scaleTo?: number;
 }
@@ -60,6 +58,7 @@ const Button: React.FC<ButtonProps> = ({
     style = {},
     reverse = false,
     paddingIconText = "m",
+    duration = 300,
     icon,
     backgroundColor = "buttonSecondary",
     textColor = "mainTextColor",
@@ -74,24 +73,7 @@ const Button: React.FC<ButtonProps> = ({
     scaleTo = 0.9,
     ...props
 }) => {
-    const pressed = useSharedValue(false);
-    const pressing = useDerivedValue(() => {
-        return pressed.value
-            ? withTiming(scaleTo, {
-                  duration: 200,
-                  easing: Easing.bezier(0.85, 0, 0.15, 1),
-              })
-            : withSequence(
-                  withTiming(1.05, {
-                      duration: 500,
-                      easing: Easing.bezier(0.85, 0, 0.15, 1),
-                  }),
-                  withTiming(1, {
-                      duration: 100,
-                      easing: Easing.bezier(0.85, 0, 0.15, 1),
-                  }),
-              );
-    });
+    const animatedValue = useSharedValue(0);
     const renderSimpleButton = useCallback(() => {
         const inside = (
             <Box
@@ -160,18 +142,25 @@ const Button: React.FC<ButtonProps> = ({
         );
     }, [backgroundColor, borderRadius, height, icon, props, style, width]);
     const animatedStyle = useAnimatedStyle(() => {
-        const scale = interpolate(pressing.value, [scaleTo, 1], [scaleTo, 1]);
-        return {transform: [{scale}]};
+        const percent = 0.98;
+        const scale = interpolate(animatedValue.value, [0, 1], [1, 0.98]);
+        width = typeof width === "number" ? width : SCREEN_WIDTH * 0.3;
+        const translateX = interpolate(
+            animatedValue.value,
+            [0, 1],
+            [0, width * (1 - percent)],
+        );
+        return {transform: [{scale}, {translateX}]};
     });
     return (
         <AppTouchable
             onPressIn={() => {
-                pressed.value = true;
-                onPressIn && onPressIn();
+                animatedValue.value = withTiming(1, {duration});
+                onPressIn?.();
             }}
             onPressOut={() => {
-                pressed.value = false;
-                onPressOut && onPressOut();
+                animatedValue.value = withTiming(0, {duration});
+                onPressOut?.();
             }}
             disabled={disabled}
             disableText={disableText}
