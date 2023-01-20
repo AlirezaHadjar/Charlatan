@@ -12,7 +12,7 @@ export const getScreenOptions: (
     colors: ThemeType["colors"],
 ) => NativeStackNavigationOptions = (isRTL, colors) => ({
     headerShown: false,
-    navigationBarColor: colors.mainBackground,
+    navigationBarColor: "#393e46",
     navigationBarHidden: true,
     // transitionSpec: {
     //     open: transitionSpec,
