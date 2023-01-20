@@ -1,5 +1,6 @@
 import React from "react";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {useTheme} from "@shopify/restyle";
 
 import Main from "../screens/Main";
 import Test from "../screens/Test";
@@ -14,6 +15,7 @@ import AboutUs from "../screens/Settings/AboutUs";
 import Language from "../screens/Settings/Language";
 import {useSelector} from "../store/useSelector";
 import {getLanguageRTL} from "../store/reducers/language";
+import {ThemeType} from "../theme/Theme";
 
 import GameNavigator from "./GameNavigator";
 import {getScreenOptions} from "./config";
@@ -23,10 +25,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
     const isRTL = useSelector(getLanguageRTL);
+    const {colors} = useTheme<ThemeType>();
+
     return (
         <Stack.Navigator
             initialRouteName="Main"
-            screenOptions={getScreenOptions(isRTL)}>
+            screenOptions={getScreenOptions(isRTL, colors)}>
             <Stack.Screen component={Main} name="Main" />
             <Stack.Screen component={Settings} name="Settings" />
             <Stack.Screen component={Guide} name="Guide" />

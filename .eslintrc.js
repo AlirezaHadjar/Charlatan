@@ -7,5 +7,8 @@ module.exports = {
         "import/no-default-export": "off",
         curly: "off",
         "@typescript-eslint/consistent-type-imports": "off",
+        "react-hooks/exhaustive-deps": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "import/no-extraneous-dependencies": "off",
     },
 };

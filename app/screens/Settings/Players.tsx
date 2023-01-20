@@ -7,6 +7,7 @@ import {
     StyleSheet,
 } from "react-native";
 import {useDispatch} from "react-redux";
+import Animated, {Layout} from "react-native-reanimated";
 
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -26,7 +27,6 @@ import List from "../../components/list/player/List";
 import {useTranslation} from "../../hooks/translation";
 import {usePlayer} from "../../hooks/usePlayer";
 import ItemCross from "../../components/ItemCross";
-import Animated, {Layout} from "react-native-reanimated";
 import InputSheet from "../../components/InputSheet";
 
 const {width} = Dimensions.get("window");

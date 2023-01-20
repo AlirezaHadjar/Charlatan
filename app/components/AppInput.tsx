@@ -1,3 +1,4 @@
+import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import {useTheme} from "@shopify/restyle";
 import React, {forwardRef, useImperativeHandle, useMemo, useRef} from "react";
 import {TextInput, TextInputProps, TextStyle, StyleProp} from "react-native";
@@ -18,7 +19,7 @@ export interface AppInputRef {
 
 const AppInput = forwardRef<AppInputRef, AppInputProps>(
     ({style, isInBottomSheet, ...props}, ref) => {
-        const Input = isInBottomSheet ? TextInput : TextInput;
+        const Input = isInBottomSheet ? BottomSheetTextInput : TextInput;
         const isRTL = useSelector(getLanguageRTL);
         const inputRef = useRef<TextInput>(null);
         const {spacing, colors} = useTheme<ThemeType>();

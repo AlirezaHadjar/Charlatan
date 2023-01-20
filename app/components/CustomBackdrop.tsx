@@ -11,6 +11,8 @@ import Animated, {
 
 interface Props {
     onPress: () => void;
+    style?: ViewProps["style"];
+    animatedIndex: Animated.SharedValue<number>;
 }
 
 const CustomBackdrop = ({animatedIndex, style, onPress}: Props) => {

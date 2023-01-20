@@ -1,5 +1,7 @@
 import {NativeStackNavigationOptions} from "@react-navigation/native-stack";
 
+import {ThemeType} from "../theme/Theme";
+
 // const transitionSpec: TransitionSpec = {
 //     animation: "timing",
 //     config: {duration: 300},
@@ -7,8 +9,11 @@ import {NativeStackNavigationOptions} from "@react-navigation/native-stack";
 
 export const getScreenOptions: (
     isRTL: boolean,
-) => NativeStackNavigationOptions = isRTL => ({
+    colors: ThemeType["colors"],
+) => NativeStackNavigationOptions = (isRTL, colors) => ({
     headerShown: false,
+    navigationBarColor: colors.mainBackground,
+    navigationBarHidden: true,
     // transitionSpec: {
     //     open: transitionSpec,
     //     close: transitionSpec,

@@ -11,6 +11,7 @@ import {ThemeType} from "../theme/Theme";
 export interface Props extends BoxProps<ThemeType> {
     hasIcon?: boolean;
     style?: StyleProp<ViewStyle>;
+    children: React.ReactNode;
 }
 
 const Container: React.FC<Props> = ({
