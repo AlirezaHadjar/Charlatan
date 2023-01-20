@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
-import {Dimensions, StyleSheet, View, ScrollView} from "react-native";
+import {Dimensions, StyleSheet, View, FlatListProps} from "react-native";
 import Animated, {
     scrollTo,
     useAnimatedRef,
@@ -12,7 +11,8 @@ import AppFlatList from "../../FlatList";
 
 import ListItem from "./ListItem";
 
-export interface Props {
+export interface Props
+    extends Omit<FlatListProps<typeof ListItem>, "data" | "renderItem"> {
     offsetX: Animated.SharedValue<number>;
     itemWidth?: number;
     itemsLength: number;
@@ -27,6 +27,7 @@ const List: React.FC<Props> = ({
     itemsLength,
     itemWidth = width,
     maxWidth = (width * 40) / 100,
+    ...props
 }) => {
     const aref = useAnimatedRef<AppFlatList>();
     useDerivedValue(() => {
@@ -45,6 +46,7 @@ const List: React.FC<Props> = ({
     return (
         <View style={styles.container}>
             <AppFlatList
+                {...props}
                 horizontal
                 ref={aref}
                 showsHorizontalScrollIndicator={false}

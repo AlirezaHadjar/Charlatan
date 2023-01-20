@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions, FlatList, FlatListProps, StyleSheet} from "react-native";
+import {Dimensions, FlatListProps, StyleSheet} from "react-native";
 import Animated, {
     useAnimatedScrollHandler,
     useSharedValue,
@@ -55,6 +55,7 @@ const List: React.FC<ListProps> = ({items}) => {
             <AnimatedFlatList
                 showsHorizontalScrollIndicator={false}
                 data={items}
+                inverted={false}
                 scrollEventThrottle={16}
                 onScroll={scrollHandler}
                 overScrollMode="never"
@@ -75,6 +76,7 @@ const List: React.FC<ListProps> = ({items}) => {
             />
             <Box paddingVertical="m">
                 <ListIndicator
+                    inverted={false}
                     itemWidth={wholeWidth}
                     itemsLength={items.length}
                     offsetX={offsetX}

@@ -7,6 +7,7 @@ import {ThemeType} from "../theme/Theme";
 
 export interface Props extends TextProps<ThemeType> {
     numberOfLines?: number;
+    children: React.ReactNode;
 }
 
 const AppText: React.FC<Props> = ({
@@ -17,7 +18,7 @@ const AppText: React.FC<Props> = ({
     ...otherProps
 }) => {
     const isRTL = useRTL();
-    const alignText = isRTL ? "auto" : "right";
+    const alignText = isRTL ? "right" : "auto";
     return (
         <Text
             variant={variant}

@@ -1,5 +1,5 @@
 import {BoxProps} from "@shopify/restyle";
-import React, {useMemo} from "react";
+import React, {ReactNode, useMemo} from "react";
 import {StyleProp, StyleSheet, ViewProps} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Animated, {
@@ -15,6 +15,7 @@ import {useDarkTheme} from "../contexts/ThemeContext";
 export interface Props extends BoxProps<ThemeType> {
     hasIcon?: boolean;
     style?: StyleProp<ViewProps>;
+    children?: ReactNode;
 }
 
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
@@ -31,7 +32,7 @@ const AnimatedContainer: React.FC<Props> = ({
 
     const animatedStyles = useAnimatedStyle(() => {
         const color = interpolateColor(
-            animatedDark.value,
+            animatedDark?.value || 0,
             [startValue, endValue],
             [lightTheme.colors.mainBackground, theme.colors.mainBackground],
         );

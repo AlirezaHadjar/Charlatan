@@ -10,7 +10,6 @@ import Animated, {
     Easing,
     interpolate,
     useAnimatedStyle,
-    useDerivedValue,
     useSharedValue,
     withSequence,
     withTiming,
@@ -74,24 +73,8 @@ const Button: React.FC<ButtonProps> = ({
     scaleTo = 0.9,
     ...props
 }) => {
-    const pressed = useSharedValue(false);
-    const pressing = useDerivedValue(() => {
-        return pressed.value
-            ? withTiming(scaleTo, {
-                  duration: 200,
-                  easing: Easing.bezier(0.85, 0, 0.15, 1),
-              })
-            : withSequence(
-                  withTiming(1.05, {
-                      duration: 500,
-                      easing: Easing.bezier(0.85, 0, 0.15, 1),
-                  }),
-                  withTiming(1, {
-                      duration: 100,
-                      easing: Easing.bezier(0.85, 0, 0.15, 1),
-                  }),
-              );
-    });
+    const pressed = useSharedValue(1);
+
     const renderSimpleButton = useCallback(() => {
         const inside = (
             <Box
@@ -160,17 +143,29 @@ const Button: React.FC<ButtonProps> = ({
         );
     }, [backgroundColor, borderRadius, height, icon, props, style, width]);
     const animatedStyle = useAnimatedStyle(() => {
-        const scale = interpolate(pressing.value, [scaleTo, 1], [scaleTo, 1]);
+        const scale = interpolate(pressed.value, [scaleTo, 1], [scaleTo, 1]);
         return {transform: [{scale}]};
     });
     return (
         <AppTouchable
             onPressIn={() => {
-                pressed.value = true;
+                pressed.value = withTiming(scaleTo, {
+                    duration: 200,
+                    easing: Easing.bezier(0.85, 0, 0.15, 1),
+                });
                 onPressIn && onPressIn();
             }}
             onPressOut={() => {
-                pressed.value = false;
+                pressed.value = withSequence(
+                    withTiming(1.05, {
+                        duration: 500,
+                        easing: Easing.bezier(0.85, 0, 0.15, 1),
+                    }),
+                    withTiming(1, {
+                        duration: 100,
+                        easing: Easing.bezier(0.85, 0, 0.15, 1),
+                    }),
+                );
                 onPressOut && onPressOut();
             }}
             disabled={disabled}

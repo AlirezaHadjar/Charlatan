@@ -11,11 +11,12 @@ const {width: SCREEN_WIDTH} = Dimensions.get("window");
 const DEFAULT_WIDTH = 360;
 const DEFAULT_HEIGHT = 360.475;
 const SCALE = Math.min(SCREEN_WIDTH / DEFAULT_WIDTH, 500);
+const width = SCALE * DEFAULT_WIDTH;
+const height = SCALE * DEFAULT_HEIGHT;
 
 function SvgComponent() {
     const theme = useTheme<ThemeType>();
-    const width = React.useMemo(() => SCALE * DEFAULT_WIDTH, [SCALE]);
-    const height = React.useMemo(() => SCALE * DEFAULT_HEIGHT, [SCALE]);
+
     const color = {
         primary: theme.colors.characterPrimary,
         secondary: "#002741",
@@ -32,7 +33,7 @@ function SvgComponent() {
             width={width}
             height={height}
             viewBox={`0 0 ${DEFAULT_WIDTH} ${DEFAULT_HEIGHT}`}>
-            <G data-name="Group 23">
+            <G data-name="Group 23" fill={theme.colors.transparent}>
                 <Path data-name="Rectangle 1" d="M0 0h359.98v359.98H0z" />
                 <G data-name="Group 12">
                     <Path
