@@ -1,6 +1,6 @@
 module.exports = {
     root: true,
-    extends: ["@react-native-community", "react-native-wcandillon"],
+    extends: ["@react-native", "react-native-wcandillon"],
     rules: {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-shadow": "off",
