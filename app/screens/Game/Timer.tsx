@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StyleSheet, Dimensions, BackHandler, Vibration} from "react-native";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {useFocusEffect} from "@react-navigation/core";
 import {useDerivedValue, withTiming} from "react-native-reanimated";
 
@@ -50,9 +49,9 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
     const timeAnimated = useDerivedValue(() => {
         return withTiming(time / (setupTime * 1000), {duration: 1000});
     }, [time, setupTime]);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const [tipsShown, setTipsShown] = useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const tipsContainerHeight = useDerivedValue(() => {
         if (tipsShown) return withTiming(EXPANDED_TIPS_CONTAINER_HEIGHT);
         return withTiming(0);
@@ -233,7 +232,7 @@ const Timer: React.FC<TimerProps> = ({navigation}) => {
                         numberOfVisibleItems={VISIBLE_TIPS}
                         itemHeight={TIP_HEIGHT}
                     />
-                </Animated.View> 
+                </Animated.View>
                 */
 
 export default Timer;

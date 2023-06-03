@@ -79,7 +79,7 @@ const Alert: React.FC = () => {
         if (alert.onAccept) alert.onAccept();
     }, []);
     const wrapper = useCallback(
-        (alert: AlertType, callback) => {
+        (alert: AlertType, callback: (alert: AlertType) => void) => {
             dispatch(removeAlert());
             callback(alert);
         },

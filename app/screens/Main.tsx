@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import {useTheme} from "@shopify/restyle";
 import {useFocusEffect} from "@react-navigation/native";
+import {FadeInDown} from "react-native-reanimated";
 
 import Box from "../theme/Box";
 import AppText from "../components/Text";
@@ -15,7 +16,6 @@ import {useTranslation} from "../hooks/translation";
 import {useAppDispatch} from "../store/configureStore";
 import {resetGame, setActiveGameId} from "../store/reducers/data";
 import AnimatedContainer from "../components/AnimatedContainer";
-import Animatable from "../components/Animatable";
 import {RootStackProps} from "../navigations/types";
 
 export type MainProps = RootStackProps<"Main">;
@@ -46,17 +46,16 @@ const Main: React.FC<MainProps> = ({navigation}) => {
                 </AppText>
             </Box>
             <Box position="absolute" top="29%">
-                <Animatable>
-                    <Button
-                        title=""
-                        variant="icon"
-                        scaleTo={0.95}
-                        icon={<Play />}
-                        borderRadius="hero3"
-                        alignSelf="center"
-                        onPress={() => navigation.navigate("SelectGame")}
-                    />
-                </Animatable>
+                <Button
+                    entering={FadeInDown}
+                    title=""
+                    variant="icon"
+                    scaleTo={0.95}
+                    icon={<Play />}
+                    borderRadius="hero3"
+                    alignSelf="center"
+                    onPress={() => navigation.navigate("SelectGame")}
+                />
             </Box>
             <Box
                 position="absolute"
