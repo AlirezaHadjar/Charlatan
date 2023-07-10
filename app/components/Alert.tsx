@@ -59,7 +59,6 @@ const Alert: React.FC = () => {
             position: "absolute",
             width: "100%",
             height: "100%",
-            zIndex: -1,
         };
     }, [isExist.value]);
 
@@ -207,11 +206,11 @@ const Alert: React.FC = () => {
             backgroundColor="transparent"
             alignItems="center"
             justifyContent="center">
+            <Animated.View style={opacStyle} />
             <TouchableWithoutFeedback
                 onPress={() => handlePress(alert, handleIgnore)}>
                 <Box position="absolute" height="100%" width="100%" />
             </TouchableWithoutFeedback>
-            <Animated.View style={opacStyle} />
             <Animated.View style={boxStyle}>
                 <Box
                     width={(width * 77) / 100}
