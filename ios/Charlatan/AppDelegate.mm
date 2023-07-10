@@ -1,10 +1,5 @@
 #import "AppDelegate.h"
 
-#ifdef FB_SONARKIT_ENABLED
-#import <FlipperKit/FlipperClient.h>
-#import <FlipperPerformancePlugin.h>
-#endif
-
 #import <React/RCTBundleURLProvider.h>
 
 @implementation AppDelegate
@@ -15,12 +10,6 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
-
-  #ifdef FB_SONARKIT_ENABLED
-  FlipperClient *client = [FlipperClient sharedClient];
-  [client addPlugin:[FlipperPerformancePlugin new]];
-  #endif
-  RCTAppSetupPrepareApp(application);
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
