@@ -22,4 +22,4 @@ class AppFlatList<ItemT = any> extends React.Component<FlatListProps<ItemT>> {
     }
 }
 
-export default AppFlatList;
+export default FlatList;

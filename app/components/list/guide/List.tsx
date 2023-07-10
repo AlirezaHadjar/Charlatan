@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions, StyleSheet} from "react-native";
+import {Dimensions, FlatList, StyleSheet} from "react-native";
 import Animated, {
     useAnimatedScrollHandler,
     useSharedValue,
@@ -24,9 +24,7 @@ const BOX_WIDTH = (width * 90) / 100;
 const MARGIN = (width * 3) / 100;
 
 const AnimatedFlatList =
-    Animated.createAnimatedComponent<Readonly<FlashListProps<Guide>>>(
-        FlashList,
-    );
+    Animated.createAnimatedComponent<Readonly<FlashListProps<Guide>>>(FlatList);
 
 const List: React.FC<ListProps> = ({items}) => {
     const offsetX = useSharedValue(0);

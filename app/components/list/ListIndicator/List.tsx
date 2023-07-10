@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import {Dimensions, StyleSheet, View, FlatListProps} from "react-native";
 import Animated, {
