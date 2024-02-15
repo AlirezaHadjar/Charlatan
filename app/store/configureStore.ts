@@ -1,16 +1,12 @@
-import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
+import {configureStore} from "@reduxjs/toolkit";
 import {useDispatch} from "react-redux";
 
 import reducer from "./reducer";
 
 const store = configureStore({
     reducer,
-    middleware: [
-        ...getDefaultMiddleware({
-            immutableCheck: false,
-            serializableCheck: false,
-        }),
-    ],
+    middleware: getDefaultEnhancers =>
+        getDefaultEnhancers({immutableCheck: false, serializableCheck: false}),
 });
 
 // eslint-disable-next-line import/no-anonymous-default-export

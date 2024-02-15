@@ -42,9 +42,9 @@ const InputSheet: React.FC<InputSheetProps> = ({
                     flexDirection={"row"}>
                     <Box flex={1}>
                         <AppInput
-                            value={query}
                             ref={inputRef}
                             isInBottomSheet
+                            style={{color: "black"}}
                             placeholder={placeholder}
                             onChangeText={text => setQuery(text)}
                         />

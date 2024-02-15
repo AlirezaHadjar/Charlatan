@@ -15,8 +15,8 @@ import {
     BottomSheetModal,
     BottomSheetBackdrop,
     BottomSheetScrollView,
-    useBottomSheetDynamicSnapPoints,
     BottomSheetModalProps,
+    BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import {useTheme} from "@shopify/restyle";
 // eslint-disable-next-line max-len
@@ -56,12 +56,6 @@ const BottomSheet: FC<AppBottomSheetProps> = ({
         () => (fullHeight ? ["CONTENT_HEIGHT"] : ["CONTENT_HEIGHT"]),
         [fullHeight],
     );
-    const {
-        animatedHandleHeight,
-        animatedSnapPoints,
-        animatedContentHeight,
-        handleContentLayout,
-    } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
     const [isOn, setIsOn] = useState(true);
 
     const handleDelay = () => {
@@ -113,19 +107,6 @@ const BottomSheet: FC<AppBottomSheetProps> = ({
         [closable],
     );
 
-    const scrollViewAnimatedStyles = useAnimatedStyle(() => {
-        const contentHeight = animatedContentHeight.value;
-        const handleHeight = animatedHandleHeight.value;
-        const bottomSheetHeight = handleHeight + contentHeight;
-
-        return {
-            height:
-                bottomSheetHeight > windowHeight
-                    ? windowHeight - handleHeight - bottom - top
-                    : bottomSheetHeight,
-        };
-    });
-
     const handleDismiss = () => {
         if (!closable) return;
     };
@@ -148,14 +129,10 @@ const BottomSheet: FC<AppBottomSheetProps> = ({
             onDismiss={handleDismiss}
             onChange={handleSheetChanges}
             enablePanDownToClose={closable}
-            snapPoints={animatedSnapPoints}
             backdropComponent={renderBackdrop}
-            handleHeight={animatedHandleHeight}
             handleIndicatorStyle={indicatorStyle}
-            contentHeight={animatedContentHeight}>
-            <BottomSheetScrollView style={scrollViewAnimatedStyles}>
-                <View onLayout={handleContentLayout}>{children}</View>
-            </BottomSheetScrollView>
+            enableDynamicSizing>
+            <BottomSheetView>{children}</BottomSheetView>
         </BottomSheetModal>
     );
 };
