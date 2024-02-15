@@ -19,7 +19,6 @@ if (__DEV__) {
 }
 
 const App: React.FC = ({}) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [loading, setLoading] = useState(true);
     const [myStore] = useState(store);
 

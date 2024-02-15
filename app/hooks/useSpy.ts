@@ -1,7 +1,7 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useCallback, useEffect, useState} from "react";
 
 import {storageKeys} from "../storage/keys";
+import {StorageHelper} from "../utils/localStorage";
 
 export const useSpy = (spiesLength: number) => {
     const [storageSpiesLength, setStorageSpiesLength] = useState<number>(0);
@@ -9,10 +9,7 @@ export const useSpy = (spiesLength: number) => {
     const saveSpiesLength = useCallback(
         (newLength: number) => {
             if (storageSpiesLength === newLength) return;
-            AsyncStorage.setItem(
-                storageKeys.spiesLength,
-                JSON.stringify(newLength),
-            );
+            StorageHelper.set("spiesLength", JSON.stringify(newLength));
             setStorageSpiesLength(newLength);
         },
         [storageSpiesLength],

@@ -1,23 +1,25 @@
-import {
-    StackNavigationOptions,
-    TransitionSpec,
-} from "@react-navigation/stack/lib/typescript/src/types";
+import {NativeStackNavigationOptions} from "@react-navigation/native-stack";
 
-const transitionSpec: TransitionSpec = {
-    animation: "timing",
-    config: {duration: 300},
-};
+import {ThemeType} from "../theme/Theme";
+
+// const transitionSpec: TransitionSpec = {
+//     animation: "timing",
+//     config: {duration: 300},
+// };
 
 export const getScreenOptions: (
     isRTL: boolean,
-) => StackNavigationOptions = isRTL => ({
+    colors: ThemeType["colors"],
+) => NativeStackNavigationOptions = (isRTL, colors) => ({
     headerShown: false,
-    transitionSpec: {
-        open: transitionSpec,
-        close: transitionSpec,
-    },
-    gestureDirection: isRTL ? "horizontal-inverted" : "horizontal",
-    cardStyleInterpolator: ({current: {progress: opacity}}) => ({
-        cardStyle: {opacity},
-    }),
+    navigationBarColor: "#393e46",
+    navigationBarHidden: true,
+    // transitionSpec: {
+    //     open: transitionSpec,
+    //     close: transitionSpec,
+    // },
+    // gestureDirection: isRTL ? "horizontal-inverted" : "horizontal",
+    // cardStyleInterpolator: ({current: {progress: opacity}}) => ({
+    //     cardStyle: {opacity},
+    // }),
 });

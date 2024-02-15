@@ -38,5 +38,6 @@ export const getLanguageData = createSelector(
 );
 export const getLanguageRTL = createSelector(
     (state: AppState) => state.entities.language,
-    (language: Language) => language.isRTL,
+    // (language: Language) => language.isRTL,
+    (language: Language) => false,
 );

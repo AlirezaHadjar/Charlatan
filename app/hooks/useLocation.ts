@@ -1,8 +1,8 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useCallback, useEffect, useState} from "react";
 
 import {storageKeys} from "../storage/keys";
 import {Location} from "../types";
+import {StorageHelper} from "../utils/localStorage";
 
 export const useLocation = (locations: Location[]) => {
     const [storageLocations, setStorageLocations] = useState<Location[]>([]);
@@ -10,10 +10,7 @@ export const useLocation = (locations: Location[]) => {
     const saveLocations = useCallback(
         (newLocations: Location[]) => {
             if (storageLocations === newLocations) return;
-            AsyncStorage.setItem(
-                storageKeys.locations,
-                JSON.stringify(newLocations),
-            );
+            StorageHelper.set("locations", newLocations);
             setStorageLocations(newLocations);
         },
         [storageLocations],

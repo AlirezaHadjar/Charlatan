@@ -3,15 +3,16 @@ import {FlatList, FlatListProps} from "react-native";
 
 import {useRTL} from "../hooks/isRTL";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ModifiedFlatList = <ItemT extends any>(props: FlatListProps<ItemT>) => {
+const ModifiedFlatList = <ItemT,>(props: FlatListProps<ItemT>) => {
     const isRTL = useRTL();
     const {horizontal: isHorizontal} = props;
     const inverted = useMemo(
         () => isHorizontal && isRTL,
         [isHorizontal, isRTL],
     );
-    return <FlatList {...props} inverted={inverted} />;
+    const finalInverted =
+        props.inverted !== undefined ? props.inverted : inverted;
+    return <FlatList {...props} inverted={finalInverted} />;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,4 +22,4 @@ class AppFlatList<ItemT = any> extends React.Component<FlatListProps<ItemT>> {
     }
 }
 
-export default AppFlatList;
+export default FlatList;

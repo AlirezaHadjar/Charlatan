@@ -1,13 +1,15 @@
 import {useTheme} from "@shopify/restyle";
-import React from "react";
+import React, {ReactNode} from "react";
 import {StyleSheet, Dimensions, StyleProp, ViewStyle, View} from "react-native";
 import Svg, {Circle} from "react-native-svg";
 import Animated, {
+    createAnimatedPropAdapter,
     interpolateColor,
+    processColor,
     useAnimatedProps,
 } from "react-native-reanimated";
 
-import {ThemeType} from "../theme/theme";
+import {ThemeType} from "../theme/Theme";
 
 export interface CircularProgressbarProps {
     radius?: number;
@@ -16,6 +18,7 @@ export interface CircularProgressbarProps {
     progressColor?: keyof ThemeType["colors"];
     style?: StyleProp<ViewStyle>;
     progress: Animated.SharedValue<number>;
+    children?: ReactNode;
 }
 
 const {width} = Dimensions.get("window");
@@ -48,18 +51,39 @@ const CircularProgressbar: React.FC<CircularProgressbarProps> = ({
         },
     });
     const CIRCLE_LENGTH = 2 * Math.PI * radius;
-    const props = useAnimatedProps(() => {
-        const value = 1 - progress.value;
-        const color = interpolateColor(
-            value,
-            [0, 1],
-            [theme.colors[progressColor], "red"],
-        );
-        return {
-            strokeDashoffset: CIRCLE_LENGTH * value,
-            stroke: color,
-        };
-    }, [progress.value]);
+    const props = useAnimatedProps(
+        () => {
+            const value = 1 - progress.value;
+            const color = interpolateColor(
+                value,
+                [0, 1],
+                [theme.colors[progressColor], "red"],
+            );
+            return {
+                strokeDashoffset: CIRCLE_LENGTH * value,
+                stroke: color,
+            };
+        },
+        [],
+        createAnimatedPropAdapter(
+            props => {
+                if (Object.keys(props).includes("fill")) {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    props.fill = {type: 0, payload: processColor(props.fill)};
+                }
+                if (Object.keys(props).includes("stroke")) {
+                    props.stroke = {
+                        type: 0,
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        payload: processColor(props.stroke),
+                    };
+                }
+            },
+            ["fill", "stroke"],
+        ),
+    );
     return (
         <View style={styles.container}>
             <Svg style={[styles.circleContainer, style]}>
@@ -69,16 +93,17 @@ const CircularProgressbar: React.FC<CircularProgressbarProps> = ({
                     r={radius}
                     strokeWidth={strokeWidth}
                     stroke={theme.colors[backgroundColor]}
+                    fill={theme.colors.transparent}
                 />
                 <AnimatedCircle
                     cx={"50%"}
                     cy={"50%"}
                     r={radius}
-                    // stroke={theme.colors[progressColor]}
                     strokeWidth={strokeWidth}
                     strokeDasharray={CIRCLE_LENGTH}
                     strokeLinecap="round"
                     animatedProps={props}
+                    fill={theme.colors.transparent}
                 />
             </Svg>
             {children}

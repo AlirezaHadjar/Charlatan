@@ -1,7 +1,9 @@
-import {BottomSheetFlatList} from "@gorhom/bottom-sheet";
+// import {BottomSheetFlatList} from "@gorhom/bottom-sheet";
 import React, {memo, useCallback, useEffect, useMemo, useRef} from "react";
 import {
     FlatList,
+    FlatListProps,
+    ListRenderItem,
     NativeScrollEvent,
     NativeSyntheticEvent,
     StyleSheet,
@@ -42,9 +44,10 @@ export interface PickerProps {
     // deps: (keyof Omit<PickerProps, "deps">)[];
 }
 
-const NormalAnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
-const BottomSheetAnimatedFlatlist =
-    Animated.createAnimatedComponent(BottomSheetFlatList);
+const NormalAnimatedFlatlist =
+    Animated.createAnimatedComponent<FlatListProps<ItemType>>(FlatList);
+// const BottomSheetAnimatedFlatlist =
+//     Animated.createAnimatedComponent(BottomSheetFlatList);
 
 export const NUM = 3;
 
@@ -63,11 +66,14 @@ const Picker: React.FC<PickerProps> = ({
     maxWidth,
 }) => {
     const AnimatedFlatlist = isInBottomSheet
-        ? BottomSheetAnimatedFlatlist
+        ? NormalAnimatedFlatlist
         : NormalAnimatedFlatlist;
     const flatlistRef = useRef<FlatList>(null);
     const translationY = useSharedValue(0);
     const lastY = useSharedValue(0);
+    const triggerHaptic = (type: HapticFeedbackTypes) => {
+        ReactNativeHapticFeedback.trigger(type, options);
+    };
     const scrollHandler = useAnimatedScrollHandler(event => {
         translationY.value = event.contentOffset.y + 0;
         const diff = Math.abs(lastY.value - event.contentOffset.y);
@@ -75,9 +81,10 @@ const Picker: React.FC<PickerProps> = ({
             lastY.value = event.contentOffset.y;
             const isFastScrolling = (event.velocity?.y || 0) > 2;
             const hapticType: HapticFeedbackTypes = isFastScrolling
-                ? "impactLight"
-                : "impactMedium";
-            runOnJS(ReactNativeHapticFeedback.trigger)(hapticType, options);
+                ? HapticFeedbackTypes.impactLight
+                : HapticFeedbackTypes.impactMedium;
+
+            runOnJS(triggerHaptic)(hapticType);
         }
     });
 
@@ -86,7 +93,7 @@ const Picker: React.FC<PickerProps> = ({
             paddingVertical: itemHeight * 1,
         },
     });
-    const renderItem = useCallback(
+    const renderItem: ListRenderItem<ItemType> = useCallback(
         ({item, index}) => {
             return (
                 <Item
@@ -115,11 +122,10 @@ const Picker: React.FC<PickerProps> = ({
 
     useEffect(() => {
         handleFlatlistScroll(initialTitle);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const getItemLayout = useCallback(
-        (data, index) => ({
+        (_data: ArrayLike<ItemType> | null | undefined, index: number) => ({
             length: itemHeight,
             offset: itemHeight * index,
             index,

@@ -11,7 +11,6 @@ import Animated, {
 import Box from "../../../theme/Box";
 import {ThemeType} from "../../../theme/Theme";
 import {Guide} from "../../../types";
-import {useTranslation} from "../../../hooks/translation";
 import AppText from "../../Text";
 import normalize from "../../../utils/normalizer";
 

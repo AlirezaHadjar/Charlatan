@@ -1,4 +1,4 @@
-import {combineReducers} from "redux";
+import {combineReducers} from "@reduxjs/toolkit";
 
 import dataReducer from "./reducers/data";
 import languageReducer from "./reducers/language";

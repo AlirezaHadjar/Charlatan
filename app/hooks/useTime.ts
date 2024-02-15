@@ -1,7 +1,7 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useCallback, useState} from "react";
 
 import {storageKeys} from "../storage/keys";
+import {StorageHelper} from "../utils/localStorage";
 
 type UseTime = () => [(newTime: number) => void];
 
@@ -12,7 +12,7 @@ export const useTime: UseTime = () => {
         (newTime: number) => {
             console.log("Saving time: " + newTime);
             if (storageTime === newTime) return;
-            AsyncStorage.setItem(storageKeys.time, JSON.stringify(newTime));
+            StorageHelper.set("time", newTime);
             setStorageTime(newTime);
         },
         [storageTime],

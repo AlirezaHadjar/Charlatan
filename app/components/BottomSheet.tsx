@@ -1,92 +1,140 @@
+import React, {
+    useRef,
+    useMemo,
+    useCallback,
+    useEffect,
+    memo,
+    FC,
+    useState,
+} from "react";
+import {BackHandler, useWindowDimensions, View} from "react-native";
+import {useAnimatedStyle, useSharedValue} from "react-native-reanimated";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {BottomSheetModalMethods} from "@gorhom/bottom-sheet/lib/typescript/types";
 import {
     BottomSheetModal,
+    BottomSheetBackdrop,
+    BottomSheetScrollView,
+    BottomSheetModalProps,
     BottomSheetView,
-    useBottomSheetDynamicSnapPoints,
 } from "@gorhom/bottom-sheet";
-import React, {useCallback, useEffect, useMemo, useRef, memo} from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {useFocusEffect} from "@react-navigation/core";
 import {useTheme} from "@shopify/restyle";
-import {BackHandler} from "react-native";
+// eslint-disable-next-line max-len
+import {BottomSheetDefaultBackdropProps} from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
 
+import {useInterval} from "../hooks/interval";
 import {ThemeType} from "../theme/Theme";
 
-import CustomBackdrop from "./CustomBackdrop";
-
-export interface BottomSheetProps {
-    onClose: () => void;
-    isVisible?: boolean;
-    children?: React.ReactElement[];
+export interface AppBottomSheetProps
+    extends Omit<BottomSheetModalProps, "children" | "snapPoints"> {
+    name?: string;
+    closable?: boolean;
+    isVisible: boolean;
+    ignoreHandleToggle?: boolean;
+    onClose?: () => void;
+    children?: React.ReactNode;
+    fullHeight?: boolean;
 }
 
-const AppBottomSheet: React.FC<BottomSheetProps> = ({
+const BottomSheet: FC<AppBottomSheetProps> = ({
+    name,
     onClose,
-    isVisible = false,
     children,
+    isVisible,
+    ignoreHandleToggle = false,
+    closable = true,
+    fullHeight = true,
+    ...props
 }) => {
-    const sheet = useRef<BottomSheetModal>(null);
-    const theme = useTheme<ThemeType>();
+    const {colors} = useTheme<ThemeType>();
+    const state = useSharedValue<0 | -1>(isVisible ? 0 : -1);
+    const {top, bottom} = useSafeAreaInsets();
+    const {height: windowHeight} = useWindowDimensions();
+
+    const bottomSheetRef = useRef<BottomSheetModalMethods>(null);
+    const initialSnapPoints = useMemo(
+        () => (fullHeight ? ["CONTENT_HEIGHT"] : ["CONTENT_HEIGHT"]),
+        [fullHeight],
+    );
+    const [isOn, setIsOn] = useState(true);
+
+    const handleDelay = () => {
+        if (isVisible && state.value === -1 && !ignoreHandleToggle) {
+            bottomSheetRef.current?.present();
+        } else setIsOn(false);
+    };
+
+    useInterval(handleDelay, isOn ? 3000 : null);
 
     useEffect(() => {
         if (isVisible) {
-            sheet.current?.present();
-            sheet.current?.expand();
-        } else {
-            sheet.current?.dismiss();
-        }
+            bottomSheetRef.current?.present();
+        } else bottomSheetRef.current?.close();
     }, [isVisible]);
 
     const handleBackButtonPress = useCallback(() => {
-        onClose();
+        onClose?.();
         return true;
-    }, [onClose]);
-    useFocusEffect(
-        useCallback(() => {
-            if (!isVisible) return;
-            BackHandler.addEventListener(
-                "hardwareBackPress",
-                handleBackButtonPress,
-            );
-            return () =>
-                BackHandler.removeEventListener(
-                    "hardwareBackPress",
-                    handleBackButtonPress,
-                );
-        }, [handleBackButtonPress, isVisible]),
+    }, [bottomSheetRef.current]);
+
+    useEffect(() => {
+        if (!isVisible) return;
+        const handler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            handleBackButtonPress,
+        );
+        return () => handler.remove();
+    }, [isVisible, handleBackButtonPress]);
+
+    const handleSheetChanges = useCallback((index: number) => {
+        //@ts-ignore
+        state.value = index;
+        if (index === -1) {
+            setIsOn(true);
+            onClose?.();
+        }
+    }, []);
+
+    const renderBackdrop = useCallback(
+        (p: JSX.IntrinsicAttributes & BottomSheetDefaultBackdropProps) => (
+            <BottomSheetBackdrop
+                {...p}
+                appearsOnIndex={0}
+                disappearsOnIndex={-1}
+                pressBehavior={!closable ? "none" : "close"}
+            />
+        ),
+        [closable],
     );
-    const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
-    const {
-        animatedHandleHeight,
-        animatedSnapPoints,
-        animatedContentHeight,
-        handleContentLayout,
-    } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
+
+    const handleDismiss = () => {
+        if (!closable) return;
+    };
+
+    const indicatorStyle = useMemo(
+        () => ({
+            backgroundColor: colors.cardGrey,
+        }),
+        [colors],
+    );
 
     return (
         <BottomSheetModal
-            snapPoints={animatedSnapPoints}
-            handleHeight={animatedHandleHeight}
-            contentHeight={animatedContentHeight}
-            keyboardBehavior="interactive"
+            {...props}
             index={0}
-            onDismiss={onClose}
-            onChange={index => index === -1 && onClose()}
-            backdropComponent={props => (
-                <CustomBackdrop
-                    onPress={onClose}
-                    animatedIndex={props.animatedIndex}
-                    animatedPosition={props.animatedPosition}
-                    style={props.style}
-                />
-            )}
-            ref={sheet}>
-            <BottomSheetView
-                onLayout={handleContentLayout}
-                style={{padding: theme.spacing.m}}>
-                {children}
-            </BottomSheetView>
+            name={name}
+            topInset={top}
+            bottomInset={bottom}
+            ref={bottomSheetRef}
+            onDismiss={handleDismiss}
+            onChange={handleSheetChanges}
+            enablePanDownToClose={closable}
+            backdropComponent={renderBackdrop}
+            handleIndicatorStyle={indicatorStyle}
+            enableDynamicSizing>
+            <BottomSheetView>{children}</BottomSheetView>
         </BottomSheetModal>
     );
 };
 
-export default memo(AppBottomSheet);
+export default memo(BottomSheet);
